@@ -588,8 +588,56 @@
     }
     @media (max-width: 680px) {
       #sidebar { display: none; }
-      .tab-panel { padding: 16px; }
+      #app { flex-direction: column; }
+      #main { padding-bottom: 70px; }
+      .tab-panel { padding: 14px; }
       .stat-grid { grid-template-columns: 1fr 1fr; }
+      .topbar { padding: 0 14px; }
+      .topbar-title { font-size: 0.85rem; }
+      .topbar-actions { gap: 4px; }
+      .topbar-btn span { display: none; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .upload-zone { padding: 24px 16px; }
+      .card { padding: 16px; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .quick-actions { grid-template-columns: 1fr 1fr; }
+      .batch-bar { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+      .section-header { flex-wrap: wrap; gap: 8px; }
+      .checklist-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .step-actions { width: 100%; }
+      .step-actions .btn { width: 100%; justify-content: center; }
+    }
+
+    /* ─── Mobile Bottom Nav ─────────────────────────────────────────── */
+    #mobileNav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--sidebar-bg);
+      border-top: 1px solid var(--sidebar-border);
+      z-index: 200;
+      padding: 0;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .mobile-nav-inner {
+      display: flex; align-items: center;
+      height: 56px;
+    }
+    .mob-nav-btn {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 3px; background: none; border: none;
+      color: var(--sidebar-text); cursor: pointer;
+      font-family: var(--sans); font-size: 0.6rem;
+      font-weight: 500; letter-spacing: 0.03em;
+      text-transform: uppercase; padding: 6px 4px;
+      transition: color .15s;
+    }
+    .mob-nav-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .mob-nav-btn.active { color: #fff; }
+    .mob-nav-btn.active svg { stroke: var(--blue); }
+
+    @media (max-width: 680px) {
+      #mobileNav { display: block; }
     }
 
     /* ─── Misc utils ───────────────────────────────────────────────── */
@@ -2395,6 +2443,44 @@ function buildLaunchChecklist() {
   document.getElementById('launchPercent').textContent = `${pct}% — ${doneCount}/${LAUNCH_STEPS.length} steps`;
   document.getElementById('launchBar').style.width = `${pct}%`;
 }
+</script>
+
+<!-- Mobile Bottom Navigation -->
+<nav id="mobileNav">
+  <div class="mobile-nav-inner">
+    <button class="mob-nav-btn active" data-tab="dashboard">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button class="mob-nav-btn" data-tab="galleries">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      Galleries
+    </button>
+    <button class="mob-nav-btn" data-tab="content">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Content
+    </button>
+    <button class="mob-nav-btn" data-tab="social">
+      <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Social
+    </button>
+    <button class="mob-nav-btn" data-tab="launch">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Launch
+    </button>
+  </div>
+</nav>
+<script>
+// Mobile nav tab switching
+document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    setTab(btn.dataset.tab);
+  });
+});
+// Sync mobile nav with desktop tab clicks
+const origSetTab = setTab;
 </script>
 </body>
 </html>
