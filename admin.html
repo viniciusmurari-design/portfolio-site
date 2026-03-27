@@ -1099,6 +1099,12 @@
 'use strict';
 
 // ─────────────────────────────────────────────────────────────────────────────
+// CLOUDINARY CONFIG
+// ─────────────────────────────────────────────────────────────────────────────
+const CLOUDINARY_CLOUD = 'dnocmwoub';
+const CLOUDINARY_PRESET = 'portfolio_upload';
+
+// ─────────────────────────────────────────────────────────────────────────────
 // DATA & CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
 const CATEGORIES = [
@@ -1557,9 +1563,6 @@ uploadZone.addEventListener('drop', e => {
   e.preventDefault(); uploadZone.classList.remove('drag-over');
   uploadFiles(e.dataTransfer.files);
 });
-
-const CLOUDINARY_CLOUD = 'dnocmwoub';
-const CLOUDINARY_PRESET = 'portfolio_upload';
 
 function getCloudPhotos(category) {
   try { return JSON.parse(localStorage.getItem('cloudPhotos_' + category) || '[]'); } catch { return []; }
