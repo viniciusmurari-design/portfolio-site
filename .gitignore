@@ -1,3 +1,4 @@
+.env
 .DS_Store
 *.DS_Store
 .claude/settings.local.json
@@ -7,4 +8,3 @@ skills-lock.json
 __pycache__/
 *.pyc
 photos/
-
