@@ -1105,6 +1105,25 @@ const CLOUDINARY_CLOUD = 'dnocmwoub';
 const CLOUDINARY_PRESET = 'portfolio_upload';
 
 // ─────────────────────────────────────────────────────────────────────────────
+// SUPABASE CONFIG
+// ─────────────────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
+
+async function sbFetch(path, options = {}) {
+  const res = await fetch(SUPABASE_URL + path, {
+    ...options,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  return res;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // DATA & CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
 const CATEGORIES = [
@@ -1414,18 +1433,13 @@ async function loadPhotos(id) {
   cnt.textContent = 'Loading…';
   hint.textContent = '';
 
-  // Fetch from Netlify function (shared for ALL visitors)
+  // Fetch from Supabase — visible to ALL visitors on ALL devices
   let photos = [];
   try {
-    const res = await fetch(`/.netlify/functions/photos?category=${id}`);
+    const res = await sbFetch(`/rest/v1/photos?category=eq.${id}&order=created_at.asc`);
     if (res.ok) photos = await res.json();
   } catch(e) {
-    // Fallback for local development: Python server then localStorage
-    try {
-      const res = await fetch(`/api/photos?category=${id}`);
-      if (res.ok) photos = await res.json();
-    } catch(e2) {}
-    if (!photos.length) photos = getCloudPhotos(id);
+    photos = getCloudPhotos(id); // localStorage fallback (local dev only)
   }
 
   // Apply custom order saved by admin on this device
@@ -1560,20 +1574,11 @@ async function deletePhoto(cat, filename, card) {
 
   const publicId = card.dataset.publicId;
 
-  // Delete from Cloudinary via Netlify function
+  // Delete from Supabase
   if (publicId) {
     try {
-      await fetch('/.netlify/functions/delete-photo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ public_id: publicId })
-      });
-    } catch(e) {
-      // Fallback: local Python server
-      try {
-        await fetch(`/api/photos?category=${cat}&file=${encodeURIComponent(filename)}`, { method: 'DELETE' });
-      } catch(e2) {}
-    }
+      await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' });
+    } catch(e) { console.error('Supabase delete failed', e); }
   }
 
   // Remove from localStorage cache and order
@@ -1625,12 +1630,28 @@ async function uploadToCloudinary(file, category) {
   });
   if (!res.ok) throw new Error('Cloudinary upload failed');
   const data = await res.json();
-  return {
+
+  const photo = {
     filename: file.name,
     url: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`,
     public_id: data.public_id,
     thumb: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/w_400,h_300,c_fill,q_auto/${data.public_id}`
   };
+
+  // Save to Supabase so ALL visitors can see this photo
+  await sbFetch('/rest/v1/photos', {
+    method: 'POST',
+    headers: { 'Prefer': 'return=minimal' },
+    body: JSON.stringify({
+      category,
+      filename: photo.filename,
+      url: photo.url,
+      thumb: photo.thumb,
+      public_id: photo.public_id
+    })
+  });
+
+  return photo;
 }
 
 async function uploadFiles(files) {

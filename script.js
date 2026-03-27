@@ -1,3 +1,7 @@
+// ─── Supabase Config ──────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
+
 // ─── Page Loader ──────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   setTimeout(() => {
@@ -189,23 +193,19 @@ async function openGallery(id) {
   galModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Load photos from Netlify function (shared for ALL visitors)
+  // Load photos from Supabase — visible to ALL visitors on ALL devices
   let photos = [];
   try {
-    const res = await fetch(`/.netlify/functions/photos?category=${id}`);
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/photos?category=eq.${id}&order=created_at.asc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
     if (res.ok) photos = await res.json();
   } catch(e) {
-    // Fallback for local development: localStorage then Python server
+    // Fallback: localStorage (local dev only)
     try {
       const stored = localStorage.getItem('cloudPhotos_' + id);
       if (stored) photos = JSON.parse(stored);
     } catch(e2) { photos = []; }
-    if (!photos.length) {
-      try {
-        const res = await fetch(`/api/photos?category=${id}`);
-        if (res.ok) photos = await res.json();
-      } catch(e3) { /* server not running */ }
-    }
   }
 
   currentGalleryImages = [];
