@@ -2486,8 +2486,14 @@ document.querySelectorAll('.mob-nav-btn').forEach(btn => {
     setTab(btn.dataset.tab);
   });
 });
-// Sync mobile nav with desktop tab clicks
-const origSetTab = setTab;
+// Sync mobile nav active state when tab changes via desktop
+const _origSetTab = window.setTab;
+window.setTab = function(tab) {
+  _origSetTab(tab);
+  document.querySelectorAll('.mob-nav-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+};
 </script>
 </body>
 </html>
