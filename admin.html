@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Vinicius Murari</title>
+  <script>
+    if (window.location.protocol === 'file:') {
+      window.location.href = 'http://localhost:3000/admin.html' + window.location.hash;
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --sidebar-bg: #0f1117;
+      --sidebar-hover: rgba(255,255,255,0.06);
+      --sidebar-active: rgba(255,255,255,0.12);
+      --sidebar-text: rgba(255,255,255,0.65);
+      --sidebar-text-active: #fff;
+      --sidebar-border: rgba(255,255,255,0.08);
+      --sidebar-w: 240px;
+
+      --bg: #f5f6f8;
+      --white: #ffffff;
+      --surface: #ffffff;
+      --surface2: #f5f6f8;
+      --text: #0f1117;
+      --text-2: #4b5563;
+      --text-3: #9ca3af;
+      --border: #e5e7eb;
+      --border-2: #d1d5db;
+
+      --blue: #3b82f6;
+      --blue-h: #2563eb;
+      --blue-soft: #eff6ff;
+      --green: #10b981;
+      --green-soft: #ecfdf5;
+      --red: #ef4444;
+      --red-soft: #fef2f2;
+      --amber: #f59e0b;
+      --amber-soft: #fffbeb;
+      --purple: #8b5cf6;
+
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --serif: 'Playfair Display', Georgia, serif;
+    }
+
+    html, body {
+      height: 100%; font-family: var(--sans); background: var(--bg);
+      color: var(--text); -webkit-font-smoothing: antialiased;
+      font-size: 14px; line-height: 1.5;
+    }
+
+    /* ─── Login Screen ──────────────────────────────────────────────── */
+    #loginScreen {
+      position: fixed; inset: 0; background: var(--sidebar-bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; flex-direction: column; gap: 32px;
+    }
+    #loginScreen.hidden { display: none; }
+    .login-logo {
+      font-family: var(--serif); font-style: italic;
+      color: #fff; font-size: 1.8rem; font-weight: 400; text-align: center;
+    }
+    .login-logo span { display: block; font-family: var(--sans); font-style: normal; font-size: 0.7rem; font-weight: 500; color: rgba(255,255,255,0.35); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
+    .login-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 36px; width: 360px; max-width: 90vw;
+    }
+    .login-card h2 { color: #fff; font-size: 1rem; font-weight: 600; margin-bottom: 24px; text-align: center; }
+    .login-field { margin-bottom: 16px; }
+    .login-field label { display: block; font-size: 0.75rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .login-field input {
+      width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm); padding: 11px 14px; color: #fff; font-family: var(--sans);
+      font-size: 0.88rem; outline: none; transition: border-color .2s;
+    }
+    .login-field input:focus { border-color: var(--blue); }
+    .login-field input::placeholder { color: rgba(255,255,255,0.25); }
+    .login-btn {
+      width: 100%; background: var(--blue); color: #fff; border: none; border-radius: var(--radius-sm);
+      padding: 12px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: background .2s; margin-top: 8px;
+    }
+    .login-btn:hover { background: var(--blue-h); }
+    .login-error { color: #f87171; font-size: 0.78rem; text-align: center; margin-top: 12px; min-height: 20px; }
+    .login-hint { color: rgba(255,255,255,0.25); font-size: 0.7rem; text-align: center; margin-top: 16px; }
+
+    /* ─── App Shell ────────────────────────────────────────────────────── */
+    #app { display: flex; height: 100vh; overflow: hidden; }
+    #app.hidden { display: none; }
+
+    /* ─── Sidebar ───────────────────────────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--sidebar-bg);
+      display: flex; flex-direction: column;
+      border-right: 1px solid var(--sidebar-border);
+      overflow: hidden;
+    }
+    .sidebar-top {
+      padding: 20px 16px 0;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 10px; padding-bottom: 18px;
+    }
+    .sidebar-brand-icon {
+      width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .sidebar-brand-name {
+      font-family: var(--serif); font-style: italic; color: #fff;
+      font-size: 0.95rem; font-weight: 400;
+    }
+    .sidebar-brand-sub {
+      font-size: 0.62rem; font-weight: 500; color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: 12px 10px; }
+    .nav-section-label {
+      font-size: 0.62rem; font-weight: 600; color: rgba(255,255,255,0.25);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 8px 8px 4px; margin-top: 8px;
+    }
+    .nav-btn {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; background: none; border: none; cursor: pointer;
+      padding: 9px 10px; border-radius: var(--radius-sm);
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
+      color: var(--sidebar-text); text-align: left;
+      transition: background .15s, color .15s;
+      position: relative;
+    }
+    .nav-btn:hover { background: var(--sidebar-hover); color: var(--sidebar-text-active); }
+    .nav-btn.active { background: var(--sidebar-active); color: var(--sidebar-text-active); }
+    .nav-btn .nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; opacity: 0.7; }
+    .nav-btn.active .nav-icon { opacity: 1; }
+    .nav-btn .nav-label { flex: 1; }
+    .nav-btn .nav-badge {
+      font-size: 0.65rem; font-weight: 600; background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.6); padding: 2px 7px; border-radius: 10px;
+      min-width: 22px; text-align: center;
+    }
+    .nav-btn.active .nav-badge { background: rgba(255,255,255,0.2); color: #fff; }
+
+    /* Category sub-buttons */
+    .cat-subnav { padding-left: 30px; }
+    .cat-subnav .nav-btn { font-size: 0.77rem; padding: 7px 10px; }
+
+    .sidebar-footer {
+      padding: 12px 10px 16px;
+      border-top: 1px solid var(--sidebar-border);
+    }
+    .sidebar-footer .nav-btn { color: rgba(255,255,255,0.4); font-size: 0.78rem; }
+    .sidebar-footer .nav-btn:hover { color: #fff; background: var(--sidebar-hover); }
+
+    /* Sidebar drag handle */
+    .nav-drag { color: rgba(255,255,255,0.2); font-size: 11px; cursor: grab; flex-shrink: 0; }
+    .nav-btn.drag-over { outline: 1px dashed rgba(59,130,246,0.7); outline-offset: -2px; }
+
+    /* ─── Main content ─────────────────────────────────────────────────── */
+    #main {
+      flex: 1; overflow: hidden; display: flex; flex-direction: column;
+    }
+
+    /* Top bar */
+    #topbar {
+      height: 56px; flex-shrink: 0;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 28px;
+      gap: 12px;
+    }
+    #topbar-title { font-size: 0.9rem; font-weight: 600; color: var(--text); flex: 1; }
+    #topbar-title small { font-weight: 400; color: var(--text-3); font-size: 0.8rem; margin-left: 6px; }
+    .topbar-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 20px; font-family: var(--sans);
+      font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all .2s;
+      border: 1px solid var(--border); background: var(--white); color: var(--text-2);
+      text-decoration: none;
+    }
+    .topbar-btn:hover { background: var(--bg); border-color: var(--border-2); }
+    .topbar-btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .topbar-btn.primary:hover { background: var(--blue-h); border-color: var(--blue-h); }
+
+    /* Scrollable content area */
+    #content { flex: 1; overflow-y: auto; }
+
+    /* Tab panels */
+    .tab-panel { display: none; padding: 28px; max-width: 1200px; }
+    .tab-panel.active { display: block; }
+
+    /* ─── Page headers ─────────────────────────────────────────────── */
+    .page-header { margin-bottom: 24px; }
+    .page-title {
+      font-family: var(--serif); font-size: 1.6rem; font-weight: 500; color: var(--text);
+      line-height: 1.2;
+    }
+    .page-subtitle { font-size: 0.82rem; color: var(--text-3); margin-top: 4px; }
+
+    /* ─── Cards ────────────────────────────────────────────────────── */
+    .card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px;
+    }
+    .card-title {
+      font-size: 0.7rem; font-weight: 600; color: var(--text-3);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-title::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ─── Grid layouts ─────────────────────────────────────────────── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .col-span-2 { grid-column: span 2; }
+    .col-span-full { grid-column: 1 / -1; }
+
+    /* ─── Form fields ──────────────────────────────────────────────── */
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-2);
+      margin-bottom: 6px; letter-spacing: 0.02em;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 9px 12px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--bg);
+      font-family: var(--sans); font-size: 0.84rem; color: var(--text);
+      outline: none; transition: border-color .2s, background .2s, box-shadow .2s;
+      resize: vertical;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: var(--blue); background: var(--white);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--text-3); }
+    .field .hint { font-size: 0.7rem; color: var(--text-3); margin-top: 5px; }
+
+    /* ─── Buttons ──────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: 20px; font-family: var(--sans);
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: all .18s; border: none; outline: none; text-decoration: none;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { background: var(--blue-h); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59,130,246,0.35); }
+    .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-danger { background: var(--red-soft); color: var(--red); border: 1px solid transparent; }
+    .btn-danger:hover { background: var(--red); color: #fff; }
+    .btn-ghost { background: none; color: var(--text-2); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: var(--bg); }
+    .btn-sm { padding: 6px 12px; font-size: 0.75rem; border-radius: 14px; }
+    .btn-full { width: 100%; justify-content: center; }
+    .btn.saved { background: var(--green) !important; }
+    .btn.loading { opacity: 0.7; pointer-events: none; }
+
+    /* ─── Dashboard (Overview tab) ─────────────────────────────────── */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 20px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .stat-card .stat-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .stat-icon.blue { background: var(--blue-soft); }
+    .stat-icon.green { background: var(--green-soft); }
+    .stat-icon.amber { background: var(--amber-soft); }
+    .stat-icon.purple { background: #f5f3ff; }
+    .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--text); line-height: 1; }
+    .stat-label { font-size: 0.75rem; color: var(--text-3); font-weight: 500; }
+    .stat-delta { font-size: 0.7rem; color: var(--green); font-weight: 500; }
+
+    /* Bar chart */
+    .bar-chart { display: flex; flex-direction: column; gap: 10px; }
+    .bar-row { display: flex; align-items: center; gap: 12px; }
+    .bar-label { font-size: 0.75rem; color: var(--text-2); width: 140px; flex-shrink: 0; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--purple)); border-radius: 4px; transition: width .6s cubic-bezier(.4,0,.2,1); }
+    .bar-count { font-size: 0.72rem; color: var(--text-3); font-weight: 600; width: 28px; flex-shrink: 0; }
+
+    /* Quick actions */
+    .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .quick-action {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+      padding: 16px; border-radius: var(--radius); border: 1px solid var(--border);
+      background: var(--white); cursor: pointer; transition: all .18s;
+      text-align: left; font-family: var(--sans);
+    }
+    .quick-action:hover { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.08); transform: translateY(-1px); }
+    .qa-icon { font-size: 22px; }
+    .qa-title { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .qa-sub { font-size: 0.72rem; color: var(--text-3); }
+
+    /* ─── Gallery tab ──────────────────────────────────────────────── */
+    .gallery-layout { display: grid; grid-template-columns: 1fr; gap: 20px; }
+
+    /* Sub-categories */
+    .subs-editor { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+    .subs-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .subs-header h4 { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); }
+    .subs-list { display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; }
+    .sub-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 20px;
+      padding: 5px 12px; font-size: 0.78rem; color: var(--text); cursor: grab;
+      transition: all .15s; font-family: var(--sans);
+    }
+    .sub-tag:hover { border-color: var(--blue); background: var(--blue-soft); }
+    .sub-tag.all-tag { cursor: default; background: var(--text); color: #fff; border-color: var(--text); }
+    .sub-tag.drag-over { border-color: var(--blue); background: var(--blue-soft); }
+    .sub-tag-name {
+      border: none; background: none; font-family: var(--sans); font-size: 0.78rem;
+      color: inherit; outline: none; min-width: 30px; max-width: 120px;
+      cursor: text; padding: 0;
+    }
+    .sub-tag.all-tag .sub-tag-name { color: #fff; cursor: default; }
+    .sub-tag-name::placeholder { color: var(--text-3); }
+    .sub-del {
+      width: 16px; height: 16px; border-radius: 50%; border: none;
+      background: rgba(0,0,0,0.08); color: var(--text-2); font-size: 10px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all .15s; line-height: 1; padding: 0; flex-shrink: 0;
+    }
+    .sub-del:hover { background: var(--red); color: #fff; }
+    .all-tag .sub-del { display: none; }
+    .subs-hint { font-size: 0.68rem; color: var(--text-3); margin-top: 10px; }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--border-2); border-radius: var(--radius-lg);
+      padding: 36px 24px; text-align: center; cursor: pointer;
+      background: var(--white); transition: all .2s;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--blue); background: var(--blue-soft);
+    }
+    .upload-zone input[type="file"] { display: none; }
+    .upload-icon { font-size: 2.2rem; margin-bottom: 10px; }
+    .upload-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .upload-hint { font-size: 0.75rem; color: var(--text-3); }
+    .progress-wrap { background: var(--bg); border-radius: 4px; height: 4px; margin-top: 14px; overflow: hidden; display: none; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--blue), var(--purple)); width: 0%; transition: width .3s; border-radius: 4px; }
+    .upload-status { font-size: 0.75rem; color: var(--text-3); margin-top: 8px; min-height: 18px; }
+
+    /* Photo grid */
+    .photos-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .photos-count { font-size: 0.8rem; font-weight: 600; color: var(--text-2); }
+    .photos-hint { font-size: 0.72rem; color: var(--text-3); }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px; }
+    .photo-card {
+      aspect-ratio: 3/4; border-radius: var(--radius); overflow: hidden;
+      position: relative; background: var(--bg);
+      box-shadow: var(--shadow-sm); cursor: grab;
+      transition: box-shadow .2s;
+    }
+    .photo-card:hover { box-shadow: var(--shadow); }
+    .photo-card.dragging { opacity: 0.4; cursor: grabbing; }
+    .photo-card.drop-target { outline: 2px dashed var(--blue); outline-offset: 2px; }
+    .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+    .photo-delete {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+      border: none; border-radius: 50%;
+      width: 28px; height: 28px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; opacity: 0; transition: all .2s; font-size: 16px;
+    }
+    .photo-card:hover .photo-delete { opacity: 1; }
+    .photo-delete:hover { background: var(--red); transform: scale(1.1); }
+    .photo-name {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 8px 8px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+      font-size: 0.62rem; color: rgba(255,255,255,0.9);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      opacity: 0; transition: opacity .2s;
+    }
+    .photo-card:hover .photo-name { opacity: 1; }
+    .photo-sub-badge {
+      position: absolute; bottom: 8px; left: 8px;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      color: #fff; font-size: 0.62rem; padding: 3px 8px;
+      border-radius: 10px; cursor: pointer; opacity: 0; transition: opacity .2s;
+      z-index: 2; font-family: var(--sans);
+    }
+    .photo-card:hover .photo-sub-badge { opacity: 1; }
+    .photo-card.select-mode { cursor: pointer; }
+    .photo-card.select-mode .photo-check {
+      position: absolute; top: 8px; left: 8px; width: 24px; height: 24px;
+      border-radius: 50%; border: 2px solid rgba(255,255,255,0.7);
+      background: rgba(0,0,0,0.3); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      color: transparent; font-size: 14px; z-index: 3; transition: all .15s;
+    }
+    .photo-card.selected .photo-check {
+      background: var(--blue); border-color: var(--blue); color: #fff;
+    }
+    .photo-card.selected { outline: 3px solid var(--blue); outline-offset: -3px; }
+    .photo-sub-select {
+      position: absolute; bottom: 32px; left: 8px; z-index: 10;
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+      padding: 4px; display: none; min-width: 130px;
+    }
+    .photo-sub-select.open { display: block; }
+    .photo-sub-opt {
+      display: block; width: 100%; text-align: left; padding: 7px 10px;
+      border: none; background: none; font-family: var(--sans); font-size: 0.75rem;
+      cursor: pointer; border-radius: var(--radius-sm); color: var(--text);
+      transition: background .12s;
+    }
+    .photo-sub-opt:hover { background: var(--bg); }
+    .photo-sub-opt.active { background: var(--blue); color: #fff; }
+    .empty-state {
+      grid-column: 1/-1; text-align: center; padding: 60px 24px; color: var(--text-3);
+    }
+    .empty-state svg { opacity: 0.3; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.85rem; }
+
+    /* ─── Reviews ──────────────────────────────────────────────────── */
+    .review-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px; margin-bottom: 12px; position: relative;
+      transition: box-shadow .2s;
+    }
+    .review-card:hover { box-shadow: var(--shadow-sm); }
+    .review-card-header { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; margin-bottom: 12px; align-items: end; }
+    .star-input { display: flex; gap: 4px; }
+    .star-btn {
+      font-size: 18px; background: none; border: none; cursor: pointer;
+      padding: 0; line-height: 1; transition: transform .1s; color: #d1d5db;
+    }
+    .star-btn.active { color: #f59e0b; }
+    .star-btn:hover { transform: scale(1.2); }
+    .rev-del-btn {
+      background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 6px 10px; cursor: pointer; color: var(--text-3); font-size: 0.78rem;
+      transition: all .15s; align-self: end;
+    }
+    .rev-del-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+    /* ─── Appearance ────────────────────────────────────────────────── */
+    .hero-preview {
+      width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden;
+      background: var(--sidebar-bg); margin-bottom: 16px; position: relative;
+    }
+    .hero-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-preview-empty {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; color: rgba(255,255,255,0.3);
+    }
+    .color-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .color-row input[type="color"] {
+      width: 48px; height: 48px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); cursor: pointer; padding: 3px;
+      background: var(--bg);
+    }
+    .color-val { font-size: 0.88rem; color: var(--text-2); font-weight: 500; font-family: monospace; }
+    .color-presets { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .color-preset {
+      width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+      border: 2px solid transparent; transition: all .15s;
+      box-shadow: var(--shadow-sm);
+    }
+    .color-preset:hover { transform: scale(1.15); box-shadow: var(--shadow); }
+    .color-preset.active { border-color: var(--text); outline: 2px solid white; outline-offset: -4px; }
+
+    /* About photo */
+    .about-photo-preview {
+      width: 80px; height: 105px; object-fit: cover; border-radius: var(--radius-sm);
+      background: var(--bg); border: 1px solid var(--border); display: none;
+    }
+    .about-photo-wrap { display: flex; gap: 14px; align-items: flex-start; }
+
+    /* ─── Launch Checklist ─────────────────────────────────────────── */
+    .launch-step {
+      background: var(--surface); border-radius: var(--radius-lg); padding: 20px 24px;
+      box-shadow: var(--shadow-sm); display: flex; gap: 16px; align-items: flex-start;
+      border-left: 4px solid var(--border); transition: all .2s;
+    }
+    .launch-step.done { border-left-color: var(--green); background: var(--green-soft); }
+    .launch-step.active-step { border-left-color: var(--blue); background: var(--blue-soft); }
+    .launch-step-check {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid var(--border-2); background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px; color: transparent; transition: all .2s;
+      margin-top: 2px;
+    }
+    .launch-step.done .launch-step-check {
+      background: var(--green); border-color: var(--green); color: #fff;
+    }
+    .launch-step-num {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      background: var(--surface2); border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 600; color: var(--text-2); margin-top: 2px;
+    }
+    .launch-step.done .launch-step-num { display: none; }
+    .launch-step.done .launch-step-check { display: flex; }
+    .launch-step:not(.done) .launch-step-check { display: none; }
+    .launch-step:not(.done) .launch-step-num { display: flex; }
+    .launch-step-body { flex: 1; }
+    .launch-step-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .launch-step.done .launch-step-title { text-decoration: line-through; color: var(--text-2); }
+    .launch-step-desc { font-size: 0.78rem; color: var(--text-2); line-height: 1.5; margin-bottom: 8px; }
+    .launch-step-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.75rem; font-weight: 500; color: var(--blue);
+      text-decoration: none; padding: 4px 12px; border-radius: 20px;
+      background: var(--blue-soft); transition: all .15s;
+    }
+    .launch-step-link:hover { background: var(--blue); color: #fff; }
+    .launch-step-tag {
+      display: inline-block; font-size: 0.65rem; font-weight: 500; padding: 2px 8px;
+      border-radius: 10px; margin-left: 8px;
+    }
+    .launch-step-tag.free { background: var(--green-soft); color: var(--green); }
+    .launch-step-tag.paid { background: var(--amber-soft); color: var(--amber); }
+    .launch-step-tag.important { background: var(--red-soft); color: var(--red); }
+
+    /* ─── Site Preview tab ─────────────────────────────────────────── */
+    #tab-preview { padding: 0; height: 100%; display: none; flex-direction: column; }
+    #tab-preview.active { display: flex; }
+    .preview-bar {
+      height: 48px; flex-shrink: 0; background: var(--white); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px; padding: 0 20px;
+    }
+    .preview-url {
+      flex: 1; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 6px 14px; font-size: 0.78rem; color: var(--text-2);
+      font-family: monospace;
+    }
+    #sitePreviewFrame {
+      flex: 1; border: none; width: 100%;
+    }
+
+    /* ─── Toast notifications ──────────────────────────────────────── */
+    #toastContainer {
+      position: fixed; bottom: 28px; right: 28px;
+      display: flex; flex-direction: column; gap: 8px;
+      z-index: 9999; pointer-events: none;
+    }
+    .toast-item {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--sidebar-bg); color: #fff;
+      padding: 12px 18px; border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.82rem; font-weight: 500;
+      transform: translateX(120%); transition: transform .3s cubic-bezier(.4,0,.2,1);
+      pointer-events: auto; max-width: 320px;
+      border-left: 3px solid rgba(255,255,255,0.2);
+    }
+    .toast-item.show { transform: translateX(0); }
+    .toast-item.success { border-left-color: var(--green); }
+    .toast-item.error { border-left-color: var(--red); }
+    .toast-item.info { border-left-color: var(--blue); }
+    .toast-icon { font-size: 16px; flex-shrink: 0; }
+
+    /* ─── Responsive ───────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      :root { --sidebar-w: 200px; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
+      .quick-actions { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 680px) {
+      #sidebar { display: none; }
+      .tab-panel { padding: 16px; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ─── Misc utils ───────────────────────────────────────────────── */
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+    .text-muted { color: var(--text-3); }
+    .text-sm { font-size: 0.78rem; }
+    .fw-600 { font-weight: 600; }
+    .mt-4 { margin-top: 16px; }
+    .mt-3 { margin-top: 12px; }
+    .mb-4 { margin-bottom: 16px; }
+    .flex-row { display: flex; gap: 10px; align-items: center; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    .gap-8 { gap: 8px; }
+    .badge {
+      display: inline-flex; align-items: center; padding: 3px 8px;
+      border-radius: 10px; font-size: 0.68rem; font-weight: 600;
+    }
+    .badge-blue { background: var(--blue-soft); color: var(--blue); }
+    .badge-green { background: var(--green-soft); color: var(--green); }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────────── LOGIN SCREEN ────────────────────────────────── -->
+<div id="loginScreen">
+  <div class="login-logo">
+    Vinicius Murari
+    <span>Admin Panel</span>
+  </div>
+  <div class="login-card">
+    <h2>Sign in to continue</h2>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginInput" placeholder="Enter admin password" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="loginBtn">Sign In</button>
+    <div class="login-error" id="loginError"></div>
+    <div class="login-hint">Default password: admin123 · Change in Settings</div>
+  </div>
+</div>
+
+<!-- ─────────────────── APP SHELL ────────────────────────────────────── -->
+<div id="app" class="hidden">
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">📷</div>
+        <div>
+          <div class="sidebar-brand-name">Vinicius Murari</div>
+          <div class="sidebar-brand-sub">Admin</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-nav" id="sidebarNav">
+      <div class="nav-section-label">Overview</div>
+      <button class="nav-btn active" data-tab="dashboard">
+        <span class="nav-icon">⬛</span>
+        <span class="nav-label">Dashboard</span>
+      </button>
+
+      <div class="nav-section-label" style="margin-top:12px">Galleries</div>
+      <div id="catList"></div>
+
+      <div class="nav-section-label" style="margin-top:12px">Site</div>
+      <button class="nav-btn" data-tab="content">
+        <span class="nav-icon">✏️</span>
+        <span class="nav-label">Content</span>
+      </button>
+      <button class="nav-btn" data-tab="appearance">
+        <span class="nav-icon">🎨</span>
+        <span class="nav-label">Appearance</span>
+      </button>
+      <button class="nav-btn" data-tab="social">
+        <span class="nav-icon">🔗</span>
+        <span class="nav-label">Social & SEO</span>
+      </button>
+      <button class="nav-btn" data-tab="preview">
+        <span class="nav-icon">👁</span>
+        <span class="nav-label">Site Preview</span>
+      </button>
+      <button class="nav-btn" data-tab="launch">
+        <span class="nav-icon">🚀</span>
+        <span class="nav-label">Launch Checklist</span>
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="/" target="_blank" class="nav-btn">
+        <span class="nav-icon">↗</span>
+        <span class="nav-label">View Live Site</span>
+      </a>
+      <button class="nav-btn" id="logoutBtn">
+        <span class="nav-icon">⎋</span>
+        <span class="nav-label">Lock Admin</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div id="main">
+    <div id="topbar">
+      <div id="topbar-title">Dashboard</div>
+      <button class="topbar-btn" id="syncServerBtn" title="Sync all data to server">
+        ↑ Sync to Server
+      </button>
+      <a href="/" target="_blank" class="topbar-btn primary">View Site ↗</a>
+    </div>
+
+    <div id="content">
+
+      <!-- ══════════════ DASHBOARD TAB ══════════════ -->
+      <div class="tab-panel active" id="tab-dashboard">
+        <div class="page-header">
+          <div class="page-title">Dashboard</div>
+          <div class="page-subtitle">Welcome back. Here's an overview of your portfolio.</div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">📷</div>
+            <div class="stat-value" id="dash-totalPhotos">…</div>
+            <div class="stat-label">Total Photos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">⭐</div>
+            <div class="stat-value" id="dash-totalReviews">…</div>
+            <div class="stat-label">Reviews</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber">🗂</div>
+            <div class="stat-value" id="dash-totalCategories">9</div>
+            <div class="stat-label">Gallery Categories</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">🌐</div>
+            <div class="stat-value badge badge-green" style="font-size:0.8rem;align-self:flex-start">Online</div>
+            <div class="stat-label">Site Status</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:20px">
+          <!-- Bar chart -->
+          <div class="card">
+            <div class="card-title">Photos per Category</div>
+            <div class="bar-chart" id="dashBarChart">
+              <div style="color:var(--text-3);font-size:0.8rem;padding:8px 0">Loading gallery data…</div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="card">
+            <div class="card-title">Quick Actions</div>
+            <div class="quick-actions">
+              <button class="quick-action" data-goto="galleries">
+                <span class="qa-icon">📤</span>
+                <span class="qa-title">Upload Photos</span>
+                <span class="qa-sub">Add to galleries</span>
+              </button>
+              <button class="quick-action" data-goto="content">
+                <span class="qa-icon">✏️</span>
+                <span class="qa-title">Edit Content</span>
+                <span class="qa-sub">Texts &amp; bio</span>
+              </button>
+              <button class="quick-action" data-goto="content-reviews">
+                <span class="qa-icon">⭐</span>
+                <span class="qa-title">Reviews</span>
+                <span class="qa-sub">Add or edit</span>
+              </button>
+              <button class="quick-action" data-goto="appearance">
+                <span class="qa-icon">🎨</span>
+                <span class="qa-title">Appearance</span>
+                <span class="qa-sub">Colors &amp; hero</span>
+              </button>
+              <button class="quick-action" data-goto="social">
+                <span class="qa-icon">🔗</span>
+                <span class="qa-title">Social Links</span>
+                <span class="qa-sub">Instagram, FB…</span>
+              </button>
+              <button class="quick-action" data-goto="preview">
+                <span class="qa-icon">👁</span>
+                <span class="qa-title">Preview Site</span>
+                <span class="qa-sub">Live preview</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════ GALLERIES TAB ══════════════ -->
+      <div class="tab-panel" id="tab-galleries">
+        <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div>
+            <div class="page-title" id="panelTitle">Wedding</div>
+            <div class="page-subtitle" id="panelSubtitle">Photography</div>
+          </div>
+        </div>
+
+        <div class="gallery-layout">
+          <!-- Sub-categories -->
+          <div class="subs-editor">
+            <div class="subs-header">
+              <h4>Sub-categories</h4>
+              <button class="btn btn-sm btn-secondary" id="addSubBtn">+ Add Sub-category</button>
+            </div>
+            <div class="subs-list" id="subsList"></div>
+            <div class="subs-hint">Click a name to edit · Drag to reorder · Hover photos to assign sub-category</div>
+          </div>
+
+          <!-- Upload zone -->
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*" multiple>
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-title">Drag &amp; drop photos here</div>
+            <div class="upload-hint">JPG, PNG, WEBP — multiple files at once</div>
+            <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+              <label style="font-size:0.75rem;color:var(--text-2)">Assign to sub-category:</label>
+              <select id="uploadSubSelect" style="padding:6px 12px;border-radius:20px;border:1px solid var(--border);font-family:var(--sans);font-size:0.75rem;background:var(--white);color:var(--text);cursor:pointer">
+                <option value="">None (All)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary mt-3" id="uploadBtn">Choose Photos</button>
+            <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="upload-status" id="uploadStatus"></div>
+          </div>
+
+          <!-- Grid -->
+          <div>
+            <div class="photos-header">
+              <span class="photos-count" id="photosCount"></span>
+              <div style="display:flex;align-items:center;gap:10px">
+                <button class="btn btn-sm btn-secondary" id="batchSelectBtn" title="Select multiple photos">☑ Select</button>
+                <span class="photos-hint" id="photosHint"></span>
+              </div>
+            </div>
+            <!-- Batch actions bar (hidden by default) -->
+            <div id="batchBar" style="display:none;background:var(--blue-soft);border:1px solid var(--blue);border-radius:var(--radius);padding:10px 16px;margin-bottom:12px;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font-size:0.78rem;font-weight:500;color:var(--blue)" id="batchCount">0 selected</span>
+              <button class="btn btn-sm" style="background:var(--blue);color:#fff;border:none" id="batchSelectAll">Select All</button>
+              <select id="batchSubSelect" style="padding:5px 10px;border-radius:20px;border:1px solid var(--border);font-family:var(--sans);font-size:0.75rem;background:var(--white);color:var(--text);cursor:pointer">
+                <option value="">— Assign sub-category —</option>
+              </select>
+              <button class="btn btn-sm" style="background:var(--green);color:#fff;border:none" id="batchAssignBtn">Apply</button>
+              <button class="btn btn-sm btn-secondary" id="batchCancelBtn">Cancel</button>
+            </div>
+            <div class="photo-grid" id="photoGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════ CONTENT TAB ══════════════ -->
+      <div class="tab-panel" id="tab-content">
+        <div class="page-header">
+          <div class="page-title">Site Content</div>
+          <div class="page-subtitle">Edit the texts, about section, stats and reviews that appear on your site</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:20px">
+          <!-- Hero -->
+          <div class="card">
+            <div class="card-title">Hero Section</div>
+            <div class="field"><label>Pill badge text</label><input id="c-heroPill" placeholder="Available for projects · Dublin & Ireland"></div>
+            <div class="field"><label>Main headline</label><textarea id="c-heroHeadline" rows="2" placeholder="Photography that&#10;speaks for itself."></textarea></div>
+            <div class="field"><label>Subtitle</label><textarea id="c-heroSub" rows="3" placeholder="Photographer, filmmaker and drone pilot…"></textarea></div>
+          </div>
+
+          <!-- About -->
+          <div class="card">
+            <div class="card-title">About Me</div>
+            <div class="field">
+              <label>Profile Photo</label>
+              <div class="about-photo-wrap">
+                <img id="aboutPhotoPreview" class="about-photo-preview" src="" alt="">
+                <div style="flex:1">
+                  <input id="c-aboutPhoto" placeholder="Paste image URL or upload below" style="margin-bottom:8px">
+                  <input type="file" id="aboutPhotoFile" accept="image/*" style="display:none">
+                  <button class="btn btn-secondary btn-sm btn-full" id="aboutPhotoUploadBtn">Upload Photo</button>
+                </div>
+              </div>
+            </div>
+            <div class="field"><label>Paragraph 1</label><textarea id="c-aboutText1" rows="3"></textarea></div>
+            <div class="field"><label>Paragraph 2</label><textarea id="c-aboutText2" rows="3"></textarea></div>
+            <div class="field"><label>Paragraph 3</label><textarea id="c-aboutText3" rows="2"></textarea></div>
+          </div>
+
+          <!-- Stats -->
+          <div class="card">
+            <div class="card-title">Stats</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="field"><label>Stat 1 value</label><input id="c-stat1Val" placeholder="10+"></div>
+              <div class="field"><label>Stat 1 label</label><input id="c-stat1Lbl" placeholder="Years"></div>
+              <div class="field"><label>Stat 2 value</label><input id="c-stat2Val" placeholder="500+"></div>
+              <div class="field"><label>Stat 2 label</label><input id="c-stat2Lbl" placeholder="Projects"></div>
+              <div class="field"><label>Stat 3 value</label><input id="c-stat3Val" placeholder="4"></div>
+              <div class="field"><label>Stat 3 label</label><input id="c-stat3Lbl" placeholder="Countries"></div>
+              <div class="field"><label>Stat 4 value</label><input id="c-stat4Val" placeholder="∞"></div>
+              <div class="field"><label>Stat 4 label</label><input id="c-stat4Lbl" placeholder="Stories"></div>
+            </div>
+          </div>
+
+          <!-- Quote & Contact -->
+          <div class="card">
+            <div class="card-title">Quote &amp; Contact</div>
+            <div class="field"><label>Quote text</label><textarea id="c-quote" rows="3" placeholder="Photography is the art of frozen time…"></textarea></div>
+            <div class="field"><label>Location</label><input id="c-contactLocation" placeholder="Ranelagh, Dublin, Ireland"></div>
+            <div class="field"><label>Phone / WhatsApp</label><input id="c-contactPhone" placeholder="+353 83 206 3109"></div>
+            <div class="field"><label>Email</label><input id="c-contactEmail" placeholder="hello@viniciusmurari.com"></div>
+          </div>
+        </div>
+
+        <!-- Reviews — full width -->
+        <div class="card col-span-full mb-4" id="reviews-section">
+          <div class="card-title">Reviews</div>
+          <p class="text-sm text-muted mb-4">Add client reviews — they appear in the Reviews section of your site. Each review has a name, category, date, star rating (1–5) and text.</p>
+          <div id="reviewsList"></div>
+          <div class="flex-row mt-4">
+            <button class="btn btn-secondary" id="addReviewBtn">+ Add Review</button>
+            <span class="text-sm text-muted" id="reviewsCount"></span>
+          </div>
+        </div>
+
+        <div class="flex-row">
+          <button class="btn btn-primary" id="saveContentBtn">Save All Content</button>
+          <span class="text-sm text-muted">Saved to localStorage &amp; server</span>
+        </div>
+      </div>
+
+      <!-- ══════════════ APPEARANCE TAB ══════════════ -->
+      <div class="tab-panel" id="tab-appearance">
+        <div class="page-header">
+          <div class="page-title">Appearance</div>
+          <div class="page-subtitle">Customize the hero background image and site accent color</div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Hero background -->
+          <div class="card">
+            <div class="card-title">Hero Background Image</div>
+            <div class="hero-preview" id="heroPreview">
+              <img id="heroPreviewImg" src="" alt="" style="display:none">
+              <div class="hero-preview-empty" id="heroPreviewLabel">No custom image — using default</div>
+            </div>
+            <div class="field"><label>Image URL</label><input id="c-heroBgUrl" placeholder="https://…"></div>
+            <div style="text-align:center;margin:10px 0;color:var(--text-3);font-size:0.75rem">— or upload from computer —</div>
+            <input type="file" id="heroBgFile" accept="image/*" style="display:none">
+            <button class="btn btn-secondary btn-full mb-4" id="heroBgUploadBtn">Upload from computer</button>
+            <div class="upload-status" id="heroBgStatus" style="text-align:center"></div>
+            <div class="flex-row mt-4" style="gap:8px">
+              <button class="btn btn-primary" style="flex:1" id="saveHeroBgBtn">Apply Background</button>
+              <button class="btn btn-ghost" id="resetHeroBgBtn">Reset</button>
+            </div>
+          </div>
+
+          <!-- Accent color -->
+          <div class="card">
+            <div class="card-title">Accent Color</div>
+            <p class="text-sm text-muted mb-4">Changes buttons, links and highlights across the entire site.</p>
+            <div class="color-row">
+              <input type="color" id="c-accentColor" value="#3b82f6">
+              <span class="color-val" id="colorVal">#3b82f6</span>
+            </div>
+            <div class="color-presets" id="colorPresets"></div>
+            <button class="btn btn-primary btn-full" id="saveColorBtn">Apply Color</button>
+
+            <div class="divider"></div>
+            <div class="card-title">Change Admin Password</div>
+            <div class="field"><label>New Password</label><input type="password" id="newPassword" placeholder="Enter new password"></div>
+            <div class="field"><label>Confirm Password</label><input type="password" id="confirmPassword" placeholder="Repeat new password"></div>
+            <button class="btn btn-secondary btn-full" id="changePasswordBtn">Update Password</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════ SOCIAL & SEO TAB ══════════════ -->
+      <div class="tab-panel" id="tab-social">
+        <div class="page-header">
+          <div class="page-title">Social &amp; Integrations</div>
+          <div class="page-subtitle">Manage social links, WhatsApp, map location and SEO settings</div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:20px">
+          <div class="card">
+            <div class="card-title">Social Media Links</div>
+            <div class="field"><label>Instagram URL</label><input id="c-instagramUrl" placeholder="https://www.instagram.com/…"></div>
+            <div class="field"><label>Facebook Page URL</label><input id="c-facebookUrl" placeholder="https://www.facebook.com/…"></div>
+            <div class="field"><label>Facebook Reviews URL</label><input id="c-facebookReviewsUrl" placeholder="https://www.facebook.com/…/reviews"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">WhatsApp Configuration</div>
+            <div class="field"><label>Phone Number</label><input id="c-whatsappNumber" placeholder="+353 83 206 3109"></div>
+            <div class="field"><label>Default Message</label><textarea id="c-whatsappMessage" rows="3" placeholder="Hi Vinicius, I'd like to know more about your services"></textarea></div>
+            <p class="text-sm text-muted mt-3">Used for the floating WhatsApp button and contact section</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Location &amp; Map</div>
+            <div class="field">
+              <label>Google Maps Embed URL</label>
+              <input id="c-mapEmbedUrl" placeholder="Paste Google Maps embed URL here">
+              <div class="hint">Google Maps → Search location → Share → Embed a map → Copy src URL</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="field"><label>Latitude</label><input id="c-mapLat" placeholder="53.3244"></div>
+              <div class="field"><label>Longitude</label><input id="c-mapLng" placeholder="-6.2603"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">SEO &amp; Meta Tags</div>
+            <div class="field"><label>Page Title</label><input id="c-seoTitle" placeholder="Vinicius Murari — Photography Dublin"></div>
+            <div class="field"><label>Meta Description</label><textarea id="c-seoDescription" rows="3" placeholder="Professional photography services…"></textarea></div>
+            <div class="field"><label>OG Image URL</label><input id="c-seoOgImage" placeholder="https://…"></div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="saveSocialBtn">Save Social &amp; Integrations</button>
+      </div>
+
+      <!-- ══════════════ SITE PREVIEW TAB ══════════════ -->
+      <div class="tab-panel" id="tab-preview">
+        <div class="preview-bar">
+          <span class="preview-url">http://localhost:3000/</span>
+          <button class="topbar-btn" id="reloadPreviewBtn">↺ Reload</button>
+          <a href="/" target="_blank" class="topbar-btn primary">Open in New Tab ↗</a>
+        </div>
+        <iframe id="sitePreviewFrame" src="/" title="Live site preview"></iframe>
+      </div>
+
+      <!-- ══════════════ LAUNCH CHECKLIST TAB ══════════════ -->
+      <div class="tab-panel" id="tab-launch">
+        <div class="page-header">
+          <div class="page-title">Launch Checklist</div>
+          <div class="page-subtitle">Follow these steps to get your site live on the internet</div>
+        </div>
+
+        <div id="launchProgress" style="background:var(--surface);border-radius:var(--radius-lg);padding:24px;margin-bottom:24px;box-shadow:var(--shadow-sm)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="font-size:0.85rem;font-weight:600;color:var(--text)">Progress</span>
+            <span id="launchPercent" style="font-size:0.85rem;font-weight:600;color:var(--blue)">0%</span>
+          </div>
+          <div style="background:var(--surface2);border-radius:8px;height:10px;overflow:hidden">
+            <div id="launchBar" style="height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:8px;width:0%;transition:width .4s"></div>
+          </div>
+        </div>
+
+        <div id="launchSteps" style="display:flex;flex-direction:column;gap:12px"></div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Toast container -->
+<div id="toastContainer"></div>
+
+<script>
+'use strict';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA & CONSTANTS
+// ─────────────────────────────────────────────────────────────────────────────
+const CATEGORIES = [
+  { id: 'wedding',      label: 'Wedding',              sub: 'Photography' },
+  { id: 'portrait',     label: 'Portrait & Studio',    sub: 'Photography' },
+  { id: 'food',         label: 'Food & Beverage',      sub: 'Photography' },
+  { id: 'family',       label: 'Family',               sub: 'Photography' },
+  { id: 'events',       label: 'Events',               sub: 'Photography' },
+  { id: 'product',      label: 'Product & Still Life', sub: 'Photography' },
+  { id: 'hotels',       label: 'Hotels & Hospitality', sub: 'Photography' },
+  { id: 'corporate',    label: 'Corporate Events',     sub: 'Photography' },
+  { id: 'architecture', label: 'Architecture',         sub: 'Photography' },
+];
+
+const COLOR_PRESETS = ['#3b82f6','#ef4444','#10b981','#f59e0b','#8b5cf6','#0f1117','#06b6d4'];
+
+const DEFAULT_SUBS = {
+  wedding:      ['All','Ceremony','Reception','Getting Ready','Details'],
+  portrait:     ['All','Studio','Outdoor','Creative'],
+  food:         ['All','Restaurant','Products','Lifestyle'],
+  family:       ['All','Studio','Outdoor','Newborn'],
+  events:       ['All','Birthday','Gala','Launch'],
+  product:      ['All','Cosmetics','Fashion','Tech'],
+  hotels:       ['All','Interior','Exterior','Details'],
+  corporate:    ['All','Conference','Team Day','Launch','Press'],
+  architecture: ['All','Exterior','Interior','Details'],
+};
+
+// Load settings from localStorage
+let S = JSON.parse(localStorage.getItem('vmSettings') || '{}');
+if (!S.gallerySubs) S.gallerySubs = {};
+if (!S.photoSubs)   S.photoSubs = {};
+
+let catOrder = S.galleryOrder ? [...S.galleryOrder] : CATEGORIES.map(c => c.id);
+const counts = {};
+let current = catOrder[0] || CATEGORIES[0].id;
+let dragSrc = null;
+let sidebarDragSrc = null;
+
+function saveSettings() {
+  localStorage.setItem('vmSettings', JSON.stringify(S));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AUTH
+// ─────────────────────────────────────────────────────────────────────────────
+const DEFAULT_PASSWORD = 'admin123';
+
+function getPassword() {
+  return localStorage.getItem('adminPassword') || DEFAULT_PASSWORD;
+}
+
+function isLoggedIn() {
+  return sessionStorage.getItem('adminAuth') === '1';
+}
+
+function doLogin(pwd) {
+  if (pwd === getPassword()) {
+    sessionStorage.setItem('adminAuth', '1');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    initApp();
+    return true;
+  }
+  return false;
+}
+
+document.getElementById('loginBtn').addEventListener('click', () => {
+  const pwd = document.getElementById('loginInput').value;
+  if (!doLogin(pwd)) {
+    document.getElementById('loginError').textContent = 'Incorrect password. Try again.';
+    document.getElementById('loginInput').value = '';
+    document.getElementById('loginInput').focus();
+  }
+});
+
+document.getElementById('loginInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('loginBtn').click();
+  document.getElementById('loginError').textContent = '';
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  sessionStorage.removeItem('adminAuth');
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('loginInput').value = '';
+});
+
+// Change password
+document.getElementById('changePasswordBtn').addEventListener('click', () => {
+  const np = document.getElementById('newPassword').value;
+  const cp = document.getElementById('confirmPassword').value;
+  if (!np) return toast('Enter a new password', 'error');
+  if (np !== cp) return toast('Passwords do not match', 'error');
+  if (np.length < 4) return toast('Password must be at least 4 characters', 'error');
+  localStorage.setItem('adminPassword', np);
+  document.getElementById('newPassword').value = '';
+  document.getElementById('confirmPassword').value = '';
+  toast('Password updated successfully', 'success');
+});
+
+// Boot
+if (isLoggedIn()) {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  initApp();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────────────────
+function setTab(tabId) {
+  // Remove active from nav
+  document.querySelectorAll('.nav-btn[data-tab]').forEach(b => b.classList.remove('active'));
+  // Set panel
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+  const panel = document.getElementById('tab-' + tabId);
+  if (panel) panel.classList.add('active');
+
+  const navBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+  if (navBtn) navBtn.classList.add('active');
+
+  // Topbar title
+  const labels = {
+    dashboard: 'Dashboard', galleries: 'Galleries',
+    content: 'Content', appearance: 'Appearance',
+    social: 'Social & Integrations', preview: 'Site Preview'
+  };
+  const titleEl = document.getElementById('topbar-title');
+  if (tabId === 'galleries') {
+    const cat = CATEGORIES.find(c => c.id === current);
+    titleEl.innerHTML = `Galleries <small>${cat ? cat.label : ''}</small>`;
+  } else {
+    titleEl.textContent = labels[tabId] || tabId;
+  }
+
+  // Preview iframe
+  if (tabId === 'preview') {
+    const iframe = document.getElementById('sitePreviewFrame');
+    if (!iframe.src || iframe.src === 'about:blank') iframe.src = '/';
+  }
+}
+
+document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+  btn.addEventListener('click', () => setTab(btn.dataset.tab));
+});
+
+// Quick actions on dashboard
+document.querySelectorAll('.quick-action[data-goto]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.goto;
+    if (target === 'galleries') {
+      setTab('galleries');
+    } else if (target === 'content-reviews') {
+      setTab('content');
+      setTimeout(() => {
+        document.getElementById('reviews-section').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      setTab(target);
+    }
+  });
+});
+
+document.getElementById('reloadPreviewBtn').addEventListener('click', () => {
+  document.getElementById('sitePreviewFrame').src = '/';
+});
+
+// Sync to server button
+document.getElementById('syncServerBtn').addEventListener('click', async () => {
+  await syncAllToServer();
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SERVER SYNC
+// ─────────────────────────────────────────────────────────────────────────────
+async function syncAllToServer() {
+  const btn = document.getElementById('syncServerBtn');
+  btn.textContent = '↑ Syncing…';
+  btn.classList.add('loading');
+  try {
+    const [r1, r2] = await Promise.all([
+      fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(S)
+      }),
+      fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(getContentData())
+      })
+    ]);
+    if (r1.ok && r2.ok) {
+      toast('All data synced to server', 'success');
+    } else {
+      toast('Sync failed — check server is running', 'error');
+    }
+  } catch(e) {
+    toast('Cannot reach server — is it running?', 'error');
+  }
+  btn.textContent = '↑ Sync to Server';
+  btn.classList.remove('loading');
+}
+
+async function loadFromServer() {
+  try {
+    const [r1, r2] = await Promise.all([
+      fetch('/api/settings'),
+      fetch('/api/content')
+    ]);
+    if (r1.ok) {
+      const serverSettings = await r1.json();
+      if (serverSettings && Object.keys(serverSettings).length > 0) {
+        S = { ...S, ...serverSettings };
+        if (!S.gallerySubs) S.gallerySubs = {};
+        if (!S.photoSubs)   S.photoSubs = {};
+        saveSettings();
+      }
+    }
+    if (r2.ok) {
+      const serverContent = await r2.json();
+      if (serverContent && Object.keys(serverContent).length > 0) {
+        // Merge into S for content fields
+        Object.assign(S, serverContent);
+        saveSettings();
+      }
+    }
+  } catch(e) {
+    // Server not responding — use localStorage only
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SIDEBAR — CATEGORY LIST
+// ─────────────────────────────────────────────────────────────────────────────
+function buildSidebar() {
+  const catList = document.getElementById('catList');
+  catList.innerHTML = '';
+  catOrder.forEach(id => {
+    const cat = CATEGORIES.find(c => c.id === id);
+    if (!cat) return;
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn' + (id === current ? ' active' : '');
+    btn.dataset.id = id;
+    btn.draggable = true;
+    btn.innerHTML = `
+      <span class="nav-drag" title="Drag to reorder">⠿</span>
+      <span class="nav-label">${cat.label}</span>
+      <span class="nav-badge" id="cnt-${id}">${counts[id] ?? '…'}</span>`;
+    btn.addEventListener('click', () => {
+      setTab('galleries');
+      switchCategory(id);
+    });
+    btn.addEventListener('dragstart', e => {
+      sidebarDragSrc = id;
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    btn.addEventListener('dragover', e => { e.preventDefault(); btn.classList.add('drag-over'); });
+    btn.addEventListener('dragleave', () => btn.classList.remove('drag-over'));
+    btn.addEventListener('drop', e => {
+      e.preventDefault(); btn.classList.remove('drag-over');
+      if (sidebarDragSrc && sidebarDragSrc !== id) {
+        const from = catOrder.indexOf(sidebarDragSrc);
+        const to   = catOrder.indexOf(id);
+        catOrder.splice(from, 1);
+        catOrder.splice(to, 0, sidebarDragSrc);
+        S.galleryOrder = [...catOrder];
+        saveSettings();
+        buildSidebar();
+        toast('Gallery order saved', 'success');
+      }
+    });
+    catList.appendChild(btn);
+  });
+}
+
+function switchCategory(id) {
+  current = id;
+  buildSidebar();
+  buildSubsEditor();
+  const cat = CATEGORIES.find(c => c.id === id);
+  document.getElementById('panelTitle').textContent = cat ? cat.label : id;
+  document.getElementById('panelSubtitle').textContent = cat ? cat.sub : '';
+  const titleEl = document.getElementById('topbar-title');
+  titleEl.innerHTML = `Galleries <small>${cat ? cat.label : ''}</small>`;
+  window.location.hash = id;
+  loadPhotos(id);
+  if (typeof updateUploadSubSelect === 'function') updateUploadSubSelect();
+  // Exit batch mode when switching categories
+  if (batchMode) document.getElementById('batchSelectBtn')?.click();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PHOTOS
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadPhotos(id) {
+  const grid = document.getElementById('photoGrid');
+  const cnt  = document.getElementById('photosCount');
+  const hint = document.getElementById('photosHint');
+  grid.innerHTML = '';
+  cnt.textContent = 'Loading…';
+  hint.textContent = '';
+  try {
+    const res = await fetch(`/api/photos?category=${id}`);
+    if (!res.ok) throw new Error();
+    const photos = await res.json();
+    counts[id] = photos.length;
+    const el = document.getElementById(`cnt-${id}`);
+    if (el) el.textContent = photos.length;
+    renderGrid(photos, id);
+    updateDashboard();
+  } catch(e) {
+    cnt.textContent = '';
+    toast('Cannot connect — open http://localhost:3000/admin.html', 'error');
+  }
+}
+
+function renderGrid(photos, id) {
+  const grid = document.getElementById('photoGrid');
+  const cnt  = document.getElementById('photosCount');
+  const hint = document.getElementById('photosHint');
+  grid.innerHTML = '';
+
+  if (!photos.length) {
+    cnt.textContent = 'No photos yet';
+    grid.innerHTML = `<div class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="3" y="3" width="18" height="18" rx="3"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <p>Upload your first photos above</p>
+    </div>`;
+    return;
+  }
+
+  cnt.textContent = `${photos.length} photo${photos.length !== 1 ? 's' : ''}`;
+  hint.textContent = photos.length > 1 ? 'Drag photos to reorder' : '';
+
+  photos.forEach(photo => {
+    const card = document.createElement('div');
+    card.className = 'photo-card';
+    card.draggable = true;
+    card.dataset.filename = photo.filename;
+    const photoSub = getPhotoSub(id, photo.filename);
+    const subLabel = photoSub || 'Tag';
+    card.innerHTML = `
+      <img src="${photo.url}" alt="${photo.filename}" loading="lazy">
+      <div class="photo-name">${photo.filename}</div>
+      <button class="photo-delete" title="Delete photo">×</button>
+      <div class="photo-sub-badge" data-file="${photo.filename}">${subLabel}</div>
+      <div class="photo-sub-select" data-file="${photo.filename}"></div>`;
+
+    // Sub-category dropdown
+    const badge    = card.querySelector('.photo-sub-badge');
+    const dropdown = card.querySelector('.photo-sub-select');
+    const subs     = getSubsFor(id).filter(s => s.toLowerCase() !== 'all');
+
+    subs.forEach(sub => {
+      const opt = document.createElement('button');
+      opt.className = 'photo-sub-opt' + (photoSub === sub.toLowerCase() ? ' active' : '');
+      opt.textContent = sub;
+      opt.addEventListener('click', e => {
+        e.stopPropagation();
+        setPhotoSub(id, photo.filename, sub.toLowerCase());
+        badge.textContent = sub;
+        dropdown.classList.remove('open');
+        dropdown.querySelectorAll('.photo-sub-opt').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        toast(`Tagged as "${sub}"`);
+      });
+      dropdown.appendChild(opt);
+    });
+
+    badge.addEventListener('click', e => {
+      e.stopPropagation();
+      document.querySelectorAll('.photo-sub-select.open').forEach(d => d.classList.remove('open'));
+      dropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => dropdown.classList.remove('open'));
+
+    card.querySelector('.photo-delete').addEventListener('click', e => {
+      e.stopPropagation();
+      deletePhoto(id, photo.filename, card);
+    });
+
+    // Drag-to-reorder
+    card.addEventListener('dragstart', e => {
+      dragSrc = card;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+      document.querySelectorAll('.photo-card').forEach(c => c.classList.remove('drop-target'));
+    });
+    card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drop-target'); });
+    card.addEventListener('dragleave', () => card.classList.remove('drop-target'));
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      card.classList.remove('drop-target');
+      if (dragSrc && dragSrc !== card) {
+        const cards   = [...document.querySelectorAll('.photo-card')];
+        const fromIdx = cards.indexOf(dragSrc);
+        const toIdx   = cards.indexOf(card);
+        if (fromIdx < toIdx) grid.insertBefore(dragSrc, card.nextSibling);
+        else grid.insertBefore(dragSrc, card);
+        savePhotoOrder(id);
+      }
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+async function savePhotoOrder(id) {
+  const order = [...document.querySelectorAll('.photo-card')].map(c => c.dataset.filename);
+  try {
+    await fetch(`/api/order?category=${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order)
+    });
+    toast('Photo order saved', 'success');
+  } catch(e) { toast('Could not save order', 'error'); }
+}
+
+async function deletePhoto(cat, filename, card) {
+  if (!confirm(`Delete "${filename}"?`)) return;
+  try {
+    const res = await fetch(`/api/photos?category=${cat}&file=${encodeURIComponent(filename)}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error();
+    card.style.transition = 'opacity .2s, transform .2s';
+    card.style.opacity = '0';
+    card.style.transform = 'scale(0.9)';
+    setTimeout(() => { card.remove(); loadPhotos(cat); }, 230);
+    toast('Photo deleted', 'success');
+  } catch(e) { toast('Could not delete photo', 'error'); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UPLOAD
+// ─────────────────────────────────────────────────────────────────────────────
+const uploadZone   = document.getElementById('uploadZone');
+const fileInput    = document.getElementById('fileInput');
+const uploadBtn    = document.getElementById('uploadBtn');
+const progressWrap = document.getElementById('progressWrap');
+const progressBar  = document.getElementById('progressBar');
+const uploadStatus = document.getElementById('uploadStatus');
+
+uploadBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => uploadFiles(fileInput.files));
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('drag-over');
+  uploadFiles(e.dataTransfer.files);
+});
+
+async function uploadFiles(files) {
+  if (!files?.length) return;
+  progressWrap.style.display = 'block';
+  progressBar.style.width = '0%';
+  uploadStatus.textContent = `Uploading ${files.length} photo${files.length > 1 ? 's' : ''}…`;
+  const form = new FormData();
+  Array.from(files).forEach(f => form.append('file', f));
+  try {
+    progressBar.style.width = '40%';
+    const res = await fetch(`/api/upload?category=${current}`, { method: 'POST', body: form });
+    progressBar.style.width = '100%';
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const n = data.uploaded?.length ?? 0;
+    uploadStatus.textContent = `✓ ${n} photo${n !== 1 ? 's' : ''} uploaded`;
+    // Auto-assign sub-category if selected
+    const uploadSub = document.getElementById('uploadSubSelect').value;
+    if (uploadSub && data.uploaded) {
+      data.uploaded.forEach(p => setPhotoSub(current, p.filename, uploadSub));
+      toast(`${n} photo${n !== 1 ? 's' : ''} added to "${uploadSub}"`, 'success');
+    } else {
+      toast(`${n} photo${n !== 1 ? 's' : ''} added to ${CATEGORIES.find(c=>c.id===current)?.label}`, 'success');
+    }
+    fileInput.value = '';
+    await loadPhotos(current);
+  } catch(e) {
+    uploadStatus.textContent = '✗ Upload failed';
+    toast(window.location.protocol === 'file:' ? 'Open http://localhost:3000/admin.html to upload' : 'Upload failed — check server', 'error');
+  }
+  setTimeout(() => { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; }, 2500);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BATCH SELECTION
+// ─────────────────────────────────────────────────────────────────────────────
+let batchMode = false;
+const batchBar = document.getElementById('batchBar');
+const batchCount = document.getElementById('batchCount');
+
+document.getElementById('batchSelectBtn').addEventListener('click', () => {
+  batchMode = !batchMode;
+  document.getElementById('batchSelectBtn').textContent = batchMode ? '✗ Cancel' : '☑ Select';
+  batchBar.style.display = batchMode ? 'flex' : 'none';
+  // Populate batch sub-category dropdown
+  if (batchMode) {
+    const sel = document.getElementById('batchSubSelect');
+    sel.innerHTML = '<option value="">— Assign sub-category —</option>';
+    getSubsFor(current).filter(s => s.toLowerCase() !== 'all').forEach(s => {
+      sel.innerHTML += `<option value="${s.toLowerCase()}">${s}</option>`;
+    });
+  }
+  // Toggle select mode on cards
+  document.querySelectorAll('.photo-card').forEach(c => {
+    c.classList.toggle('select-mode', batchMode);
+    c.classList.remove('selected');
+    if (batchMode) {
+      // Add checkbox overlay
+      if (!c.querySelector('.photo-check')) {
+        const chk = document.createElement('div');
+        chk.className = 'photo-check';
+        chk.textContent = '✓';
+        c.appendChild(chk);
+      }
+      c.draggable = false;
+    } else {
+      const chk = c.querySelector('.photo-check');
+      if (chk) chk.remove();
+      c.draggable = true;
+    }
+  });
+  updateBatchCount();
+});
+
+document.getElementById('batchCancelBtn').addEventListener('click', () => {
+  document.getElementById('batchSelectBtn').click(); // toggle off
+});
+
+document.getElementById('batchSelectAll').addEventListener('click', () => {
+  const cards = document.querySelectorAll('.photo-card.select-mode');
+  const allSelected = [...cards].every(c => c.classList.contains('selected'));
+  cards.forEach(c => c.classList.toggle('selected', !allSelected));
+  document.getElementById('batchSelectAll').textContent = allSelected ? 'Select All' : 'Deselect All';
+  updateBatchCount();
+});
+
+document.getElementById('batchAssignBtn').addEventListener('click', () => {
+  const sub = document.getElementById('batchSubSelect').value;
+  if (!sub) { toast('Select a sub-category first', 'error'); return; }
+  const selected = document.querySelectorAll('.photo-card.selected');
+  if (!selected.length) { toast('No photos selected', 'error'); return; }
+  selected.forEach(card => {
+    const filename = card.dataset.filename;
+    setPhotoSub(current, filename, sub);
+    const badge = card.querySelector('.photo-sub-badge');
+    if (badge) badge.textContent = sub.charAt(0).toUpperCase() + sub.slice(1);
+  });
+  toast(`${selected.length} photo${selected.length > 1 ? 's' : ''} assigned to "${sub}"`, 'success');
+  document.getElementById('batchSelectBtn').click(); // exit batch mode
+});
+
+// Delegate click for selecting cards in batch mode
+document.getElementById('photoGrid').addEventListener('click', e => {
+  if (!batchMode) return;
+  const card = e.target.closest('.photo-card');
+  if (!card) return;
+  e.preventDefault();
+  e.stopPropagation();
+  card.classList.toggle('selected');
+  updateBatchCount();
+});
+
+function updateBatchCount() {
+  const n = document.querySelectorAll('.photo-card.selected').length;
+  batchCount.textContent = `${n} selected`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// POPULATE UPLOAD SUB-CATEGORY DROPDOWN
+// ─────────────────────────────────────────────────────────────────────────────
+function updateUploadSubSelect() {
+  const sel = document.getElementById('uploadSubSelect');
+  sel.innerHTML = '<option value="">None (All)</option>';
+  getSubsFor(current).filter(s => s.toLowerCase() !== 'all').forEach(s => {
+    sel.innerHTML += `<option value="${s.toLowerCase()}">${s}</option>`;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUB-CATEGORIES
+// ─────────────────────────────────────────────────────────────────────────────
+function getSubsFor(catId) {
+  return S.gallerySubs[catId] || DEFAULT_SUBS[catId] || ['All'];
+}
+
+function saveSubsFor(catId, subs) {
+  S.gallerySubs[catId] = subs;
+  saveSettings();
+}
+
+function buildSubsEditor() {
+  const list = document.getElementById('subsList');
+  list.innerHTML = '';
+  const subs = getSubsFor(current);
+
+  subs.forEach((sub, i) => {
+    const tag = document.createElement('div');
+    tag.className = 'sub-tag' + (sub.toLowerCase() === 'all' ? ' all-tag' : '');
+    tag.draggable = sub.toLowerCase() !== 'all';
+    tag.dataset.index = i;
+
+    const nameInput = document.createElement('input');
+    nameInput.className = 'sub-tag-name';
+    nameInput.value = sub;
+    nameInput.disabled = sub.toLowerCase() === 'all';
+    nameInput.size = Math.max(sub.length, 3);
+    nameInput.addEventListener('input', () => {
+      nameInput.size = Math.max(nameInput.value.length, 3);
+    });
+    nameInput.addEventListener('blur', () => {
+      const val = nameInput.value.trim();
+      if (!val) { nameInput.value = sub; return; }
+      const newSubs = [...getSubsFor(current)];
+      newSubs[i] = val;
+      saveSubsFor(current, newSubs);
+      toast('Sub-category renamed');
+    });
+    nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') nameInput.blur(); });
+    tag.appendChild(nameInput);
+
+    const del = document.createElement('button');
+    del.className = 'sub-del';
+    del.textContent = '×';
+    del.title = 'Remove sub-category';
+    del.addEventListener('click', () => {
+      const newSubs = getSubsFor(current).filter((_, idx) => idx !== i);
+      saveSubsFor(current, newSubs);
+      buildSubsEditor();
+      toast('Sub-category removed');
+    });
+    tag.appendChild(del);
+
+    if (sub.toLowerCase() !== 'all') {
+      tag.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', String(i));
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      tag.addEventListener('dragover', e => { e.preventDefault(); tag.classList.add('drag-over'); });
+      tag.addEventListener('dragleave', () => tag.classList.remove('drag-over'));
+      tag.addEventListener('drop', e => {
+        e.preventDefault(); tag.classList.remove('drag-over');
+        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
+        const toIdx = i;
+        if (fromIdx !== toIdx && fromIdx > 0) {
+          const newSubs = [...getSubsFor(current)];
+          const [moved] = newSubs.splice(fromIdx, 1);
+          newSubs.splice(toIdx, 0, moved);
+          saveSubsFor(current, newSubs);
+          buildSubsEditor();
+          toast('Sub-category order saved');
+        }
+      });
+    }
+    list.appendChild(tag);
+  });
+  if (typeof updateUploadSubSelect === 'function') updateUploadSubSelect();
+}
+
+document.getElementById('addSubBtn').addEventListener('click', () => {
+  const subs = [...getSubsFor(current)];
+  subs.push('New Category');
+  saveSubsFor(current, subs);
+  buildSubsEditor();
+  const inputs = document.querySelectorAll('.sub-tag-name');
+  const last = inputs[inputs.length - 1];
+  if (last) { last.disabled = false; last.focus(); last.select(); }
+  toast('New sub-category added — click to rename');
+});
+
+function getPhotoSub(catId, filename) {
+  return (S.photoSubs || {})[`${catId}/${filename}`] || '';
+}
+
+function setPhotoSub(catId, filename, sub) {
+  if (!S.photoSubs) S.photoSubs = {};
+  S.photoSubs[`${catId}/${filename}`] = sub;
+  saveSettings();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTENT FIELDS
+// ─────────────────────────────────────────────────────────────────────────────
+const CONTENT_FIELDS = [
+  'heroPill','heroHeadline','heroSub',
+  'aboutPhoto','aboutText1','aboutText2','aboutText3',
+  'stat1Val','stat1Lbl','stat2Val','stat2Lbl',
+  'stat3Val','stat3Lbl','stat4Val','stat4Lbl',
+  'quote','contactLocation','contactPhone','contactEmail'
+];
+
+const SOCIAL_FIELDS = [
+  'instagramUrl','facebookUrl','facebookReviewsUrl',
+  'whatsappNumber','whatsappMessage',
+  'mapEmbedUrl','mapLat','mapLng',
+  'seoTitle','seoDescription','seoOgImage'
+];
+
+function getContentData() {
+  const data = {};
+  CONTENT_FIELDS.forEach(k => { data[k] = S[k] || ''; });
+  if (S.reviews) data.reviews = S.reviews;
+  return data;
+}
+
+function loadContentFields() {
+  CONTENT_FIELDS.forEach(key => {
+    const el = document.getElementById('c-' + key);
+    if (el && S[key]) el.value = S[key];
+  });
+  // About photo preview
+  const aboutPreview = document.getElementById('aboutPhotoPreview');
+  if (S.aboutPhoto) {
+    aboutPreview.src = S.aboutPhoto;
+    aboutPreview.style.display = 'block';
+  }
+  document.getElementById('c-aboutPhoto').addEventListener('input', function() {
+    if (this.value) { aboutPreview.src = this.value; aboutPreview.style.display = 'block'; }
+    else aboutPreview.style.display = 'none';
+  });
+}
+
+function loadSocialFields() {
+  SOCIAL_FIELDS.forEach(key => {
+    const el = document.getElementById('c-' + key);
+    if (el && S[key]) el.value = S[key];
+  });
+}
+
+// About photo upload
+document.getElementById('aboutPhotoUploadBtn').addEventListener('click', () => {
+  document.getElementById('aboutPhotoFile').click();
+});
+document.getElementById('aboutPhotoFile').addEventListener('change', async function() {
+  if (!this.files?.length) return;
+  const form = new FormData();
+  form.append('file', this.files[0]);
+  try {
+    const res = await fetch('/api/upload?category=hero', { method: 'POST', body: form });
+    const data = await res.json();
+    if (data.uploaded?.length) {
+      const url = data.uploaded[0].url;
+      document.getElementById('c-aboutPhoto').value = url;
+      const preview = document.getElementById('aboutPhotoPreview');
+      preview.src = url; preview.style.display = 'block';
+      toast('Profile photo uploaded — click Save Content to apply', 'success');
+    }
+  } catch(e) { toast('Upload failed', 'error'); }
+  this.value = '';
+});
+
+// Save content
+document.getElementById('saveContentBtn').addEventListener('click', async function() {
+  CONTENT_FIELDS.forEach(key => {
+    const el = document.getElementById('c-' + key);
+    if (el) S[key] = el.value;
+  });
+  saveReviewsFromUI();
+  saveSettings();
+  // Also push to server
+  try {
+    await fetch('/api/settings', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S)
+    });
+    await fetch('/api/content', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(getContentData())
+    });
+    toast('Content saved to server successfully', 'success');
+  } catch(e) {
+    toast('Saved to localStorage (server not reachable)', 'info');
+  }
+  const orig = this.textContent;
+  this.textContent = '✓ Saved!';
+  this.classList.add('saved');
+  setTimeout(() => { this.textContent = orig; this.classList.remove('saved'); }, 2500);
+});
+
+// Save social
+document.getElementById('saveSocialBtn').addEventListener('click', async function() {
+  SOCIAL_FIELDS.forEach(key => {
+    const el = document.getElementById('c-' + key);
+    if (el) S[key] = el.value;
+  });
+  saveSettings();
+  try {
+    await fetch('/api/settings', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S)
+    });
+    toast('Social & SEO settings saved', 'success');
+  } catch(e) {
+    toast('Saved to localStorage (server not reachable)', 'info');
+  }
+  const orig = this.textContent;
+  this.textContent = '✓ Saved!';
+  this.classList.add('saved');
+  setTimeout(() => { this.textContent = orig; this.classList.remove('saved'); }, 2500);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REVIEWS
+// ─────────────────────────────────────────────────────────────────────────────
+const DEFAULT_REVIEWS = [
+  { name: 'Junior Joly',          category: 'Photography', date: 'December 2020', stars: 5, text: 'Vinicius is a photographer who cares about the smallest details. He has the sensitivity to focus on the best aspects of every scene, bringing out the best in each one. A subtle and romantic photographer.' },
+  { name: 'Isabela Castilho',     category: 'Photography', date: 'November 2020', stars: 5, text: 'He deserves far more than 5 stars — a dedicated, qualified, experienced and talented professional! Congratulations on your work, I would do 10 more projects with you!' },
+  { name: 'Sabrina Almeida',      category: 'Photography', date: 'September 2019', stars: 5, text: 'Vinicius has an incredible talent!! We loved his professionalism — he treats every image with total dedication and love!! We absolutely recommend him!!!' },
+  { name: 'Miyashiro Alexandre',  category: 'Photography', date: 'November 2020', stars: 5, text: 'A professional with excellent skills, great equipment and punctuality.' },
+  { name: 'Maza Maza',            category: 'Photography', date: 'May 2019',      stars: 5, text: 'The Best! An attentive professional who plays beautifully with colours!!' },
+  { name: 'Débora Arantes',       category: 'Photography', date: 'September 2019', stars: 5, text: 'A great professional, always doing incredible work! I highly recommend him.' },
+];
+
+function getReviews() {
+  return S.reviews || DEFAULT_REVIEWS;
+}
+
+function buildReviewsList() {
+  const list = document.getElementById('reviewsList');
+  list.innerHTML = '';
+  const reviews = getReviews();
+
+  reviews.forEach((rev, i) => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+
+    card.innerHTML = `
+      <div class="review-card-header">
+        <div class="field" style="margin:0">
+          <label>Reviewer Name</label>
+          <input class="rev-name" value="${escHtml(rev.name)}" placeholder="Client name">
+        </div>
+        <div class="field" style="margin:0">
+          <label>Category / Service</label>
+          <input class="rev-cat" value="${escHtml(rev.category)}" placeholder="e.g. Wedding">
+        </div>
+        <div class="field" style="margin:0">
+          <label>Date</label>
+          <input class="rev-date" value="${escHtml(rev.date)}" placeholder="March 2025">
+        </div>
+        <button class="rev-del-btn" title="Delete review">Delete</button>
+      </div>
+      <div class="field" style="margin-bottom:10px">
+        <label>Review Text</label>
+        <textarea class="rev-text" rows="3">${escHtml(rev.text)}</textarea>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Star Rating</label>
+        <div class="star-input" data-value="${rev.stars}"></div>
+      </div>`;
+
+    // Build star rating
+    const starInput = card.querySelector('.star-input');
+    for (let s = 1; s <= 5; s++) {
+      const sb = document.createElement('button');
+      sb.className = 'star-btn' + (s <= rev.stars ? ' active' : '');
+      sb.type = 'button';
+      sb.textContent = '★';
+      sb.dataset.val = s;
+      sb.addEventListener('click', () => {
+        starInput.dataset.value = s;
+        starInput.querySelectorAll('.star-btn').forEach((b, idx) => {
+          b.classList.toggle('active', idx < s);
+        });
+      });
+      starInput.appendChild(sb);
+    }
+
+    card.querySelector('.rev-del-btn').addEventListener('click', () => {
+      const reviews = getReviews();
+      reviews.splice(i, 1);
+      S.reviews = reviews;
+      saveSettings();
+      buildReviewsList();
+      toast('Review removed');
+    });
+
+    list.appendChild(card);
+  });
+
+  const cnt = document.getElementById('reviewsCount');
+  if (cnt) cnt.textContent = `${reviews.length} review${reviews.length !== 1 ? 's' : ''}`;
+}
+
+function saveReviewsFromUI() {
+  const cards = document.querySelectorAll('#reviewsList .review-card');
+  S.reviews = [...cards].map(card => ({
+    name:     card.querySelector('.rev-name').value,
+    category: card.querySelector('.rev-cat').value,
+    date:     card.querySelector('.rev-date').value,
+    text:     card.querySelector('.rev-text').value,
+    stars:    parseInt(card.querySelector('.star-input').dataset.value) || 5
+  }));
+}
+
+document.getElementById('addReviewBtn').addEventListener('click', () => {
+  const reviews = getReviews();
+  reviews.push({ name: 'New Reviewer', category: 'Photography', date: 'March 2026', stars: 5, text: 'Write the review text here…' });
+  S.reviews = reviews;
+  saveSettings();
+  buildReviewsList();
+  document.getElementById('reviewsList').lastElementChild?.scrollIntoView({ behavior: 'smooth' });
+  toast('New review added — edit the fields and save');
+});
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// APPEARANCE
+// ─────────────────────────────────────────────────────────────────────────────
+const heroBgUrlInput  = document.getElementById('c-heroBgUrl');
+const heroBgFile      = document.getElementById('heroBgFile');
+const heroBgUploadBtn = document.getElementById('heroBgUploadBtn');
+const heroBgStatus    = document.getElementById('heroBgStatus');
+const heroPreviewImg  = document.getElementById('heroPreviewImg');
+const heroPreviewLabel= document.getElementById('heroPreviewLabel');
+
+function setHeroPreview(url) {
+  if (url) {
+    heroPreviewImg.src = url;
+    heroPreviewImg.style.display = 'block';
+    heroPreviewLabel.style.display = 'none';
+  } else {
+    heroPreviewImg.style.display = 'none';
+    heroPreviewLabel.style.display = 'flex';
+  }
+}
+
+heroBgUrlInput.addEventListener('input', () => setHeroPreview(heroBgUrlInput.value));
+
+heroBgUploadBtn.addEventListener('click', () => heroBgFile.click());
+heroBgFile.addEventListener('change', async () => {
+  const file = heroBgFile.files[0];
+  if (!file) return;
+  heroBgStatus.textContent = 'Uploading…';
+  const form = new FormData();
+  form.append('file', file);
+  try {
+    const res = await fetch('/api/upload?category=hero', { method: 'POST', body: form });
+    const data = await res.json();
+    const url = data.uploaded?.[0]?.url;
+    if (url) { heroBgUrlInput.value = url; setHeroPreview(url); heroBgStatus.textContent = '✓ Uploaded'; }
+  } catch(e) { heroBgStatus.textContent = '✗ Upload failed'; }
+});
+
+document.getElementById('saveHeroBgBtn').addEventListener('click', async () => {
+  const url = heroBgUrlInput.value.trim();
+  S.heroBg = url;
+  saveSettings();
+  setHeroPreview(url);
+  try {
+    await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S) });
+    toast('Hero background saved', 'success');
+  } catch(e) { toast('Background saved locally', 'info'); }
+});
+
+document.getElementById('resetHeroBgBtn').addEventListener('click', async () => {
+  delete S.heroBg;
+  saveSettings();
+  heroBgUrlInput.value = '';
+  setHeroPreview('');
+  try {
+    await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S) });
+  } catch(e) {}
+  toast('Background reset to default', 'success');
+});
+
+// Color picker
+const colorInput = document.getElementById('c-accentColor');
+const colorValEl = document.getElementById('colorVal');
+
+colorInput.addEventListener('input', () => { colorValEl.textContent = colorInput.value; });
+
+COLOR_PRESETS.forEach(hex => {
+  const dot = document.createElement('div');
+  dot.className = 'color-preset' + (hex === (S.accentColor || '#3b82f6') ? ' active' : '');
+  dot.style.background = hex;
+  dot.title = hex;
+  dot.addEventListener('click', () => {
+    colorInput.value = hex;
+    colorValEl.textContent = hex;
+    document.querySelectorAll('.color-preset').forEach(d => d.classList.remove('active'));
+    dot.classList.add('active');
+  });
+  document.getElementById('colorPresets').appendChild(dot);
+});
+
+document.getElementById('saveColorBtn').addEventListener('click', async function() {
+  S.accentColor = colorInput.value;
+  saveSettings();
+  document.querySelectorAll('.color-preset').forEach(d => {
+    d.classList.toggle('active', d.title === colorInput.value);
+  });
+  try {
+    await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S) });
+    toast('Accent color saved — reload the site to see it', 'success');
+  } catch(e) { toast('Color saved locally', 'info'); }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DASHBOARD
+// ─────────────────────────────────────────────────────────────────────────────
+function updateDashboard() {
+  const total = Object.values(counts).reduce((a, b) => (a + (typeof b === 'number' ? b : 0)), 0);
+  const reviews = getReviews();
+
+  const el = document.getElementById('dash-totalPhotos');
+  if (el) el.textContent = total;
+  const rel = document.getElementById('dash-totalReviews');
+  if (rel) rel.textContent = reviews.length;
+
+  buildBarChart();
+}
+
+function buildBarChart() {
+  const chart = document.getElementById('dashBarChart');
+  if (!chart) return;
+  chart.innerHTML = '';
+  const sorted = [...catOrder]
+    .map(id => ({ id, label: CATEGORIES.find(c => c.id === id)?.label || id, count: counts[id] || 0 }))
+    .sort((a, b) => b.count - a.count);
+  const max = Math.max(...sorted.map(c => c.count), 1);
+
+  sorted.forEach(cat => {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    const pct = Math.round((cat.count / max) * 100);
+    row.innerHTML = `
+      <div class="bar-label" title="${cat.label}">${cat.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+      <div class="bar-count">${cat.count}</div>`;
+    chart.appendChild(row);
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TOAST NOTIFICATIONS
+// ─────────────────────────────────────────────────────────────────────────────
+const ICONS = { success: '✓', error: '✕', info: 'ℹ' };
+
+function toast(msg, type = '') {
+  const container = document.getElementById('toastContainer');
+  const item = document.createElement('div');
+  item.className = `toast-item${type ? ' ' + type : ''}`;
+  item.innerHTML = `<span class="toast-icon">${ICONS[type] || '•'}</span><span>${msg}</span>`;
+  container.appendChild(item);
+  // Trigger animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => item.classList.add('show'));
+  });
+  const timer = setTimeout(() => {
+    item.classList.remove('show');
+    setTimeout(() => item.remove(), 350);
+  }, 3200);
+  item.addEventListener('click', () => {
+    clearTimeout(timer);
+    item.classList.remove('show');
+    setTimeout(() => item.remove(), 350);
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOAD ALL COUNTS
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadAllCounts() {
+  await Promise.all(CATEGORIES.map(async cat => {
+    try {
+      const res = await fetch(`/api/photos?category=${cat.id}`);
+      const photos = await res.json();
+      counts[cat.id] = photos.length;
+    } catch(e) { counts[cat.id] = 0; }
+  }));
+  buildSidebar();
+  updateDashboard();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+async function initApp() {
+  // Try loading from server first
+  await loadFromServer();
+
+  // Resolve starting category from hash
+  const hashCat = window.location.hash.replace('#', '');
+  if (hashCat && CATEGORIES.find(c => c.id === hashCat)) {
+    current = hashCat;
+  }
+
+  // Hash change
+  window.addEventListener('hashchange', () => {
+    const h = window.location.hash.replace('#', '');
+    if (h && CATEGORIES.find(c => c.id === h) && h !== current) {
+      setTab('galleries');
+      switchCategory(h);
+    }
+  });
+
+  // Build UI
+  buildSidebar();
+  loadContentFields();
+  loadSocialFields();
+  buildReviewsList();
+  buildSubsEditor();
+
+  // Load appearance fields
+  if (S.heroBg) { heroBgUrlInput.value = S.heroBg; setHeroPreview(S.heroBg); }
+  if (S.accentColor) {
+    colorInput.value = S.accentColor;
+    colorValEl.textContent = S.accentColor;
+    document.querySelectorAll('.color-preset').forEach(d => {
+      d.classList.toggle('active', d.title === S.accentColor);
+    });
+  }
+
+  // Navigate to correct tab
+  const startTab = window.location.hash && CATEGORIES.find(c => c.id === hashCat) ? 'galleries' : 'dashboard';
+  setTab(startTab);
+
+  // Switch to correct category and load photos
+  switchCategory(current);
+
+  // Load all counts in background (also refreshes dashboard)
+  loadAllCounts();
+
+  // Build launch checklist
+  buildLaunchChecklist();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LAUNCH CHECKLIST
+// ─────────────────────────────────────────────────────────────────────────────
+const LAUNCH_STEPS = [
+  {
+    id: 'photos',
+    title: 'Add portfolio photos',
+    desc: 'Upload your best work to at least 3 gallery categories. Quality photos are the most important part of your site.',
+    tag: 'free', tagLabel: 'Free',
+    auto: () => Object.values(counts).reduce((a,b) => a + (b||0), 0) >= 5
+  },
+  {
+    id: 'content',
+    title: 'Fill in site content',
+    desc: 'Go to Content tab and fill in your About Me text, stats, quote, and contact info. This helps Google understand your site.',
+    linkLabel: '→ Edit Content', linkTab: 'content',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'reviews',
+    title: 'Add client reviews',
+    desc: 'Add at least 3 real client reviews in the Content tab. Reviews build trust and help with Google ranking.',
+    linkLabel: '→ Add Reviews', linkTab: 'content',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'social',
+    title: 'Configure social links & WhatsApp',
+    desc: 'Add your Instagram, Facebook, and WhatsApp number in the Social & SEO tab so clients can reach you.',
+    linkLabel: '→ Social Settings', linkTab: 'social',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'seo',
+    title: 'Review SEO settings',
+    desc: 'Check the SEO section in Social & SEO tab. Make sure your page title, meta description, and OG image are set.',
+    linkLabel: '→ SEO Settings', linkTab: 'social',
+    tag: 'important', tagLabel: 'Important',
+  },
+  {
+    id: 'hosting',
+    title: 'Choose a hosting provider',
+    desc: 'Your site is static HTML — you can host it for free! Recommended: Netlify (easiest) or Vercel. Just drag your site folder and it\'s live.',
+    linkLabel: '→ Netlify (free)', linkUrl: 'https://app.netlify.com/drop',
+    link2Label: '→ Vercel', link2Url: 'https://vercel.com/new',
+    link3Label: '→ GitHub Pages', link3Url: 'https://pages.github.com/',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'domain',
+    title: 'Buy a custom domain',
+    desc: 'Get a professional domain like viniciusmurari.com. Recommended registrars: Namecheap (~€9/year), Google Domains, or Cloudflare (cheapest).',
+    linkLabel: '→ Namecheap', linkUrl: 'https://www.namecheap.com/',
+    link2Label: '→ Cloudflare', link2Url: 'https://www.cloudflare.com/products/registrar/',
+    tag: 'paid', tagLabel: '~€9/year',
+  },
+  {
+    id: 'linkdomain',
+    title: 'Link domain to hosting',
+    desc: 'After buying the domain, connect it to your hosting. On Netlify: Site Settings → Domain Management → Add custom domain. Then update your DNS records.',
+    linkLabel: '→ Netlify DNS Guide', linkUrl: 'https://docs.netlify.com/domains-https/custom-domains/',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'ssl',
+    title: 'Enable HTTPS (SSL)',
+    desc: 'Netlify and Vercel provide free SSL automatically. If using another host, use Cloudflare for free SSL. Google penalizes sites without HTTPS.',
+    tag: 'free', tagLabel: 'Free / Automatic',
+  },
+  {
+    id: 'analytics',
+    title: 'Set up Google Analytics',
+    desc: 'Create a Google Analytics account to track visitors, see where they come from, and which pages are most popular. Ask me to add the tracking code!',
+    linkLabel: '→ Google Analytics', linkUrl: 'https://analytics.google.com/',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'searchconsole',
+    title: 'Submit to Google Search Console',
+    desc: 'Register your site with Google Search Console so Google indexes it faster. Submit your sitemap.xml to speed up ranking.',
+    linkLabel: '→ Search Console', linkUrl: 'https://search.google.com/search-console/',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'gmb',
+    title: 'Create Google Business Profile',
+    desc: 'Register "Vinicius Murari Photography" on Google Business. This makes you appear on Google Maps and local searches for "photographer dublin".',
+    linkLabel: '→ Google Business', linkUrl: 'https://business.google.com/',
+    tag: 'free', tagLabel: 'Free',
+  },
+  {
+    id: 'speed',
+    title: 'Test site speed',
+    desc: 'Run your live site through PageSpeed Insights. Aim for 90+ on mobile. Your site is already optimized with lazy loading and minimal JS.',
+    linkLabel: '→ PageSpeed Insights', linkUrl: 'https://pagespeed.web.dev/',
+    tag: 'free', tagLabel: 'Free',
+  },
+];
+
+function getLaunchState() {
+  return JSON.parse(localStorage.getItem('vmLaunchState') || '{}');
+}
+function saveLaunchState(state) {
+  localStorage.setItem('vmLaunchState', JSON.stringify(state));
+}
+
+function buildLaunchChecklist() {
+  const container = document.getElementById('launchSteps');
+  if (!container) return;
+  container.innerHTML = '';
+  const state = getLaunchState();
+
+  // Auto-check steps that can be detected
+  LAUNCH_STEPS.forEach(step => {
+    if (step.auto && step.auto()) state[step.id] = true;
+  });
+
+  let doneCount = 0;
+  LAUNCH_STEPS.forEach((step, i) => {
+    const isDone = !!state[step.id];
+    if (isDone) doneCount++;
+    const isNext = !isDone && doneCount === i; // first unchecked
+
+    const el = document.createElement('div');
+    el.className = 'launch-step' + (isDone ? ' done' : '') + (isNext ? ' active-step' : '');
+
+    let linksHtml = '';
+    if (step.linkUrl) {
+      linksHtml += `<a href="${step.linkUrl}" target="_blank" class="launch-step-link">${step.linkLabel} ↗</a> `;
+    } else if (step.linkTab) {
+      linksHtml += `<a href="#" class="launch-step-link" data-goto-tab="${step.linkTab}">${step.linkLabel}</a> `;
+    }
+    if (step.link2Url) linksHtml += `<a href="${step.link2Url}" target="_blank" class="launch-step-link">${step.link2Label} ↗</a> `;
+    if (step.link3Url) linksHtml += `<a href="${step.link3Url}" target="_blank" class="launch-step-link">${step.link3Label} ↗</a> `;
+
+    el.innerHTML = `
+      <div class="launch-step-num">${i + 1}</div>
+      <div class="launch-step-check">✓</div>
+      <div class="launch-step-body">
+        <div class="launch-step-title">${step.title}
+          <span class="launch-step-tag ${step.tag}">${step.tagLabel}</span>
+        </div>
+        <div class="launch-step-desc">${step.desc}</div>
+        <div>${linksHtml}</div>
+      </div>`;
+
+    // Click number/check to toggle
+    const check = el.querySelector('.launch-step-check');
+    const num = el.querySelector('.launch-step-num');
+    [check, num].forEach(btn => {
+      btn.addEventListener('click', () => {
+        state[step.id] = !state[step.id];
+        saveLaunchState(state);
+        buildLaunchChecklist();
+      });
+    });
+
+    // Internal tab links
+    el.querySelectorAll('[data-goto-tab]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const tab = a.dataset.gotoTab;
+        setTab(tab);
+        document.querySelector(`.nav-btn[data-tab="${tab}"]`)?.classList.add('active');
+      });
+    });
+
+    container.appendChild(el);
+  });
+
+  // Update progress bar
+  const pct = Math.round((doneCount / LAUNCH_STEPS.length) * 100);
+  document.getElementById('launchPercent').textContent = `${pct}% — ${doneCount}/${LAUNCH_STEPS.length} steps`;
+  document.getElementById('launchBar').style.width = `${pct}%`;
+}
+</script>
+</body>
+</html>
