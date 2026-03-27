@@ -1124,6 +1124,32 @@ async function sbFetch(path, options = {}) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// CONTENT FIELDS — declared here so initApp() can use them on auto-login
+// ─────────────────────────────────────────────────────────────────────────────
+const CONTENT_FIELDS = [
+  'heroPill','heroHeadline','heroSub',
+  'aboutPhoto','aboutText1','aboutText2','aboutText3',
+  'stat1Val','stat1Lbl','stat2Val','stat2Lbl',
+  'stat3Val','stat3Lbl','stat4Val','stat4Lbl',
+  'quote','contactLocation','contactPhone','contactEmail'
+];
+const SOCIAL_FIELDS = [
+  'instagramUrl','facebookUrl','facebookReviewsUrl',
+  'whatsappNumber','whatsappMessage',
+  'mapEmbedUrl','mapLat','mapLng',
+  'seoTitle','seoDescription','seoOgImage'
+];
+const DEFAULT_REVIEWS = [
+  { name: 'Junior Joly',          category: 'Photography', date: 'December 2020', stars: 5, text: 'Vinicius is a photographer who cares about the smallest details. He has the sensitivity to focus on the best aspects of every scene, bringing out the best in each one. A subtle and romantic photographer.' },
+  { name: 'Isabela Castilho',     category: 'Photography', date: 'November 2020', stars: 5, text: 'He deserves far more than 5 stars — a dedicated, qualified, experienced and talented professional! Congratulations on your work, I would do 10 more projects with you!' },
+  { name: 'Sabrina Almeida',      category: 'Photography', date: 'September 2019', stars: 5, text: 'Vinicius has an incredible talent!! We loved his professionalism — he treats every image with total dedication and love!! We absolutely recommend him!!!' },
+  { name: 'Miyashiro Alexandre',  category: 'Photography', date: 'November 2020', stars: 5, text: 'A professional with excellent skills, great equipment and punctuality.' },
+  { name: 'Maza Maza',            category: 'Photography', date: 'May 2019',      stars: 5, text: 'The Best! An attentive professional who plays beautifully with colours!!' },
+  { name: 'Débora Arantes',       category: 'Photography', date: 'September 2019', stars: 5, text: 'A great professional, always doing incredible work! I highly recommend him.' },
+];
+const ICONS = { success: '✓', error: '✕', info: 'ℹ' };
+
+// ─────────────────────────────────────────────────────────────────────────────
 // DATA & CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
 const CATEGORIES = [
@@ -1894,23 +1920,6 @@ function setPhotoSub(catId, filename, sub) {
   saveSettings();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CONTENT FIELDS
-// ─────────────────────────────────────────────────────────────────────────────
-const CONTENT_FIELDS = [
-  'heroPill','heroHeadline','heroSub',
-  'aboutPhoto','aboutText1','aboutText2','aboutText3',
-  'stat1Val','stat1Lbl','stat2Val','stat2Lbl',
-  'stat3Val','stat3Lbl','stat4Val','stat4Lbl',
-  'quote','contactLocation','contactPhone','contactEmail'
-];
-
-const SOCIAL_FIELDS = [
-  'instagramUrl','facebookUrl','facebookReviewsUrl',
-  'whatsappNumber','whatsappMessage',
-  'mapEmbedUrl','mapLat','mapLng',
-  'seoTitle','seoDescription','seoOgImage'
-];
 
 function getContentData() {
   const data = {};
@@ -2015,14 +2024,6 @@ document.getElementById('saveSocialBtn').addEventListener('click', async functio
 // ─────────────────────────────────────────────────────────────────────────────
 // REVIEWS
 // ─────────────────────────────────────────────────────────────────────────────
-const DEFAULT_REVIEWS = [
-  { name: 'Junior Joly',          category: 'Photography', date: 'December 2020', stars: 5, text: 'Vinicius is a photographer who cares about the smallest details. He has the sensitivity to focus on the best aspects of every scene, bringing out the best in each one. A subtle and romantic photographer.' },
-  { name: 'Isabela Castilho',     category: 'Photography', date: 'November 2020', stars: 5, text: 'He deserves far more than 5 stars — a dedicated, qualified, experienced and talented professional! Congratulations on your work, I would do 10 more projects with you!' },
-  { name: 'Sabrina Almeida',      category: 'Photography', date: 'September 2019', stars: 5, text: 'Vinicius has an incredible talent!! We loved his professionalism — he treats every image with total dedication and love!! We absolutely recommend him!!!' },
-  { name: 'Miyashiro Alexandre',  category: 'Photography', date: 'November 2020', stars: 5, text: 'A professional with excellent skills, great equipment and punctuality.' },
-  { name: 'Maza Maza',            category: 'Photography', date: 'May 2019',      stars: 5, text: 'The Best! An attentive professional who plays beautifully with colours!!' },
-  { name: 'Débora Arantes',       category: 'Photography', date: 'September 2019', stars: 5, text: 'A great professional, always doing incredible work! I highly recommend him.' },
-];
 
 function getReviews() {
   return S.reviews || DEFAULT_REVIEWS;
@@ -2251,7 +2252,6 @@ function buildBarChart() {
 // ─────────────────────────────────────────────────────────────────────────────
 // TOAST NOTIFICATIONS
 // ─────────────────────────────────────────────────────────────────────────────
-const ICONS = { success: '✓', error: '✕', info: 'ℹ' };
 
 function toast(msg, type = '') {
   const container = document.getElementById('toastContainer');
