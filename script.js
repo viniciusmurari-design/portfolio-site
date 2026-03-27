@@ -2,6 +2,23 @@
 const SUPABASE_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
 
+// ─── Cloudinary URL Helpers ──────────────────────────────────────────────
+const CL_BASE = 'https://res.cloudinary.com/dnocmwoub/image/upload';
+
+function clUrl(publicId, transforms) {
+  const t = transforms ? transforms + ',q_auto,f_auto' : 'q_auto,f_auto';
+  return CL_BASE + '/' + t + '/' + publicId;
+}
+function isClUrl(url) { return url && url.includes('res.cloudinary.com/dnocmwoub'); }
+function extractPid(url) {
+  const m = url && url.match(/\/upload\/[^/]+\/(portfolio\/.+)$/);
+  return m ? m[1] : null;
+}
+function generateAlt(filename, category) {
+  const names = { wedding:'Wedding photography', portrait:'Portrait photography', food:'Food photography', family:'Family portrait', events:'Event photography', product:'Product photography', hotels:'Hospitality photography', corporate:'Corporate photography', architecture:'Architecture photography' };
+  return (names[category] || 'Photography') + ' by Vinicius Murari in Dublin';
+}
+
 // ─── Page Loader ──────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   setTimeout(() => {
@@ -189,7 +206,7 @@ async function openGallery(id) {
     });
   }
 
-  galGrid.innerHTML = '<div style="padding:60px;text-align:center;color:#6e6e73;font-size:0.85rem">Loading…</div>';
+  galGrid.innerHTML = Array(8).fill('<div class="gal-skeleton"></div>').join('');
   galModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
@@ -217,8 +234,9 @@ async function openGallery(id) {
   if (photos.length > 0) {
     photos.forEach((photo, i) => {
       const sub = photoSubMap[`${id}/${photo.filename}`] || photo.sub || 'all';
-      currentGalleryImages.push({ src: photo.url, alt: photo.filename, sub });
-      addGalItem(photo.url, photo.filename, i, sub);
+      const alt = photo.alt_text || generateAlt(photo.filename, id);
+      currentGalleryImages.push({ src: photo.url, alt, sub });
+      addGalItem(photo.url, alt, i, sub);
     });
   } else {
     section.querySelectorAll('figure').forEach((fig, i) => {
@@ -273,16 +291,38 @@ function filterGallery(sub, activePill) {
 function addGalItem(src, alt, index, sub) {
   const item = document.createElement('div');
   item.className = 'gal-item';
-  item.innerHTML = `
-    <img src="${src}" alt="${alt}" loading="lazy">
-    <div class="gal-item-overlay">
-      <div class="gal-zoom-icon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
-        </svg>
-      </div>
-    </div>`;
+
+  const pid = isClUrl(src) ? extractPid(src) : null;
+
+  // LQIP blur-up background
+  if (pid) {
+    item.style.backgroundImage = "url('" + clUrl(pid, 'e_blur:800,q_10,w_50,c_limit') + "')";
+    item.style.backgroundSize = 'cover';
+    item.style.backgroundPosition = 'center';
+  }
+
+  const img = document.createElement('img');
+  img.alt = alt;
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  img.style.opacity = '0';
+  img.style.transition = 'opacity .4s ease';
+  img.onload = function() { this.style.opacity = '1'; };
+
+  if (pid) {
+    img.src = clUrl(pid, 'w_800,c_limit');
+    img.srcset = [400,600,800,1200].map(w => clUrl(pid, 'w_' + w + ',c_limit') + ' ' + w + 'w').join(', ');
+    img.sizes = '(max-width:600px) 50vw, (max-width:1024px) 33vw, 25vw';
+  } else {
+    img.src = src;
+  }
+
+  const overlay = document.createElement('div');
+  overlay.className = 'gal-item-overlay';
+  overlay.innerHTML = '<div class="gal-zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>';
+
+  item.appendChild(img);
+  item.appendChild(overlay);
   item.addEventListener('click', () => openLightbox(index));
   galGrid.appendChild(item);
 
@@ -325,7 +365,9 @@ function buildThumbs() {
   currentGalleryImages.forEach((photo, i) => {
     const t = document.createElement('div');
     t.className = 'lb-thumb' + (i === lbIndex ? ' active' : '');
-    t.innerHTML = `<img src="${photo.src}" alt="${photo.alt}" loading="lazy">`;
+    const pid = isClUrl(photo.src) ? extractPid(photo.src) : null;
+    const thumbSrc = pid ? clUrl(pid, 'w_150,h_100,c_fill') : photo.src;
+    t.innerHTML = `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy">`;
     t.addEventListener('click', () => { lbIndex = i; showLbPhoto(true); });
     lbThumbs.appendChild(t);
   });
