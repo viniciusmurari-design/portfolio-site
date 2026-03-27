@@ -1148,6 +1148,7 @@ const DEFAULT_REVIEWS = [
   { name: 'Débora Arantes',       category: 'Photography', date: 'September 2019', stars: 5, text: 'A great professional, always doing incredible work! I highly recommend him.' },
 ];
 const ICONS = { success: '✓', error: '✕', info: 'ℹ' };
+var LAUNCH_STEPS = []; // populated after counts is defined
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA & CONSTANTS
@@ -1241,7 +1242,7 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 });
 
 // Change password
-document.getElementById('changePasswordBtn').addEventListener('click', () => {
+document.getElementById('changePasswordBtn')?.addEventListener('click', () => {
   const np = document.getElementById('newPassword').value;
   const cp = document.getElementById('confirmPassword').value;
   if (!np) return toast('Enter a new password', 'error');
@@ -2345,7 +2346,7 @@ async function initApp() {
 // ─────────────────────────────────────────────────────────────────────────────
 // LAUNCH CHECKLIST
 // ─────────────────────────────────────────────────────────────────────────────
-const LAUNCH_STEPS = [
+LAUNCH_STEPS = [
   {
     id: 'photos',
     title: 'Add portfolio photos',
