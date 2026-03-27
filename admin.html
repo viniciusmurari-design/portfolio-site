@@ -1336,6 +1336,8 @@ async function loadFromServer() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+let batchMode = false;
+
 // SIDEBAR — CATEGORY LIST
 // ─────────────────────────────────────────────────────────────────────────────
 function buildSidebar() {
@@ -1633,7 +1635,6 @@ async function uploadFiles(files) {
 // ─────────────────────────────────────────────────────────────────────────────
 // BATCH SELECTION
 // ─────────────────────────────────────────────────────────────────────────────
-let batchMode = false;
 const batchBar = document.getElementById('batchBar');
 const batchCount = document.getElementById('batchCount');
 
