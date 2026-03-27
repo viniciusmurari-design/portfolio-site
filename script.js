@@ -189,19 +189,23 @@ async function openGallery(id) {
   galModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Load photos from Cloudinary (stored in localStorage by admin)
+  // Load photos from Netlify function (shared for ALL visitors)
   let photos = [];
   try {
-    const stored = localStorage.getItem('cloudPhotos_' + id);
-    if (stored) photos = JSON.parse(stored);
-  } catch(e) { photos = []; }
-
-  // Fallback: try server API
-  if (!photos.length) {
+    const res = await fetch(`/.netlify/functions/photos?category=${id}`);
+    if (res.ok) photos = await res.json();
+  } catch(e) {
+    // Fallback for local development: localStorage then Python server
     try {
-      const res = await fetch(`/api/photos?category=${id}`);
-      if (res.ok) photos = await res.json();
-    } catch(e) { /* server not running */ }
+      const stored = localStorage.getItem('cloudPhotos_' + id);
+      if (stored) photos = JSON.parse(stored);
+    } catch(e2) { photos = []; }
+    if (!photos.length) {
+      try {
+        const res = await fetch(`/api/photos?category=${id}`);
+        if (res.ok) photos = await res.json();
+      } catch(e3) { /* server not running */ }
+    }
   }
 
   currentGalleryImages = [];

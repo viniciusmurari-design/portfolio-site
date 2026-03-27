@@ -1414,8 +1414,31 @@ async function loadPhotos(id) {
   cnt.textContent = 'Loading…';
   hint.textContent = '';
 
-  // Load from Cloudinary (localStorage)
-  const photos = getCloudPhotos(id);
+  // Fetch from Netlify function (shared for ALL visitors)
+  let photos = [];
+  try {
+    const res = await fetch(`/.netlify/functions/photos?category=${id}`);
+    if (res.ok) photos = await res.json();
+  } catch(e) {
+    // Fallback for local development: Python server then localStorage
+    try {
+      const res = await fetch(`/api/photos?category=${id}`);
+      if (res.ok) photos = await res.json();
+    } catch(e2) {}
+    if (!photos.length) photos = getCloudPhotos(id);
+  }
+
+  // Apply custom order saved by admin on this device
+  const savedOrder = JSON.parse(localStorage.getItem('photoOrder_' + id) || '[]');
+  if (savedOrder.length) {
+    const orderMap = {};
+    savedOrder.forEach((fname, i) => orderMap[fname] = i);
+    photos.sort((a, b) => (orderMap[a.filename] ?? 9999) - (orderMap[b.filename] ?? 9999));
+  }
+
+  // Keep localStorage cache in sync for local dev
+  setCloudPhotos(id, photos);
+
   counts[id] = photos.length;
   const el = document.getElementById(`cnt-${id}`);
   if (el) el.textContent = photos.length;
@@ -1450,6 +1473,7 @@ function renderGrid(photos, id) {
     card.className = 'photo-card';
     card.draggable = true;
     card.dataset.filename = photo.filename;
+    card.dataset.publicId  = photo.public_id || '';
     const photoSub = getPhotoSub(id, photo.filename);
     const subLabel = photoSub || 'Tag';
     card.innerHTML = `
@@ -1521,23 +1545,42 @@ function renderGrid(photos, id) {
   });
 }
 
-async function savePhotoOrder(id) {
+function savePhotoOrder(id) {
   const order = [...document.querySelectorAll('.photo-card')].map(c => c.dataset.filename);
-  try {
-    await fetch(`/api/order?category=${id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(order)
-    });
-    toast('Photo order saved', 'success');
-  } catch(e) { toast('Could not save order', 'error'); }
+  localStorage.setItem('photoOrder_' + id, JSON.stringify(order));
+  // Update cache to match new order
+  const photoMap = {};
+  getCloudPhotos(id).forEach(p => photoMap[p.filename] = p);
+  setCloudPhotos(id, order.map(n => photoMap[n]).filter(Boolean));
+  toast('Photo order saved', 'success');
 }
 
 async function deletePhoto(cat, filename, card) {
   if (!confirm(`Delete "${filename}"?`)) return;
-  // Remove from localStorage
-  const photos = getCloudPhotos(cat).filter(p => p.filename !== filename);
-  setCloudPhotos(cat, photos);
+
+  const publicId = card.dataset.publicId;
+
+  // Delete from Cloudinary via Netlify function
+  if (publicId) {
+    try {
+      await fetch('/.netlify/functions/delete-photo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ public_id: publicId })
+      });
+    } catch(e) {
+      // Fallback: local Python server
+      try {
+        await fetch(`/api/photos?category=${cat}&file=${encodeURIComponent(filename)}`, { method: 'DELETE' });
+      } catch(e2) {}
+    }
+  }
+
+  // Remove from localStorage cache and order
+  setCloudPhotos(cat, getCloudPhotos(cat).filter(p => p.filename !== filename));
+  const order = JSON.parse(localStorage.getItem('photoOrder_' + cat) || '[]').filter(f => f !== filename);
+  localStorage.setItem('photoOrder_' + cat, JSON.stringify(order));
+
   card.style.transition = 'opacity .2s, transform .2s';
   card.style.opacity = '0';
   card.style.transform = 'scale(0.9)';
