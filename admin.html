@@ -1650,8 +1650,9 @@ async function uploadToCloudinary(file, category) {
   const form = new FormData();
   form.append('file', file);
   form.append('upload_preset', CLOUDINARY_PRESET);
-  // Category in public_id so preset folder gives: portfolio/category/timestamp_filename
-  form.append('public_id', category + '/' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_'));
+  // Strip extension from filename — Cloudinary treats .ext in public_id as format, breaking URLs
+  const nameNoExt = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+  form.append('public_id', category + '/' + Date.now() + '_' + nameNoExt);
   const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
     method: 'POST', body: form
   });
