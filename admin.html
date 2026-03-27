@@ -675,7 +675,7 @@
     </div>
     <button class="login-btn" id="loginBtn">Sign In</button>
     <div class="login-error" id="loginError"></div>
-    <div class="login-hint">Default password: admin123 · Change in Settings</div>
+    <div class="login-hint">Secured with SHA-256 encryption</div>
   </div>
 </div>
 
@@ -1006,10 +1006,8 @@
             <button class="btn btn-primary btn-full" id="saveColorBtn">Apply Color</button>
 
             <div class="divider"></div>
-            <div class="card-title">Change Admin Password</div>
-            <div class="field"><label>New Password</label><input type="password" id="newPassword" placeholder="Enter new password"></div>
-            <div class="field"><label>Confirm Password</label><input type="password" id="confirmPassword" placeholder="Repeat new password"></div>
-            <button class="btn btn-secondary btn-full" id="changePasswordBtn">Update Password</button>
+            <div class="card-title">Admin Password</div>
+            <p style="font-size:0.82rem;color:var(--text-3);line-height:1.6">Password is protected with SHA-256 hashing. To change it, contact your developer.</p>
           </div>
         </div>
       </div>
@@ -1147,18 +1145,20 @@ function saveSettings() {
 // ─────────────────────────────────────────────────────────────────────────────
 // AUTH
 // ─────────────────────────────────────────────────────────────────────────────
-const DEFAULT_PASSWORD = 'admin123';
+const PASSWORD_HASH = 'fd45b6bf13a9617363cfc3bb5bbfcb2554fa0c7a42d41f59393ea51ee0c57afc';
 
-function getPassword() {
-  return localStorage.getItem('adminPassword') || DEFAULT_PASSWORD;
+async function hashPassword(pwd) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pwd));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
 function isLoggedIn() {
   return sessionStorage.getItem('adminAuth') === '1';
 }
 
-function doLogin(pwd) {
-  if (pwd === getPassword()) {
+async function doLogin(pwd) {
+  const hash = await hashPassword(pwd);
+  if (hash === PASSWORD_HASH) {
     sessionStorage.setItem('adminAuth', '1');
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
@@ -1168,9 +1168,9 @@ function doLogin(pwd) {
   return false;
 }
 
-document.getElementById('loginBtn').addEventListener('click', () => {
+document.getElementById('loginBtn').addEventListener('click', async () => {
   const pwd = document.getElementById('loginInput').value;
-  if (!doLogin(pwd)) {
+  if (!(await doLogin(pwd))) {
     document.getElementById('loginError').textContent = 'Incorrect password. Try again.';
     document.getElementById('loginInput').value = '';
     document.getElementById('loginInput').focus();
