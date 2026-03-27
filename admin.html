@@ -852,7 +852,7 @@
 
           <!-- Upload zone -->
           <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*" multiple>
+            <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
             <div class="upload-icon">🖼️</div>
             <div class="upload-title">Drag &amp; drop photos here</div>
             <div class="upload-hint">JPG, PNG, WEBP — multiple files at once</div>
@@ -862,7 +862,7 @@
                 <option value="">None (All)</option>
               </select>
             </div>
-            <button class="btn btn-primary mt-3" id="uploadBtn">Choose Photos</button>
+            <label for="fileInput" class="btn btn-primary mt-3" id="uploadBtn" style="cursor:pointer">Choose Photos</label>
             <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
             <div class="upload-status" id="uploadStatus"></div>
           </div>
@@ -1549,7 +1549,7 @@ const progressWrap = document.getElementById('progressWrap');
 const progressBar  = document.getElementById('progressBar');
 const uploadStatus = document.getElementById('uploadStatus');
 
-uploadBtn.addEventListener('click', () => fileInput.click());
+// uploadBtn is now a label — no JS needed to open file dialog
 fileInput.addEventListener('change', () => uploadFiles(fileInput.files));
 uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
 uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
