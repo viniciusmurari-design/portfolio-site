@@ -1587,37 +1587,43 @@ async function uploadToCloudinary(file, category) {
 
 async function uploadFiles(files) {
   if (!files?.length) return;
+  if (!current) { toast('Select a gallery category first', 'error'); return; }
   progressWrap.style.display = 'block';
   progressBar.style.width = '0%';
   const total = files.length;
   uploadStatus.textContent = `Uploading ${total} photo${total > 1 ? 's' : ''}…`;
 
   const uploaded = [];
+  let failed = 0;
   for (let i = 0; i < total; i++) {
     try {
       progressBar.style.width = Math.round(((i + 0.5) / total) * 100) + '%';
+      uploadStatus.textContent = `Uploading ${i + 1} of ${total}…`;
       const photo = await uploadToCloudinary(files[i], current);
       uploaded.push(photo);
-      // Save to localStorage
       const existing = getCloudPhotos(current);
       existing.push(photo);
       setCloudPhotos(current, existing);
     } catch(e) {
       console.error('Upload failed for', files[i].name, e);
+      failed++;
     }
   }
 
   progressBar.style.width = '100%';
   const n = uploaded.length;
-  uploadStatus.textContent = `✓ ${n} photo${n !== 1 ? 's' : ''} uploaded`;
-
-  // Auto-assign sub-category if selected
-  const uploadSub = document.getElementById('uploadSubSelect').value;
-  if (uploadSub && uploaded.length) {
-    uploaded.forEach(p => setPhotoSub(current, p.filename, uploadSub));
-    toast(`${n} photo${n !== 1 ? 's' : ''} added to "${uploadSub}"`, 'success');
+  if (n === 0) {
+    uploadStatus.textContent = '✗ Upload failed';
+    toast('Upload failed — check your internet connection', 'error');
   } else {
-    toast(`${n} photo${n !== 1 ? 's' : ''} added to ${CATEGORIES.find(c=>c.id===current)?.label}`, 'success');
+    uploadStatus.textContent = `✓ ${n} photo${n !== 1 ? 's' : ''} uploaded${failed ? ` (${failed} failed)` : ''}`;
+    const uploadSub = document.getElementById('uploadSubSelect').value;
+    if (uploadSub && uploaded.length) {
+      uploaded.forEach(p => setPhotoSub(current, p.filename, uploadSub));
+      toast(`${n} photo${n !== 1 ? 's' : ''} added to "${uploadSub}"`, 'success');
+    } else {
+      toast(`${n} photo${n !== 1 ? 's' : ''} added to ${CATEGORIES.find(c=>c.id===current)?.label || current}`, 'success');
+    }
   }
   fileInput.value = '';
   await loadPhotos(current);
