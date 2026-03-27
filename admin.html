@@ -1357,19 +1357,14 @@ async function loadPhotos(id) {
   grid.innerHTML = '';
   cnt.textContent = 'Loading…';
   hint.textContent = '';
-  try {
-    const res = await fetch(`/api/photos?category=${id}`);
-    if (!res.ok) throw new Error();
-    const photos = await res.json();
-    counts[id] = photos.length;
-    const el = document.getElementById(`cnt-${id}`);
-    if (el) el.textContent = photos.length;
-    renderGrid(photos, id);
-    updateDashboard();
-  } catch(e) {
-    cnt.textContent = '';
-    toast('Cannot connect — open http://localhost:3000/admin.html', 'error');
-  }
+
+  // Load from Cloudinary (localStorage)
+  const photos = getCloudPhotos(id);
+  counts[id] = photos.length;
+  const el = document.getElementById(`cnt-${id}`);
+  if (el) el.textContent = photos.length;
+  renderGrid(photos, id);
+  updateDashboard();
 }
 
 function renderGrid(photos, id) {
@@ -1484,15 +1479,14 @@ async function savePhotoOrder(id) {
 
 async function deletePhoto(cat, filename, card) {
   if (!confirm(`Delete "${filename}"?`)) return;
-  try {
-    const res = await fetch(`/api/photos?category=${cat}&file=${encodeURIComponent(filename)}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error();
-    card.style.transition = 'opacity .2s, transform .2s';
-    card.style.opacity = '0';
-    card.style.transform = 'scale(0.9)';
-    setTimeout(() => { card.remove(); loadPhotos(cat); }, 230);
-    toast('Photo deleted', 'success');
-  } catch(e) { toast('Could not delete photo', 'error'); }
+  // Remove from localStorage
+  const photos = getCloudPhotos(cat).filter(p => p.filename !== filename);
+  setCloudPhotos(cat, photos);
+  card.style.transition = 'opacity .2s, transform .2s';
+  card.style.opacity = '0';
+  card.style.transform = 'scale(0.9)';
+  setTimeout(() => { card.remove(); loadPhotos(cat); }, 230);
+  toast('Photo deleted', 'success');
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1514,35 +1508,71 @@ uploadZone.addEventListener('drop', e => {
   uploadFiles(e.dataTransfer.files);
 });
 
+const CLOUDINARY_CLOUD = 'dnocmwoub';
+const CLOUDINARY_PRESET = 'portfolio_upload';
+
+function getCloudPhotos(category) {
+  try { return JSON.parse(localStorage.getItem('cloudPhotos_' + category) || '[]'); } catch { return []; }
+}
+function setCloudPhotos(category, photos) {
+  localStorage.setItem('cloudPhotos_' + category, JSON.stringify(photos));
+}
+
+async function uploadToCloudinary(file, category) {
+  const form = new FormData();
+  form.append('file', file);
+  form.append('upload_preset', CLOUDINARY_PRESET);
+  form.append('folder', 'portfolio/' + category);
+  form.append('public_id', Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_'));
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+    method: 'POST', body: form
+  });
+  if (!res.ok) throw new Error('Cloudinary upload failed');
+  const data = await res.json();
+  return {
+    filename: file.name,
+    url: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`,
+    public_id: data.public_id,
+    thumb: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/w_400,h_300,c_fill,q_auto/${data.public_id}`
+  };
+}
+
 async function uploadFiles(files) {
   if (!files?.length) return;
   progressWrap.style.display = 'block';
   progressBar.style.width = '0%';
-  uploadStatus.textContent = `Uploading ${files.length} photo${files.length > 1 ? 's' : ''}…`;
-  const form = new FormData();
-  Array.from(files).forEach(f => form.append('file', f));
-  try {
-    progressBar.style.width = '40%';
-    const res = await fetch(`/api/upload?category=${current}`, { method: 'POST', body: form });
-    progressBar.style.width = '100%';
-    if (!res.ok) throw new Error();
-    const data = await res.json();
-    const n = data.uploaded?.length ?? 0;
-    uploadStatus.textContent = `✓ ${n} photo${n !== 1 ? 's' : ''} uploaded`;
-    // Auto-assign sub-category if selected
-    const uploadSub = document.getElementById('uploadSubSelect').value;
-    if (uploadSub && data.uploaded) {
-      data.uploaded.forEach(p => setPhotoSub(current, p.filename, uploadSub));
-      toast(`${n} photo${n !== 1 ? 's' : ''} added to "${uploadSub}"`, 'success');
-    } else {
-      toast(`${n} photo${n !== 1 ? 's' : ''} added to ${CATEGORIES.find(c=>c.id===current)?.label}`, 'success');
+  const total = files.length;
+  uploadStatus.textContent = `Uploading ${total} photo${total > 1 ? 's' : ''}…`;
+
+  const uploaded = [];
+  for (let i = 0; i < total; i++) {
+    try {
+      progressBar.style.width = Math.round(((i + 0.5) / total) * 100) + '%';
+      const photo = await uploadToCloudinary(files[i], current);
+      uploaded.push(photo);
+      // Save to localStorage
+      const existing = getCloudPhotos(current);
+      existing.push(photo);
+      setCloudPhotos(current, existing);
+    } catch(e) {
+      console.error('Upload failed for', files[i].name, e);
     }
-    fileInput.value = '';
-    await loadPhotos(current);
-  } catch(e) {
-    uploadStatus.textContent = '✗ Upload failed';
-    toast(window.location.protocol === 'file:' ? 'Open http://localhost:3000/admin.html to upload' : 'Upload failed — check server', 'error');
   }
+
+  progressBar.style.width = '100%';
+  const n = uploaded.length;
+  uploadStatus.textContent = `✓ ${n} photo${n !== 1 ? 's' : ''} uploaded`;
+
+  // Auto-assign sub-category if selected
+  const uploadSub = document.getElementById('uploadSubSelect').value;
+  if (uploadSub && uploaded.length) {
+    uploaded.forEach(p => setPhotoSub(current, p.filename, uploadSub));
+    toast(`${n} photo${n !== 1 ? 's' : ''} added to "${uploadSub}"`, 'success');
+  } else {
+    toast(`${n} photo${n !== 1 ? 's' : ''} added to ${CATEGORIES.find(c=>c.id===current)?.label}`, 'success');
+  }
+  fileInput.value = '';
+  await loadPhotos(current);
   setTimeout(() => { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; }, 2500);
 }
 

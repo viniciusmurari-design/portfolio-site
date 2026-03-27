@@ -189,12 +189,20 @@ async function openGallery(id) {
   galModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Try to load uploaded photos from the server
+  // Load photos from Cloudinary (stored in localStorage by admin)
   let photos = [];
   try {
-    const res = await fetch(`/api/photos?category=${id}`);
-    if (res.ok) photos = await res.json();
-  } catch(e) { /* server not running — fall through to fallback */ }
+    const stored = localStorage.getItem('cloudPhotos_' + id);
+    if (stored) photos = JSON.parse(stored);
+  } catch(e) { photos = []; }
+
+  // Fallback: try server API
+  if (!photos.length) {
+    try {
+      const res = await fetch(`/api/photos?category=${id}`);
+      if (res.ok) photos = await res.json();
+    } catch(e) { /* server not running */ }
+  }
 
   currentGalleryImages = [];
   allGalleryItems = [];
