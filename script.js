@@ -39,18 +39,28 @@ function generateAlt(filename, category) {
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('pageLoader').classList.add('done');
-  }, 900);
+  }, 400);
 });
 
 // ─── Nav scroll effect ────────────────────────────────────────────────────
 const nav = document.getElementById('nav');
 const scrollTopBtn = document.getElementById('scrollTop');
 
+let scrollTicking = false;
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-  scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
-  updateActiveNav();
-});
+  if (!scrollTicking) {
+    requestAnimationFrame(() => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
+      updateActiveNav();
+      // Show/hide mobile CTA
+      const mobileCta = document.getElementById('mobileBookCta');
+      if (mobileCta) mobileCta.classList.toggle('visible', window.scrollY > 600);
+      scrollTicking = false;
+    });
+    scrollTicking = true;
+  }
+}, { passive: true });
 
 scrollTopBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -73,7 +83,12 @@ function updateActiveNav() {
 
 // ─── Scroll reveal ────────────────────────────────────────────────────────
 const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      obs.unobserve(e.target);
+    }
+  });
 }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.rev').forEach(el => obs.observe(el));
 
@@ -114,6 +129,20 @@ if (form) {
       f.classList.remove('invalid');
       const err = f.parentElement.querySelector('.field-error');
       if (err) err.classList.remove('show');
+    });
+  });
+
+  // Real-time validation on blur
+  document.querySelectorAll('#contactForm input[required], #contactForm textarea[required], #contactForm select[required]').forEach(field => {
+    field.addEventListener('blur', function() {
+      if (!this.value.trim()) {
+        this.classList.add('invalid');
+      } else {
+        this.classList.remove('invalid');
+      }
+    });
+    field.addEventListener('input', function() {
+      if (this.value.trim()) this.classList.remove('invalid');
     });
   });
 
@@ -229,7 +258,7 @@ async function openGallery(id) {
   const section = galData.querySelector(`[data-id="${id}"]`);
   if (!section) return;
 
-  galTitle.innerHTML     = section.dataset.title;
+  galTitle.textContent   = section.dataset.title;
   galEyebrow.textContent = section.dataset.eyebrow || 'Photography';
   galDesc.textContent    = section.dataset.description || '';
   galPhotoCount.textContent = '';

@@ -47,6 +47,8 @@ CATEGORIES = [
 ]
 IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif', '.heic', '.heif'}
 
+MAX_UPLOAD_SIZE = 50 * 1024 * 1024  # 50MB
+
 
 def load_cloud_db():
     if CLOUD_DB.exists():
@@ -196,6 +198,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self._json({'error': 'Expected multipart/form-data'}, 400)
 
         length = int(self.headers.get('Content-Length', 0))
+        if length > MAX_UPLOAD_SIZE:
+            return self._json({'error': 'File too large. Maximum 50MB.'}, 413)
         body = self.rfile.read(length)
         uploaded = []
 
@@ -335,12 +339,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def _cors_headers(self):
-        self.send_header('Access-Control-Allow-Origin', '*')
+        origin = self.headers.get('Origin', '')
+        allowed = ['http://localhost:3000', 'http://localhost:8000', 'https://viniciusmurari.com', 'https://www.viniciusmurari.com']
+        if origin in allowed:
+            self.send_header('Access-Control-Allow-Origin', origin)
+        else:
+            self.send_header('Access-Control-Allow-Origin', 'http://localhost:3000')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
 
     def log_message(self, fmt, *args):
-        pass
+        if '/api/' in (args[0] if args else ''):
+            sys.stderr.write(f"  {args[0]}\n")
 
 
 if __name__ == '__main__':
