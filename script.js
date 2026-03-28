@@ -602,14 +602,14 @@ function saveEdits() {
   setTimeout(() => { ebSave.textContent = 'Save Changes'; ebSave.classList.remove('saved'); }, 2500);
 }
 
-// ─── Hero Slideshow ──────────────────────────────────────────────────────
+// ─── Hero Slideshow (activates only when heroSlides or heroVideo configured) ─
 (function() {
+  const hero = document.getElementById('hero');
   const slidesContainer = document.getElementById('heroSlides');
   const dotsContainer = document.getElementById('heroDots');
   const heroVideo = document.getElementById('heroVideo');
-  if (!slidesContainer) return;
+  if (!slidesContainer || !hero) return;
 
-  const DEFAULT_SLIDE = { url: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&q=85&auto=format&fit=crop', link: '' };
   let slides = [];
   let currentSlide = 0;
   let interval = null;
@@ -618,8 +618,10 @@ function saveEdits() {
   function loadHeroConfig() {
     try {
       const s = JSON.parse(localStorage.getItem('vmSettings') || '{}');
+
+      // Video mode
       if (s.heroVideo) {
-        // Video mode
+        hero.classList.add('slideshow-active');
         heroVideo.src = s.heroVideo;
         heroVideo.style.display = 'block';
         slidesContainer.style.display = 'none';
@@ -627,24 +629,28 @@ function saveEdits() {
         return;
       }
       heroVideo.style.display = 'none';
-      slidesContainer.style.display = 'block';
 
+      // Slideshow mode — only activate if heroSlides array exists
       if (s.heroSlides && s.heroSlides.length > 0) {
+        hero.classList.add('slideshow-active');
         slides = s.heroSlides;
-      } else if (s.heroBg) {
-        slides = [{ url: s.heroBg, link: '' }];
       } else {
-        slides = [DEFAULT_SLIDE];
+        // No slideshow configured — keep default CSS ::before/::after
+        hero.classList.remove('slideshow-active');
+        slides = [];
+        return;
       }
       duration = (s.heroSlideDuration || 5) * 1000;
     } catch(e) {
-      slides = [DEFAULT_SLIDE];
+      slides = [];
     }
   }
 
   function buildSlides() {
     slidesContainer.innerHTML = '';
     dotsContainer.innerHTML = '';
+    if (!slides.length) return;
+
     slides.forEach((slide, i) => {
       const el = document.createElement('div');
       el.className = 'hero-slide' + (i === 0 ? ' active' : '');
@@ -655,7 +661,6 @@ function saveEdits() {
           const target = document.querySelector(slide.link);
           if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
           else if (slide.link.startsWith('#')) {
-            // Try opening gallery
             const catId = slide.link.replace('#', '');
             const card = document.querySelector(`[data-id="${catId}"]`);
             if (card) card.click();
@@ -718,7 +723,7 @@ function saveEdits() {
   buildSlides();
   resetInterval();
 
-  // Expose for settings reload
+  // Expose for admin panel reload
   window.reloadHeroSlides = function() {
     clearInterval(interval);
     loadHeroConfig();
