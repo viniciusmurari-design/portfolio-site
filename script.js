@@ -1,3 +1,19 @@
+// ─── Dark Mode ───────────────────────────────────────────────────────────
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('darkToggle');
+  if (btn) btn.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+});
+
 // ─── Supabase Config ──────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
@@ -130,16 +146,45 @@ if (form) {
 
     if (!valid) return;
 
-    const ok = document.getElementById('fok');
-    ok.style.display = 'block';
-    form.reset();
-    setTimeout(() => ok.style.display = 'none', 5000);
+    const btn = form.querySelector('.fsub');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(res => {
+      if (res.ok) {
+        const ok = document.getElementById('fok');
+        ok.style.display = 'block';
+        form.reset();
+        setTimeout(() => ok.style.display = 'none', 5000);
+      } else {
+        btn.textContent = 'Error — try again';
+        setTimeout(() => { btn.textContent = 'Send Message'; }, 3000);
+      }
+    }).catch(() => {
+      btn.textContent = 'Error — try again';
+      setTimeout(() => { btn.textContent = 'Send Message'; }, 3000);
+    }).finally(() => {
+      btn.disabled = false;
+      if (btn.textContent === 'Sending…') btn.textContent = 'Send Message';
+    });
   });
 }
 
 // ─── Mobile nav ───────────────────────────────────────────────────────────
-function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
-function closeNav()  { document.getElementById('navLinks').classList.remove('open'); }
+function toggleNav() {
+  const links = document.getElementById('navLinks');
+  const burger = document.querySelector('.nav-burger');
+  links.classList.toggle('open');
+  burger?.setAttribute('aria-expanded', links.classList.contains('open'));
+}
+function closeNav() {
+  document.getElementById('navLinks').classList.remove('open');
+  document.querySelector('.nav-burger')?.setAttribute('aria-expanded', 'false');
+}
 
 // ─── Reviews scroll navigation ────────────────────────────────────────────
 const reviewsScroll = document.getElementById('reviewsScroll');
@@ -415,6 +460,75 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// ─── Lightbox Zoom (pinch + double-tap + scroll) ─────────────────────────
+(function() {
+  let scale = 1, tx = 0, ty = 0, startDist = 0, startScale = 1;
+  let isDragging = false, dragStartX, dragStartY, dragTx, dragTy;
+  let lastTap = 0;
+
+  function resetZoom() { scale = 1; tx = 0; ty = 0; applyTransform(); }
+  function applyTransform() { lbImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`; }
+  function clampPan() {
+    const maxX = Math.max(0, (scale - 1) * lbImg.offsetWidth / 2);
+    const maxY = Math.max(0, (scale - 1) * lbImg.offsetHeight / 2);
+    tx = Math.max(-maxX, Math.min(maxX, tx)); ty = Math.max(-maxY, Math.min(maxY, ty));
+  }
+
+  lbImg.style.transition = 'transform 0.15s ease';
+  lbImg.style.transformOrigin = 'center center';
+
+  // Double-tap to zoom
+  lbImg.addEventListener('click', e => {
+    const now = Date.now();
+    if (now - lastTap < 300) { scale = scale > 1 ? 1 : 2.5; tx = 0; ty = 0; applyTransform(); }
+    lastTap = now;
+  });
+
+  // Pinch to zoom
+  lbImg.addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      startDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      startScale = scale;
+    } else if (e.touches.length === 1 && scale > 1) {
+      isDragging = true;
+      dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+      dragTx = tx; dragTy = ty;
+    }
+  }, { passive: false });
+
+  lbImg.addEventListener('touchmove', e => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      scale = Math.max(1, Math.min(5, startScale * (dist / startDist)));
+      if (scale === 1) { tx = 0; ty = 0; }
+      applyTransform();
+    } else if (isDragging && e.touches.length === 1) {
+      e.preventDefault();
+      tx = dragTx + (e.touches[0].clientX - dragStartX);
+      ty = dragTy + (e.touches[0].clientY - dragStartY);
+      clampPan(); applyTransform();
+    }
+  }, { passive: false });
+
+  lbImg.addEventListener('touchend', () => { isDragging = false; });
+
+  // Mouse wheel zoom
+  lbImg.addEventListener('wheel', e => {
+    if (!lightbox.classList.contains('open')) return;
+    e.preventDefault();
+    scale = Math.max(1, Math.min(5, scale + (e.deltaY > 0 ? -0.3 : 0.3)));
+    if (scale === 1) { tx = 0; ty = 0; }
+    clampPan(); applyTransform();
+  }, { passive: false });
+
+  // Reset zoom on photo change
+  const origShow = showLbPhoto;
+  showLbPhoto = function(animate) { resetZoom(); origShow(animate); };
+  lbClose.addEventListener('click', resetZoom);
+})();
+
 // ─── Inline Edit Mode ──────────────────────────────────────────────────────
 
 const editToggle = document.getElementById('editToggle');
@@ -488,24 +602,127 @@ function saveEdits() {
   setTimeout(() => { ebSave.textContent = 'Save Changes'; ebSave.classList.remove('saved'); }, 2500);
 }
 
-// Hero background image upload in edit mode
-document.getElementById('heroBgInput').addEventListener('change', async function() {
-  const file = this.files[0];
-  if (!file) return;
-  const form = new FormData();
-  form.append('file', file);
-  try {
-    const res = await fetch('/api/upload?category=hero', { method: 'POST', body: form });
-    const data = await res.json();
-    const url = data.uploaded?.[0]?.url;
-    if (url) {
-      document.documentElement.style.setProperty('--hero-bg', `url('${url}')`);
-      const S = JSON.parse(localStorage.getItem('vmSettings') || '{}');
-      S.heroBg = url;
-      localStorage.setItem('vmSettings', JSON.stringify(S));
-      ebSave.textContent = '✓ Background updated — Save Changes';
+// ─── Hero Slideshow ──────────────────────────────────────────────────────
+(function() {
+  const slidesContainer = document.getElementById('heroSlides');
+  const dotsContainer = document.getElementById('heroDots');
+  const heroVideo = document.getElementById('heroVideo');
+  if (!slidesContainer) return;
+
+  const DEFAULT_SLIDE = { url: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&q=85&auto=format&fit=crop', link: '' };
+  let slides = [];
+  let currentSlide = 0;
+  let interval = null;
+  let duration = 5000;
+
+  function loadHeroConfig() {
+    try {
+      const s = JSON.parse(localStorage.getItem('vmSettings') || '{}');
+      if (s.heroVideo) {
+        // Video mode
+        heroVideo.src = s.heroVideo;
+        heroVideo.style.display = 'block';
+        slidesContainer.style.display = 'none';
+        dotsContainer.style.display = 'none';
+        return;
+      }
+      heroVideo.style.display = 'none';
+      slidesContainer.style.display = 'block';
+
+      if (s.heroSlides && s.heroSlides.length > 0) {
+        slides = s.heroSlides;
+      } else if (s.heroBg) {
+        slides = [{ url: s.heroBg, link: '' }];
+      } else {
+        slides = [DEFAULT_SLIDE];
+      }
+      duration = (s.heroSlideDuration || 5) * 1000;
+    } catch(e) {
+      slides = [DEFAULT_SLIDE];
     }
-  } catch(e) {
-    alert('Could not upload — make sure server.py is running.');
   }
-});
+
+  function buildSlides() {
+    slidesContainer.innerHTML = '';
+    dotsContainer.innerHTML = '';
+    slides.forEach((slide, i) => {
+      const el = document.createElement('div');
+      el.className = 'hero-slide' + (i === 0 ? ' active' : '');
+      el.style.backgroundImage = `url('${slide.url}')`;
+      if (slide.link) {
+        el.dataset.link = slide.link;
+        el.addEventListener('click', () => {
+          const target = document.querySelector(slide.link);
+          if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+          else if (slide.link.startsWith('#')) {
+            // Try opening gallery
+            const catId = slide.link.replace('#', '');
+            const card = document.querySelector(`[data-id="${catId}"]`);
+            if (card) card.click();
+          }
+        });
+      }
+      slidesContainer.appendChild(el);
+    });
+
+    if (slides.length > 1) {
+      dotsContainer.style.display = 'flex';
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Slide ${i + 1}`);
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      });
+    } else {
+      dotsContainer.style.display = 'none';
+    }
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    slidesContainer.querySelectorAll('.hero-slide').forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    dotsContainer.querySelectorAll('.hero-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+    });
+    resetInterval();
+  }
+
+  function nextSlide() {
+    if (slides.length <= 1) return;
+    goToSlide((currentSlide + 1) % slides.length);
+  }
+
+  function resetInterval() {
+    clearInterval(interval);
+    if (slides.length > 1) {
+      interval = setInterval(nextSlide, duration);
+    }
+  }
+
+  // Touch swipe support
+  let touchStartX = 0;
+  slidesContainer.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  slidesContainer.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) goToSlide((currentSlide + 1) % slides.length);
+      else goToSlide((currentSlide - 1 + slides.length) % slides.length);
+    }
+  }, { passive: true });
+
+  // Init
+  loadHeroConfig();
+  buildSlides();
+  resetInterval();
+
+  // Expose for settings reload
+  window.reloadHeroSlides = function() {
+    clearInterval(interval);
+    loadHeroConfig();
+    buildSlides();
+    resetInterval();
+  };
+})();

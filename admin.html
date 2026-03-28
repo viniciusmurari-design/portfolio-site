@@ -417,6 +417,18 @@
       background: var(--blue); border-color: var(--blue); color: #fff;
     }
     .photo-card.selected { outline: 3px solid var(--blue); outline-offset: -3px; }
+    .photo-alt-btn {
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      color: #fff; font-size: 0.58rem; padding: 3px 7px;
+      border-radius: 10px; border: none; cursor: pointer; opacity: 0; transition: opacity .2s;
+      z-index: 2; font-family: var(--sans);
+    }
+    .photo-card:hover .photo-alt-btn { opacity: 1; }
+    .photo-alt-btn:hover { background: var(--blue); }
+    .char-count { font-weight: 400; font-size: 0.68rem; color: var(--text-3); float: right; }
+    .char-count.warn { color: #f59e0b; }
+    .char-count.over { color: var(--red); }
     .photo-sub-select {
       position: absolute; bottom: 32px; left: 8px; z-index: 10;
       background: var(--white); border-radius: var(--radius);
@@ -470,6 +482,44 @@
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
       font-size: 0.78rem; color: rgba(255,255,255,0.3);
     }
+    .hero-slides-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .hero-slide-card {
+      aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; position: relative;
+      border: 2px solid var(--border); background: var(--sidebar-bg);
+    }
+    .hero-slide-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-slide-card .hsc-del {
+      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
+      background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%;
+      font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .hero-slide-card .hsc-del:hover { background: var(--red); }
+    .hero-slide-card .hsc-link {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 4px 6px;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+    }
+    .hero-slide-card .hsc-link select {
+      width: 100%; background: transparent; color: #fff; border: none;
+      font-size: 0.68rem; font-family: var(--sans); cursor: pointer;
+    }
+    .hero-slide-card .hsc-link select option { background: #222; color: #fff; }
+    .hero-mode-btn { background: var(--sidebar-bg); border: 1px solid var(--border); color: var(--text-2); }
+    .hero-mode-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .hero-history { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-top: 12px; }
+    .hero-history-item {
+      aspect-ratio: 16/9; border-radius: 6px; overflow: hidden; cursor: pointer;
+      border: 2px solid transparent; transition: border-color 0.2s, opacity 0.2s;
+      position: relative;
+    }
+    .hero-history-item:hover { border-color: var(--accent); }
+    .hero-history-item.active { border-color: var(--accent); }
+    .hero-history-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-history-item .hero-hist-del {
+      position: absolute; top: 2px; right: 2px; width: 18px; height: 18px;
+      background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%;
+      font-size: 11px; cursor: pointer; display: none; align-items: center; justify-content: center; line-height: 1;
+    }
+    .hero-history-item:hover .hero-hist-del { display: flex; }
     .color-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
     .color-row input[type="color"] {
       width: 48px; height: 48px; border: 1px solid var(--border);
@@ -743,6 +793,7 @@
   <div id="main">
     <div id="topbar">
       <div id="topbar-title">Dashboard</div>
+      <span id="unsavedIndicator" style="display:none;font-size:0.7rem;color:#f59e0b;font-weight:500;padding:4px 10px;background:rgba(245,158,11,0.1);border-radius:20px">Unsaved changes</span>
       <button class="topbar-btn" id="syncServerBtn" title="Sync all data to server">
         ↑ Sync to Server
       </button>
@@ -883,7 +934,8 @@
               <select id="batchSubSelect" style="padding:5px 10px;border-radius:20px;border:1px solid var(--border);font-family:var(--sans);font-size:0.75rem;background:var(--white);color:var(--text);cursor:pointer">
                 <option value="">— Assign sub-category —</option>
               </select>
-              <button class="btn btn-sm" style="background:var(--green);color:#fff;border:none" id="batchAssignBtn">Apply</button>
+              <button class="btn btn-sm" style="background:var(--green);color:#fff;border:none" id="batchAssignBtn">Apply Sub</button>
+              <button class="btn btn-sm" style="background:var(--red);color:#fff;border:none" id="batchDeleteBtn">Delete Selected</button>
               <button class="btn btn-sm btn-secondary" id="batchCancelBtn">Cancel</button>
             </div>
             <div class="photo-grid" id="photoGrid"></div>
@@ -976,21 +1028,58 @@
         </div>
 
         <div class="grid-2">
-          <!-- Hero background -->
-          <div class="card">
-            <div class="card-title">Hero Background Image</div>
-            <div class="hero-preview" id="heroPreview">
-              <img id="heroPreviewImg" src="" alt="" style="display:none">
-              <div class="hero-preview-empty" id="heroPreviewLabel">No custom image — using default</div>
+          <!-- Hero Slideshow Manager -->
+          <div class="card" style="grid-column: 1 / -1">
+            <div class="card-title">Hero Slideshow</div>
+            <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:16px">Add up to 8 photos or 1 video. Each slide can link to a gallery. Drag to reorder.</p>
+
+            <!-- Mode toggle -->
+            <div class="flex-row mb-4" style="gap:8px">
+              <button class="btn btn-sm hero-mode-btn active" id="heroModePhotos" data-mode="photos">Photos / Slideshow</button>
+              <button class="btn btn-sm hero-mode-btn" id="heroModeVideo" data-mode="video">Short Video</button>
             </div>
-            <div class="field"><label>Image URL</label><input id="c-heroBgUrl" placeholder="https://…"></div>
-            <div style="text-align:center;margin:10px 0;color:var(--text-3);font-size:0.75rem">— or upload from computer —</div>
-            <input type="file" id="heroBgFile" accept="image/*" style="display:none">
-            <button class="btn btn-secondary btn-full mb-4" id="heroBgUploadBtn">Upload from computer</button>
-            <div class="upload-status" id="heroBgStatus" style="text-align:center"></div>
+
+            <!-- Photo slideshow panel -->
+            <div id="heroPhotosPanel">
+              <div class="hero-slides-grid" id="heroSlidesGrid"></div>
+
+              <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <input type="file" id="heroSlideFile" accept="image/*" multiple style="display:none">
+                <button class="btn btn-secondary" id="heroSlideUploadBtn">+ Add Photos</button>
+                <span style="font-size:0.72rem;color:var(--text-3)">or paste URL:</span>
+                <input id="heroSlideUrlInput" placeholder="https://…" style="flex:1;min-width:180px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem;background:var(--white);color:var(--text)">
+                <button class="btn btn-sm" id="heroSlideUrlAddBtn" style="background:var(--blue);color:#fff;border:none">Add</button>
+              </div>
+
+              <div class="flex-row mt-4" style="gap:12px;align-items:center;flex-wrap:wrap">
+                <label style="font-size:0.78rem;font-weight:500;color:var(--text-2)">Slide duration:</label>
+                <select id="heroSlideDuration" style="padding:5px 10px;border-radius:6px;border:1px solid var(--border);font-size:0.78rem;background:var(--white);color:var(--text)">
+                  <option value="3">3 seconds</option>
+                  <option value="5" selected>5 seconds</option>
+                  <option value="7">7 seconds</option>
+                  <option value="10">10 seconds</option>
+                  <option value="15">15 seconds</option>
+                </select>
+              </div>
+
+              <div class="upload-status" id="heroSlideStatus" style="text-align:center;margin-top:8px"></div>
+            </div>
+
+            <!-- Video panel -->
+            <div id="heroVideoPanel" style="display:none">
+              <div class="hero-preview" id="heroVideoPreview">
+                <video id="heroVideoPreviewEl" style="width:100%;height:100%;object-fit:cover;display:none" muted loop playsinline></video>
+                <div class="hero-preview-empty" id="heroVideoLabel">No video uploaded</div>
+              </div>
+              <div class="field"><label>Video URL</label><input id="heroVideoUrl" placeholder="https://res.cloudinary.com/…/video/upload/…"></div>
+              <input type="file" id="heroVideoFile" accept="video/mp4,video/webm" style="display:none">
+              <button class="btn btn-secondary btn-full mb-4" id="heroVideoUploadBtn">Upload video (MP4/WebM, max 30s)</button>
+              <div class="upload-status" id="heroVideoStatus" style="text-align:center"></div>
+            </div>
+
             <div class="flex-row mt-4" style="gap:8px">
-              <button class="btn btn-primary" style="flex:1" id="saveHeroBgBtn">Apply Background</button>
-              <button class="btn btn-ghost" id="resetHeroBgBtn">Reset</button>
+              <button class="btn btn-primary" style="flex:1" id="saveHeroSlidesBtn">Save Hero</button>
+              <button class="btn btn-ghost" id="resetHeroSlidesBtn">Reset to Default</button>
             </div>
           </div>
 
@@ -1007,7 +1096,10 @@
 
             <div class="divider"></div>
             <div class="card-title">Admin Password</div>
-            <p style="font-size:0.82rem;color:var(--text-3);line-height:1.6">Password is protected with SHA-256 hashing. To change it, contact your developer.</p>
+            <p style="font-size:0.82rem;color:var(--text-3);line-height:1.6;margin-bottom:12px">Password is protected with SHA-256 hashing.</p>
+            <div class="field"><label>New Password</label><input type="password" id="newPassword" placeholder="New password" autocomplete="new-password"></div>
+            <div class="field"><label>Confirm Password</label><input type="password" id="confirmPassword" placeholder="Confirm password" autocomplete="new-password"></div>
+            <button class="btn btn-primary btn-full" id="changePasswordBtn">Change Password</button>
           </div>
         </div>
       </div>
@@ -1049,8 +1141,8 @@
 
           <div class="card">
             <div class="card-title">SEO &amp; Meta Tags</div>
-            <div class="field"><label>Page Title</label><input id="c-seoTitle" placeholder="Vinicius Murari — Photography Dublin"></div>
-            <div class="field"><label>Meta Description</label><textarea id="c-seoDescription" rows="3" placeholder="Professional photography services…"></textarea></div>
+            <div class="field"><label>Page Title <span class="char-count" id="seoTitleCount">0/60</span></label><input id="c-seoTitle" placeholder="Vinicius Murari — Photography Dublin" maxlength="70"></div>
+            <div class="field"><label>Meta Description <span class="char-count" id="seoDescCount">0/160</span></label><textarea id="c-seoDescription" rows="3" placeholder="Professional photography services…" maxlength="170"></textarea></div>
             <div class="field"><label>OG Image URL</label><input id="c-seoOgImage" placeholder="https://…"></div>
           </div>
         </div>
@@ -1194,6 +1286,40 @@ function saveSettings() {
   localStorage.setItem('vmSettings', JSON.stringify(S));
 }
 
+// ─── Auto-save draft ───
+let autoSaveTimer = null;
+let hasUnsavedChanges = false;
+function markUnsaved() {
+  hasUnsavedChanges = true;
+  const indicator = document.getElementById('unsavedIndicator');
+  if (indicator) indicator.style.display = 'inline';
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    // Auto-save content fields to settings
+    if (typeof CONTENT_FIELDS !== 'undefined') {
+      CONTENT_FIELDS.forEach(key => {
+        const el = document.getElementById('c-' + key);
+        if (el) S[key] = el.value;
+      });
+    }
+    saveSettings();
+    hasUnsavedChanges = false;
+    if (indicator) indicator.style.display = 'none';
+  }, 5000);
+}
+
+// Listen for changes on content/social fields after init
+setTimeout(() => {
+  document.querySelectorAll('[id^="c-"]').forEach(el => {
+    el.addEventListener('input', markUnsaved);
+  });
+}, 1000);
+
+// Warn before leaving with unsaved changes
+window.addEventListener('beforeunload', e => {
+  if (hasUnsavedChanges) { e.preventDefault(); e.returnValue = ''; }
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AUTH
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1210,7 +1336,8 @@ function isLoggedIn() {
 
 async function doLogin(pwd) {
   const hash = await hashPassword(pwd);
-  if (hash === PASSWORD_HASH) {
+  const customHash = localStorage.getItem('adminPasswordHash');
+  if (hash === (customHash || PASSWORD_HASH)) {
     sessionStorage.setItem('adminAuth', '1');
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
@@ -1242,16 +1369,17 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 });
 
 // Change password
-document.getElementById('changePasswordBtn')?.addEventListener('click', () => {
+document.getElementById('changePasswordBtn')?.addEventListener('click', async () => {
   const np = document.getElementById('newPassword').value;
   const cp = document.getElementById('confirmPassword').value;
   if (!np) return toast('Enter a new password', 'error');
   if (np !== cp) return toast('Passwords do not match', 'error');
   if (np.length < 4) return toast('Password must be at least 4 characters', 'error');
-  localStorage.setItem('adminPassword', np);
+  const newHash = await hashPassword(np);
+  localStorage.setItem('adminPasswordHash', newHash);
   document.getElementById('newPassword').value = '';
   document.getElementById('confirmPassword').value = '';
-  toast('Password updated successfully', 'success');
+  toast('Password updated! Use new password next login.', 'success');
 });
 
 // Boot
@@ -1517,10 +1645,12 @@ function renderGrid(photos, id) {
     card.dataset.publicId  = photo.public_id || '';
     const photoSub = getPhotoSub(id, photo.filename);
     const subLabel = photoSub || 'Tag';
+    const altText = photo.alt_text || '';
     card.innerHTML = `
-      <img src="${photo.url}" alt="${photo.filename}" loading="lazy">
+      <img src="${photo.url}" alt="${altText || photo.filename}" loading="lazy">
       <div class="photo-name">${photo.filename}</div>
       <button class="photo-delete" title="Delete photo">×</button>
+      <button class="photo-alt-btn" title="Edit alt text">ALT</button>
       <div class="photo-sub-badge" data-file="${photo.filename}">${subLabel}</div>
       <div class="photo-sub-select" data-file="${photo.filename}"></div>`;
 
@@ -1555,6 +1685,26 @@ function renderGrid(photos, id) {
     card.querySelector('.photo-delete').addEventListener('click', e => {
       e.stopPropagation();
       deletePhoto(id, photo.filename, card);
+    });
+
+    card.querySelector('.photo-alt-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      const current = photo.alt_text || '';
+      const newAlt = prompt('Alt text for this photo (SEO):', current);
+      if (newAlt === null) return;
+      photo.alt_text = newAlt;
+      card.querySelector('img').alt = newAlt || photo.filename;
+      // Save to Supabase
+      if (photo.public_id) {
+        sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(photo.public_id)}`, {
+          method: 'PATCH', body: JSON.stringify({ alt_text: newAlt })
+        }).catch(() => {});
+      }
+      // Update localStorage cache
+      const cached = getCloudPhotos(id);
+      const idx = cached.findIndex(p => p.filename === photo.filename);
+      if (idx >= 0) { cached[idx].alt_text = newAlt; setCloudPhotos(id, cached); }
+      toast(newAlt ? 'Alt text saved' : 'Alt text cleared', 'success');
     });
 
     // Drag-to-reorder
@@ -1794,6 +1944,29 @@ document.getElementById('batchAssignBtn').addEventListener('click', () => {
   document.getElementById('batchSelectBtn').click(); // exit batch mode
 });
 
+// Batch delete
+document.getElementById('batchDeleteBtn').addEventListener('click', async () => {
+  const selected = document.querySelectorAll('.photo-card.selected');
+  if (!selected.length) { toast('No photos selected', 'error'); return; }
+  if (!confirm(`Delete ${selected.length} photo${selected.length > 1 ? 's' : ''}? This cannot be undone.`)) return;
+  let deleted = 0;
+  for (const card of selected) {
+    const publicId = card.dataset.publicId;
+    const filename = card.dataset.filename;
+    if (publicId) {
+      try { await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' }); } catch(e) {}
+    }
+    setCloudPhotos(current, getCloudPhotos(current).filter(p => p.filename !== filename));
+    const order = JSON.parse(localStorage.getItem('photoOrder_' + current) || '[]').filter(f => f !== filename);
+    localStorage.setItem('photoOrder_' + current, JSON.stringify(order));
+    card.remove();
+    deleted++;
+  }
+  toast(`${deleted} photo${deleted > 1 ? 's' : ''} deleted`, 'success');
+  document.getElementById('batchSelectBtn').click();
+  loadPhotos(current);
+});
+
 // Delegate click for selecting cards in batch mode
 document.getElementById('photoGrid').addEventListener('click', e => {
   if (!batchMode) return;
@@ -1952,6 +2125,22 @@ function loadSocialFields() {
     const el = document.getElementById('c-' + key);
     if (el && S[key]) el.value = S[key];
   });
+  // SEO character counters
+  setupCharCount('c-seoTitle', 'seoTitleCount', 60);
+  setupCharCount('c-seoDescription', 'seoDescCount', 160);
+}
+
+function setupCharCount(inputId, countId, max) {
+  const input = document.getElementById(inputId);
+  const counter = document.getElementById(countId);
+  if (!input || !counter) return;
+  const update = () => {
+    const len = input.value.length;
+    counter.textContent = `${len}/${max}`;
+    counter.className = 'char-count' + (len > max ? ' over' : len > max * 0.9 ? ' warn' : '');
+  };
+  input.addEventListener('input', update);
+  update();
 }
 
 // About photo upload
@@ -1960,19 +2149,13 @@ document.getElementById('aboutPhotoUploadBtn').addEventListener('click', () => {
 });
 document.getElementById('aboutPhotoFile').addEventListener('change', async function() {
   if (!this.files?.length) return;
-  const form = new FormData();
-  form.append('file', this.files[0]);
   try {
-    const res = await fetch('/api/upload?category=hero', { method: 'POST', body: form });
-    const data = await res.json();
-    if (data.uploaded?.length) {
-      const url = data.uploaded[0].url;
-      document.getElementById('c-aboutPhoto').value = url;
-      const preview = document.getElementById('aboutPhotoPreview');
-      preview.src = url; preview.style.display = 'block';
-      toast('Profile photo uploaded — click Save Content to apply', 'success');
-    }
-  } catch(e) { toast('Upload failed', 'error'); }
+    const url = await uploadImageOnly(this.files[0], 'about');
+    document.getElementById('c-aboutPhoto').value = url;
+    const preview = document.getElementById('aboutPhotoPreview');
+    preview.src = url; preview.style.display = 'block';
+    toast('Profile photo uploaded — click Save Content to apply', 'success');
+  } catch(e) { toast('Upload failed: ' + e.message, 'error'); }
   this.value = '';
 });
 
@@ -2124,63 +2307,186 @@ function escHtml(str) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// APPEARANCE
+// APPEARANCE — Hero Slideshow Manager
 // ─────────────────────────────────────────────────────────────────────────────
-const heroBgUrlInput  = document.getElementById('c-heroBgUrl');
-const heroBgFile      = document.getElementById('heroBgFile');
-const heroBgUploadBtn = document.getElementById('heroBgUploadBtn');
-const heroBgStatus    = document.getElementById('heroBgStatus');
-const heroPreviewImg  = document.getElementById('heroPreviewImg');
-const heroPreviewLabel= document.getElementById('heroPreviewLabel');
 
-function setHeroPreview(url) {
-  if (url) {
-    heroPreviewImg.src = url;
-    heroPreviewImg.style.display = 'block';
-    heroPreviewLabel.style.display = 'none';
-  } else {
-    heroPreviewImg.style.display = 'none';
-    heroPreviewLabel.style.display = 'flex';
-  }
-}
-
-heroBgUrlInput.addEventListener('input', () => setHeroPreview(heroBgUrlInput.value));
-
-heroBgUploadBtn.addEventListener('click', () => heroBgFile.click());
-heroBgFile.addEventListener('change', async () => {
-  const file = heroBgFile.files[0];
-  if (!file) return;
-  heroBgStatus.textContent = 'Uploading…';
+// ─── Upload to Cloudinary (no Supabase — for hero/about/video) ───
+async function uploadImageOnly(file, folder) {
   const form = new FormData();
   form.append('file', file);
-  try {
-    const res = await fetch('/api/upload?category=hero', { method: 'POST', body: form });
-    const data = await res.json();
-    const url = data.uploaded?.[0]?.url;
-    if (url) { heroBgUrlInput.value = url; setHeroPreview(url); heroBgStatus.textContent = '✓ Uploaded'; }
-  } catch(e) { heroBgStatus.textContent = '✗ Upload failed'; }
+  form.append('upload_preset', CLOUDINARY_PRESET);
+  const nameNoExt = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+  form.append('public_id', folder + '/' + Date.now() + '_' + nameNoExt);
+  const isVideo = file.type.startsWith('video/');
+  const endpoint = isVideo
+    ? `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/video/upload`
+    : `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`;
+  const res = await fetch(endpoint, { method: 'POST', body: form });
+  if (!res.ok) throw new Error('Upload failed: ' + res.status);
+  const data = await res.json();
+  if (isVideo) return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/q_auto/${data.public_id}`;
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`;
+}
+
+// Gallery categories for slide linking
+const GALLERY_CATS = CATEGORIES.map(c => ({ id: c.id, label: c.label }));
+
+let heroSlides = []; // Array of { url, link }
+let heroMode = 'photos'; // 'photos' or 'video'
+
+function loadHeroSlides() {
+  if (S.heroVideo) {
+    heroMode = 'video';
+    document.getElementById('heroVideoUrl').value = S.heroVideo;
+    const vid = document.getElementById('heroVideoPreviewEl');
+    vid.src = S.heroVideo; vid.style.display = 'block';
+    document.getElementById('heroVideoLabel').style.display = 'none';
+  } else {
+    heroMode = 'photos';
+  }
+  if (S.heroSlides && S.heroSlides.length) {
+    heroSlides = S.heroSlides.map(s => ({ url: s.url, link: s.link || '' }));
+  } else if (S.heroBg) {
+    heroSlides = [{ url: S.heroBg, link: '' }];
+  } else {
+    heroSlides = [];
+  }
+  if (S.heroSlideDuration) {
+    document.getElementById('heroSlideDuration').value = S.heroSlideDuration;
+  }
+  updateModeUI();
+  renderHeroSlidesGrid();
+}
+
+function updateModeUI() {
+  document.getElementById('heroModePhotos').classList.toggle('active', heroMode === 'photos');
+  document.getElementById('heroModeVideo').classList.toggle('active', heroMode === 'video');
+  document.getElementById('heroPhotosPanel').style.display = heroMode === 'photos' ? 'block' : 'none';
+  document.getElementById('heroVideoPanel').style.display = heroMode === 'video' ? 'block' : 'none';
+}
+
+function renderHeroSlidesGrid() {
+  const grid = document.getElementById('heroSlidesGrid');
+  grid.innerHTML = '';
+  if (!heroSlides.length) {
+    grid.innerHTML = '<div style="font-size:0.78rem;color:var(--text-3);padding:20px;text-align:center">No slides yet — upload photos above</div>';
+    return;
+  }
+  heroSlides.forEach((slide, i) => {
+    const card = document.createElement('div');
+    card.className = 'hero-slide-card';
+    const thumb = slide.url.includes('res.cloudinary.com') ? slide.url.replace(/\/upload\/[^/]*\//, '/upload/w_320,h_180,c_fill,q_auto,f_auto/') : slide.url;
+    card.innerHTML = `
+      <img src="${thumb}" alt="Slide ${i+1}" loading="lazy">
+      <button class="hsc-del" title="Remove slide">&times;</button>
+      <div class="hsc-link">
+        <select title="Link to gallery">
+          <option value="">No link</option>
+          ${GALLERY_CATS.map(c => `<option value="#${c.id}" ${slide.link === '#' + c.id ? 'selected' : ''}>${c.label}</option>`).join('')}
+        </select>
+      </div>`;
+    card.querySelector('.hsc-del').addEventListener('click', () => {
+      heroSlides.splice(i, 1);
+      renderHeroSlidesGrid();
+    });
+    card.querySelector('select').addEventListener('change', function() {
+      heroSlides[i].link = this.value;
+    });
+    grid.appendChild(card);
+  });
+}
+
+// Mode toggle
+document.getElementById('heroModePhotos').addEventListener('click', () => { heroMode = 'photos'; updateModeUI(); });
+document.getElementById('heroModeVideo').addEventListener('click', () => { heroMode = 'video'; updateModeUI(); });
+
+// Upload slide photos
+document.getElementById('heroSlideUploadBtn').addEventListener('click', () => document.getElementById('heroSlideFile').click());
+document.getElementById('heroSlideFile').addEventListener('change', async function() {
+  const files = [...this.files];
+  if (!files.length) return;
+  if (heroSlides.length + files.length > 8) { toast('Maximum 8 slides allowed', 'error'); return; }
+  const status = document.getElementById('heroSlideStatus');
+  for (let i = 0; i < files.length; i++) {
+    status.textContent = `Uploading ${i+1}/${files.length}…`;
+    try {
+      const url = await uploadImageOnly(files[i], 'hero');
+      heroSlides.push({ url, link: '' });
+      renderHeroSlidesGrid();
+    } catch(e) { status.textContent = `✗ Failed: ${files[i].name}`; }
+  }
+  status.textContent = `✓ ${files.length} photo${files.length > 1 ? 's' : ''} uploaded`;
+  setTimeout(() => { status.textContent = ''; }, 3000);
+  this.value = '';
 });
 
-document.getElementById('saveHeroBgBtn').addEventListener('click', async () => {
-  const url = heroBgUrlInput.value.trim();
-  S.heroBg = url;
-  saveSettings();
-  setHeroPreview(url);
-  try {
-    await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S) });
-    toast('Hero background saved', 'success');
-  } catch(e) { toast('Background saved locally', 'info'); }
+// Add by URL
+document.getElementById('heroSlideUrlAddBtn').addEventListener('click', () => {
+  const input = document.getElementById('heroSlideUrlInput');
+  const url = input.value.trim();
+  if (!url) return;
+  if (heroSlides.length >= 8) { toast('Maximum 8 slides', 'error'); return; }
+  heroSlides.push({ url, link: '' });
+  renderHeroSlidesGrid();
+  input.value = '';
+  toast('Slide added');
 });
 
-document.getElementById('resetHeroBgBtn').addEventListener('click', async () => {
-  delete S.heroBg;
-  saveSettings();
-  heroBgUrlInput.value = '';
-  setHeroPreview('');
+// Video upload
+document.getElementById('heroVideoUploadBtn').addEventListener('click', () => document.getElementById('heroVideoFile').click());
+document.getElementById('heroVideoFile').addEventListener('change', async function() {
+  const file = this.files[0];
+  if (!file) return;
+  const status = document.getElementById('heroVideoStatus');
+  status.textContent = 'Uploading video…';
   try {
-    await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(S) });
-  } catch(e) {}
-  toast('Background reset to default', 'success');
+    const url = await uploadImageOnly(file, 'hero_video');
+    document.getElementById('heroVideoUrl').value = url;
+    const vid = document.getElementById('heroVideoPreviewEl');
+    vid.src = url; vid.style.display = 'block';
+    document.getElementById('heroVideoLabel').style.display = 'none';
+    status.textContent = '✓ Video uploaded';
+  } catch(e) { status.textContent = '✗ Upload failed — ' + e.message; }
+  this.value = '';
+});
+
+// Video URL manual input
+document.getElementById('heroVideoUrl').addEventListener('input', function() {
+  const vid = document.getElementById('heroVideoPreviewEl');
+  if (this.value.trim()) { vid.src = this.value; vid.style.display = 'block'; document.getElementById('heroVideoLabel').style.display = 'none'; }
+  else { vid.style.display = 'none'; document.getElementById('heroVideoLabel').style.display = 'flex'; }
+});
+
+// Save hero
+document.getElementById('saveHeroSlidesBtn').addEventListener('click', () => {
+  if (heroMode === 'video') {
+    const videoUrl = document.getElementById('heroVideoUrl').value.trim();
+    if (!videoUrl) { toast('Enter a video URL or upload a video', 'error'); return; }
+    S.heroVideo = videoUrl;
+    delete S.heroSlides;
+    delete S.heroBg;
+  } else {
+    if (!heroSlides.length) { toast('Add at least one photo', 'error'); return; }
+    S.heroSlides = heroSlides;
+    S.heroBg = heroSlides[0].url; // backwards compat
+    S.heroSlideDuration = parseInt(document.getElementById('heroSlideDuration').value) || 5;
+    delete S.heroVideo;
+  }
+  saveSettings();
+  toast('Hero saved! Reload site to see changes.', 'success');
+});
+
+// Reset hero
+document.getElementById('resetHeroSlidesBtn').addEventListener('click', () => {
+  if (!confirm('Reset hero to default?')) return;
+  delete S.heroSlides; delete S.heroBg; delete S.heroVideo; delete S.heroSlideDuration;
+  heroSlides = [];
+  saveSettings();
+  renderHeroSlidesGrid();
+  document.getElementById('heroVideoUrl').value = '';
+  document.getElementById('heroVideoPreviewEl').style.display = 'none';
+  document.getElementById('heroVideoLabel').style.display = 'flex';
+  toast('Hero reset to default', 'success');
 });
 
 // Color picker
@@ -2321,7 +2627,7 @@ async function initApp() {
   buildSubsEditor();
 
   // Load appearance fields
-  if (S.heroBg) { heroBgUrlInput.value = S.heroBg; setHeroPreview(S.heroBg); }
+  loadHeroSlides();
   if (S.accentColor) {
     colorInput.value = S.accentColor;
     colorValEl.textContent = S.accentColor;

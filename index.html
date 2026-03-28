@@ -30,7 +30,7 @@
   <meta property="og:description" content="Award-winning photographer in Dublin. Wedding photography, corporate events, portraits, drone & aerial, food and product photography across Ireland.">
   <meta property="og:url" content="https://viniciusmurari.com/">
   <meta property="og:locale" content="en_IE">
-  <meta property="og:image" content="https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_1200,h_630,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg">
+  <meta property="og:image" content="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/hero/og_cover">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Vinicius Murari — Professional Photographer in Dublin">
@@ -40,7 +40,7 @@
   <meta name="twitter:site" content="@viniciusmurari">
   <meta name="twitter:title" content="Portrait Photographer Dublin | Photography Services Ireland | Vinicius Murari">
   <meta name="twitter:description" content="Award-winning photographer in Dublin. Wedding photography, corporate events, portraits, drone, food and product photography across Ireland.">
-  <meta name="twitter:image" content="https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_1200,h_630,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg">
+  <meta name="twitter:image" content="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/hero/og_cover">
   <meta name="twitter:image:alt" content="Vinicius Murari — Professional Photographer in Dublin">
 
   <!-- ─── Favicon ─── -->
@@ -60,7 +60,7 @@
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
 
   <!-- ─── JSON-LD Structured Data ─── -->
 
@@ -271,8 +271,24 @@
 }
 </script>
 
+<!-- FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How far in advance should I book?", "acceptedAnswer": {"@type": "Answer", "text": "For weddings, I recommend booking 6-12 months ahead. For portraits, corporate events and other sessions, 2-4 weeks is usually sufficient."}},
+    {"@type": "Question", "name": "How long until I receive my photos?", "acceptedAnswer": {"@type": "Answer", "text": "Turnaround time is typically 2-3 weeks for portraits and events, and 4-6 weeks for weddings. Rush delivery is available on request."}},
+    {"@type": "Question", "name": "Do you travel outside Dublin?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely! I cover all of Ireland and travel internationally for destination weddings and projects."}},
+    {"@type": "Question", "name": "What's included in a photography session?", "acceptedAnswer": {"@type": "Answer", "text": "Every session includes a pre-shoot consultation, the photo session itself, professional editing, and delivery via a private online gallery."}},
+    {"@type": "Question", "name": "Do you offer videography as well?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, I offer photography and videography services including drone/aerial footage. Combo packages are available."}}
+  ]
+}
+</script>
+
 </head>
 <body>
+<a href="#portfolio" class="skip-link">Skip to content</a>
 
 <!-- ─── Page Loader ─── -->
 <div id="pageLoader">
@@ -312,21 +328,28 @@
     <li><a href="#about" onclick="closeNav()">About</a></li>
     <li><a href="#contact" onclick="closeNav()">Contact</a></li>
   </ul>
+  <button class="nav-dark-toggle" id="darkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+  </button>
   <a href="#contact" class="nav-cta">Book a Session</a>
-  <button class="nav-burger" onclick="toggleNav()" aria-label="Menu">
+  <button class="nav-burger" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- ─── Hero ─── -->
 <section id="hero" aria-label="Hero — Photographer in Dublin">
-  <!-- Change background overlay (edit mode only) -->
-  <div id="heroBgOverlay">
-    <label>
-      🖼️ Change Background
-      <input type="file" id="heroBgInput" accept="image/*" style="display:none">
-    </label>
-  </div>
+  <!-- Slideshow background layers -->
+  <div id="heroSlides" class="hero-slides"></div>
+  <!-- Video background (hidden by default) -->
+  <video id="heroVideo" class="hero-video" muted loop playsinline autoplay style="display:none"></video>
+
+  <!-- Gradient overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Slide indicators -->
+  <div class="hero-dots" id="heroDots"></div>
 
   <div class="hero-pill" id="heroPill">
     <span class="dot"></span><span id="heroPillText" data-edit="heroPill" contenteditable="false">Available for projects · Dublin &amp; Ireland</span>
@@ -754,6 +777,22 @@
   </div>
 </section>
 
+<!-- ─── FAQ ─── -->
+<section id="faq" class="sec sec--gray" aria-label="Frequently Asked Questions">
+  <div class="inner rev" style="max-width:780px">
+    <p class="eyebrow">FAQ</p>
+    <h2 style="margin-bottom:32px">Frequently Asked<br><em>Questions</em></h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary>How far in advance should I book?</summary><p>For weddings, I recommend booking 6-12 months ahead. For portraits, corporate events and other sessions, 2-4 weeks is usually sufficient, but earlier is always better to guarantee availability.</p></details>
+      <details class="faq-item"><summary>How long until I receive my photos?</summary><p>Turnaround time is typically 2-3 weeks for portraits and events, and 4-6 weeks for weddings. Rush delivery is available on request.</p></details>
+      <details class="faq-item"><summary>Do you travel outside Dublin?</summary><p>Absolutely! I cover all of Ireland and travel internationally for destination weddings and projects. Travel fees may apply depending on distance.</p></details>
+      <details class="faq-item"><summary>What's included in a photography session?</summary><p>Every session includes a pre-shoot consultation, the photo session itself, professional editing of all selected images, and delivery via a private online gallery. Prints and albums are available as add-ons.</p></details>
+      <details class="faq-item"><summary>Can I choose which photos get edited?</summary><p>Yes! After the session, you'll receive a curated selection of the best shots. You can request edits, adjustments or additional photos from the full set.</p></details>
+      <details class="faq-item"><summary>Do you offer videography as well?</summary><p>Yes, I offer photography and videography services including drone/aerial footage. Combo packages are available at a better rate than booking separately.</p></details>
+    </div>
+  </div>
+</section>
+
 <!-- ─── Contact ─── -->
 <section id="contact" class="sec" aria-label="Contact Vinicius Murari — book a photography session in Dublin">
   <div class="inner">
@@ -789,15 +828,17 @@
         </div>
       </div>
 
-      <form class="rev d2" id="contactForm">
+      <form class="rev d2" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact">
+        <p class="hidden" style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
         <div class="fr2">
-          <div class="fg"><label>First Name</label><input type="text" placeholder="John"></div>
-          <div class="fg"><label>Last Name</label><input type="text" placeholder="Doe"></div>
+          <div class="fg"><label for="cf-first">First Name</label><input id="cf-first" name="first-name" type="text" placeholder="John" required></div>
+          <div class="fg"><label for="cf-last">Last Name</label><input id="cf-last" name="last-name" type="text" placeholder="Doe"></div>
         </div>
-        <div class="fg"><label>Email</label><input type="email" placeholder="john@example.com"></div>
+        <div class="fg"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" placeholder="john@example.com" required></div>
         <div class="fg">
-          <label>Service</label>
-          <select>
+          <label for="cf-service">Service</label>
+          <select id="cf-service" name="service" required>
             <option value="" disabled selected>Select a service</option>
             <option>Wedding Photography</option>
             <option>Portrait / Studio</option>
@@ -811,7 +852,7 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="fg"><label>Message</label><textarea placeholder="Tell me about your project, dates, and any details…"></textarea></div>
+        <div class="fg"><label for="cf-msg">Message</label><textarea id="cf-msg" name="message" placeholder="Tell me about your project, dates, and any details…" required></textarea></div>
         <button class="fsub" type="submit">Send Message</button>
         <p class="fok" id="fok">✓ Message sent! I'll be in touch soon.</p>
       </form>
@@ -971,7 +1012,7 @@
     set('heroPillText', s.heroPill);
     setHTML('heroHeadline', s.heroHeadline);
     set('heroSub', s.heroSub);
-    if (s.heroBg) document.documentElement.style.setProperty('--hero-bg', `url('${s.heroBg}')`);
+    // Hero slides are loaded by the slideshow system in script.js
 
     // About
     if (s.aboutPhoto) { const ap = document.getElementById('aboutPhoto'); if (ap) ap.src = s.aboutPhoto; }
@@ -1068,6 +1109,6 @@
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<script src="script.js"></script>
+<script src="script.js?v=2"></script>
 </body>
 </html>
