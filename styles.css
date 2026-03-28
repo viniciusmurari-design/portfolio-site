@@ -80,8 +80,8 @@ nav.scrolled .nav-burger span { background: var(--text); }
   background: #111;
 }
 
-/* Hero slideshow layers */
-.hero-slides {
+/* Hero slideshow layers — #hero prefix needed to override #hero > * specificity */
+#hero .hero-slides {
   position: absolute; inset: 0; z-index: 0;
 }
 .hero-slide {
@@ -93,13 +93,13 @@ nav.scrolled .nav-burger span { background: var(--text); }
 }
 .hero-slide.active { opacity: 1; }
 .hero-slide[data-link] { cursor: pointer; }
-.hero-video {
+#hero .hero-video {
   position: absolute; inset: 0; z-index: 0;
   width: 100%; height: 100%; object-fit: cover;
 }
 
 /* Gradient overlay */
-.hero-overlay {
+#hero .hero-overlay {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(
     to bottom,
@@ -110,7 +110,7 @@ nav.scrolled .nav-burger span { background: var(--text); }
 }
 
 /* Slide indicator dots */
-.hero-dots {
+#hero .hero-dots {
   position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
   z-index: 3; display: flex; gap: 8px;
 }
