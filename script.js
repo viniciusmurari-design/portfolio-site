@@ -18,6 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
 const SUPABASE_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
 
+// ─── Settings Manager (single source of truth) ───────────────────────────
+const Settings = {
+  get() {
+    try { return JSON.parse(localStorage.getItem('vmSettings') || '{}'); }
+    catch(e) { return {}; }
+  },
+  set(data) { localStorage.setItem('vmSettings', JSON.stringify(data)); },
+  update(patch) { const s = this.get(); Object.assign(s, patch); this.set(s); }
+};
+
 // ─── Cloudinary URL Helpers ──────────────────────────────────────────────
 const CL_BASE = 'https://res.cloudinary.com/dnocmwoub/image/upload';
 
@@ -45,6 +55,7 @@ window.addEventListener('load', () => {
 // ─── Nav scroll effect ────────────────────────────────────────────────────
 const nav = document.getElementById('nav');
 const scrollTopBtn = document.getElementById('scrollTop');
+const mobileCta = document.getElementById('mobileBookCta'); // cached once
 
 let scrollTicking = false;
 window.addEventListener('scroll', () => {
@@ -53,8 +64,6 @@ window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 60);
       scrollTopBtn.classList.toggle('visible', window.scrollY > 500);
       updateActiveNav();
-      // Show/hide mobile CTA
-      const mobileCta = document.getElementById('mobileBookCta');
       if (mobileCta) mobileCta.classList.toggle('visible', window.scrollY > 600);
       scrollTicking = false;
     });
@@ -179,18 +188,31 @@ if (form) {
     btn.disabled = true;
     btn.textContent = 'Sending…';
 
-    // Populate Web3Forms key if configured
-    const _s = JSON.parse(localStorage.getItem('vmSettings') || '{}');
-    const _key = document.getElementById('w3fKey');
-    if (_key && _s.web3formsKey) _key.value = _s.web3formsKey;
-
+    const _s = Settings.get();
     const _w3f = _s.web3formsKey;
-    const _endpoint = _w3f ? 'https://api.web3forms.com/submit' : '/';
-    const _headers = _w3f ? { 'Accept': 'application/json' } : { 'Content-Type': 'application/x-www-form-urlencoded' };
-    const _body = _w3f ? new FormData(form) : new URLSearchParams(new FormData(form)).toString();
 
-    fetch(_endpoint, { method: 'POST', headers: _headers, body: _body }).then(res => {
-      if (res.ok) {
+    // Guard: if no Web3Forms key configured, show clear message instead of silently failing
+    if (!_w3f) {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+      const warn = document.createElement('p');
+      warn.style.cssText = 'color:#92400e;font-size:0.8rem;margin-top:10px;background:rgba(245,158,11,0.1);padding:10px;border-radius:8px;';
+      warn.textContent = 'Contact form not yet active. Please reach out via WhatsApp or Instagram.';
+      btn.insertAdjacentElement('afterend', warn);
+      setTimeout(() => warn.remove(), 6000);
+      return;
+    }
+
+    const _key = document.getElementById('w3fKey');
+    if (_key) _key.value = _w3f;
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    }).then(async res => {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success !== false) {
         const ok = document.getElementById('fok');
         ok.style.display = 'block';
         form.reset();
@@ -270,9 +292,9 @@ async function openGallery(id) {
   galPhotoCount.textContent = '';
   activeSubFilter = 'all';
 
-  // Build sub-category pills — check localStorage first, then HTML fallback
+  // Build sub-category pills — check settings first, then HTML fallback
   galSubs.innerHTML = '';
-  const savedSettings = JSON.parse(localStorage.getItem('vmSettings') || '{}');
+  const savedSettings = Settings.get();
   const savedSubs = savedSettings.gallerySubs && savedSettings.gallerySubs[id];
   const subsStr = section.dataset.subs || '';
   const subs = savedSubs || (subsStr ? subsStr.split(',').map(s => s.trim()) : []);
@@ -341,31 +363,19 @@ function filterGallery(sub, activePill) {
   galSubs.querySelectorAll('.gal-sub-pill').forEach(p => p.classList.remove('active'));
   activePill.classList.add('active');
 
-  // Filter items
-  let visibleCount = 0;
-  allGalleryItems.forEach(({ el, sub: itemSub, index }) => {
-    const show = sub === 'all' || itemSub === sub;
-    el.classList.toggle('hidden', !show);
-    if (show) visibleCount++;
-  });
-
-  // Update photo count
-  galPhotoCount.textContent = `${visibleCount} photo${visibleCount !== 1 ? 's' : ''}`;
-
-  // Rebuild currentGalleryImages for lightbox (only visible)
-  currentGalleryImages = allGalleryItems
-    .filter(({ sub: s }) => sub === 'all' || s === sub)
-    .map(({ src, alt, sub: s }) => ({ src, alt, sub: s }));
-
-  // Re-bind lightbox indices
-  let lightboxIdx = 0;
+  // Single pass: filter, rebuild lightbox array, reassign click handlers
+  currentGalleryImages = [];
   allGalleryItems.forEach(item => {
     const show = sub === 'all' || item.sub === sub;
+    item.el.classList.toggle('hidden', !show);
     if (show) {
-      item.lightboxIndex = lightboxIdx++;
-      item.el.onclick = () => openLightbox(item.lightboxIndex);
+      const idx = currentGalleryImages.length;
+      currentGalleryImages.push({ src: item.src, alt: item.alt, sub: item.sub });
+      item.el.onclick = () => openLightbox(idx);
     }
   });
+
+  galPhotoCount.textContent = `${currentGalleryImages.length} photo${currentGalleryImages.length !== 1 ? 's' : ''}`;
 }
 
 function addGalItem(src, alt, index, sub) {
@@ -403,7 +413,7 @@ function addGalItem(src, alt, index, sub) {
 
   item.appendChild(img);
   item.appendChild(overlay);
-  item.addEventListener('click', () => openLightbox(index));
+  item.onclick = () => openLightbox(index); // onclick so filterGallery can reassign without doubling
   galGrid.appendChild(item);
 
   allGalleryItems.push({ el: item, src, alt, sub: (sub || 'all').toLowerCase(), index, lightboxIndex: index });
@@ -412,6 +422,8 @@ function addGalItem(src, alt, index, sub) {
 function closeGallery() {
   galModal.classList.remove('open');
   document.body.style.overflow = '';
+  allGalleryItems = [];
+  currentGalleryImages = [];
 }
 
 galClose.addEventListener('click', closeGallery);
@@ -624,14 +636,9 @@ function exitEdit() {
 }
 
 function saveEdits() {
-  const S = JSON.parse(localStorage.getItem('vmSettings') || '{}');
-
-  document.querySelectorAll('[data-edit]').forEach(el => {
-    const key = el.dataset.edit;
-    S[key] = el.innerHTML;
-  });
-
-  localStorage.setItem('vmSettings', JSON.stringify(S));
+  const S = Settings.get();
+  document.querySelectorAll('[data-edit]').forEach(el => { S[el.dataset.edit] = el.innerHTML; });
+  Settings.set(S);
   ebSave.textContent = '✓ Saved!';
   ebSave.classList.add('saved');
   setTimeout(() => { ebSave.textContent = 'Save Changes'; ebSave.classList.remove('saved'); }, 2500);
@@ -676,12 +683,7 @@ function saveEdits() {
   }
 
   function loadHeroConfig() {
-    try {
-      const s = JSON.parse(localStorage.getItem('vmSettings') || '{}');
-      applyHeroSettings(s);
-    } catch(e) {
-      slides = [];
-    }
+    applyHeroSettings(Settings.get());
   }
 
   function buildSlides() {
