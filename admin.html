@@ -786,7 +786,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v1.9</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.0</div>
     </div>
   </nav>
 
@@ -797,6 +797,9 @@
       <span id="unsavedIndicator" style="display:none;font-size:0.7rem;color:#f59e0b;font-weight:500;padding:4px 10px;background:rgba(245,158,11,0.1);border-radius:20px">Unsaved changes</span>
       <button class="topbar-btn" id="syncServerBtn" title="Sync all data to server">
         ↑ Sync to Server
+      </button>
+      <button class="topbar-btn" id="publishBtn" title="Publish to live site" style="background:#10b981;color:#fff;border-color:#10b981;font-weight:600">
+        🚀 Publish
       </button>
       <a href="/" target="_blank" class="topbar-btn primary">View Site ↗</a>
     </div>
@@ -1141,6 +1144,15 @@
           </div>
 
           <div class="card">
+            <div class="card-title">🚀 Publish to Live Site</div>
+            <div class="field">
+              <label>GitHub Personal Access Token</label>
+              <input id="githubToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+              <div class="hint">Cria em: GitHub → Settings → Developer settings → Personal access tokens → Fine-grained → permissão <strong>Contents: Read and Write</strong> no repo portfolio-site. Guardado só no browser, nunca enviado online.</div>
+            </div>
+            <button class="btn btn-primary" id="saveGithubTokenBtn" style="margin-top:8px">Guardar Token</button>
+          </div>
+          <div class="card">
             <div class="card-title">Contact Form — Email Notifications</div>
             <div class="field">
               <label>Web3Forms Access Key</label>
@@ -1469,6 +1481,88 @@ document.getElementById('reloadPreviewBtn').addEventListener('click', () => {
 // Sync to server button
 document.getElementById('syncServerBtn').addEventListener('click', async () => {
   await syncAllToServer();
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GITHUB PUBLISH
+// ─────────────────────────────────────────────────────────────────────────────
+const GITHUB_OWNER = 'viniciusmurari-design';
+const GITHUB_REPO  = 'portfolio-site';
+const GITHUB_FILE  = 'settings.json';
+
+// Save/load token from localStorage (never goes to server)
+document.getElementById('saveGithubTokenBtn').addEventListener('click', () => {
+  const token = document.getElementById('githubToken').value.trim();
+  if (!token) { toast('Coloca o token primeiro', 'error'); return; }
+  localStorage.setItem('ghToken', token);
+  document.getElementById('githubToken').value = '';
+  document.getElementById('githubToken').placeholder = '✓ Token guardado';
+  toast('Token guardado com segurança no browser', 'success');
+});
+
+// Load token indicator on init
+(function() {
+  if (localStorage.getItem('ghToken')) {
+    const el = document.getElementById('githubToken');
+    if (el) el.placeholder = '✓ Token guardado — cola novo para substituir';
+  }
+})();
+
+document.getElementById('publishBtn').addEventListener('click', async () => {
+  const token = localStorage.getItem('ghToken');
+  if (!token) {
+    toast('Configura o GitHub Token em Social & Integrations', 'error');
+    document.querySelector('[data-tab="social"]').click();
+    return;
+  }
+
+  const btn = document.getElementById('publishBtn');
+  btn.textContent = '⏳ Publishing…';
+  btn.disabled = true;
+
+  try {
+    // 1. Get current file SHA from GitHub
+    const getRes = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
+      { headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' } }
+    );
+    if (!getRes.ok) throw new Error('Não foi possível aceder ao repo. Verifica o token.');
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // 2. Encode current settings as base64
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(S, null, 2))));
+
+    // 3. Push updated settings.json
+    const putRes = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'Update settings from admin panel',
+          content,
+          sha
+        })
+      }
+    );
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      throw new Error(err.message || 'Erro ao publicar');
+    }
+
+    toast('✓ Publicado! Cloudflare Pages a fazer deploy (~1 min)', 'success');
+    btn.textContent = '✓ Published!';
+    setTimeout(() => { btn.textContent = '🚀 Publish'; btn.disabled = false; }, 3000);
+  } catch(e) {
+    toast('Erro: ' + e.message, 'error');
+    btn.textContent = '🚀 Publish';
+    btn.disabled = false;
+  }
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
