@@ -789,7 +789,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.2</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.3</div>
     </div>
   </nav>
 
@@ -1082,6 +1082,13 @@
               <input type="file" id="heroVideoFile" accept="video/mp4,video/webm" style="display:none">
               <button class="btn btn-secondary btn-full mb-4" id="heroVideoUploadBtn">Upload video (MP4/WebM, max 30s)</button>
               <div class="upload-status" id="heroVideoStatus" style="text-align:center"></div>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <button class="btn btn-ghost" id="heroVideoSaveLaterBtn" style="flex:1;font-size:0.78rem">🔖 Save URL (don't add to slideshow)</button>
+                <button class="btn btn-ghost" id="heroVideoRemoveBtn" style="flex:1;font-size:0.78rem;color:var(--red);border-color:var(--red)">🗑 Remove video</button>
+              </div>
+              <div id="heroVideoSavedHint" style="display:none;font-size:0.72rem;color:var(--text-3);margin-top:6px;padding:6px 8px;background:var(--sidebar-bg);border-radius:6px">
+                URL saved. Paste it back anytime to reactivate.
+              </div>
             </div>
 
             <div class="flex-row mt-4" style="gap:8px">
@@ -2456,6 +2463,10 @@ function loadHeroSlides() {
   if (S.heroSlideDuration) {
     document.getElementById('heroSlideDuration').value = S.heroSlideDuration;
   }
+  // Pre-fill saved video URL if no active video slide
+  if (S.heroVideoSaved && !heroSlides.find(s => s.type === 'video')) {
+    document.getElementById('heroVideoUrl').value = S.heroVideoSaved;
+  }
   updateModeUI();
   renderHeroSlidesGrid();
 }
@@ -2582,6 +2593,39 @@ document.getElementById('heroVideoUrl').addEventListener('input', function() {
   const vid = document.getElementById('heroVideoPreviewEl');
   if (this.value.trim()) { vid.src = this.value; vid.style.display = 'block'; document.getElementById('heroVideoLabel').style.display = 'none'; }
   else { vid.style.display = 'none'; document.getElementById('heroVideoLabel').style.display = 'flex'; }
+});
+
+// Save video URL for later (store in settings but don't add to slideshow)
+document.getElementById('heroVideoSaveLaterBtn').addEventListener('click', () => {
+  const url = document.getElementById('heroVideoUrl').value.trim();
+  if (!url) { toast('No video URL to save', 'error'); return; }
+  S.heroVideoSaved = url;
+  // Remove from slideshow if it's there
+  heroSlides = heroSlides.filter(s => s.type !== 'video');
+  S.heroSlides = heroSlides;
+  delete S.heroVideo;
+  saveSettings();
+  renderHeroSlidesGrid();
+  const hint = document.getElementById('heroVideoSavedHint');
+  hint.style.display = 'block';
+  setTimeout(() => hint.style.display = 'none', 4000);
+  toast('URL saved — not in slideshow', 'success');
+});
+
+// Remove video from slideshow entirely
+document.getElementById('heroVideoRemoveBtn').addEventListener('click', () => {
+  if (!confirm('Remove video from the slideshow?')) return;
+  heroSlides = heroSlides.filter(s => s.type !== 'video');
+  S.heroSlides = heroSlides;
+  delete S.heroVideo;
+  // Keep heroVideoSaved if it exists so URL isn't lost
+  document.getElementById('heroVideoUrl').value = '';
+  const vid = document.getElementById('heroVideoPreviewEl');
+  vid.src = ''; vid.style.display = 'none';
+  document.getElementById('heroVideoLabel').style.display = 'flex';
+  saveSettings();
+  renderHeroSlidesGrid();
+  toast('Video removed from slideshow', 'success');
 });
 
 // Save hero
