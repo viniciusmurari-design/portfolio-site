@@ -786,7 +786,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.0</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.1</div>
     </div>
   </nav>
 
@@ -795,10 +795,10 @@
     <div id="topbar">
       <div id="topbar-title">Dashboard</div>
       <span id="unsavedIndicator" style="display:none;font-size:0.7rem;color:#f59e0b;font-weight:500;padding:4px 10px;background:rgba(245,158,11,0.1);border-radius:20px">Unsaved changes</span>
-      <button class="topbar-btn" id="syncServerBtn" title="Sync all data to server">
+      <button class="topbar-btn" id="syncServerBtn" title="Sync all data to server" style="display:none">
         ↑ Sync to Server
       </button>
-      <button class="topbar-btn" id="publishBtn" title="Publish to live site" style="background:#10b981;color:#fff;border-color:#10b981;font-weight:600">
+      <button class="topbar-btn" id="publishBtn" title="Save & publish all settings live" style="background:#10b981;color:#fff;border-color:#10b981;font-weight:600">
         🚀 Publish
       </button>
       <a href="/" target="_blank" class="topbar-btn primary">View Site ↗</a>
@@ -1306,12 +1306,17 @@ let sidebarDragSrc = null;
 
 function saveSettings() {
   localStorage.setItem('vmSettings', JSON.stringify(S));
-  // Auto-sync to server file so settings persist across deploys
-  fetch('/api/settings', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(S)
-  }).catch(() => {}); // silent fail if server not running
+  sbSaveSettings(); // Save to Supabase — instant, visible everywhere
+}
+
+async function sbSaveSettings() {
+  try {
+    await sbFetch('/rest/v1/site_settings', {
+      method: 'POST',
+      headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ id: 1, data: S })
+    });
+  } catch(e) { /* silent fail */ }
 }
 
 // ─── Auto-save draft ───
@@ -1509,57 +1514,34 @@ document.getElementById('saveGithubTokenBtn').addEventListener('click', () => {
 })();
 
 document.getElementById('publishBtn').addEventListener('click', async () => {
-  const token = localStorage.getItem('ghToken');
-  if (!token) {
-    toast('Configura o GitHub Token em Social & Integrations', 'error');
-    document.querySelector('[data-tab="social"]').click();
-    return;
-  }
-
   const btn = document.getElementById('publishBtn');
   btn.textContent = '⏳ Publishing…';
   btn.disabled = true;
 
+  // Collect all content fields before saving
+  if (typeof CONTENT_FIELDS !== 'undefined') {
+    CONTENT_FIELDS.forEach(key => {
+      const el = document.getElementById('c-' + key);
+      if (el) S[key] = el.value;
+    });
+  }
+
   try {
-    // 1. Get current file SHA from GitHub
-    const getRes = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
-      { headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' } }
-    );
-    if (!getRes.ok) throw new Error('Não foi possível aceder ao repo. Verifica o token.');
-    const fileData = await getRes.json();
-    const sha = fileData.sha;
-
-    // 2. Encode current settings as base64
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(S, null, 2))));
-
-    // 3. Push updated settings.json
-    const putRes = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/vnd.github+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: 'Update settings from admin panel',
-          content,
-          sha
-        })
-      }
-    );
-    if (!putRes.ok) {
-      const err = await putRes.json();
-      throw new Error(err.message || 'Erro ao publicar');
-    }
-
-    toast('✓ Publicado! Cloudflare Pages a fazer deploy (~1 min)', 'success');
+    const res = await sbFetch('/rest/v1/site_settings', {
+      method: 'POST',
+      headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ id: 1, data: S })
+    });
+    if (!res.ok) throw new Error('Supabase error ' + res.status);
+    localStorage.setItem('vmSettings', JSON.stringify(S));
+    toast('✓ Publicado! Visível em todo o lado em segundos', 'success');
     btn.textContent = '✓ Published!';
+    hasUnsavedChanges = false;
+    const indicator = document.getElementById('unsavedIndicator');
+    if (indicator) indicator.style.display = 'none';
     setTimeout(() => { btn.textContent = '🚀 Publish'; btn.disabled = false; }, 3000);
   } catch(e) {
-    toast('Erro: ' + e.message, 'error');
+    toast('Erro ao publicar: ' + e.message, 'error');
     btn.textContent = '🚀 Publish';
     btn.disabled = false;
   }
