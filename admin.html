@@ -503,6 +503,9 @@
       font-size: 0.68rem; font-family: var(--sans); cursor: pointer;
     }
     .hero-slide-card .hsc-link select option { background: #222; color: #fff; }
+    .hero-slide-card { cursor: grab; }
+    .hero-slide-card.dragging { opacity: 0.4; }
+    .hero-slide-card.drag-over { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
     .hero-mode-btn { background: var(--sidebar-bg); border: 1px solid var(--border); color: var(--text-2); }
     .hero-mode-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
     .hero-history { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-top: 12px; }
@@ -786,7 +789,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.1</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.2</div>
     </div>
   </nav>
 
@@ -2427,19 +2430,26 @@ let heroSlides = []; // Array of { url, link }
 let heroMode = 'photos'; // 'photos' or 'video'
 
 function loadHeroSlides() {
-  if (S.heroVideo) {
-    heroMode = 'video';
+  heroMode = 'photos';
+  if (S.heroSlides && S.heroSlides.length) {
+    heroSlides = S.heroSlides.map(s => ({ url: s.url, link: s.link || '', type: s.type || '' }));
+    // If slides contain a video, pre-fill the video URL field
+    const vidSlide = heroSlides.find(s => s.type === 'video');
+    if (vidSlide) {
+      document.getElementById('heroVideoUrl').value = vidSlide.url;
+      const vid = document.getElementById('heroVideoPreviewEl');
+      vid.src = vidSlide.url; vid.style.display = 'block';
+      document.getElementById('heroVideoLabel').style.display = 'none';
+    }
+  } else if (S.heroVideo) {
+    // Legacy: migrate heroVideo → slide entry
+    heroSlides = [{ url: S.heroVideo, type: 'video', link: '' }];
     document.getElementById('heroVideoUrl').value = S.heroVideo;
     const vid = document.getElementById('heroVideoPreviewEl');
     vid.src = S.heroVideo; vid.style.display = 'block';
     document.getElementById('heroVideoLabel').style.display = 'none';
-  } else {
-    heroMode = 'photos';
-  }
-  if (S.heroSlides && S.heroSlides.length) {
-    heroSlides = S.heroSlides.map(s => ({ url: s.url, link: s.link || '' }));
   } else if (S.heroBg) {
-    heroSlides = [{ url: S.heroBg, link: '' }];
+    heroSlides = [{ url: S.heroBg, link: '', type: '' }];
   } else {
     heroSlides = [];
   }
@@ -2467,23 +2477,48 @@ function renderHeroSlidesGrid() {
   heroSlides.forEach((slide, i) => {
     const card = document.createElement('div');
     card.className = 'hero-slide-card';
-    const thumb = slide.url.includes('res.cloudinary.com') ? slide.url.replace(/\/upload\/[^/]*\//, '/upload/w_320,h_180,c_fill,q_auto,f_auto/') : slide.url;
-    card.innerHTML = `
-      <img src="${thumb}" alt="Slide ${i+1}" loading="lazy">
-      <button class="hsc-del" title="Remove slide">&times;</button>
-      <div class="hsc-link">
-        <select title="Link to gallery">
-          <option value="">No link</option>
-          ${GALLERY_CATS.map(c => `<option value="#${c.id}" ${slide.link === '#' + c.id ? 'selected' : ''}>${c.label}</option>`).join('')}
-        </select>
-      </div>`;
+    const isVideo = slide.type === 'video';
+    const thumb = !isVideo && slide.url.includes('res.cloudinary.com') ? slide.url.replace(/\/upload\/[^/]*\//, '/upload/w_320,h_180,c_fill,q_auto,f_auto/') : '';
+    card.innerHTML = isVideo
+      ? `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#111;color:#fff;font-size:1.8rem;flex-direction:column;gap:4px">
+           <span>▶</span><span style="font-size:0.6rem;opacity:0.6">VIDEO</span>
+         </div>
+         <button class="hsc-del" title="Remove video">&times;</button>`
+      : `<img src="${thumb}" alt="Slide ${i+1}" loading="lazy">
+         <button class="hsc-del" title="Remove slide">&times;</button>
+         <div class="hsc-link">
+           <select title="Link to gallery">
+             <option value="">No link</option>
+             ${GALLERY_CATS.map(c => `<option value="#${c.id}" ${slide.link === '#' + c.id ? 'selected' : ''}>${c.label}</option>`).join('')}
+           </select>
+         </div>`;
     card.querySelector('.hsc-del').addEventListener('click', () => {
       heroSlides.splice(i, 1);
       renderHeroSlidesGrid();
     });
-    card.querySelector('select').addEventListener('change', function() {
-      heroSlides[i].link = this.value;
+    const sel = card.querySelector('select');
+    if (sel) sel.addEventListener('change', function() { heroSlides[i].link = this.value; });
+
+    // Drag-and-drop reordering
+    card.draggable = true;
+    card.addEventListener('dragstart', e => {
+      e.dataTransfer.effectAllowed = 'move';
+      card.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', i);
     });
+    card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drag-over'); });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+    card.addEventListener('drop', e => {
+      e.preventDefault(); card.classList.remove('drag-over');
+      const from = parseInt(e.dataTransfer.getData('text/plain'));
+      if (from !== i) {
+        const moved = heroSlides.splice(from, 1)[0];
+        heroSlides.splice(i, 0, moved);
+        renderHeroSlidesGrid();
+      }
+    });
+
     grid.appendChild(card);
   });
 }
@@ -2554,18 +2589,24 @@ document.getElementById('saveHeroSlidesBtn').addEventListener('click', () => {
   if (heroMode === 'video') {
     const videoUrl = document.getElementById('heroVideoUrl').value.trim();
     if (!videoUrl) { toast('Enter a video URL or upload a video', 'error'); return; }
-    S.heroVideo = videoUrl;
-    delete S.heroSlides;
-    delete S.heroBg;
+    // If there are existing photo slides, add/replace the video slide in the sequence
+    // Remove any previous video slide, then add the new one
+    heroSlides = heroSlides.filter(s => s.type !== 'video');
+    heroSlides.push({ url: videoUrl, type: 'video', link: '' });
+    S.heroSlides = heroSlides;
+    S.heroBg = heroSlides.find(s => s.type !== 'video')?.url || heroSlides[0].url;
+    S.heroSlideDuration = parseInt(document.getElementById('heroSlideDuration').value) || 5;
+    delete S.heroVideo; // migrate to new format
   } else {
     if (!heroSlides.length) { toast('Add at least one photo', 'error'); return; }
     S.heroSlides = heroSlides;
-    S.heroBg = heroSlides[0].url; // backwards compat
+    S.heroBg = heroSlides.find(s => s.type !== 'video')?.url || heroSlides[0].url;
     S.heroSlideDuration = parseInt(document.getElementById('heroSlideDuration').value) || 5;
     delete S.heroVideo;
   }
   saveSettings();
-  toast('Hero saved! Reload site to see changes.', 'success');
+  toast('Hero saved! Click Publish to go live.', 'success');
+  if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
 });
 
 // Reset hero

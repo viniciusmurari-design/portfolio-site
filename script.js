@@ -658,28 +658,25 @@ function saveEdits() {
   let duration = 5000;
 
   function applyHeroSettings(s) {
-    // Video mode
-    if (s.heroVideo) {
-      hero.classList.add('slideshow-active');
-      heroVideo.src = s.heroVideo;
-      heroVideo.style.display = 'block';
-      slidesContainer.style.display = 'none';
-      dotsContainer.style.display = 'none';
-      return;
-    }
     heroVideo.style.display = 'none';
 
-    // Slideshow mode — only activate if heroSlides array exists
+    // Build unified slide array — images and video mixed together
+    let allSlides = [];
     if (s.heroSlides && s.heroSlides.length > 0) {
+      allSlides = s.heroSlides;
+    } else if (s.heroVideo) {
+      // Legacy single-video mode → treat as one video slide
+      allSlides = [{ url: s.heroVideo, type: 'video' }];
+    }
+
+    if (allSlides.length > 0) {
       hero.classList.add('slideshow-active');
-      slides = s.heroSlides;
+      slides = allSlides;
+      duration = (s.heroSlideDuration || 5) * 1000;
     } else {
-      // No slideshow configured — keep default CSS ::before/::after
       hero.classList.remove('slideshow-active');
       slides = [];
-      return;
     }
-    duration = (s.heroSlideDuration || 5) * 1000;
   }
 
   function loadHeroConfig() {
@@ -694,7 +691,24 @@ function saveEdits() {
     slides.forEach((slide, i) => {
       const el = document.createElement('div');
       el.className = 'hero-slide' + (i === 0 ? ' active' : '');
-      el.style.backgroundImage = `url('${slide.url}')`;
+
+      if (slide.type === 'video') {
+        el.dataset.type = 'video';
+        const vid = document.createElement('video');
+        vid.src = slide.url;
+        vid.muted = true;
+        vid.playsInline = true;
+        vid.setAttribute('playsinline', '');
+        vid.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
+        el.appendChild(vid);
+        // Auto-advance when video ends
+        vid.addEventListener('ended', () => goToSlide((i + 1) % slides.length));
+        // Play if this is the first slide
+        if (i === 0) vid.play().catch(() => {});
+      } else {
+        el.style.backgroundImage = `url('${slide.url}')`;
+      }
+
       if (slide.link) {
         el.dataset.link = slide.link;
         el.addEventListener('click', () => {
@@ -725,14 +739,24 @@ function saveEdits() {
   }
 
   function goToSlide(index) {
+    // Pause and reset any video slides that are leaving
+    slidesContainer.querySelectorAll('.hero-slide[data-type="video"] video').forEach(v => {
+      v.pause(); v.currentTime = 0;
+    });
+
     currentSlide = index;
-    slidesContainer.querySelectorAll('.hero-slide').forEach((s, i) => {
-      s.classList.toggle('active', i === index);
-    });
-    dotsContainer.querySelectorAll('.hero-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === index);
-    });
-    resetInterval();
+    const slideEls = slidesContainer.querySelectorAll('.hero-slide');
+    slideEls.forEach((s, i) => s.classList.toggle('active', i === index));
+    dotsContainer.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === index));
+
+    // If new active slide is video, play it and let it drive its own timing
+    const activeEl = slideEls[index];
+    if (activeEl && activeEl.dataset.type === 'video') {
+      clearInterval(interval); // video end event handles advance
+      activeEl.querySelector('video')?.play().catch(() => {});
+    } else {
+      resetInterval();
+    }
   }
 
   function nextSlide() {
