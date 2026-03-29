@@ -1,0 +1,46 @@
+{
+  "gallerySubs": {},
+  "photoSubs": {},
+  "heroPill": "",
+  "heroHeadline": "",
+  "heroSub": "",
+  "aboutPhoto": "/photos/hero/347B6E19-1332-45C9-89DE-0A5FFBA4FD36 2.JPG",
+  "aboutText1": "",
+  "aboutText2": "",
+  "aboutText3": "",
+  "stat1Val": "",
+  "stat1Lbl": "",
+  "stat2Val": "",
+  "stat2Lbl": "",
+  "stat3Val": "",
+  "stat3Lbl": "",
+  "stat4Val": "",
+  "stat4Lbl": "",
+  "quote": "",
+  "contactLocation": "",
+  "contactPhone": "",
+  "contactEmail": "",
+  "instagramUrl": "",
+  "facebookUrl": "https://www.facebook.com/estudioviniciusmurari",
+  "facebookReviewsUrl": "https://www.facebook.com/estudioviniciusmurari/reviews",
+  "whatsappNumber": "",
+  "whatsappMessage": "",
+  "mapEmbedUrl": "",
+  "mapLat": "",
+  "mapLng": "",
+  "seoTitle": "",
+  "seoDescription": "",
+  "seoOgImage": "",
+  "heroSlides": [
+    {
+      "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774712101445_food_photography-26",
+      "link": ""
+    },
+    {
+      "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774712141220_food_photography-01",
+      "link": ""
+    }
+  ],
+  "heroBg": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774712101445_food_photography-26",
+  "heroSlideDuration": 3
+}

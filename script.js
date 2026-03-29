@@ -1,7 +1,7 @@
 // ─── Dark Mode ───────────────────────────────────────────────────────────
 (function() {
   const saved = localStorage.getItem('theme');
-  if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  if (saved === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
   }
 })();
@@ -179,11 +179,17 @@ if (form) {
     btn.disabled = true;
     btn.textContent = 'Sending…';
 
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(new FormData(form)).toString()
-    }).then(res => {
+    // Populate Web3Forms key if configured
+    const _s = JSON.parse(localStorage.getItem('vmSettings') || '{}');
+    const _key = document.getElementById('w3fKey');
+    if (_key && _s.web3formsKey) _key.value = _s.web3formsKey;
+
+    const _w3f = _s.web3formsKey;
+    const _endpoint = _w3f ? 'https://api.web3forms.com/submit' : '/';
+    const _headers = _w3f ? { 'Accept': 'application/json' } : { 'Content-Type': 'application/x-www-form-urlencoded' };
+    const _body = _w3f ? new FormData(form) : new URLSearchParams(new FormData(form)).toString();
+
+    fetch(_endpoint, { method: 'POST', headers: _headers, body: _body }).then(res => {
       if (res.ok) {
         const ok = document.getElementById('fok');
         ok.style.display = 'block';
@@ -644,32 +650,35 @@ function saveEdits() {
   let interval = null;
   let duration = 5000;
 
+  function applyHeroSettings(s) {
+    // Video mode
+    if (s.heroVideo) {
+      hero.classList.add('slideshow-active');
+      heroVideo.src = s.heroVideo;
+      heroVideo.style.display = 'block';
+      slidesContainer.style.display = 'none';
+      dotsContainer.style.display = 'none';
+      return;
+    }
+    heroVideo.style.display = 'none';
+
+    // Slideshow mode — only activate if heroSlides array exists
+    if (s.heroSlides && s.heroSlides.length > 0) {
+      hero.classList.add('slideshow-active');
+      slides = s.heroSlides;
+    } else {
+      // No slideshow configured — keep default CSS ::before/::after
+      hero.classList.remove('slideshow-active');
+      slides = [];
+      return;
+    }
+    duration = (s.heroSlideDuration || 5) * 1000;
+  }
+
   function loadHeroConfig() {
     try {
       const s = JSON.parse(localStorage.getItem('vmSettings') || '{}');
-
-      // Video mode
-      if (s.heroVideo) {
-        hero.classList.add('slideshow-active');
-        heroVideo.src = s.heroVideo;
-        heroVideo.style.display = 'block';
-        slidesContainer.style.display = 'none';
-        dotsContainer.style.display = 'none';
-        return;
-      }
-      heroVideo.style.display = 'none';
-
-      // Slideshow mode — only activate if heroSlides array exists
-      if (s.heroSlides && s.heroSlides.length > 0) {
-        hero.classList.add('slideshow-active');
-        slides = s.heroSlides;
-      } else {
-        // No slideshow configured — keep default CSS ::before/::after
-        hero.classList.remove('slideshow-active');
-        slides = [];
-        return;
-      }
-      duration = (s.heroSlideDuration || 5) * 1000;
+      applyHeroSettings(s);
     } catch(e) {
       slides = [];
     }

@@ -786,7 +786,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v1.6</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v1.9</div>
     </div>
   </nav>
 
@@ -1141,6 +1141,14 @@
           </div>
 
           <div class="card">
+            <div class="card-title">Contact Form — Email Notifications</div>
+            <div class="field">
+              <label>Web3Forms Access Key</label>
+              <input id="c-web3formsKey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+              <div class="hint">Grátis, sem conta. Acesse <strong>web3forms.com</strong> → coloque seu email → receba a chave → cole aqui. Mensagens do site chegam no seu email.</div>
+            </div>
+          </div>
+          <div class="card">
             <div class="card-title">SEO &amp; Meta Tags</div>
             <div class="field"><label>Page Title <span class="char-count" id="seoTitleCount">0/60</span></label><input id="c-seoTitle" placeholder="Vinicius Murari — Photography Dublin" maxlength="70"></div>
             <div class="field"><label>Meta Description <span class="char-count" id="seoDescCount">0/160</span></label><textarea id="c-seoDescription" rows="3" placeholder="Professional photography services…" maxlength="170"></textarea></div>
@@ -1230,7 +1238,8 @@ const SOCIAL_FIELDS = [
   'instagramUrl','facebookUrl','facebookReviewsUrl',
   'whatsappNumber','whatsappMessage',
   'mapEmbedUrl','mapLat','mapLng',
-  'seoTitle','seoDescription','seoOgImage'
+  'seoTitle','seoDescription','seoOgImage',
+  'web3formsKey'
 ];
 const DEFAULT_REVIEWS = [
   { name: 'Junior Joly',          category: 'Photography', date: 'December 2020', stars: 5, text: 'Vinicius is a photographer who cares about the smallest details. He has the sensitivity to focus on the best aspects of every scene, bringing out the best in each one. A subtle and romantic photographer.' },
@@ -1285,6 +1294,12 @@ let sidebarDragSrc = null;
 
 function saveSettings() {
   localStorage.setItem('vmSettings', JSON.stringify(S));
+  // Auto-sync to server file so settings persist across deploys
+  fetch('/api/settings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(S)
+  }).catch(() => {}); // silent fail if server not running
 }
 
 // ─── Auto-save draft ───
@@ -2589,9 +2604,9 @@ function toast(msg, type = '') {
 async function loadAllCounts() {
   await Promise.all(CATEGORIES.map(async cat => {
     try {
-      const res = await fetch(`/api/photos?category=${cat.id}`);
-      const photos = await res.json();
-      counts[cat.id] = photos.length;
+      const res = await sbFetch(`/rest/v1/photos?category=eq.${cat.id}&select=public_id`);
+      const photos = res.ok ? await res.json() : [];
+      counts[cat.id] = Array.isArray(photos) ? photos.length : 0;
     } catch(e) { counts[cat.id] = 0; }
   }));
   buildSidebar();

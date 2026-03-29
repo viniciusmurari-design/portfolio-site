@@ -8,3 +8,5 @@ skills-lock.json
 __pycache__/
 *.pyc
 photos/
+food/
+content.json
