@@ -45,6 +45,22 @@ function generateAlt(filename, category) {
   return (names[category] || 'Photography') + ' by Vinicius Murari in Dublin';
 }
 
+// ─── Video Helpers ────────────────────────────────────────────────────────
+function getYouTubeId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/\s]+)/);
+  return m ? m[1] : null;
+}
+function optimizeCloudinaryVideo(url) {
+  if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) return url;
+  if (url.includes('/video/upload/vc_h264')) return url; // already optimised
+  return url.replace('/video/upload/', '/video/upload/vc_h264,ac_none,q_auto,w_1080,c_limit/');
+}
+function getVideoPoster(url) {
+  if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) return '';
+  return url.replace('/video/upload/', '/video/upload/so_0,f_jpg,q_auto,w_800/').replace(/\.(mp4|webm|mov)(\?.*)?$/, '.jpg');
+}
+
 // ─── Page Loader ──────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   setTimeout(() => {
@@ -683,6 +699,10 @@ function saveEdits() {
     applyHeroSettings(Settings.get());
   }
 
+  function makeYtSrc(ytId) {
+    return `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&playsinline=1&rel=0&modestbranding=1`;
+  }
+
   function buildSlides() {
     slidesContainer.innerHTML = '';
     dotsContainer.innerHTML = '';
@@ -693,18 +713,37 @@ function saveEdits() {
       el.className = 'hero-slide' + (i === 0 ? ' active' : '');
 
       if (slide.type === 'video') {
-        el.dataset.type = 'video';
-        const vid = document.createElement('video');
-        vid.src = slide.url;
-        vid.muted = true;
-        vid.playsInline = true;
-        vid.setAttribute('playsinline', '');
-        vid.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
-        el.appendChild(vid);
-        // Auto-advance when video ends
-        vid.addEventListener('ended', () => goToSlide((i + 1) % slides.length));
-        // Play if this is the first slide
-        if (i === 0) vid.play().catch(() => {});
+        const ytId = getYouTubeId(slide.url);
+        if (ytId) {
+          // ── YouTube embed ──────────────────────────────────────────────
+          el.dataset.type = 'youtube';
+          el.dataset.ytid = ytId;
+          const iframe = document.createElement('iframe');
+          iframe.allow = 'autoplay; fullscreen';
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.setAttribute('frameborder', '0');
+          // Only autoplay the first slide immediately; others load on demand
+          iframe.src = i === 0 ? makeYtSrc(ytId) : '';
+          el.appendChild(iframe);
+          // YouTube loops via playlist param — advance after a fixed duration
+          if (i === 0) setTimeout(() => goToSlide((i + 1) % slides.length), duration);
+        } else {
+          // ── Cloudinary / direct video ──────────────────────────────────
+          el.dataset.type = 'video';
+          const optimisedUrl = optimizeCloudinaryVideo(slide.url);
+          const poster = getVideoPoster(slide.url);
+          const vid = document.createElement('video');
+          vid.muted = true;
+          vid.playsInline = true;
+          vid.setAttribute('playsinline', '');
+          vid.preload = i === 0 ? 'metadata' : 'none'; // lazy-load non-active slides
+          if (poster) vid.poster = poster;
+          vid.src = optimisedUrl;
+          vid.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
+          el.appendChild(vid);
+          vid.addEventListener('ended', () => goToSlide((i + 1) % slides.length));
+          if (i === 0) vid.play().catch(() => {});
+        }
       } else {
         el.style.backgroundImage = `url('${slide.url}')`;
       }
@@ -739,9 +778,12 @@ function saveEdits() {
   }
 
   function goToSlide(index) {
-    // Pause and reset any video slides that are leaving
+    // Stop all video/YouTube slides that are leaving
     slidesContainer.querySelectorAll('.hero-slide[data-type="video"] video').forEach(v => {
       v.pause(); v.currentTime = 0;
+    });
+    slidesContainer.querySelectorAll('.hero-slide[data-type="youtube"] iframe').forEach(f => {
+      f.src = ''; // stops playback without destroying element
     });
 
     currentSlide = index;
@@ -749,11 +791,22 @@ function saveEdits() {
     slideEls.forEach((s, i) => s.classList.toggle('active', i === index));
     dotsContainer.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === index));
 
-    // If new active slide is video, play it and let it drive its own timing
     const activeEl = slideEls[index];
-    if (activeEl && activeEl.dataset.type === 'video') {
-      clearInterval(interval); // video end event handles advance
-      activeEl.querySelector('video')?.play().catch(() => {});
+    if (!activeEl) return;
+
+    if (activeEl.dataset.type === 'video') {
+      clearInterval(interval);
+      const vid = activeEl.querySelector('video');
+      if (vid) { vid.preload = 'auto'; vid.play().catch(() => {}); }
+      // fallback timer in case video never ends (e.g. network issue)
+      const fallback = setTimeout(() => goToSlide((index + 1) % slides.length), duration + 15000);
+      vid?.addEventListener('ended', () => clearTimeout(fallback), { once: true });
+    } else if (activeEl.dataset.type === 'youtube') {
+      clearInterval(interval);
+      const iframe = activeEl.querySelector('iframe');
+      if (iframe) iframe.src = makeYtSrc(activeEl.dataset.ytid);
+      // YouTube loops via playlist — advance after slide duration
+      setTimeout(() => goToSlide((index + 1) % slides.length), duration);
     } else {
       resetInterval();
     }

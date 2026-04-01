@@ -789,7 +789,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.3</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.4</div>
     </div>
   </nav>
 
@@ -1078,7 +1078,11 @@
                 <video id="heroVideoPreviewEl" style="width:100%;height:100%;object-fit:cover;display:none" muted loop playsinline></video>
                 <div class="hero-preview-empty" id="heroVideoLabel">No video uploaded</div>
               </div>
-              <div class="field"><label>Video URL</label><input id="heroVideoUrl" placeholder="https://res.cloudinary.com/…/video/upload/…"></div>
+              <div class="field">
+                <label>Video URL <span style="font-weight:400;color:var(--text-3);font-size:0.75rem">— Cloudinary or YouTube</span></label>
+                <input id="heroVideoUrl" placeholder="https://youtu.be/… or https://res.cloudinary.com/…">
+                <div class="hint">Paste a YouTube link (youtu.be/… or youtube.com/watch?v=…) or a Cloudinary video URL. YouTube is recommended for mobile.</div>
+              </div>
               <input type="file" id="heroVideoFile" accept="video/mp4,video/webm" style="display:none">
               <button class="btn btn-secondary btn-full mb-4" id="heroVideoUploadBtn">Upload video (MP4/WebM, max 30s)</button>
               <div class="upload-status" id="heroVideoStatus" style="text-align:center"></div>
