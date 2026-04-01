@@ -693,6 +693,110 @@
       #mobileNav { display: block; }
     }
 
+    /* ─── Media Library Modal ───────────────────────────────────────── */
+    #mlModal {
+      position: fixed; inset: 0; z-index: 5000;
+      display: none; align-items: center; justify-content: center;
+    }
+    #mlModal.open { display: flex; }
+    .ml-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
+    }
+    .ml-panel {
+      position: relative; z-index: 1;
+      width: min(920px, 96vw); max-height: 88vh;
+      background: var(--white); border-radius: 20px;
+      box-shadow: 0 32px 100px rgba(0,0,0,0.3);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .ml-head { padding: 20px 24px 0; flex-shrink: 0; }
+    .ml-head-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .ml-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .ml-subtitle { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; }
+    .ml-close-btn {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: var(--bg); cursor: pointer; font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-2); transition: all .15s; line-height: 1;
+    }
+    .ml-close-btn:hover { background: var(--red); color: #fff; }
+    .ml-toolbar {
+      display: flex; gap: 10px; align-items: center; margin-bottom: 12px;
+    }
+    .ml-search-wrap { flex: 1; position: relative; }
+    .ml-search-wrap input {
+      width: 100%; padding: 8px 12px 8px 32px;
+      border: 1px solid var(--border); border-radius: 20px;
+      font-family: var(--sans); font-size: 0.82rem; background: var(--bg);
+      color: var(--text); outline: none; transition: all .2s;
+    }
+    .ml-search-wrap input:focus { border-color: var(--blue); background: var(--white); box-shadow: 0 0 0 3px rgba(59,130,246,.08); }
+    .ml-search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 13px; opacity: 0.35; pointer-events: none; }
+    .ml-tabs {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding: 0 0 14px; border-bottom: 1px solid var(--border);
+      max-height: 80px; overflow-y: auto;
+    }
+    .ml-tab {
+      padding: 4px 12px; border-radius: 20px; font-size: 0.72rem;
+      font-weight: 500; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text-2); cursor: pointer;
+      transition: all .12s; font-family: var(--sans); white-space: nowrap;
+    }
+    .ml-tab:hover { border-color: var(--blue); color: var(--blue); }
+    .ml-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .ml-body { flex: 1; overflow-y: auto; padding: 16px 24px; min-height: 0; }
+    .ml-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 8px;
+    }
+    .ml-item {
+      aspect-ratio: 1; border-radius: 8px; overflow: hidden;
+      position: relative; cursor: pointer; background: var(--bg);
+      border: 2.5px solid transparent; transition: border-color .12s, transform .12s;
+    }
+    .ml-item:hover { border-color: var(--blue); transform: scale(1.02); }
+    .ml-item.selected { border-color: var(--blue); }
+    .ml-item img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+    .ml-item-check {
+      position: absolute; top: 5px; left: 5px;
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.8);
+      background: rgba(0,0,0,0.3); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: transparent; transition: all .12s;
+    }
+    .ml-item.selected .ml-item-check { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .ml-item.selected::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(59,130,246,0.12);
+    }
+    .ml-item-cat {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 18px 5px 5px;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
+      font-size: 0.56rem; color: rgba(255,255,255,0.9); text-transform: capitalize;
+      opacity: 0; transition: opacity .15s;
+    }
+    .ml-item:hover .ml-item-cat { opacity: 1; }
+    .ml-status {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 24px; color: var(--text-3); font-size: 0.85rem;
+    }
+    .ml-foot {
+      padding: 14px 24px; flex-shrink: 0;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+      background: var(--white);
+    }
+    .ml-count { flex: 1; font-size: 0.8rem; color: var(--text-3); font-weight: 500; }
+    .ml-count strong { color: var(--blue); }
+
     /* ─── Misc utils ───────────────────────────────────────────────── */
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
     .text-muted { color: var(--text-3); }
@@ -789,7 +893,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.7</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.8</div>
     </div>
   </nav>
 
@@ -920,7 +1024,10 @@
                 <option value="">None (All)</option>
               </select>
             </div>
-            <label for="fileInput" class="btn btn-primary mt-3" id="uploadBtn" style="cursor:pointer">Choose Photos</label>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+              <label for="fileInput" class="btn btn-primary" id="uploadBtn" style="cursor:pointer">Choose Photos</label>
+              <button class="btn btn-ghost" id="galleryLibraryBtn" title="Pick photos already uploaded to Cloudinary">📂 Browse Library</button>
+            </div>
             <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
             <div class="upload-status" id="uploadStatus"></div>
           </div>
@@ -1053,6 +1160,7 @@
               <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
                 <input type="file" id="heroSlideFile" accept="image/*" multiple style="display:none">
                 <button class="btn btn-secondary" id="heroSlideUploadBtn">+ Add Photos</button>
+                <button class="btn btn-ghost" id="heroLibraryBtn" title="Pick from files already on Cloudinary">📂 Browse Library</button>
                 <span style="font-size:0.72rem;color:var(--text-3)">or paste URL:</span>
                 <input id="heroSlideUrlInput" placeholder="https://…" style="flex:1;min-width:180px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem;background:var(--white);color:var(--text)">
                 <button class="btn btn-sm" id="heroSlideUrlAddBtn" style="background:var(--blue);color:#fff;border:none">Add</button>
@@ -1221,6 +1329,37 @@
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /app -->
+
+<!-- ─── Media Library Modal ───────────────────────────────────────── -->
+<div id="mlModal">
+  <div class="ml-backdrop" id="mlBackdrop"></div>
+  <div class="ml-panel">
+    <div class="ml-head">
+      <div class="ml-head-top">
+        <div>
+          <div class="ml-title">📂 Media Library</div>
+          <div class="ml-subtitle" id="mlSubtitle">Pick from files already uploaded to Cloudinary</div>
+        </div>
+        <button class="ml-close-btn" id="mlCloseBtn">×</button>
+      </div>
+      <div class="ml-toolbar">
+        <div class="ml-search-wrap">
+          <span class="ml-search-icon">🔍</span>
+          <input type="text" id="mlSearchInput" placeholder="Search by filename…">
+        </div>
+      </div>
+      <div class="ml-tabs" id="mlTabs"></div>
+    </div>
+    <div class="ml-body">
+      <div class="ml-grid" id="mlGrid"></div>
+    </div>
+    <div class="ml-foot">
+      <div class="ml-count" id="mlCount">Select photos to add</div>
+      <button class="btn btn-secondary btn-sm" id="mlCancelBtn">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="mlConfirmBtn" disabled>Add Selected</button>
+    </div>
+  </div>
+</div>
 
 <!-- Toast container -->
 <div id="toastContainer"></div>
@@ -2906,6 +3045,175 @@ async function initApp() {
   // Build launch checklist
   buildLaunchChecklist();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MEDIA LIBRARY
+// ─────────────────────────────────────────────────────────────────────────────
+let mlAllPhotos  = [];
+let mlFiltered   = [];
+let mlSelected   = new Set();
+let mlCallback   = null;
+let mlActiveFilter = 'all';
+
+async function openMediaLibrary(callback, opts = {}) {
+  mlCallback = callback;
+  mlSelected.clear();
+  mlActiveFilter = 'all';
+  document.getElementById('mlSearchInput').value = '';
+  document.getElementById('mlSubtitle').textContent = opts.subtitle || 'Pick from files already uploaded to Cloudinary';
+  const confirmBtn = document.getElementById('mlConfirmBtn');
+  confirmBtn.textContent = opts.confirmLabel || 'Add Selected';
+  confirmBtn.disabled = true;
+  document.getElementById('mlCount').innerHTML = 'Select photos to add';
+  document.getElementById('mlGrid').innerHTML = '<div class="ml-status">⏳ Loading library…</div>';
+  document.getElementById('mlTabs').innerHTML = '';
+  document.getElementById('mlModal').classList.add('open');
+
+  await loadMlPhotos();
+}
+
+async function loadMlPhotos() {
+  try {
+    const res = await sbFetch('/rest/v1/photos?select=category,url,thumb,public_id,filename&order=created_at.desc&limit=600');
+    mlAllPhotos = res.ok ? (await res.json() || []) : [];
+  } catch(e) { mlAllPhotos = []; }
+
+  // Merge hero slide images that might not be in Supabase
+  const seenUrls = new Set(mlAllPhotos.map(p => p.url));
+  (S.heroSlides || []).filter(s => !s.type && s.url && !seenUrls.has(s.url)).forEach(s => {
+    const fname = decodeURIComponent(s.url.split('/').pop().split('?')[0]);
+    const pid = s.url.match(/(portfolio\/.+)$/)?.[1] || fname;
+    const thumb = s.url.replace(/\/upload\/[^/]+\//, '/upload/w_200,h_200,c_fill,q_auto/');
+    mlAllPhotos.push({ category: 'hero', url: s.url, thumb, public_id: pid, filename: fname });
+  });
+
+  buildMlTabs();
+  filterMl();
+}
+
+function buildMlTabs() {
+  const tabsEl = document.getElementById('mlTabs');
+  tabsEl.innerHTML = '';
+  const cats = ['all', ...new Set(mlAllPhotos.map(p => p.category).filter(Boolean).sort())];
+  cats.forEach(cat => {
+    const n = cat === 'all' ? mlAllPhotos.length : mlAllPhotos.filter(p => p.category === cat).length;
+    const label = cat === 'all' ? `All (${n})` : `${cat.charAt(0).toUpperCase() + cat.slice(1)} (${n})`;
+    const btn = document.createElement('button');
+    btn.className = 'ml-tab' + (cat === mlActiveFilter ? ' active' : '');
+    btn.textContent = label;
+    btn.addEventListener('click', () => {
+      mlActiveFilter = cat;
+      tabsEl.querySelectorAll('.ml-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterMl();
+    });
+    tabsEl.appendChild(btn);
+  });
+}
+
+function filterMl() {
+  const q = document.getElementById('mlSearchInput').value.toLowerCase();
+  mlFiltered = mlAllPhotos.filter(p => {
+    const matchCat = mlActiveFilter === 'all' || p.category === mlActiveFilter;
+    const matchQ   = !q || (p.filename || '').toLowerCase().includes(q) || (p.public_id || '').toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  renderMlGrid();
+}
+
+function renderMlGrid() {
+  const grid = document.getElementById('mlGrid');
+  grid.innerHTML = '';
+  if (!mlFiltered.length) {
+    grid.innerHTML = '<div class="ml-status">No photos found</div>';
+    return;
+  }
+  mlFiltered.forEach(photo => {
+    const isSelected = photo.public_id && mlSelected.has(photo.public_id);
+    const item = document.createElement('div');
+    item.className = 'ml-item' + (isSelected ? ' selected' : '');
+    const thumb = photo.thumb || photo.url.replace(/\/upload\/[^/]+\//, '/upload/w_200,h_200,c_fill,q_auto/');
+    item.innerHTML = `
+      <img src="${thumb}" alt="${escHtml(photo.filename || '')}" loading="lazy">
+      <div class="ml-item-check">✓</div>
+      <div class="ml-item-cat">${escHtml(photo.category || '')}</div>`;
+    item.addEventListener('click', () => {
+      if (!photo.public_id) return;
+      if (mlSelected.has(photo.public_id)) {
+        mlSelected.delete(photo.public_id);
+        item.classList.remove('selected');
+      } else {
+        mlSelected.add(photo.public_id);
+        item.classList.add('selected');
+      }
+      updateMlFoot();
+    });
+    grid.appendChild(item);
+  });
+}
+
+function updateMlFoot() {
+  const n = mlSelected.size;
+  const confirmBtn = document.getElementById('mlConfirmBtn');
+  confirmBtn.disabled = n === 0;
+  document.getElementById('mlCount').innerHTML =
+    n === 0 ? 'Select photos to add' : `<strong>${n}</strong> photo${n > 1 ? 's' : ''} selected`;
+}
+
+function closeMl() {
+  document.getElementById('mlModal').classList.remove('open');
+  mlSelected.clear();
+  mlCallback = null;
+}
+
+document.getElementById('mlCloseBtn').addEventListener('click', closeMl);
+document.getElementById('mlCancelBtn').addEventListener('click', closeMl);
+document.getElementById('mlBackdrop').addEventListener('click', closeMl);
+document.getElementById('mlSearchInput').addEventListener('input', filterMl);
+document.getElementById('mlConfirmBtn').addEventListener('click', () => {
+  if (!mlCallback || !mlSelected.size) return;
+  const items = mlAllPhotos.filter(p => p.public_id && mlSelected.has(p.public_id));
+  mlCallback(items);
+  closeMl();
+});
+
+// Hero slideshow — browse library
+document.getElementById('heroLibraryBtn').addEventListener('click', () => {
+  openMediaLibrary(items => {
+    if (heroSlides.length + items.length > 8) {
+      toast('Maximum 8 slides — remove some first', 'error'); return;
+    }
+    items.forEach(photo => heroSlides.push({ url: photo.url, link: '' }));
+    renderHeroSlidesGrid();
+    toast(`${items.length} photo${items.length > 1 ? 's' : ''} added to slideshow`, 'success');
+  }, { confirmLabel: 'Add to Slideshow', subtitle: 'Pick photos to add to the hero slideshow' });
+});
+
+// Gallery — browse library
+document.getElementById('galleryLibraryBtn').addEventListener('click', () => {
+  const catLabel = CATEGORIES.find(c => c.id === current)?.label || current;
+  openMediaLibrary(async items => {
+    let added = 0;
+    for (const photo of items) {
+      try {
+        await sbFetch('/rest/v1/photos', {
+          method: 'POST',
+          headers: { 'Prefer': 'return=minimal' },
+          body: JSON.stringify({
+            category: current,
+            filename: photo.filename,
+            url: photo.url,
+            thumb: photo.thumb,
+            public_id: photo.public_id
+          })
+        });
+        added++;
+      } catch(e) { /* silent — may already exist */ }
+    }
+    await loadPhotos(current);
+    toast(`${added} photo${added > 1 ? 's' : ''} added to ${catLabel}`, 'success');
+  }, { confirmLabel: `Add to ${catLabel}`, subtitle: `Pick photos to add to the ${catLabel} gallery` });
+});
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LAUNCH CHECKLIST
