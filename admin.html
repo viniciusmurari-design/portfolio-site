@@ -789,7 +789,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.4</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.5</div>
     </div>
   </nav>
 
@@ -1079,12 +1079,15 @@
                 <div class="hero-preview-empty" id="heroVideoLabel">No video uploaded</div>
               </div>
               <div class="field">
-                <label>Video URL <span style="font-weight:400;color:var(--text-3);font-size:0.75rem">— Cloudinary or YouTube</span></label>
-                <input id="heroVideoUrl" placeholder="https://youtu.be/… or https://res.cloudinary.com/…">
-                <div class="hint">Paste a YouTube link (youtu.be/… or youtube.com/watch?v=…) or a Cloudinary video URL. YouTube is recommended for mobile.</div>
+                <label>YouTube or video URL</label>
+                <div style="display:flex;gap:8px;align-items:flex-start">
+                  <input id="heroVideoUrl" placeholder="https://youtu.be/… or https://res.cloudinary.com/…" style="flex:1">
+                  <button class="btn btn-primary" id="heroVideoAddBtn" style="white-space:nowrap;margin-top:0">+ Add to Slideshow</button>
+                </div>
+                <div class="hint" style="margin-top:4px">Paste a YouTube link or Cloudinary video URL and click <strong>Add to Slideshow</strong>. YouTube recommended for mobile.</div>
               </div>
               <input type="file" id="heroVideoFile" accept="video/mp4,video/webm" style="display:none">
-              <button class="btn btn-secondary btn-full mb-4" id="heroVideoUploadBtn">Upload video (MP4/WebM, max 30s)</button>
+              <button class="btn btn-secondary btn-full mb-4" id="heroVideoUploadBtn">⬆ Upload video file (MP4/WebM)</button>
               <div class="upload-status" id="heroVideoStatus" style="text-align:center"></div>
               <div style="display:flex;gap:8px;margin-top:8px">
                 <button class="btn btn-ghost" id="heroVideoSaveLaterBtn" style="flex:1;font-size:0.78rem">🔖 Save URL (don't add to slideshow)</button>
@@ -2592,11 +2595,39 @@ document.getElementById('heroVideoFile').addEventListener('change', async functi
   this.value = '';
 });
 
-// Video URL manual input
+// Video URL manual input — update preview
 document.getElementById('heroVideoUrl').addEventListener('input', function() {
   const vid = document.getElementById('heroVideoPreviewEl');
-  if (this.value.trim()) { vid.src = this.value; vid.style.display = 'block'; document.getElementById('heroVideoLabel').style.display = 'none'; }
-  else { vid.style.display = 'none'; document.getElementById('heroVideoLabel').style.display = 'flex'; }
+  const url = this.value.trim();
+  // Only preview direct video URLs (not YouTube — can't embed without iframe)
+  if (url && !url.includes('youtube') && !url.includes('youtu.be')) {
+    vid.src = url; vid.style.display = 'block';
+    document.getElementById('heroVideoLabel').style.display = 'none';
+  } else if (url.includes('youtu')) {
+    vid.style.display = 'none';
+    document.getElementById('heroVideoLabel').textContent = '▶ YouTube video — preview not available here';
+    document.getElementById('heroVideoLabel').style.display = 'flex';
+  } else {
+    vid.style.display = 'none';
+    document.getElementById('heroVideoLabel').textContent = 'No video uploaded';
+    document.getElementById('heroVideoLabel').style.display = 'flex';
+  }
+});
+
+// Add to Slideshow button
+document.getElementById('heroVideoAddBtn').addEventListener('click', () => {
+  const url = document.getElementById('heroVideoUrl').value.trim();
+  if (!url) { toast('Paste a URL first', 'error'); return; }
+  // Remove existing video slide and replace
+  heroSlides = heroSlides.filter(s => s.type !== 'video');
+  heroSlides.push({ url, type: 'video', link: '' });
+  S.heroSlides = heroSlides;
+  S.heroBg = heroSlides.find(s => s.type !== 'video')?.url || heroSlides[0]?.url || '';
+  S.heroSlideDuration = parseInt(document.getElementById('heroSlideDuration').value) || 5;
+  delete S.heroVideo;
+  saveSettings();
+  renderHeroSlidesGrid();
+  toast('✓ Video added to slideshow! Click Publish to go live.', 'success');
 });
 
 // Save video URL for later (store in settings but don't add to slideshow)
