@@ -789,7 +789,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.5</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.6</div>
     </div>
   </nav>
 
@@ -2419,22 +2419,73 @@ function escHtml(str) {
 // APPEARANCE — Hero Slideshow Manager
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ─── Upload to Cloudinary (no Supabase — for hero/about/video) ───
-async function uploadImageOnly(file, folder) {
-  const form = new FormData();
-  form.append('file', file);
-  form.append('upload_preset', CLOUDINARY_PRESET);
-  const nameNoExt = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
-  form.append('public_id', folder + '/' + Date.now() + '_' + nameNoExt);
-  const isVideo = file.type.startsWith('video/');
-  const endpoint = isVideo
-    ? `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/video/upload`
-    : `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`;
-  const res = await fetch(endpoint, { method: 'POST', body: form });
-  if (!res.ok) throw new Error('Upload failed: ' + res.status);
-  const data = await res.json();
-  if (isVideo) return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/q_auto/${data.public_id}`;
-  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`;
+// ─── Upload to Cloudinary with progress reporting ───
+function uploadImageOnly(file, folder, onProgress) {
+  return new Promise((resolve, reject) => {
+    const form = new FormData();
+    form.append('file', file);
+    form.append('upload_preset', CLOUDINARY_PRESET);
+    const nameNoExt = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+    form.append('public_id', folder + '/' + Date.now() + '_' + nameNoExt);
+    const isVideo = file.type.startsWith('video/');
+    const endpoint = isVideo
+      ? `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/video/upload`
+      : `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', endpoint);
+    if (onProgress) {
+      xhr.upload.addEventListener('progress', e => {
+        if (e.lengthComputable) onProgress(Math.round(e.loaded / e.total * 100));
+      });
+    }
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const data = JSON.parse(xhr.responseText);
+        if (isVideo) resolve(`https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/q_auto/${data.public_id}`);
+        else resolve(`https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`);
+      } else {
+        reject(new Error('Upload failed: ' + xhr.status));
+      }
+    };
+    xhr.onerror = () => reject(new Error('Network error'));
+    xhr.send(form);
+  });
+}
+
+// ─── Show video thumbnail in admin (first frame via Cloudinary) ───
+function showVideoPreview(url) {
+  const vid = document.getElementById('heroVideoPreviewEl');
+  const label = document.getElementById('heroVideoLabel');
+  if (!url) { vid.style.display = 'none'; label.textContent = 'No video uploaded'; label.style.display = 'flex'; return; }
+  if (url.includes('youtu')) {
+    vid.style.display = 'none';
+    label.innerHTML = '▶ YouTube video added';
+    label.style.display = 'flex'; return;
+  }
+  // Show thumbnail image instead of trying to play video
+  const pidMatch = url.match(/(portfolio\/.+)$/);
+  if (pidMatch) {
+    const pid = pidMatch[1].replace(/\.(mp4|webm|mov)$/, '');
+    const thumb = `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/so_0,f_jpg,q_auto,w_640/${pid}.jpg`;
+    vid.style.display = 'none';
+    // Use an img element for the thumbnail
+    let img = document.getElementById('heroVideoThumb');
+    if (!img) {
+      img = document.createElement('img');
+      img.id = 'heroVideoThumb';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;';
+      document.getElementById('heroVideoPreview').appendChild(img);
+    }
+    img.src = thumb;
+    img.style.display = 'block';
+    label.innerHTML = '▶ <span style="background:rgba(0,0,0,.5);padding:2px 8px;border-radius:4px">Video ready</span>';
+    label.style.display = 'flex';
+    label.style.alignItems = 'flex-end';
+    label.style.padding = '8px';
+  } else {
+    // Fallback: try native video element
+    vid.src = url; vid.style.display = 'block'; label.style.display = 'none';
+  }
 }
 
 // Gallery categories for slide linking
@@ -2451,9 +2502,6 @@ function loadHeroSlides() {
     const vidSlide = heroSlides.find(s => s.type === 'video');
     if (vidSlide) {
       document.getElementById('heroVideoUrl').value = vidSlide.url;
-      const vid = document.getElementById('heroVideoPreviewEl');
-      vid.src = vidSlide.url; vid.style.display = 'block';
-      document.getElementById('heroVideoLabel').style.display = 'none';
     }
   } else if (S.heroVideo) {
     // Legacy: migrate heroVideo → slide entry
@@ -2474,6 +2522,9 @@ function loadHeroSlides() {
   if (S.heroVideoSaved && !heroSlides.find(s => s.type === 'video')) {
     document.getElementById('heroVideoUrl').value = S.heroVideoSaved;
   }
+  // Show video preview for whatever URL is in the field
+  const vidUrlEl = document.getElementById('heroVideoUrl');
+  if (vidUrlEl && vidUrlEl.value) showVideoPreview(vidUrlEl.value);
   updateModeUI();
   renderHeroSlidesGrid();
 }
@@ -2577,41 +2628,35 @@ document.getElementById('heroSlideUrlAddBtn').addEventListener('click', () => {
   toast('Slide added');
 });
 
-// Video upload
+// Video upload with progress bar
 document.getElementById('heroVideoUploadBtn').addEventListener('click', () => document.getElementById('heroVideoFile').click());
 document.getElementById('heroVideoFile').addEventListener('change', async function() {
   const file = this.files[0];
   if (!file) return;
   const status = document.getElementById('heroVideoStatus');
-  status.textContent = 'Uploading video…';
+  // Build progress bar
+  status.innerHTML = `<div style="background:var(--border);border-radius:99px;height:6px;overflow:hidden;margin-top:8px">
+    <div id="videoUploadBar" style="height:100%;background:var(--blue);width:0%;transition:width .2s;border-radius:99px"></div>
+  </div><div id="videoUploadPct" style="font-size:0.72rem;color:var(--text-3);margin-top:4px">0%</div>`;
   try {
-    const url = await uploadImageOnly(file, 'hero_video');
+    const url = await uploadImageOnly(file, 'hero_video', pct => {
+      const bar = document.getElementById('videoUploadBar');
+      const pctEl = document.getElementById('videoUploadPct');
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '%';
+    });
     document.getElementById('heroVideoUrl').value = url;
-    const vid = document.getElementById('heroVideoPreviewEl');
-    vid.src = url; vid.style.display = 'block';
-    document.getElementById('heroVideoLabel').style.display = 'none';
-    status.textContent = '✓ Video uploaded';
-  } catch(e) { status.textContent = '✗ Upload failed — ' + e.message; }
+    showVideoPreview(url);
+    status.innerHTML = '<span style="color:#10b981">✓ Video uploaded — click <strong>+ Add to Slideshow</strong></span>';
+  } catch(e) {
+    status.innerHTML = '<span style="color:var(--red)">✗ Upload failed — ' + e.message + '</span>';
+  }
   this.value = '';
 });
 
 // Video URL manual input — update preview
 document.getElementById('heroVideoUrl').addEventListener('input', function() {
-  const vid = document.getElementById('heroVideoPreviewEl');
-  const url = this.value.trim();
-  // Only preview direct video URLs (not YouTube — can't embed without iframe)
-  if (url && !url.includes('youtube') && !url.includes('youtu.be')) {
-    vid.src = url; vid.style.display = 'block';
-    document.getElementById('heroVideoLabel').style.display = 'none';
-  } else if (url.includes('youtu')) {
-    vid.style.display = 'none';
-    document.getElementById('heroVideoLabel').textContent = '▶ YouTube video — preview not available here';
-    document.getElementById('heroVideoLabel').style.display = 'flex';
-  } else {
-    vid.style.display = 'none';
-    document.getElementById('heroVideoLabel').textContent = 'No video uploaded';
-    document.getElementById('heroVideoLabel').style.display = 'flex';
-  }
+  showVideoPreview(this.value.trim());
 });
 
 // Add to Slideshow button
