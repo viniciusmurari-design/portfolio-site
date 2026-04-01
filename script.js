@@ -53,12 +53,19 @@ function getYouTubeId(url) {
 }
 function optimizeCloudinaryVideo(url) {
   if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) return url;
-  if (url.includes('/video/upload/vc_h264')) return url; // already optimised
-  return url.replace('/video/upload/', '/video/upload/vc_h264,ac_none,q_auto,w_1080,c_limit/');
+  // Extract public_id after 'portfolio/' to avoid duplicating existing transformations
+  const pidMatch = url.match(/(portfolio\/.+)$/);
+  if (!pidMatch) return url;
+  let publicId = pidMatch[1];
+  if (!/\.(mp4|webm|mov)(\?.*)?$/.test(publicId)) publicId += '.mp4'; // ensure extension
+  return `https://res.cloudinary.com/dnocmwoub/video/upload/vc_h264,ac_none,q_auto,w_1080,c_limit/${publicId}`;
 }
 function getVideoPoster(url) {
   if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) return '';
-  return url.replace('/video/upload/', '/video/upload/so_0,f_jpg,q_auto,w_800/').replace(/\.(mp4|webm|mov)(\?.*)?$/, '.jpg');
+  const pidMatch = url.match(/(portfolio\/.+)$/);
+  if (!pidMatch) return '';
+  const publicId = pidMatch[1].replace(/\.(mp4|webm|mov)(\?.*)?$/, ''); // strip extension
+  return `https://res.cloudinary.com/dnocmwoub/video/upload/so_0,f_jpg,q_auto,w_800/${publicId}.jpg`;
 }
 
 // ─── Page Loader ──────────────────────────────────────────────────────────
