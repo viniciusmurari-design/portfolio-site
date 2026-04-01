@@ -58,7 +58,7 @@ function optimizeCloudinaryVideo(url) {
   if (!pidMatch) return url;
   let publicId = pidMatch[1];
   if (!/\.(mp4|webm|mov)(\?.*)?$/.test(publicId)) publicId += '.mp4'; // ensure extension
-  return `https://res.cloudinary.com/dnocmwoub/video/upload/vc_h264,ac_none,q_auto,w_1080,c_limit/${publicId}`;
+  return `https://res.cloudinary.com/dnocmwoub/video/upload/q_auto/${publicId}`;
 }
 function getVideoPoster(url) {
   if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) return '';
