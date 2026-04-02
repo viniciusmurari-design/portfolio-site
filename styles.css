@@ -64,6 +64,7 @@ nav.scrolled .nav-dark-toggle:hover { background: rgba(0,0,0,0.05); }
 .nav-dark-toggle .icon-moon { display: none; }
 [data-theme="dark"] .nav-dark-toggle .icon-sun { display: none; }
 [data-theme="dark"] .nav-dark-toggle .icon-moon { display: block; }
+.nav-right { display: flex; align-items: center; gap: 8px; }
 .nav-cta { font-size: 0.74rem; background: var(--blue); color: #fff; padding: 7px 16px; border-radius: 980px; text-decoration: none; transition: filter .2s; white-space: nowrap; }
 .nav-cta:hover { filter: brightness(1.1); }
 .nav-burger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
