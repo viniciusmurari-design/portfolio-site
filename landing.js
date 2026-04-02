@@ -58,6 +58,9 @@
     setupStickyCta();
   }
 
+  // ─── Expose modal opener (called from inline onclick) ───
+  window.openServiceModal = openServiceModal;
+
   // ─── Default page data (Airbnb/Hotel) ───
   function getDefaultPage() {
     return {
@@ -283,14 +286,17 @@
     const services = PAGE.services || [];
     if (services.length === 0) { document.getElementById('lp-services').style.display = 'none'; return; }
     const grid = document.getElementById('lpServicesGrid');
-    grid.innerHTML = services.map(s => `
-      <div class="lp-service-card lp-reveal">
-        <div class="lp-service-icon">${s.icon || '📸'}</div>
-        <h3>${esc(s.title)}</h3>
-        <p>${esc(s.description)}</p>
-        ${s.features && s.features.length ? `<ul class="lp-service-features">${s.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
-      </div>
-    `).join('');
+    grid.innerHTML = services.map((s, i) => {
+      const hasMedia = (s.portfolio && s.portfolio.length > 0) || s.videoUrl || s.tourUrl;
+      return `
+        <div class="lp-service-card lp-reveal">
+          <div class="lp-service-icon">${s.icon || '📸'}</div>
+          <h3>${esc(s.title)}</h3>
+          <p>${esc(s.description)}</p>
+          ${s.features && s.features.length ? `<ul class="lp-service-features">${s.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+          ${hasMedia ? `<button class="lp-service-media-btn" onclick="openServiceModal(${i})">Ver Trabalhos →</button>` : ''}
+        </div>`;
+    }).join('');
   }
 
   function renderPortfolio() {
@@ -511,6 +517,231 @@
     if (!url) return null;
     const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/\s]+)/);
     return m ? m[1] : null;
+  }
+
+  // ─── Service Portfolio Modal ───────────────────────────────────────────────
+
+  function getVimeoId(url) {
+    if (!url) return null;
+    const m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    return m ? m[1] : null;
+  }
+
+  function buildVideoEmbed(url) {
+    const ytId = getYouTubeId(url);
+    if (ytId) return `<div class="lp-modal-video-wrap"><iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen loading="lazy"></iframe></div>`;
+    const vmId = getVimeoId(url);
+    if (vmId) return `<div class="lp-modal-video-wrap"><iframe src="https://player.vimeo.com/video/${vmId}" allowfullscreen loading="lazy"></iframe></div>`;
+    return `<div class="lp-modal-video-wrap"><video src="${esc(url)}" controls preload="metadata"></video></div>`;
+  }
+
+  function openLightbox(photos, startIdx) {
+    let idx = startIdx;
+    const lb = document.createElement('div');
+    lb.className = 'lp-lightbox';
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'Photo viewer');
+
+    function renderLb() {
+      lb.innerHTML = `
+        <img class="lp-lightbox-img" src="${esc(photos[idx].url)}" alt="${esc(photos[idx].caption || 'Photo')}">
+        <button class="lp-lightbox-close" aria-label="Close">✕</button>
+        ${photos.length > 1 ? `
+          <button class="lp-lightbox-prev" aria-label="Previous">‹</button>
+          <button class="lp-lightbox-next" aria-label="Next">›</button>
+        ` : ''}
+        <div class="lp-lightbox-counter">${idx + 1} / ${photos.length}</div>
+      `;
+      lb.querySelector('.lp-lightbox-close').onclick = closeLb;
+      if (photos.length > 1) {
+        lb.querySelector('.lp-lightbox-prev').onclick = () => { idx = (idx - 1 + photos.length) % photos.length; renderLb(); };
+        lb.querySelector('.lp-lightbox-next').onclick = () => { idx = (idx + 1) % photos.length; renderLb(); };
+      }
+    }
+
+    function closeLb() { lb.remove(); document.removeEventListener('keydown', onLbKey); }
+    function onLbKey(e) {
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowRight' && photos.length > 1) { idx = (idx + 1) % photos.length; renderLb(); }
+      if (e.key === 'ArrowLeft'  && photos.length > 1) { idx = (idx - 1 + photos.length) % photos.length; renderLb(); }
+    }
+
+    lb.onclick = (e) => { if (e.target === lb) closeLb(); };
+    document.addEventListener('keydown', onLbKey);
+    renderLb();
+    document.body.appendChild(lb);
+  }
+
+  function buildModalTabs(service) {
+    const tabs = [];
+    if (service.portfolio && service.portfolio.length > 0) tabs.push({ id: 'photos', label: '📷 Fotos' });
+    if (service.videoUrl) tabs.push({ id: 'video', label: '🎬 Vídeo' });
+    if (service.tourUrl)  tabs.push({ id: 'tour',  label: '🏠 3D Tour' });
+    return tabs;
+  }
+
+  function buildModalPanels(service, tabs) {
+    return tabs.map((tab, i) => {
+      let content = '';
+      if (tab.id === 'photos') {
+        content = `<div class="lp-modal-photo-grid">
+          ${service.portfolio.map((p, pi) => `
+            <div class="lp-modal-photo-item" data-idx="${pi}">
+              <img src="${esc(p.url)}" alt="${esc(p.caption || 'Photo')}" loading="lazy">
+            </div>`).join('')}
+        </div>`;
+      } else if (tab.id === 'video') {
+        content = buildVideoEmbed(service.videoUrl);
+      } else if (tab.id === 'tour') {
+        content = `
+          <div class="lp-modal-video-wrap">
+            <iframe src="${esc(service.tourUrl)}" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <a href="${esc(service.tourUrl)}" target="_blank" rel="noopener" class="lp-modal-tour-btn" style="margin-top:10px">
+            🏠 Abrir 3D Tour em nova aba →
+          </a>`;
+      }
+      return `<div class="lp-modal-panel${i === 0 ? ' active' : ''}" data-panel="${tab.id}">${content}</div>`;
+    }).join('');
+  }
+
+  function buildModal(service) {
+    const tabs = buildModalTabs(service);
+    if (tabs.length === 0) return;
+    const photoCount = service.portfolio ? service.portfolio.length : 0;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lp-modal-overlay';
+
+    const modal = document.createElement('div');
+    modal.className = 'lp-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', service.title + ' portfolio');
+    modal.innerHTML = `
+      <div class="lp-modal-box">
+        <div class="lp-modal-header">
+          <div class="lp-modal-title">
+            <span class="lp-modal-title-icon">${service.icon || '📸'}</span>
+            <div>
+              <div class="lp-modal-title-text">${esc(service.title)}</div>
+              ${photoCount > 0 ? `<div class="lp-modal-count">${photoCount} foto${photoCount !== 1 ? 's' : ''}</div>` : ''}
+            </div>
+          </div>
+          <button class="lp-modal-close" aria-label="Fechar">✕</button>
+        </div>
+        <div class="lp-modal-tabs">
+          ${tabs.map((t, i) => `<button class="lp-modal-tab${i === 0 ? ' active' : ''}" data-tab="${t.id}">${t.label}</button>`).join('')}
+        </div>
+        <div class="lp-modal-body">
+          ${buildModalPanels(service, tabs)}
+        </div>
+        <div class="lp-modal-footer">
+          <a href="#lp-contact" class="btn btn-fill">Solicitar Orçamento</a>
+        </div>
+      </div>`;
+
+    function closeModal() {
+      overlay.remove(); modal.remove();
+      document.removeEventListener('keydown', onModalKey);
+    }
+    function onModalKey(e) { if (e.key === 'Escape') closeModal(); }
+
+    overlay.onclick = closeModal;
+    modal.querySelector('.lp-modal-close').onclick = closeModal;
+    document.addEventListener('keydown', onModalKey);
+
+    modal.querySelectorAll('.lp-modal-tab').forEach(btn => {
+      btn.onclick = () => {
+        modal.querySelectorAll('.lp-modal-tab').forEach(b => b.classList.remove('active'));
+        modal.querySelectorAll('.lp-modal-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        modal.querySelector(`.lp-modal-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
+      };
+    });
+
+    modal.querySelectorAll('.lp-modal-photo-item').forEach(item => {
+      item.onclick = () => openLightbox(service.portfolio, parseInt(item.dataset.idx));
+    });
+
+    modal.querySelector('.lp-modal-footer .btn').onclick = (e) => {
+      e.preventDefault(); closeModal();
+      document.getElementById('lp-contact')?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(modal);
+  }
+
+  function buildSheet(service) {
+    const hasPhotos = service.portfolio && service.portfolio.length > 0;
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'lp-sheet-backdrop';
+
+    const sheet = document.createElement('div');
+    sheet.className = 'lp-sheet';
+    sheet.innerHTML = `
+      <div class="lp-sheet-handle"><div class="lp-sheet-handle-pill"></div></div>
+      <div class="lp-sheet-header">
+        <span class="lp-sheet-title">${service.icon || '📸'} ${esc(service.title)}</span>
+        <button class="lp-sheet-close" aria-label="Fechar">✕</button>
+      </div>
+      <div class="lp-sheet-body">
+        ${hasPhotos ? `
+          <div class="lp-sheet-photos">
+            ${service.portfolio.map((p, pi) => `
+              <div class="lp-sheet-photo" data-idx="${pi}">
+                <img src="${esc(p.url)}" alt="${esc(p.caption || 'Photo')}" loading="lazy">
+              </div>`).join('')}
+          </div>` : ''}
+        <div class="lp-sheet-media-btns">
+          ${service.videoUrl ? `<a href="${esc(service.videoUrl)}" target="_blank" rel="noopener" class="lp-sheet-media-btn">🎬 Ver Vídeo</a>` : ''}
+          ${service.tourUrl  ? `<a href="${esc(service.tourUrl)}"  target="_blank" rel="noopener" class="lp-sheet-media-btn">🏠 3D Tour</a>` : ''}
+        </div>
+      </div>
+      <div class="lp-sheet-footer">
+        <a href="#lp-contact" class="btn btn-fill">Solicitar Orçamento</a>
+      </div>`;
+
+    function closeSheet() {
+      sheet.classList.add('closing');
+      setTimeout(() => { backdrop.remove(); sheet.remove(); }, 240);
+    }
+
+    backdrop.onclick = closeSheet;
+    sheet.querySelector('.lp-sheet-close').onclick = closeSheet;
+
+    if (hasPhotos) {
+      sheet.querySelectorAll('.lp-sheet-photo').forEach(item => {
+        item.onclick = () => openLightbox(service.portfolio, parseInt(item.dataset.idx));
+      });
+    }
+
+    sheet.querySelector('.lp-sheet-footer .btn').onclick = (e) => {
+      e.preventDefault(); closeSheet();
+      setTimeout(() => document.getElementById('lp-contact')?.scrollIntoView({ behavior: 'smooth' }), 260);
+    };
+
+    let startY = 0;
+    sheet.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+    sheet.addEventListener('touchend', e => {
+      if (e.changedTouches[0].clientY - startY > 80) closeSheet();
+    }, { passive: true });
+
+    document.body.appendChild(backdrop);
+    document.body.appendChild(sheet);
+  }
+
+  function openServiceModal(idx) {
+    const service = (PAGE.services || [])[idx];
+    if (!service) return;
+    if (window.innerWidth >= 768) {
+      buildModal(service);
+    } else {
+      buildSheet(service);
+    }
   }
 
   // ─── Boot ───
