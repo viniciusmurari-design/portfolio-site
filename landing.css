@@ -479,6 +479,15 @@
 }
 .lp-modal-close:hover { background: #333; color: #fff; }
 
+/* ─── Service description in modal ─── */
+.lp-modal-desc {
+  padding: 12px 20px;
+  font-size: 0.82rem; color: #888; line-height: 1.55;
+  border-bottom: 1px solid #1e1e1e;
+  background: #111;
+  flex-shrink: 0;
+}
+
 /* ─── Tabs ─── */
 .lp-modal-tabs {
   display: flex; border-bottom: 1px solid #1e1e1e;

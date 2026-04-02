@@ -631,6 +631,7 @@
           </div>
           <button class="lp-modal-close" aria-label="Fechar">✕</button>
         </div>
+        ${service.description ? `<div class="lp-modal-desc">${esc(service.description)}</div>` : ''}
         <div class="lp-modal-tabs">
           ${tabs.map((t, i) => `<button class="lp-modal-tab${i === 0 ? ' active' : ''}" data-tab="${t.id}">${t.label}</button>`).join('')}
         </div>
@@ -689,6 +690,7 @@
         <button class="lp-sheet-close" aria-label="Fechar">✕</button>
       </div>
       <div class="lp-sheet-body">
+        ${service.description ? `<p style="font-size:0.8rem;color:#888;line-height:1.5;margin:0 0 12px">${esc(service.description)}</p>` : ''}
         ${hasPhotos ? `
           <div class="lp-sheet-photos">
             ${service.portfolio.map((p, pi) => `
