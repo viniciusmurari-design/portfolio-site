@@ -488,6 +488,8 @@ function openLightbox(index) {
   buildThumbs();
   showLbPhoto(false);
   lightbox.classList.add('open');
+  // Focus close button so keyboard users are immediately inside the lightbox
+  requestAnimationFrame(() => lbClose.focus());
 }
 
 function closeLightbox() {
@@ -569,6 +571,14 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft')  { if (lbIndex > 0) { lbIndex--; showLbPhoto(true); } }
     if (e.key === 'ArrowRight') { if (lbIndex < currentGalleryImages.length - 1) { lbIndex++; showLbPhoto(true); } }
     if (e.key === 'Escape')     closeLightbox();
+    // Focus trap: keep Tab cycling inside the lightbox
+    if (e.key === 'Tab') {
+      const focusable = Array.from(lightbox.querySelectorAll('button, [tabindex="0"], video[controls]')).filter(el => !el.disabled && el.offsetParent !== null);
+      if (!focusable.length) return;
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+      else            { if (document.activeElement === last)  { e.preventDefault(); first.focus(); } }
+    }
   } else if (galModal.classList.contains('open')) {
     if (e.key === 'Escape') closeGallery();
   }

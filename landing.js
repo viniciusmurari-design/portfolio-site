@@ -50,6 +50,7 @@
       PAGE = getDefaultPage();
     }
 
+    updateSeoTags();
     render();
     setupNav();
     setupScrollReveal();
@@ -129,6 +130,36 @@
         ogImage: ''
       }
     };
+  }
+
+  // ─── Update <head> canonical + OG tags based on loaded PAGE ───
+  function updateSeoTags() {
+    const base = 'https://viniciusmurari.com/';
+    const pageSlug = PAGE.slug || '';
+    const url = pageSlug ? base + pageSlug : base;
+    const seo = PAGE.seo || {};
+
+    const canonical = document.getElementById('lpCanonical');
+    if (canonical) canonical.href = url;
+
+    const ogUrl = document.getElementById('ogUrl');
+    if (ogUrl) ogUrl.content = url;
+
+    if (seo.title) {
+      document.title = seo.title;
+      const ogTitle = document.getElementById('ogTitle');
+      if (ogTitle) ogTitle.content = seo.title;
+    }
+    if (seo.description) {
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.content = seo.description;
+      const ogDesc = document.getElementById('ogDesc');
+      if (ogDesc) ogDesc.content = seo.description;
+    }
+    if (seo.ogImage) {
+      const ogImg = document.getElementById('ogImage');
+      if (ogImg) ogImg.content = seo.ogImage;
+    }
   }
 
   // ─── Render all sections ───

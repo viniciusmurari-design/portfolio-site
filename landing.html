@@ -30,6 +30,48 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=12">
   <link rel="stylesheet" href="landing.css?v=1">
+
+  <!-- ─── JSON-LD Structured Data ─── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://viniciusmurari.com/#business",
+  "name": "Vinicius Murari Photography",
+  "description": "Professional Airbnb and hotel photography, video tours, drone aerial and 3D virtual tours in Dublin, Ireland.",
+  "url": "https://viniciusmurari.com/airbnb-photography",
+  "telephone": "+353832063109",
+  "email": "hello@viniciusmurari.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dublin",
+    "addressRegion": "County Dublin",
+    "addressCountry": "IE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "53.3244",
+    "longitude": "-6.2603"
+  },
+  "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_jpg,w_1200,h_630,c_fill/portfolio/hero/1774805269339_31_Ranelagh_002",
+  "priceRange": "$$",
+  "areaServed": {"@type": "City", "name": "Dublin"},
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Airbnb & Property Photography Services",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Airbnb Photography Dublin", "description": "Professional interior and exterior photography for Airbnb and short-term rental properties in Dublin."}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Property Video Tour Dublin", "description": "Cinematic 4K video walkthroughs for Airbnb and hotel listings."}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Drone Aerial Photography Dublin", "description": "Licensed drone operator for aerial property photography in Dublin."}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "3D Virtual Tour Dublin", "description": "Matterport 3D interactive tours for Airbnb and rental properties."}}
+    ]
+  },
+  "sameAs": [
+    "https://www.instagram.com/viniciusmurari_photography",
+    "https://www.facebook.com/estudioviniciusmurari"
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -226,6 +268,6 @@
 <!-- ─── Sticky Mobile CTA ─── -->
 <a href="#lp-contact" class="lp-sticky-cta" id="lpStickyCta">Get a Free Quote</a>
 
-<script src="landing.js?v=1"></script>
+<script src="landing.js?v=2"></script>
 </body>
 </html>
