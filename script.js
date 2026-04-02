@@ -41,8 +41,12 @@ function extractPid(url) {
   return m ? m[1] : null;
 }
 function generateAlt(filename, category) {
-  const names = { wedding:'Wedding photography', portrait:'Portrait photography', food:'Food photography', family:'Family portrait', events:'Event photography', product:'Product photography', hotels:'Hospitality photography', corporate:'Corporate photography', architecture:'Architecture photography' };
-  return (names[category] || 'Photography') + ' by Vinicius Murari in Dublin';
+  const labels = { wedding:'Wedding photography', portrait:'Portrait photography', food:'Food & beverage photography', family:'Family portrait session', events:'Event photography', product:'Product photography', hotels:'Hospitality & hotel photography', corporate:'Corporate photography', architecture:'Architectural photography', drone:'Drone & aerial photography' };
+  const label = labels[category] || 'Photography';
+  // Extract a readable descriptor from the filename (e.g. "DSC6033" → "photo 6033", "food-photography-01" → "food photography 01")
+  const slug = filename.replace(/\.[^.]+$/, '').replace(/[_\-]+/g, ' ').replace(/^\d+\s*/, '').trim();
+  const descriptor = slug ? ` — ${slug}` : '';
+  return `${label}${descriptor} by Vinicius Murari, Dublin`;
 }
 
 // ─── Video Helpers ────────────────────────────────────────────────────────

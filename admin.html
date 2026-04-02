@@ -388,6 +388,11 @@
     }
     .photo-card:hover .photo-delete { opacity: 1; }
     .photo-delete:hover { background: var(--red); transform: scale(1.1); }
+    .photo-video-badge {
+      position: absolute; top: 6px; left: 6px; z-index: 2;
+      background: rgba(0,0,0,0.65); color: #fff;
+      font-size: 0.6rem; padding: 2px 7px; border-radius: 4px;
+    }
     .photo-name {
       position: absolute; bottom: 0; left: 0; right: 0;
       padding: 24px 8px 8px;
@@ -900,7 +905,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.8</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.0</div>
     </div>
   </nav>
 
@@ -1021,10 +1026,10 @@
 
           <!-- Upload zone -->
           <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+            <input type="file" id="fileInput" accept="image/*,video/*" multiple style="display:none">
             <div class="upload-icon">🖼️</div>
-            <div class="upload-title">Drag &amp; drop photos here</div>
-            <div class="upload-hint">JPG, PNG, WEBP — multiple files at once</div>
+            <div class="upload-title">Drag &amp; drop photos or videos here</div>
+            <div class="upload-hint">JPG, PNG, WEBP, MP4, MOV — multiple files at once</div>
             <div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap">
               <label style="font-size:0.75rem;color:var(--text-2)">Assign to sub-category:</label>
               <select id="uploadSubSelect" style="padding:6px 12px;border-radius:20px;border:1px solid var(--border);font-family:var(--sans);font-size:0.75rem;background:var(--white);color:var(--text);cursor:pointer">
@@ -2040,8 +2045,13 @@ function renderGrid(photos, id) {
     const photoSub = getPhotoSub(id, photo.filename);
     const subLabel = photoSub || 'Tag';
     const altText = photo.alt_text || '';
+    const isVid = /video\/upload|\.mp4|\.webm|\.mov/i.test(photo.url);
+    const thumbSrc = isVid
+      ? photo.thumb || photo.url.replace(/video\/upload\/[^/]*\//, 'video/upload/so_0,f_jpg,q_auto,w_400,h_300,c_fill/').replace(/\.(mp4|webm|mov)$/, '.jpg')
+      : photo.url;
     card.innerHTML = `
-      <img src="${photo.url}" alt="${altText || photo.filename}" loading="lazy">
+      <img src="${thumbSrc}" alt="${altText || photo.filename}" loading="lazy">
+      ${isVid ? '<div class="photo-video-badge">▶ video</div>' : ''}
       <div class="photo-name">${photo.filename}</div>
       <button class="photo-delete" title="Delete photo">×</button>
       <button class="photo-alt-btn" title="Edit alt text">ALT</button>
@@ -2191,36 +2201,39 @@ function setCloudPhotos(category, photos) {
 }
 
 async function uploadToCloudinary(file, category) {
+  const isVideo = file.type.startsWith('video/');
+  const resourceType = isVideo ? 'video' : 'image';
+
   const form = new FormData();
   form.append('file', file);
   form.append('upload_preset', CLOUDINARY_PRESET);
-  // Strip extension from filename — Cloudinary treats .ext in public_id as format, breaking URLs
+  // Strip extension — Cloudinary treats .ext in public_id as format, breaking URLs
+  // NOTE: upload preset automatically prepends 'portfolio/' folder, so don't add it here
   const nameNoExt = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
   form.append('public_id', category + '/' + Date.now() + '_' + nameNoExt);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/${resourceType}/upload`, {
     method: 'POST', body: form
   });
   if (!res.ok) throw new Error('Cloudinary upload failed');
   const data = await res.json();
 
-  const photo = {
-    filename: file.name,
-    url: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`,
-    public_id: data.public_id,
-    thumb: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/w_400,h_300,c_fill,q_auto/${data.public_id}`
-  };
+  let url, thumb;
+  if (isVideo) {
+    url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/q_auto/${data.public_id}.mp4`;
+    // Poster frame as thumbnail
+    thumb = `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/so_0,f_jpg,q_auto,w_400,h_300,c_fill/${data.public_id}.jpg`;
+  } else {
+    url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`;
+    thumb = `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/w_400,h_300,c_fill,q_auto/${data.public_id}`;
+  }
 
-  // Save to Supabase so ALL visitors can see this photo
+  const photo = { filename: file.name, url, public_id: data.public_id, thumb };
+
+  // Save to Supabase so ALL visitors can see this photo/video
   await sbFetch('/rest/v1/photos', {
     method: 'POST',
     headers: { 'Prefer': 'return=minimal' },
-    body: JSON.stringify({
-      category,
-      filename: photo.filename,
-      url: photo.url,
-      thumb: photo.thumb,
-      public_id: photo.public_id
-    })
+    body: JSON.stringify({ category, filename: photo.filename, url: photo.url, thumb: photo.thumb, public_id: photo.public_id })
   });
 
   return photo;
@@ -2232,7 +2245,7 @@ async function uploadFiles(files) {
   progressWrap.style.display = 'block';
   progressBar.style.width = '0%';
   const total = files.length;
-  uploadStatus.textContent = `Uploading ${total} photo${total > 1 ? 's' : ''}…`;
+  uploadStatus.textContent = `Uploading ${total} file${total > 1 ? 's' : ''}…`;
 
   const uploaded = [];
   let failed = 0;

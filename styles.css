@@ -349,6 +349,16 @@ h2 em { font-style: italic; color: var(--muted); }
 .soc-row { display: flex; gap: 8px; margin-top: 32px; }
 .map-wrap { margin-top: 48px; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 .map-wrap iframe { display: block; }
+.map-placeholder { position: relative; cursor: pointer; border-radius: 16px; overflow: hidden; height: 320px; background: #e8e8e8; }
+.map-placeholder img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter .2s; }
+.map-placeholder:hover img { filter: brightness(0.88); }
+.map-placeholder-overlay {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  gap: 8px; color: #1d1d1f; font-size: 0.82rem; font-weight: 500;
+  background: rgba(255,255,255,0.55); backdrop-filter: blur(2px);
+  transition: background .2s;
+}
+.map-placeholder:hover .map-placeholder-overlay { background: rgba(255,255,255,0.7); }
 .soc { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--light); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; transition: all .2s; }
 .soc:hover { border-color: var(--text); color: var(--text); background: var(--bg); }
 .fg { margin-bottom: 11px; }
@@ -907,7 +917,11 @@ nav.scrolled .nav-links a.active { color: var(--blue); }
   opacity: 0; pointer-events: none;
 }
 .mobile-book-cta.visible { opacity: 1; pointer-events: auto; }
-@media (max-width: 860px) { .mobile-book-cta { display: block; } }
+@media (max-width: 860px) {
+  .mobile-book-cta { display: block; }
+  /* Push WhatsApp button above the "Book Now" mobile CTA so they don't overlap */
+  .wa-float { bottom: 88px; }
+}
 
 /* ─── FAQ ─── */
 .faq-list { display: flex; flex-direction: column; gap: 0; }
@@ -945,7 +959,7 @@ nav.scrolled .nav-links a.active { color: var(--blue); }
 [data-theme="dark"] nav.scrolled .nav-burger span { background: #e5e5e7; }
 [data-theme="dark"] .sec--gray { background: #111; }
 [data-theme="dark"] .gal-item { background: #1a1a1a; }
-[data-theme="dark"] .card { background: #151515; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+/* .card rule removed — no .card elements in HTML */
 [data-theme="dark"] .contact-g .rev, [data-theme="dark"] .rev.d2 { background: #151515; border-color: #222; }
 [data-theme="dark"] input, [data-theme="dark"] select, [data-theme="dark"] textarea {
   background: #1a1a1a; border-color: #333; color: #e5e5e7;

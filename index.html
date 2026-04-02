@@ -288,6 +288,12 @@
 
 </head>
 <body>
+<!-- ─── SVG Symbol Sprite (hidden) ─── -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="ico-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+  <symbol id="ico-facebook" viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></symbol>
+</svg>
+
 <a href="#portfolio" class="skip-link">Skip to content</a>
 
 <!-- ─── Page Loader ─── -->
@@ -328,6 +334,10 @@
     <li><a href="#about" onclick="closeNav()">About</a></li>
     <li><a href="#contact" onclick="closeNav()">Contact</a></li>
   </ul>
+  <button id="darkToggle" class="nav-dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
   <a href="#contact" class="nav-cta">Book a Session</a>
   <button class="nav-burger" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
@@ -608,11 +618,11 @@
       <p class="eyebrow">Client Feedback</p>
       <h2>What they <em>say</em></h2>
       <div class="stars">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg width="18" height="18" aria-hidden="true"><use href="#ico-star"/></svg>
+        <svg width="18" height="18" aria-hidden="true"><use href="#ico-star"/></svg>
+        <svg width="18" height="18" aria-hidden="true"><use href="#ico-star"/></svg>
+        <svg width="18" height="18" aria-hidden="true"><use href="#ico-star"/></svg>
+        <svg width="18" height="18" aria-hidden="true"><use href="#ico-star"/></svg>
         <span class="rating-text">5.0 on Facebook</span>
       </div>
     </div>
@@ -627,15 +637,15 @@
           </div>
         </div>
         <div class="review-stars">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
         </div>
         <p class="review-text">Vinicius is a photographer who cares about the smallest details. He has the sensitivity to focus on the best aspects of every scene, bringing out the best in each one. A subtle and romantic photographer.</p>
         <div class="review-source">
-          <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>
           <span>Facebook Review</span>
         </div>
       </article>
@@ -649,15 +659,15 @@
           </div>
         </div>
         <div class="review-stars">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
         </div>
         <p class="review-text">He deserves far more than 5 stars — a dedicated, qualified, experienced and talented professional! Congratulations on your work, I would do 10 more projects with you!</p>
         <div class="review-source">
-          <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>
           <span>Facebook Review</span>
         </div>
       </article>
@@ -671,15 +681,15 @@
           </div>
         </div>
         <div class="review-stars">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
         </div>
         <p class="review-text">Vinicius has an incredible talent!! We loved his professionalism — he treats every image with total dedication and love!! We absolutely recommend him!!!</p>
         <div class="review-source">
-          <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>
           <span>Facebook Review</span>
         </div>
       </article>
@@ -693,15 +703,15 @@
           </div>
         </div>
         <div class="review-stars">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
         </div>
         <p class="review-text">A professional with excellent skills, great equipment and punctuality.</p>
         <div class="review-source">
-          <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>
           <span>Facebook Review</span>
         </div>
       </article>
@@ -715,15 +725,15 @@
           </div>
         </div>
         <div class="review-stars">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
         </div>
         <p class="review-text">The Best! An attentive professional who plays beautifully with colours!!</p>
         <div class="review-source">
-          <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>
           <span>Facebook Review</span>
         </div>
       </article>
@@ -737,15 +747,15 @@
           </div>
         </div>
         <div class="review-stars">
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>
         </div>
         <p class="review-text">A great professional, always doing incredible work! I highly recommend him.</p>
         <div class="review-source">
-          <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>
           <span>Facebook Review</span>
         </div>
       </article>
@@ -758,7 +768,7 @@
       </div>
       <div style="display:flex;gap:10px;align-items:center">
         <a id="fbReviewsLink" href="https://www.facebook.com/estudioviniciusmurari/reviews" target="_blank" rel="noopener" class="btn btn-ghost" style="border-color:var(--light);color:var(--text);padding:9px 18px;font-size:0.75rem">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>
           See all on Facebook
         </a>
         <a id="igLink" href="https://www.instagram.com/viniciusmurari_photography" target="_blank" rel="noopener" class="btn btn-ghost" style="border-color:var(--light);color:var(--text);padding:9px 18px;font-size:0.75rem">
@@ -821,11 +831,11 @@
         </div>
       </div>
 
-      <form class="rev d2" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contact">
+      <form class="rev d2" id="contactForm" name="contact" method="POST">
         <input type="hidden" name="access_key" id="w3fKey" value="">
         <input type="hidden" name="subject" value="New contact from portfolio site">
-        <p class="hidden" style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+        <!-- Web3Forms botcheck (replaces Netlify honeypot) -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none">
         <div class="fr2">
           <div class="fg"><label for="cf-first">First Name</label><input id="cf-first" name="first-name" type="text" placeholder="John" required aria-describedby="cf-first-err"><span class="field-error" id="cf-first-err" aria-live="polite" role="alert"></span></div>
           <div class="fg"><label for="cf-last">Last Name</label><input id="cf-last" name="last-name" type="text" placeholder="Doe"></div>
@@ -853,10 +863,36 @@
         <p class="fok" id="fok" aria-live="polite" role="alert">✓ Message sent! I'll be in touch soon.</p>
       </form>
     </div>
-    <!-- ─── Map ─── -->
+    <!-- ─── Map (click-to-load — avoids ~300KB Google Maps JS on page load) ─── -->
     <div class="map-wrap" id="mapWrap">
-      <iframe id="mapFrame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2382.8!2d-6.2603!3d53.3244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670ea37ef6e97f%3A0x33eb5e6b6073f0d1!2sRanelagh%2C%20Dublin!5e0!3m2!1sen!2sie!4v1" width="100%" height="320" style="border:0;border-radius:16px" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div id="mapPlaceholder" class="map-placeholder" role="button" tabindex="0" aria-label="Load map — Ranelagh, Dublin" onclick="loadMap()" onkeydown="if(event.key==='Enter'||event.key===' ')loadMap()">
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center=53.3244,-6.2603&zoom=15&size=800x320&scale=2&maptype=roadmap&markers=color:red%7C53.3244,-6.2603&style=feature:all%7Celement:labels.text.fill%7Ccolor:0x616161&key=" width="100%" height="320" alt="Map showing Ranelagh, Dublin — click to load interactive map" style="border-radius:16px;object-fit:cover;display:block" loading="lazy" onerror="this.style.background='#e8e8e8';this.alt=''">
+        <div class="map-placeholder-overlay">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Ranelagh, Dublin · Click to open map</span>
+        </div>
+      </div>
     </div>
+    <script>
+    function loadMap() {
+      const p = document.getElementById('mapPlaceholder');
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2382.8!2d-6.2603!3d53.3244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670ea37ef6e97f%3A0x33eb5e6b6073f0d1!2sRanelagh%2C%20Dublin!5e0!3m2!1sen!2sie!4v1';
+      iframe.width = '100%'; iframe.height = '320';
+      iframe.style.cssText = 'border:0;border-radius:16px;display:block';
+      iframe.allowFullscreen = true; iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.title = 'Google Map — Ranelagh, Dublin';
+      p.replaceWith(iframe);
+    }
+    // Auto-load map when contact section comes into view
+    (function() {
+      const wrap = document.getElementById('mapWrap');
+      if (!wrap || !('IntersectionObserver' in window)) return;
+      new IntersectionObserver(function(entries, obs) {
+        if (entries[0].isIntersecting) { loadMap(); obs.disconnect(); }
+      }, { rootMargin: '200px' }).observe(wrap);
+    })();
+    </script>
   </div>
 </section>
 
@@ -873,7 +909,7 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </div>
-    <p class="fcopy">© 2026 Vinicius Murari Photography · Dublin, Ireland</p>
+    <p class="fcopy">© <span id="footerYear">2026</span> Vinicius Murari Photography · Dublin, Ireland</p>
   </div>
 </footer>
 
@@ -1002,14 +1038,20 @@
 // Apply saved settings — load from settings.json (server/static) first, fallback to localStorage
 (function() {
   function applySettings(s) {
+    function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
     function set(id, val) { const el = document.getElementById(id); if (el && val) el.textContent = val; }
-    function setHTML(id, val) { const el = document.getElementById(id); if (el && val) el.innerHTML = val; }
+    // Allow only safe inline tags (<em>, <strong>, <br>) — strip everything else
+    function setHTML(id, val) {
+      const el = document.getElementById(id);
+      if (!el || !val) return;
+      el.innerHTML = val.replace(/<(?!\/?(?:em|strong|br)\s*\/?>)[^>]+>/gi, '');
+    }
 
     // Hero
     set('heroPillText', s.heroPill);
     setHTML('heroHeadline', s.heroHeadline);
     set('heroSub', s.heroSub);
-    if (s.heroBg) document.documentElement.style.setProperty('--hero-bg', `url('${s.heroBg}')`);
+    if (s.heroBg && /^https?:\/\//.test(s.heroBg)) document.documentElement.style.setProperty('--hero-bg', `url('${s.heroBg.replace(/['"()]/g, '')}')`);
     // Hero slideshow (multiple slides) is loaded by script.js
 
     // About
@@ -1045,16 +1087,16 @@
     if (s.reviews && s.reviews.length) {
       const scroll = document.getElementById('reviewsScroll');
       if (scroll) {
-        const starSvg = '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
-        const fbSvg = '<svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>';
+        const starSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>';
+        const fbSvg = '<svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>';
         scroll.innerHTML = s.reviews.map(r => `
           <article class="review-card">
             <div class="review-top">
-              <div class="review-avatar">${r.name.charAt(0)}</div>
-              <div><div class="review-name">${r.name}</div><div class="review-date">${r.category} · ${r.date}</div></div>
+              <div class="review-avatar">${esc(r.name).charAt(0)}</div>
+              <div><div class="review-name">${esc(r.name)}</div><div class="review-date">${esc(r.category)} · ${esc(r.date)}</div></div>
             </div>
-            <div class="review-stars">${starSvg.repeat(r.stars || 5)}</div>
-            <p class="review-text">${r.text}</p>
+            <div class="review-stars">${starSvg.repeat(Math.min(r.stars || 5, 5))}</div>
+            <p class="review-text">${esc(r.text)}</p>
             <div class="review-source">${fbSvg}<span>Facebook Review</span></div>
           </article>`).join('');
       }
@@ -1141,6 +1183,16 @@
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<script src="script.js?v=12"></script>
+<script src="script.js?v=13"></script>
+<script>
+// Dynamic copyright year
+(function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();
+</script>
+<noscript>
+  <style>.page-loader,.hero-dots,.hero-strip{display:none!important}</style>
+  <div style="position:fixed;top:0;left:0;right:0;background:#1d1d1f;color:#fff;text-align:center;padding:10px 20px;font-family:sans-serif;font-size:0.85rem;z-index:9999">
+    For the best experience please enable JavaScript. Contact: <a href="mailto:hello@viniciusmurari.com" style="color:#60a5fa">hello@viniciusmurari.com</a> · <a href="https://wa.me/353000000000" style="color:#60a5fa">WhatsApp</a>
+  </div>
+</noscript>
 </body>
 </html>

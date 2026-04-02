@@ -183,8 +183,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._write_json_file(SETTINGS_FILE)
         elif parsed.path == '/api/content':
             self._write_json_file(CONTENT_FILE)
-        elif parsed.path == '/api/photos/delete-cloud':
-            self._delete_cloud()
         else:
             self.send_error(404)
 
