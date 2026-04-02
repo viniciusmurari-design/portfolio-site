@@ -133,8 +133,44 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._read_json_file(CONTENT_FILE)
         elif parsed.path == '/api/cloudinary-config':
             self._json({'cloudName': CLOUD_NAME, 'useCloudinary': USE_CLOUDINARY})
+        elif self._is_landing_page(parsed.path):
+            # Serve landing.html for dynamic landing page slugs
+            self._serve_landing(parsed.path)
         else:
             super().do_GET()
+
+    def _is_landing_page(self, path):
+        """Check if path matches a landing page slug."""
+        clean = path.strip('/')
+        if not clean or '.' in clean or '/' in clean:
+            return False
+        # Don't intercept known files or API routes
+        known = {'admin', 'index', 'landing', 'photos', 'functions', 'api'}
+        if clean in known:
+            return False
+        # Check if slug exists in settings
+        if SETTINGS_FILE.exists():
+            try:
+                settings = json.loads(SETTINGS_FILE.read_text())
+                pages = settings.get('landingPages', [])
+                return any(p.get('slug') == clean for p in pages)
+            except Exception:
+                pass
+        return False
+
+    def _serve_landing(self, path):
+        """Serve landing.html with the slug as a query parameter."""
+        slug = path.strip('/')
+        landing_file = BASE / 'landing.html'
+        if landing_file.exists():
+            content = landing_file.read_bytes()
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/html; charset=utf-8')
+            self.send_header('Content-Length', len(content))
+            self.end_headers()
+            self.wfile.write(content)
+        else:
+            self.send_error(404)
 
     def do_POST(self):
         parsed = urllib.parse.urlparse(self.path)

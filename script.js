@@ -67,6 +67,9 @@ function getVideoPoster(url) {
   const publicId = pidMatch[1].replace(/\.(mp4|webm|mov)(\?.*)?$/, ''); // strip extension
   return `https://res.cloudinary.com/dnocmwoub/video/upload/so_0,f_jpg,q_auto,w_800/${publicId}.jpg`;
 }
+function isVideoUrl(url) {
+  return !!url && (/\/video\/upload\//.test(url) || /\.(mp4|webm|mov)(\?.*)?$/i.test(url));
+}
 
 // ─── Page Loader ──────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
@@ -360,14 +363,15 @@ async function openGallery(id) {
     photos.forEach((photo, i) => {
       const sub = photoSubMap[`${id}/${photo.filename}`] || photo.sub || 'all';
       const alt = photo.alt_text || generateAlt(photo.filename, id);
-      currentGalleryImages.push({ src: photo.url, alt, sub });
+      const type = isVideoUrl(photo.url) ? 'video' : 'photo';
+      currentGalleryImages.push({ src: photo.url, alt, sub, type });
       addGalItem(photo.url, alt, i, sub);
     });
   } else {
     section.querySelectorAll('figure').forEach((fig, i) => {
       const img = fig.querySelector('img');
       const sub = (fig.dataset.sub || 'all').toLowerCase();
-      currentGalleryImages.push({ src: img.src, alt: img.alt, sub });
+      currentGalleryImages.push({ src: img.src, alt: img.alt, sub, type: 'photo' });
       addGalItem(img.src, img.alt, i, sub);
     });
   }
@@ -393,7 +397,7 @@ function filterGallery(sub, activePill) {
     item.el.classList.toggle('hidden', !show);
     if (show) {
       const idx = currentGalleryImages.length;
-      currentGalleryImages.push({ src: item.src, alt: item.alt, sub: item.sub });
+      currentGalleryImages.push({ src: item.src, alt: item.alt, sub: item.sub, type: item.type || 'photo' });
       item.el.onclick = () => openLightbox(idx);
     }
   });
@@ -403,13 +407,16 @@ function filterGallery(sub, activePill) {
 
 function addGalItem(src, alt, index, sub) {
   const item = document.createElement('div');
-  item.className = 'gal-item';
+  const isVid = isVideoUrl(src);
+  item.className = 'gal-item' + (isVid ? ' gal-item-video' : '');
 
   const pid = isClUrl(src) ? extractPid(src) : null;
+  const posterSrc = isVid ? getVideoPoster(src) : null;
 
-  // LQIP blur-up background
-  if (pid) {
-    item.style.backgroundImage = "url('" + clUrl(pid, 'e_blur:800,q_10,w_50,c_limit') + "')";
+  // LQIP blur-up background (use poster for videos)
+  const bgSrc = isVid ? posterSrc : (pid ? clUrl(pid, 'e_blur:800,q_10,w_50,c_limit') : null);
+  if (bgSrc) {
+    item.style.backgroundImage = "url('" + bgSrc + "')";
     item.style.backgroundSize = 'cover';
     item.style.backgroundPosition = 'center';
   }
@@ -422,7 +429,11 @@ function addGalItem(src, alt, index, sub) {
   img.style.transition = 'opacity .4s ease';
   img.onload = function() { this.style.opacity = '1'; };
 
-  if (pid) {
+  if (isVid) {
+    // Show poster frame from Cloudinary (first frame as jpg)
+    img.src = posterSrc || '';
+    if (!posterSrc) img.style.opacity = '0.4';
+  } else if (pid) {
     img.src = clUrl(pid, 'w_800,c_limit');
     img.srcset = [400,600,800,1200].map(w => clUrl(pid, 'w_' + w + ',c_limit') + ' ' + w + 'w').join(', ');
     img.sizes = '(max-width:600px) 50vw, (max-width:1024px) 33vw, 25vw';
@@ -432,14 +443,18 @@ function addGalItem(src, alt, index, sub) {
 
   const overlay = document.createElement('div');
   overlay.className = 'gal-item-overlay';
-  overlay.innerHTML = '<div class="gal-zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>';
+  if (isVid) {
+    overlay.innerHTML = '<div class="gal-zoom-icon gal-play-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>';
+  } else {
+    overlay.innerHTML = '<div class="gal-zoom-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>';
+  }
 
   item.appendChild(img);
   item.appendChild(overlay);
-  item.onclick = () => openLightbox(index); // onclick so filterGallery can reassign without doubling
+  item.onclick = () => openLightbox(index);
   galGrid.appendChild(item);
 
-  allGalleryItems.push({ el: item, src, alt, sub: (sub || 'all').toLowerCase(), index, lightboxIndex: index });
+  allGalleryItems.push({ el: item, src, alt, sub: (sub || 'all').toLowerCase(), index, lightboxIndex: index, type: isVid ? 'video' : 'photo' });
 }
 
 function closeGallery() {
@@ -473,6 +488,8 @@ function openLightbox(index) {
 
 function closeLightbox() {
   lightbox.classList.remove('open');
+  if (lbVideo) { lbVideo.pause(); lbVideo.src = ''; lbVideo.style.display = 'none'; }
+  lbImg.style.display = '';
 }
 
 function buildThumbs() {
@@ -481,26 +498,49 @@ function buildThumbs() {
     const t = document.createElement('div');
     t.className = 'lb-thumb' + (i === lbIndex ? ' active' : '');
     const pid = isClUrl(photo.src) ? extractPid(photo.src) : null;
-    const thumbSrc = pid ? clUrl(pid, 'w_150,h_100,c_fill') : photo.src;
-    t.innerHTML = `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy">`;
+    let thumbSrc;
+    if (photo.type === 'video') {
+      thumbSrc = getVideoPoster(photo.src) || (pid ? clUrl(pid, 'w_150,h_100,c_fill') : photo.src);
+    } else {
+      thumbSrc = pid ? clUrl(pid, 'w_150,h_100,c_fill') : photo.src;
+    }
+    const inner = photo.type === 'video'
+      ? `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy"><span class="lb-thumb-play">▶</span>`
+      : `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy">`;
+    t.innerHTML = inner;
     t.addEventListener('click', () => { lbIndex = i; showLbPhoto(true); });
     lbThumbs.appendChild(t);
   });
 }
 
+const lbVideo = document.getElementById('lbVideo');
+
 function showLbPhoto(animate = true) {
   const photo = currentGalleryImages[lbIndex];
+  const isVid = photo.type === 'video';
 
-  if (animate) {
-    lbImg.classList.add('lb-fade');
-    setTimeout(() => {
+  // Pause any playing video when switching
+  if (!isVid && lbVideo) { lbVideo.pause(); lbVideo.src = ''; lbVideo.style.display = 'none'; }
+
+  if (isVid) {
+    lbImg.style.display = 'none';
+    lbVideo.style.display = 'block';
+    lbVideo.src = optimizeCloudinaryVideo(photo.src);
+    lbVideo.poster = getVideoPoster(photo.src);
+    lbVideo.load();
+  } else {
+    lbImg.style.display = '';
+    if (animate) {
+      lbImg.classList.add('lb-fade');
+      setTimeout(() => {
+        lbImg.src = photo.src;
+        lbImg.alt = photo.alt;
+        lbImg.classList.remove('lb-fade');
+      }, 140);
+    } else {
       lbImg.src = photo.src;
       lbImg.alt = photo.alt;
-      lbImg.classList.remove('lb-fade');
-    }, 140);
-  } else {
-    lbImg.src = photo.src;
-    lbImg.alt = photo.alt;
+    }
   }
 
   lbCounter.textContent = `${lbIndex + 1} / ${currentGalleryImages.length}`;

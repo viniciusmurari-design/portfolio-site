@@ -882,6 +882,13 @@
         <span class="nav-icon">🚀</span>
         <span class="nav-label">Launch Checklist</span>
       </button>
+
+      <div class="nav-section-label" style="margin-top:12px">Marketing</div>
+      <button class="nav-btn" data-tab="landingpages">
+        <span class="nav-icon">📄</span>
+        <span class="nav-label">Landing Pages</span>
+        <span class="nav-badge" id="lpCount" style="background:var(--blue);color:#fff;font-size:0.6rem;padding:1px 6px;border-radius:10px;margin-left:auto">0</span>
+      </button>
     </div>
 
     <div class="sidebar-footer">
@@ -1326,6 +1333,144 @@
         <div id="launchSteps" style="display:flex;flex-direction:column;gap:12px"></div>
       </div>
 
+      <!-- ══════════════ LANDING PAGES TAB ══════════════ -->
+      <div class="tab-panel" id="tab-landingpages">
+        <div class="page-header">
+          <div class="page-title">Landing Pages</div>
+          <div class="page-subtitle">Create and manage dedicated service landing pages</div>
+        </div>
+
+        <!-- Page list + create -->
+        <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+          <button class="btn btn-primary" id="lpCreateBtn" style="font-size:0.8rem">+ New Landing Page</button>
+        </div>
+
+        <div id="lpPageList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px"></div>
+
+        <!-- Editor (hidden until a page is selected) -->
+        <div id="lpEditor" style="display:none">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+            <button class="btn btn-secondary btn-sm" id="lpBackBtn" style="font-size:0.78rem">&larr; Back to list</button>
+            <h3 id="lpEditorTitle" style="font-family:var(--serif);font-size:1.3rem;font-weight:400;flex:1"></h3>
+            <a href="#" target="_blank" id="lpPreviewLink" style="font-size:0.75rem;color:var(--blue);text-decoration:none">Preview &rarr;</a>
+          </div>
+
+          <!-- SEO -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">SEO & Meta</div>
+            <div class="field"><label>Page Slug (URL)</label><input id="lp-slug" placeholder="airbnb-photography"><div style="font-size:0.68rem;color:var(--text-3);margin-top:4px">viniciusmurari.com/<strong id="lpSlugPreview">airbnb-photography</strong></div></div>
+            <div class="field"><label>SEO Title</label><input id="lp-seoTitle" placeholder="Airbnb Photography Dublin | Vinicius Murari"></div>
+            <div class="field"><label>SEO Description</label><textarea id="lp-seoDesc" rows="2" placeholder="Professional Airbnb & hotel photography..."></textarea></div>
+          </div>
+
+          <!-- Hero -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Hero Section</div>
+            <div class="grid-2">
+              <div class="field"><label>Headline (HTML allowed)</label><textarea id="lp-heroHeadline" rows="2" placeholder="More Bookings.<br><em>Higher Rates.</em>"></textarea></div>
+              <div class="field"><label>Sub-headline</label><input id="lp-heroSub" placeholder="83% of guests decide based on photos alone."></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>CTA Button Text</label><input id="lp-heroCta" placeholder="Get a Free Quote"></div>
+              <div class="field"><label>Secondary CTA Text</label><input id="lp-heroCta2" placeholder="See My Work"></div>
+            </div>
+            <div class="grid-2">
+              <div class="field"><label>Pill Text</label><input id="lp-heroPill" placeholder="Available for bookings in Dublin"></div>
+              <div class="field"><label>Trust Line</label><input id="lp-heroTrust" placeholder="Trusted by 50+ Airbnb hosts in Dublin"></div>
+            </div>
+            <div class="field"><label>Hero Image URL</label><input id="lp-heroImage" placeholder="https://res.cloudinary.com/..."></div>
+            <div class="field">
+              <label>Hero Slides (one URL per line, for slider mode)</label>
+              <textarea id="lp-heroSlides" rows="3" placeholder="https://res.cloudinary.com/...&#10;https://res.cloudinary.com/..."></textarea>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Statistics Bar</div>
+            <div id="lpStatsEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddStat" style="margin-top:8px;font-size:0.75rem">+ Add Stat</button>
+          </div>
+
+          <!-- Problem -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Problem / Pain Section</div>
+            <div class="field"><label>Headline (HTML allowed)</label><input id="lp-problemTitle" placeholder="Your Photos Are Costing You Bookings"></div>
+            <div class="field"><label>Text</label><textarea id="lp-problemText" rows="3"></textarea></div>
+            <div class="field"><label>Image URL</label><input id="lp-problemImage" placeholder="https://..."></div>
+          </div>
+
+          <!-- Services -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Services</div>
+            <div id="lpServicesEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddService" style="margin-top:8px;font-size:0.75rem">+ Add Service</button>
+          </div>
+
+          <!-- Portfolio -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Portfolio Images</div>
+            <div id="lpPortfolioEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddPortfolio" style="margin-top:8px;font-size:0.75rem">+ Add Image</button>
+          </div>
+
+          <!-- Showreel -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Showreel Video</div>
+            <div class="field"><label>Video URL (YouTube or Cloudinary)</label><input id="lp-showreelUrl" placeholder="https://youtube.com/watch?v=..."></div>
+            <div class="field"><label>Thumbnail URL</label><input id="lp-showreelThumb" placeholder="https://..."></div>
+          </div>
+
+          <!-- Process -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">How It Works (Process Steps)</div>
+            <div id="lpProcessEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddProcess" style="margin-top:8px;font-size:0.75rem">+ Add Step</button>
+          </div>
+
+          <!-- Packages -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Packages</div>
+            <div id="lpPackagesEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddPackage" style="margin-top:8px;font-size:0.75rem">+ Add Package</button>
+          </div>
+
+          <!-- Testimonials -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Testimonials</div>
+            <div id="lpTestimonialsEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddTestimonial" style="margin-top:8px;font-size:0.75rem">+ Add Testimonial</button>
+          </div>
+
+          <!-- FAQ -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">FAQ</div>
+            <div id="lpFaqEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddFaq" style="margin-top:8px;font-size:0.75rem">+ Add Question</button>
+          </div>
+
+          <!-- Contact -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">Contact & CTA</div>
+            <div class="grid-2">
+              <div class="field"><label>WhatsApp Number</label><input id="lp-whatsapp" placeholder="+353..."></div>
+              <div class="field"><label>WhatsApp Message</label><input id="lp-whatsappMsg" placeholder="Hi! I'm interested in..."></div>
+            </div>
+            <div class="field"><label>Web3Forms Access Key</label><input id="lp-web3key" placeholder="(leave empty to use site key)"></div>
+            <div class="grid-2">
+              <div class="field"><label>Final CTA Title (HTML)</label><input id="lp-finalCtaTitle" placeholder="Ready to Transform Your Property?"></div>
+              <div class="field"><label>Final CTA Subtitle</label><input id="lp-finalCtaSub" placeholder="Book your shoot today..."></div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;padding-top:8px">
+            <button class="btn btn-primary" id="lpSaveBtn" style="font-size:0.85rem">Save Landing Page</button>
+            <button class="btn btn-secondary" id="lpDuplicateBtn" style="font-size:0.8rem">Duplicate</button>
+            <button class="btn" id="lpDeleteBtn" style="font-size:0.8rem;color:var(--red);background:var(--red-soft)">Delete Page</button>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /app -->
@@ -1597,7 +1742,8 @@ function setTab(tabId) {
   const labels = {
     dashboard: 'Dashboard', galleries: 'Galleries',
     content: 'Content', appearance: 'Appearance',
-    social: 'Social & Integrations', preview: 'Site Preview'
+    social: 'Social & Integrations', preview: 'Site Preview',
+    launch: 'Launch Checklist', landingpages: 'Landing Pages'
   };
   const titleEl = document.getElementById('topbar-title');
   if (tabId === 'galleries') {
@@ -3434,6 +3580,408 @@ window.setTab = function(tab) {
     b.classList.toggle('active', b.dataset.tab === tab);
   });
 };
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LANDING PAGES ADMIN
+// ═══════════════════════════════════════════════════════════════════════════
+(function() {
+  let editingId = null;
+
+  function getPages() { return S.landingPages || []; }
+  function setPages(pages) { S.landingPages = pages; }
+
+  // ── Render page list ──
+  function renderList() {
+    const pages = getPages();
+    const countEl = document.getElementById('lpCount');
+    if (countEl) countEl.textContent = pages.length;
+
+    const list = document.getElementById('lpPageList');
+    if (!list) return;
+
+    if (pages.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:48px 24px;color:var(--text-3);font-size:0.85rem">No landing pages yet. Click <strong>+ New Landing Page</strong> to create one.</div>';
+      return;
+    }
+
+    list.innerHTML = pages.map(p => `
+      <div style="display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-sm);cursor:pointer" data-lp-id="${p.id}" class="lp-list-item">
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:0.9rem;margin-bottom:2px">${escH(p.seo?.title || p.slug || 'Untitled')}</div>
+          <div style="font-size:0.75rem;color:var(--text-3)">/${escH(p.slug)} ${p.active ? '<span style="color:var(--green);font-weight:600">● Live</span>' : '<span style="color:var(--text-3)">● Draft</span>'}</div>
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text-2);cursor:pointer" onclick="event.stopPropagation()">
+          Active
+          <input type="checkbox" ${p.active ? 'checked' : ''} onchange="lpToggleActive('${p.id}', this.checked)">
+        </label>
+        <button style="font-size:0.75rem;color:var(--blue);background:none;border:none;cursor:pointer;padding:4px 8px" onclick="event.stopPropagation();lpEditPage('${p.id}')">Edit</button>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.lp-list-item').forEach(el => {
+      el.addEventListener('click', () => lpEditPage(el.dataset.lpId));
+    });
+  }
+
+  // ── Create new page ──
+  window.lpCreatePage = function() {
+    const pages = getPages();
+    const newPage = {
+      id: 'lp_' + Date.now(),
+      slug: 'new-landing-page',
+      active: false,
+      seo: { title: 'New Landing Page', description: '', ogImage: '' },
+      hero: {
+        mode: 'photo', headline: 'Your Headline <em>Here</em>',
+        subheadline: 'Your sub-headline goes here.',
+        cta: { text: 'Get a Free Quote', action: 'form' },
+        ctaSecondary: { text: 'See My Work', link: '#lp-portfolio' },
+        image: '', slides: [],
+        pillText: 'Available for bookings in Dublin',
+        trustLine: ''
+      },
+      stats: [{ value: '40%', label: 'More Bookings' }],
+      problem: { headline: '', text: '', image: '' },
+      services: [],
+      portfolio: [],
+      showreel: { url: '', thumbnail: '' },
+      beforeAfter: [],
+      process: [
+        { step: '1', title: 'Book', text: 'Choose your package.' },
+        { step: '2', title: 'Shoot', text: 'We capture your property.' },
+        { step: '3', title: 'Receive', text: 'Get your files in 48h.' }
+      ],
+      packages: [],
+      testimonials: [],
+      faq: [],
+      contact: { whatsapp: '', whatsappMessage: '', web3formsKey: '', finalCtaTitle: '', finalCtaSub: '' }
+    };
+    pages.push(newPage);
+    setPages(pages);
+    saveSettings();
+    lpEditPage(newPage.id);
+  };
+
+  // ── Toggle active ──
+  window.lpToggleActive = function(id, val) {
+    const pages = getPages();
+    const p = pages.find(x => x.id === id);
+    if (p) { p.active = val; setPages(pages); saveSettings(); renderList(); }
+  };
+
+  // ── Edit page ──
+  window.lpEditPage = function(id) {
+    editingId = id;
+    const pages = getPages();
+    const p = pages.find(x => x.id === id);
+    if (!p) return;
+
+    document.getElementById('lpPageList').style.display = 'none';
+    document.getElementById('lpCreateBtn').style.display = 'none';
+    document.getElementById('lpEditor').style.display = '';
+
+    document.getElementById('lpEditorTitle').textContent = p.seo?.title || p.slug;
+    document.getElementById('lpPreviewLink').href = '/' + (p.slug || '');
+
+    // SEO
+    val('lp-slug', p.slug);
+    val('lp-seoTitle', p.seo?.title);
+    val('lp-seoDesc', p.seo?.description);
+    document.getElementById('lpSlugPreview').textContent = p.slug || '';
+
+    // Hero
+    val('lp-heroHeadline', p.hero?.headline);
+    val('lp-heroSub', p.hero?.subheadline);
+    val('lp-heroCta', p.hero?.cta?.text);
+    val('lp-heroCta2', p.hero?.ctaSecondary?.text);
+    val('lp-heroPill', p.hero?.pillText);
+    val('lp-heroTrust', p.hero?.trustLine);
+    val('lp-heroImage', p.hero?.image);
+    val('lp-heroSlides', (p.hero?.slides || []).map(s => s.url || s).join('\n'));
+
+    // Stats
+    renderRepeater('lpStatsEditor', p.stats || [], renderStatRow);
+
+    // Problem
+    val('lp-problemTitle', p.problem?.headline);
+    val('lp-problemText', p.problem?.text);
+    val('lp-problemImage', p.problem?.image);
+
+    // Services
+    renderRepeater('lpServicesEditor', p.services || [], renderServiceRow);
+
+    // Portfolio
+    renderRepeater('lpPortfolioEditor', p.portfolio || [], renderPortfolioRow);
+
+    // Showreel
+    val('lp-showreelUrl', p.showreel?.url);
+    val('lp-showreelThumb', p.showreel?.thumbnail);
+
+    // Process
+    renderRepeater('lpProcessEditor', p.process || [], renderProcessRow);
+
+    // Packages
+    renderRepeater('lpPackagesEditor', p.packages || [], renderPackageRow);
+
+    // Testimonials
+    renderRepeater('lpTestimonialsEditor', p.testimonials || [], renderTestimonialRow);
+
+    // FAQ
+    renderRepeater('lpFaqEditor', p.faq || [], renderFaqRow);
+
+    // Contact
+    val('lp-whatsapp', p.contact?.whatsapp);
+    val('lp-whatsappMsg', p.contact?.whatsappMessage);
+    val('lp-web3key', p.contact?.web3formsKey);
+    val('lp-finalCtaTitle', p.contact?.finalCtaTitle);
+    val('lp-finalCtaSub', p.contact?.finalCtaSub);
+
+    // Slug preview live update
+    document.getElementById('lp-slug').oninput = function() {
+      document.getElementById('lpSlugPreview').textContent = this.value;
+    };
+  };
+
+  // ── Back to list ──
+  function backToList() {
+    editingId = null;
+    document.getElementById('lpEditor').style.display = 'none';
+    document.getElementById('lpPageList').style.display = '';
+    document.getElementById('lpCreateBtn').style.display = '';
+    renderList();
+  }
+
+  // ── Save current page ──
+  function savePage() {
+    if (!editingId) return;
+    const pages = getPages();
+    const p = pages.find(x => x.id === editingId);
+    if (!p) return;
+
+    p.slug = gval('lp-slug').toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    p.seo = { title: gval('lp-seoTitle'), description: gval('lp-seoDesc'), ogImage: p.seo?.ogImage || '' };
+
+    p.hero = {
+      mode: p.hero?.mode || 'photo',
+      headline: gval('lp-heroHeadline'),
+      subheadline: gval('lp-heroSub'),
+      cta: { text: gval('lp-heroCta'), action: 'form' },
+      ctaSecondary: { text: gval('lp-heroCta2'), link: '#lp-portfolio' },
+      image: gval('lp-heroImage'),
+      slides: gval('lp-heroSlides').split('\n').filter(u => u.trim()).map(u => ({ url: u.trim() })),
+      pillText: gval('lp-heroPill'),
+      trustLine: gval('lp-heroTrust')
+    };
+
+    p.stats = collectRepeater('lpStatsEditor', ['value', 'label']);
+    p.problem = { headline: gval('lp-problemTitle'), text: gval('lp-problemText'), image: gval('lp-problemImage') };
+    p.services = collectServices();
+    p.portfolio = collectRepeater('lpPortfolioEditor', ['url', 'caption']);
+    p.showreel = { url: gval('lp-showreelUrl'), thumbnail: gval('lp-showreelThumb') };
+    p.process = collectRepeater('lpProcessEditor', ['step', 'title', 'text']);
+    p.packages = collectPackages();
+    p.testimonials = collectRepeater('lpTestimonialsEditor', ['name', 'role', 'text', 'photo', 'rating']);
+    p.faq = collectRepeater('lpFaqEditor', ['q', 'a']);
+
+    p.contact = {
+      whatsapp: gval('lp-whatsapp'),
+      whatsappMessage: gval('lp-whatsappMsg'),
+      web3formsKey: gval('lp-web3key'),
+      finalCtaTitle: gval('lp-finalCtaTitle'),
+      finalCtaSub: gval('lp-finalCtaSub')
+    };
+
+    setPages(pages);
+    saveSettings();
+    toast('Landing page saved!', 'success');
+    document.getElementById('lpEditorTitle').textContent = p.seo.title || p.slug;
+    document.getElementById('lpSlugPreview').textContent = p.slug;
+  }
+
+  // ── Duplicate ──
+  function duplicatePage() {
+    if (!editingId) return;
+    const pages = getPages();
+    const p = pages.find(x => x.id === editingId);
+    if (!p) return;
+    const dup = JSON.parse(JSON.stringify(p));
+    dup.id = 'lp_' + Date.now();
+    dup.slug = p.slug + '-copy';
+    dup.active = false;
+    if (dup.seo) dup.seo.title = (dup.seo.title || '') + ' (Copy)';
+    pages.push(dup);
+    setPages(pages);
+    saveSettings();
+    toast('Page duplicated', 'success');
+    lpEditPage(dup.id);
+  }
+
+  // ── Delete ──
+  function deletePage() {
+    if (!editingId) return;
+    if (!confirm('Delete this landing page? This cannot be undone.')) return;
+    let pages = getPages();
+    pages = pages.filter(x => x.id !== editingId);
+    setPages(pages);
+    saveSettings();
+    toast('Page deleted', 'success');
+    backToList();
+  }
+
+  // ── Repeater helpers ──
+  function renderRepeater(containerId, items, rowFn) {
+    const c = document.getElementById(containerId);
+    if (!c) return;
+    c.innerHTML = '';
+    items.forEach((item, i) => {
+      const row = rowFn(item, i);
+      c.appendChild(row);
+    });
+  }
+
+  function collectRepeater(containerId, fields) {
+    const c = document.getElementById(containerId);
+    if (!c) return [];
+    const rows = c.querySelectorAll('.lp-rep-row');
+    return Array.from(rows).map(row => {
+      const obj = {};
+      fields.forEach(f => {
+        const el = row.querySelector(`[data-field="${f}"]`);
+        if (el) obj[f] = el.type === 'checkbox' ? el.checked : el.value;
+      });
+      return obj;
+    });
+  }
+
+  function makeRemoveBtn(row) {
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.style.cssText = 'position:absolute;top:8px;right:8px;background:var(--red-soft);color:var(--red);border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center';
+    btn.onclick = () => row.remove();
+    return btn;
+  }
+
+  function makeRow() {
+    const row = document.createElement('div');
+    row.className = 'lp-rep-row';
+    row.style.cssText = 'position:relative;padding:16px;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:8px';
+    row.appendChild(makeRemoveBtn(row));
+    return row;
+  }
+
+  // ── Row renderers ──
+  function renderStatRow(item) {
+    const row = makeRow();
+    row.innerHTML += `<div style="display:grid;grid-template-columns:1fr 2fr;gap:8px;padding-right:28px"><input data-field="value" value="${escA(item.value)}" placeholder="40%" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="label" value="${escA(item.label)}" placeholder="More Bookings" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div>`;
+    return row;
+  }
+
+  function renderServiceRow(item) {
+    const row = makeRow();
+    row.innerHTML += `<div style="display:grid;grid-template-columns:50px 1fr;gap:8px;margin-bottom:8px;padding-right:28px"><input data-field="icon" value="${escA(item.icon)}" placeholder="📸" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;text-align:center"><input data-field="title" value="${escA(item.title)}" placeholder="Photography" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div><textarea data-field="description" rows="2" placeholder="Description..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;margin-bottom:6px;resize:vertical">${escH(item.description || '')}</textarea><input data-field="features" value="${escA((item.features||[]).join(', '))}" placeholder="Feature 1, Feature 2, Feature 3" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem;color:var(--text-2)">`;
+    return row;
+  }
+
+  function collectServices() {
+    const c = document.getElementById('lpServicesEditor');
+    if (!c) return [];
+    return Array.from(c.querySelectorAll('.lp-rep-row')).map(row => ({
+      icon: row.querySelector('[data-field="icon"]')?.value || '',
+      title: row.querySelector('[data-field="title"]')?.value || '',
+      description: row.querySelector('[data-field="description"]')?.value || '',
+      features: (row.querySelector('[data-field="features"]')?.value || '').split(',').map(s => s.trim()).filter(Boolean)
+    }));
+  }
+
+  function renderPortfolioRow(item) {
+    const row = makeRow();
+    row.innerHTML += `<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;padding-right:28px"><input data-field="url" value="${escA(item.url)}" placeholder="Image URL" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="caption" value="${escA(item.caption || '')}" placeholder="Caption" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div>`;
+    return row;
+  }
+
+  function renderProcessRow(item) {
+    const row = makeRow();
+    row.innerHTML += `<div style="display:grid;grid-template-columns:50px 1fr;gap:8px;margin-bottom:6px;padding-right:28px"><input data-field="step" value="${escA(item.step)}" placeholder="#" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;text-align:center"><input data-field="title" value="${escA(item.title)}" placeholder="Step title" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div><input data-field="text" value="${escA(item.text || '')}" placeholder="Description" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem">`;
+    return row;
+  }
+
+  function renderPackageRow(item) {
+    const row = makeRow();
+    row.innerHTML += `<div style="display:grid;grid-template-columns:1fr 100px;gap:8px;margin-bottom:6px;padding-right:28px"><input data-field="name" value="${escA(item.name)}" placeholder="Package name" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="price" value="${escA(item.price || '')}" placeholder="€299" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div><input data-field="features" value="${escA((item.features||[]).join(', '))}" placeholder="Feature 1, Feature 2, ..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem;margin-bottom:6px"><div style="display:flex;gap:16px;align-items:center;font-size:0.75rem;color:var(--text-2)"><label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" data-field="showPrice" ${item.showPrice ? 'checked' : ''}> Show price</label><label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" data-field="highlighted" ${item.highlighted ? 'checked' : ''}> Highlight (Most Popular)</label></div>`;
+    return row;
+  }
+
+  function collectPackages() {
+    const c = document.getElementById('lpPackagesEditor');
+    if (!c) return [];
+    return Array.from(c.querySelectorAll('.lp-rep-row')).map(row => ({
+      name: row.querySelector('[data-field="name"]')?.value || '',
+      price: row.querySelector('[data-field="price"]')?.value || '',
+      features: (row.querySelector('[data-field="features"]')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
+      showPrice: row.querySelector('[data-field="showPrice"]')?.checked || false,
+      highlighted: row.querySelector('[data-field="highlighted"]')?.checked || false
+    }));
+  }
+
+  function renderTestimonialRow(item) {
+    const row = makeRow();
+    row.innerHTML += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;padding-right:28px"><input data-field="name" value="${escA(item.name)}" placeholder="Client name" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="role" value="${escA(item.role || '')}" placeholder="Airbnb Superhost, Dublin" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div><textarea data-field="text" rows="2" placeholder="Review text..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;margin-bottom:6px;resize:vertical">${escH(item.text || '')}</textarea><div style="display:grid;grid-template-columns:1fr 80px;gap:8px"><input data-field="photo" value="${escA(item.photo || '')}" placeholder="Photo URL (optional)" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem"><input data-field="rating" type="number" min="1" max="5" value="${item.rating || 5}" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;text-align:center"></div>`;
+    return row;
+  }
+
+  function renderFaqRow(item) {
+    const row = makeRow();
+    row.innerHTML += `<div style="padding-right:28px"><input data-field="q" value="${escA(item.q)}" placeholder="Question" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;margin-bottom:6px"><textarea data-field="a" rows="2" placeholder="Answer" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;resize:vertical">${escH(item.a || '')}</textarea></div>`;
+    return row;
+  }
+
+  // ── Add buttons for repeaters ──
+  function addRepeater(containerId, rowFn, defaultItem) {
+    const c = document.getElementById(containerId);
+    if (!c) return;
+    c.appendChild(rowFn(defaultItem));
+  }
+
+  // ── Helpers ──
+  function val(id, v) { const el = document.getElementById(id); if (el) el.value = v || ''; }
+  function gval(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+  function escH(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function escA(s) { return (s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+  // ── Wire up buttons ──
+  document.getElementById('lpCreateBtn')?.addEventListener('click', lpCreatePage);
+  document.getElementById('lpBackBtn')?.addEventListener('click', backToList);
+  document.getElementById('lpSaveBtn')?.addEventListener('click', savePage);
+  document.getElementById('lpDuplicateBtn')?.addEventListener('click', duplicatePage);
+  document.getElementById('lpDeleteBtn')?.addEventListener('click', deletePage);
+
+  document.getElementById('lpAddStat')?.addEventListener('click', () => addRepeater('lpStatsEditor', renderStatRow, { value: '', label: '' }));
+  document.getElementById('lpAddService')?.addEventListener('click', () => addRepeater('lpServicesEditor', renderServiceRow, { icon: '', title: '', description: '', features: [] }));
+  document.getElementById('lpAddPortfolio')?.addEventListener('click', () => addRepeater('lpPortfolioEditor', renderPortfolioRow, { url: '', caption: '' }));
+  document.getElementById('lpAddProcess')?.addEventListener('click', () => addRepeater('lpProcessEditor', renderProcessRow, { step: '', title: '', text: '' }));
+  document.getElementById('lpAddPackage')?.addEventListener('click', () => addRepeater('lpPackagesEditor', renderPackageRow, { name: '', features: [], price: '', showPrice: false, highlighted: false }));
+  document.getElementById('lpAddTestimonial')?.addEventListener('click', () => addRepeater('lpTestimonialsEditor', renderTestimonialRow, { name: '', role: '', text: '', photo: '', rating: 5 }));
+  document.getElementById('lpAddFaq')?.addEventListener('click', () => addRepeater('lpFaqEditor', renderFaqRow, { q: '', a: '' }));
+
+  // ── Init: render list when tab is shown + after settings load ──
+  // Hook into setTab to refresh list each time LP tab opens
+  const _origSetTabLP = window.setTab;
+  window.setTab = function(tab) {
+    _origSetTabLP(tab);
+    if (tab === 'landingpages') renderList();
+  };
+  // Also render after settings load and on timeout
+  const _origLoadSettings = window.loadFromServer;
+  if (_origLoadSettings) {
+    const origFn = _origLoadSettings;
+    window.loadFromServer = async function() {
+      await origFn.apply(this, arguments);
+      renderList();
+    };
+  }
+  setTimeout(renderList, 800);
+  setTimeout(renderList, 2000);
+})();
 </script>
 </body>
 </html>
