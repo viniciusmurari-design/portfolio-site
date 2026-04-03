@@ -294,7 +294,7 @@
           <h3>${esc(s.title)}</h3>
           <p>${esc(s.description)}</p>
           ${s.features && s.features.length ? `<ul class="lp-service-features">${s.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
-          ${hasMedia ? `<button class="lp-service-media-btn" onclick="openServiceModal(${i})">Ver Trabalhos →</button>` : ''}
+          ${hasMedia ? `<button class="lp-service-media-btn" onclick="openServiceModal(${i})">View Portfolio →</button>` : ''}
         </div>`;
     }).join('');
   }
@@ -519,7 +519,7 @@
     return m ? m[1] : null;
   }
 
-  // ─── Service Portfolio Modal ───────────────────────────────────────────────
+  // ─── Service Portfolio Gallery (matches main site aesthetic) ────────────
 
   function getVimeoId(url) {
     if (!url) return null;
@@ -529,10 +529,10 @@
 
   function buildVideoEmbed(url) {
     const ytId = getYouTubeId(url);
-    if (ytId) return `<div class="lp-modal-video-wrap"><iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen loading="lazy"></iframe></div>`;
+    if (ytId) return `<div class="lp-gallery-video-wrap"><iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen loading="lazy"></iframe></div>`;
     const vmId = getVimeoId(url);
-    if (vmId) return `<div class="lp-modal-video-wrap"><iframe src="https://player.vimeo.com/video/${vmId}" allowfullscreen loading="lazy"></iframe></div>`;
-    return `<div class="lp-modal-video-wrap"><video src="${esc(url)}" controls preload="metadata"></video></div>`;
+    if (vmId) return `<div class="lp-gallery-video-wrap"><iframe src="https://player.vimeo.com/video/${vmId}" allowfullscreen loading="lazy"></iframe></div>`;
+    return `<div class="lp-gallery-video-wrap"><video src="${esc(url)}" controls preload="metadata"></video></div>`;
   }
 
   function openLightbox(photos, startIdx) {
@@ -573,177 +573,137 @@
     document.body.appendChild(lb);
   }
 
-  function buildModalTabs(service) {
+  function buildGalleryTabs(service) {
     const tabs = [];
-    if (service.portfolio && service.portfolio.length > 0) tabs.push({ id: 'photos', label: '📷 Fotos' });
-    if (service.videoUrl) tabs.push({ id: 'video', label: '🎬 Vídeo' });
-    if (service.tourUrl)  tabs.push({ id: 'tour',  label: '🏠 3D Tour' });
+    if (service.portfolio && service.portfolio.length > 0) tabs.push({ id: 'photos', label: 'Photos' });
+    if (service.videoUrl) tabs.push({ id: 'video', label: 'Video' });
+    if (service.tourUrl)  tabs.push({ id: 'tour',  label: '3D Tour' });
     return tabs;
   }
 
-  function buildModalPanels(service, tabs) {
+  function buildGalleryPanels(service, tabs) {
     return tabs.map((tab, i) => {
       let content = '';
       if (tab.id === 'photos') {
-        content = `<div class="lp-modal-photo-grid">
+        content = `<div class="lp-gallery-photo-grid">
           ${service.portfolio.map((p, pi) => `
-            <div class="lp-modal-photo-item" data-idx="${pi}">
+            <div class="lp-gallery-photo-item" data-idx="${pi}">
               <img src="${esc(p.url)}" alt="${esc(p.caption || 'Photo')}" loading="lazy">
+              <div class="lp-gallery-zoom-icon">⌕</div>
             </div>`).join('')}
         </div>`;
       } else if (tab.id === 'video') {
         content = buildVideoEmbed(service.videoUrl);
       } else if (tab.id === 'tour') {
         content = `
-          <div class="lp-modal-video-wrap">
+          <div class="lp-gallery-video-wrap">
             <iframe src="${esc(service.tourUrl)}" allowfullscreen loading="lazy"></iframe>
           </div>
-          <a href="${esc(service.tourUrl)}" target="_blank" rel="noopener" class="lp-modal-tour-btn" style="margin-top:10px">
-            🏠 Abrir 3D Tour em nova aba →
+          <a href="${esc(service.tourUrl)}" target="_blank" rel="noopener" class="lp-gallery-tour-btn">
+            Open full 3D Tour ↗
           </a>`;
       }
-      return `<div class="lp-modal-panel${i === 0 ? ' active' : ''}" data-panel="${tab.id}">${content}</div>`;
+      return `<div class="lp-gallery-panel${i === 0 ? ' active' : ''}" data-panel="${tab.id}">${content}</div>`;
     }).join('');
   }
 
-  function buildModal(service) {
-    const tabs = buildModalTabs(service);
+  function openServiceGallery(service) {
+    const tabs = buildGalleryTabs(service);
     if (tabs.length === 0) return;
     const photoCount = service.portfolio ? service.portfolio.length : 0;
 
-    const overlay = document.createElement('div');
-    overlay.className = 'lp-modal-overlay';
+    // Backdrop
+    const backdrop = document.createElement('div');
+    backdrop.className = 'lp-gallery-backdrop';
 
-    const modal = document.createElement('div');
-    modal.className = 'lp-modal';
-    modal.setAttribute('role', 'dialog');
-    modal.setAttribute('aria-modal', 'true');
-    modal.setAttribute('aria-label', service.title + ' portfolio');
-    modal.innerHTML = `
-      <div class="lp-modal-box">
-        <div class="lp-modal-header">
-          <div class="lp-modal-title">
-            <span class="lp-modal-title-icon">${service.icon || '📸'}</span>
-            <div>
-              <div class="lp-modal-title-text">${esc(service.title)}</div>
-              ${photoCount > 0 ? `<div class="lp-modal-count">${photoCount} foto${photoCount !== 1 ? 's' : ''}</div>` : ''}
-            </div>
+    // Gallery container
+    const gallery = document.createElement('div');
+    gallery.className = 'lp-gallery';
+    gallery.setAttribute('role', 'dialog');
+    gallery.setAttribute('aria-modal', 'true');
+    gallery.setAttribute('aria-label', service.title + ' portfolio');
+
+    gallery.innerHTML = `
+      <div class="lp-gallery-inner">
+        <div class="lp-gallery-header">
+          <div class="lp-gallery-header-left">
+            <div class="lp-gallery-eyebrow">Portfolio</div>
+            <h3 class="lp-gallery-title">${esc(service.title)}</h3>
+            ${service.description ? `<p class="lp-gallery-desc">${esc(service.description)}</p>` : ''}
           </div>
-          <button class="lp-modal-close" aria-label="Fechar">✕</button>
+          <div class="lp-gallery-header-right">
+            <button class="lp-gallery-close" aria-label="Close">✕</button>
+            ${photoCount > 0 ? `<span class="lp-gallery-count">${photoCount} photo${photoCount !== 1 ? 's' : ''}</span>` : ''}
+          </div>
         </div>
-        ${service.description ? `<div class="lp-modal-desc">${esc(service.description)}</div>` : ''}
-        <div class="lp-modal-tabs">
-          ${tabs.map((t, i) => `<button class="lp-modal-tab${i === 0 ? ' active' : ''}" data-tab="${t.id}">${t.label}</button>`).join('')}
+        ${tabs.length > 1 ? `
+          <div class="lp-gallery-tabs">
+            ${tabs.map((t, i) => `<button class="lp-gallery-tab${i === 0 ? ' active' : ''}" data-tab="${t.id}">${t.label}</button>`).join('')}
+          </div>` : ''}
+        <div class="lp-gallery-body">
+          ${buildGalleryPanels(service, tabs)}
         </div>
-        <div class="lp-modal-body">
-          ${buildModalPanels(service, tabs)}
-        </div>
-        <div class="lp-modal-footer">
-          <a href="#lp-contact" class="btn btn-fill">Solicitar Orçamento</a>
+        <div class="lp-gallery-footer">
+          <a href="#lp-contact" class="btn">Get a Free Quote</a>
         </div>
       </div>`;
 
-    function closeModal() {
-      overlay.remove(); modal.remove();
-      document.removeEventListener('keydown', onModalKey);
+    function closeGallery() {
+      backdrop.classList.remove('open');
+      gallery.classList.remove('open');
+      setTimeout(() => { backdrop.remove(); gallery.remove(); }, 350);
+      document.removeEventListener('keydown', onKey);
     }
-    function onModalKey(e) { if (e.key === 'Escape') closeModal(); }
+    function onKey(e) { if (e.key === 'Escape') closeGallery(); }
 
-    overlay.onclick = closeModal;
-    modal.querySelector('.lp-modal-close').onclick = closeModal;
-    document.addEventListener('keydown', onModalKey);
+    backdrop.onclick = closeGallery;
+    gallery.querySelector('.lp-gallery-close').onclick = closeGallery;
+    gallery.addEventListener('click', (e) => { if (e.target === gallery) closeGallery(); });
+    document.addEventListener('keydown', onKey);
 
-    modal.querySelectorAll('.lp-modal-tab').forEach(btn => {
+    // Tab switching
+    gallery.querySelectorAll('.lp-gallery-tab').forEach(btn => {
       btn.onclick = () => {
-        modal.querySelectorAll('.lp-modal-tab').forEach(b => b.classList.remove('active'));
-        modal.querySelectorAll('.lp-modal-panel').forEach(p => p.classList.remove('active'));
+        gallery.querySelectorAll('.lp-gallery-tab').forEach(b => b.classList.remove('active'));
+        gallery.querySelectorAll('.lp-gallery-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
-        modal.querySelector(`.lp-modal-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
+        gallery.querySelector(`.lp-gallery-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
       };
     });
 
-    modal.querySelectorAll('.lp-modal-photo-item').forEach(item => {
+    // Photo click → lightbox
+    gallery.querySelectorAll('.lp-gallery-photo-item').forEach(item => {
       item.onclick = () => openLightbox(service.portfolio, parseInt(item.dataset.idx));
     });
 
-    modal.querySelector('.lp-modal-footer .btn').onclick = (e) => {
-      e.preventDefault(); closeModal();
-      document.getElementById('lp-contact')?.scrollIntoView({ behavior: 'smooth' });
+    // Footer CTA
+    gallery.querySelector('.lp-gallery-footer .btn').onclick = (e) => {
+      e.preventDefault(); closeGallery();
+      setTimeout(() => document.getElementById('lp-contact')?.scrollIntoView({ behavior: 'smooth' }), 360);
     };
 
-    document.body.appendChild(overlay);
-    document.body.appendChild(modal);
-  }
-
-  function buildSheet(service) {
-    const hasPhotos = service.portfolio && service.portfolio.length > 0;
-
-    const backdrop = document.createElement('div');
-    backdrop.className = 'lp-sheet-backdrop';
-
-    const sheet = document.createElement('div');
-    sheet.className = 'lp-sheet';
-    sheet.innerHTML = `
-      <div class="lp-sheet-handle"><div class="lp-sheet-handle-pill"></div></div>
-      <div class="lp-sheet-header">
-        <span class="lp-sheet-title">${service.icon || '📸'} ${esc(service.title)}</span>
-        <button class="lp-sheet-close" aria-label="Fechar">✕</button>
-      </div>
-      <div class="lp-sheet-body">
-        ${service.description ? `<p style="font-size:0.8rem;color:#888;line-height:1.5;margin:0 0 12px">${esc(service.description)}</p>` : ''}
-        ${hasPhotos ? `
-          <div class="lp-sheet-photos">
-            ${service.portfolio.map((p, pi) => `
-              <div class="lp-sheet-photo" data-idx="${pi}">
-                <img src="${esc(p.url)}" alt="${esc(p.caption || 'Photo')}" loading="lazy">
-              </div>`).join('')}
-          </div>` : ''}
-        <div class="lp-sheet-media-btns">
-          ${service.videoUrl ? `<a href="${esc(service.videoUrl)}" target="_blank" rel="noopener" class="lp-sheet-media-btn">🎬 Ver Vídeo</a>` : ''}
-          ${service.tourUrl  ? `<a href="${esc(service.tourUrl)}"  target="_blank" rel="noopener" class="lp-sheet-media-btn">🏠 3D Tour</a>` : ''}
-        </div>
-      </div>
-      <div class="lp-sheet-footer">
-        <a href="#lp-contact" class="btn btn-fill">Solicitar Orçamento</a>
-      </div>`;
-
-    function closeSheet() {
-      sheet.classList.add('closing');
-      setTimeout(() => { backdrop.remove(); sheet.remove(); }, 240);
-    }
-
-    backdrop.onclick = closeSheet;
-    sheet.querySelector('.lp-sheet-close').onclick = closeSheet;
-
-    if (hasPhotos) {
-      sheet.querySelectorAll('.lp-sheet-photo').forEach(item => {
-        item.onclick = () => openLightbox(service.portfolio, parseInt(item.dataset.idx));
-      });
-    }
-
-    sheet.querySelector('.lp-sheet-footer .btn').onclick = (e) => {
-      e.preventDefault(); closeSheet();
-      setTimeout(() => document.getElementById('lp-contact')?.scrollIntoView({ behavior: 'smooth' }), 260);
-    };
-
+    // Swipe down to close on mobile
     let startY = 0;
-    sheet.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
-    sheet.addEventListener('touchend', e => {
-      if (e.changedTouches[0].clientY - startY > 80) closeSheet();
+    const inner = gallery.querySelector('.lp-gallery-inner');
+    inner.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+    inner.addEventListener('touchend', e => {
+      if (e.changedTouches[0].clientY - startY > 80) closeGallery();
     }, { passive: true });
 
     document.body.appendChild(backdrop);
-    document.body.appendChild(sheet);
+    document.body.appendChild(gallery);
+
+    // Trigger open animation after DOM paint
+    setTimeout(() => {
+      backdrop.classList.add('open');
+      gallery.classList.add('open');
+    }, 20);
   }
 
   function openServiceModal(idx) {
     const service = (PAGE.services || [])[idx];
     if (!service) return;
-    if (window.innerWidth >= 768) {
-      buildModal(service);
-    } else {
-      buildSheet(service);
-    }
+    openServiceGallery(service);
   }
 
   // ─── Boot ───
