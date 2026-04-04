@@ -1164,25 +1164,31 @@
   // Load from Supabase — instant, works everywhere (Cloudflare, any device)
   const _SB_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
   const _SB_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
+  var _settingsJsonP = fetch('settings.json').then(r => r.ok ? r.json() : null).catch(() => null);
+
   fetch(_SB_URL + '/rest/v1/site_settings?id=eq.1&select=data', {
     headers: { 'apikey': _SB_KEY, 'Authorization': 'Bearer ' + _SB_KEY }
   }).then(r => r.ok ? r.json() : [])
     .then(rows => {
       const server = rows?.[0]?.data;
       if (server && Object.keys(server).length > 0) {
-        localStorage.setItem('vmSettings', JSON.stringify(server));
-        applySettings(server);
-        if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
+        // Merge settings.json defaults for any keys missing in Supabase
+        _settingsJsonP.then(file => {
+          if (file) Object.keys(file).forEach(k => { if (!(k in server)) server[k] = file[k]; });
+          localStorage.setItem('vmSettings', JSON.stringify(server));
+          applySettings(server);
+          if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
+        });
       }
     }).catch(() => {
       // Fallback to settings.json if Supabase unreachable
-      fetch('settings.json').then(r => r.ok ? r.json() : null).then(s => {
+      _settingsJsonP.then(s => {
         if (s && Object.keys(s).length > 0) {
           localStorage.setItem('vmSettings', JSON.stringify(s));
           applySettings(s);
           if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
         }
-      }).catch(() => {});
+      });
     });
 })();
 </script>
