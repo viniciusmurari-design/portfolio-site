@@ -72,7 +72,7 @@
         headline: 'More Bookings.<br><em>Higher Rates.</em>',
         subheadline: '83% of guests decide based on photos alone. Make yours count.',
         cta: { text: 'Get a Free Quote', action: 'form' },
-        ctaSecondary: { text: 'See My Work', link: '#lp-portfolio' },
+        ctaSecondary: { text: 'See My Work', link: '#lp-services' },
         image: '',
         slides: [],
         pillText: 'Available for bookings in Dublin',
@@ -645,6 +645,12 @@
         </div>
         <div class="lp-gallery-footer">
           <a href="#lp-contact" class="btn">Get a Free Quote</a>
+          ${(() => {
+            const waNum = (PAGE.contact?.whatsapp || '').replace(/\D/g, '');
+            if (!waNum) return '';
+            const msg = encodeURIComponent(service.whatsappMsg || PAGE.contact?.whatsappMessage || 'Hi! I\'m interested in your photography services.');
+            return `<a href="https://wa.me/${waNum}?text=${msg}" target="_blank" rel="noopener" class="btn btn-wa">💬 WhatsApp</a>`;
+          })()}
         </div>
       </div>`;
 

@@ -3890,6 +3890,25 @@ window.setTab = function(tab) {
     return row;
   }
 
+  // Helper: add a photo thumb to a service row
+  function svcAddThumb(row, url) {
+    const photos = JSON.parse(row.dataset.portfolio || '[]');
+    photos.push({ url, caption: '' });
+    row.dataset.portfolio = JSON.stringify(photos);
+    const thumbWrap = row.querySelector('.svc-photo-thumbs');
+    const div = document.createElement('div');
+    div.style.cssText = 'position:relative;width:64px;height:64px;border-radius:6px;overflow:hidden;border:1px solid var(--border);flex-shrink:0';
+    div.innerHTML = `<img src="${escA(url)}" style="width:100%;height:100%;object-fit:cover"><button type="button" class="svc-photo-remove" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
+    div.querySelector('.svc-photo-remove').onclick = () => {
+      const p2 = JSON.parse(row.dataset.portfolio || '[]');
+      const idx = p2.findIndex(p => p.url === url);
+      if (idx > -1) p2.splice(idx, 1);
+      row.dataset.portfolio = JSON.stringify(p2);
+      div.remove();
+    };
+    thumbWrap.appendChild(div);
+  }
+
   function renderServiceRow(item) {
     const row = makeRow();
     const portfolio = item.portfolio || [];
@@ -3905,45 +3924,68 @@ window.setTab = function(tab) {
 
       <details style="margin-top:4px">
         <summary style="font-size:0.75rem;color:var(--text-2);cursor:pointer;user-select:none;padding:4px 0">+ Portfolio Media</summary>
-        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px">
 
           <div>
-            <div style="font-size:0.72rem;color:var(--text-2);margin-bottom:4px">Photos</div>
-            <div class="svc-photo-thumbs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px">${portfolio.map((p,pi) => `
-              <div style="position:relative;width:60px;height:60px;border-radius:6px;overflow:hidden;border:1px solid var(--border)">
+            <div style="font-size:0.72rem;font-weight:600;color:var(--text-2);margin-bottom:6px">Photos</div>
+            <div class="svc-photo-thumbs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">${portfolio.map(p => `
+              <div style="position:relative;width:64px;height:64px;border-radius:6px;overflow:hidden;border:1px solid var(--border);flex-shrink:0">
                 <img src="${escA(p.url)}" style="width:100%;height:100%;object-fit:cover">
-                <button type="button" data-pi="${pi}" class="svc-photo-remove" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+                <button type="button" data-url="${escA(p.url)}" class="svc-photo-remove" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
               </div>`).join('')}
             </div>
-            <label style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.76rem;color:var(--text-2)">
-              <span>+ Add Photo</span>
-              <input type="file" accept="image/*" class="svc-photo-upload" style="display:none" multiple>
-            </label>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button type="button" class="svc-library-btn" style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:var(--blue-soft);border:1px solid var(--blue);border-radius:6px;cursor:pointer;font-size:0.76rem;color:var(--blue);font-weight:500">
+                📂 Browse Library
+              </button>
+              <label style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:0.76rem;color:var(--text-2)">
+                ⬆ Upload New
+                <input type="file" accept="image/*" class="svc-photo-upload" style="display:none" multiple>
+              </label>
+            </div>
           </div>
 
           <div>
-            <div style="font-size:0.72rem;color:var(--text-2);margin-bottom:4px">Video URL (YouTube, Vimeo, or .mp4)</div>
+            <div style="font-size:0.72rem;font-weight:600;color:var(--text-2);margin-bottom:4px">Video URL</div>
+            <div style="font-size:0.68rem;color:var(--text-3);margin-bottom:4px">YouTube, Vimeo, or direct .mp4</div>
             <input data-field="videoUrl" value="${escA(item.videoUrl || '')}" placeholder="https://youtube.com/watch?v=..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem">
           </div>
 
           <div>
-            <div style="font-size:0.72rem;color:var(--text-2);margin-bottom:4px">3D Tour URL (Matterport or iframe URL)</div>
+            <div style="font-size:0.72rem;font-weight:600;color:var(--text-2);margin-bottom:4px">3D Tour URL</div>
+            <div style="font-size:0.68rem;color:var(--text-3);margin-bottom:4px">Matterport or any iframe URL</div>
             <input data-field="tourUrl" value="${escA(item.tourUrl || '')}" placeholder="https://my.matterport.com/show/?m=..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem">
+          </div>
+
+          <div>
+            <div style="font-size:0.72rem;font-weight:600;color:var(--text-2);margin-bottom:4px">WhatsApp Button</div>
+            <div style="font-size:0.68rem;color:var(--text-3);margin-bottom:4px">Custom message for this service (uses global number)</div>
+            <input data-field="whatsappMsg" value="${escA(item.whatsappMsg || '')}" placeholder="Hi! I'm interested in photography for my property." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem">
           </div>
 
         </div>
       </details>`;
 
+    // Remove existing photo
     row.querySelectorAll('.svc-photo-remove').forEach(btn => {
       btn.onclick = () => {
-        const pi = parseInt(btn.dataset.pi);
+        const url = btn.dataset.url;
         const photos = JSON.parse(row.dataset.portfolio || '[]');
-        photos.splice(pi, 1);
+        const idx = photos.findIndex(p => p.url === url);
+        if (idx > -1) photos.splice(idx, 1);
         row.dataset.portfolio = JSON.stringify(photos);
         btn.closest('div[style*="position:relative"]').remove();
       };
     });
 
+    // Browse library
+    row.querySelector('.svc-library-btn').onclick = () => {
+      openMediaLibrary(items => {
+        items.forEach(photo => svcAddThumb(row, photo.url));
+      }, { subtitle: 'Pick photos for this service portfolio', confirmLabel: 'Add to Portfolio' });
+    };
+
+    // Upload new photo
     row.querySelector('.svc-photo-upload').onchange = async (e) => {
       const files = Array.from(e.target.files);
       for (const file of files) {
@@ -3956,23 +3998,7 @@ window.setTab = function(tab) {
           const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: form });
           const data = await res.json();
           const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/${data.public_id}`;
-
-          const photos = JSON.parse(row.dataset.portfolio || '[]');
-          photos.push({ url, caption: '' });
-          row.dataset.portfolio = JSON.stringify(photos);
-
-          const thumbWrap = row.querySelector('.svc-photo-thumbs');
-          const pi = photos.length - 1;
-          const div = document.createElement('div');
-          div.style.cssText = 'position:relative;width:60px;height:60px;border-radius:6px;overflow:hidden;border:1px solid var(--border)';
-          div.innerHTML = `<img src="${escA(url)}" style="width:100%;height:100%;object-fit:cover"><button type="button" data-pi="${pi}" class="svc-photo-remove" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
-          div.querySelector('.svc-photo-remove').onclick = () => {
-            const p2 = JSON.parse(row.dataset.portfolio || '[]');
-            p2.splice(parseInt(div.querySelector('.svc-photo-remove').dataset.pi), 1);
-            row.dataset.portfolio = JSON.stringify(p2);
-            div.remove();
-          };
-          thumbWrap.appendChild(div);
+          svcAddThumb(row, url);
         } catch (err) {
           console.error('Upload failed', err);
         }
@@ -3993,7 +4019,8 @@ window.setTab = function(tab) {
       features:    (row.querySelector('[data-field="features"]')?.value || '').split(',').map(s => s.trim()).filter(Boolean),
       portfolio:   JSON.parse(row.dataset.portfolio || '[]'),
       videoUrl:    row.querySelector('[data-field="videoUrl"]')?.value || '',
-      tourUrl:     row.querySelector('[data-field="tourUrl"]')?.value || ''
+      tourUrl:     row.querySelector('[data-field="tourUrl"]')?.value || '',
+      whatsappMsg: row.querySelector('[data-field="whatsappMsg"]')?.value || ''
     }));
   }
 

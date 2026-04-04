@@ -575,6 +575,8 @@
   padding: 18px 32px 26px;
   border-top: 1px solid var(--bg);
   text-align: center; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  flex-wrap: wrap;
 }
 .lp-gallery-footer .btn {
   font-family: var(--sans); font-size: 0.8rem; font-weight: 500;
@@ -584,6 +586,10 @@
   transition: background .2s;
 }
 .lp-gallery-footer .btn:hover { background: rgba(0,113,227,0.13); }
+.lp-gallery-footer .btn-wa {
+  color: #25d366; background: rgba(37,211,102,0.08);
+}
+.lp-gallery-footer .btn-wa:hover { background: rgba(37,211,102,0.16); }
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {

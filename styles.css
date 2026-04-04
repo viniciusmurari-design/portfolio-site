@@ -314,6 +314,8 @@ h2 em { font-style: italic; color: var(--muted); }
 .sc-ico { width: 28px; height: 28px; color: var(--text); margin-bottom: 14px; display: block; }
 .sc h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 10px; line-height: 1.2; }
 .sc p { font-size: 0.78rem; font-weight: 300; color: var(--muted); line-height: 1.75; }
+.sc-link { display: inline-block; margin-top: 14px; font-size: 0.72rem; font-weight: 500; color: var(--blue); text-decoration: none; transition: opacity .2s; }
+.sc-link:hover { opacity: 0.7; }
 
 /* ─── About ─── */
 .about-g { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: center; }
