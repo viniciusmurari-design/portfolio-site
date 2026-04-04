@@ -1174,7 +1174,7 @@
       if (server && Object.keys(server).length > 0) {
         // Merge settings.json defaults for any keys missing in Supabase
         _settingsJsonP.then(file => {
-          if (file) Object.keys(file).forEach(k => { if (!(k in server)) server[k] = file[k]; });
+          if (file) Object.keys(file).forEach(k => { if (!server[k] && file[k]) server[k] = file[k]; });
           localStorage.setItem('vmSettings', JSON.stringify(server));
           applySettings(server);
           if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
