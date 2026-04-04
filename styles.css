@@ -747,6 +747,65 @@ a.gal-book-btn:hover, button.gal-book-btn:hover { background: rgba(0,113,227,0.1
   .lb-prev { left: 6px; } .lb-next { right: 6px; }
 }
 
+/* ─── Showreel Cinema Player ─── */
+.showreel-cinema {
+  position: fixed; inset: 0; z-index: 2500;
+  background: rgba(0,0,0,0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity .4s, background .4s, backdrop-filter .4s;
+}
+.showreel-cinema.open {
+  opacity: 1; pointer-events: all;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.showreel-cinema-inner {
+  width: 90vw; max-width: 960px;
+  transform: scale(0.92) translateY(20px);
+  transition: transform .5s cubic-bezier(.22,1,.36,1);
+}
+.showreel-cinema.open .showreel-cinema-inner {
+  transform: scale(1) translateY(0);
+}
+.showreel-cinema-player {
+  position: relative; width: 100%;
+  padding-bottom: 56.25%;
+  border-radius: 16px; overflow: hidden;
+  background: #000;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.7),
+              0 0 0 1px rgba(255,255,255,0.06);
+}
+.showreel-cinema-player iframe,
+.showreel-cinema-player video {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+}
+.showreel-cinema-title {
+  text-align: center; margin-top: 24px;
+  font-family: var(--serif); font-size: 1.1rem;
+  color: rgba(255,255,255,0.45); font-weight: 400;
+  letter-spacing: 0.04em;
+}
+.showreel-cinema-close {
+  position: absolute; top: -52px; right: 0;
+  background: rgba(255,255,255,0.08); border: none; border-radius: 50%;
+  width: 42px; height: 42px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7); font-size: 1rem;
+  transition: background .2s, color .2s;
+}
+.showreel-cinema-close:hover { background: rgba(255,255,255,0.18); color: #fff; }
+@media (max-width: 600px) {
+  .showreel-cinema-inner { width: 95vw; }
+  .showreel-cinema-player { border-radius: 10px; }
+  .showreel-cinema-close { top: -48px; width: 38px; height: 38px; }
+  .showreel-cinema-title { font-size: 0.9rem; margin-top: 16px; }
+}
+
 /* ─── Inline Edit Mode ─── */
 #editToggle {
   position: fixed; bottom: 28px; right: 28px; z-index: 500;
