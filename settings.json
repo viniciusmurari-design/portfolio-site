@@ -397,6 +397,153 @@
       "portfolio": [],
       "beforeAfter": [],
       "testimonials": []
+    },
+    {
+      "id": "product-photography",
+      "slug": "product-photography",
+      "active": true,
+      "seo": {
+        "title": "Product Photography Dublin | Still Life, Lifestyle & Digital Composite | Vinicius Murari",
+        "description": "Professional product photography in Dublin — white background, lifestyle, digital composite and retouching. Increase your conversion rate by up to 30%.",
+        "ogImage": ""
+      },
+      "hero": {
+        "mode": "photo",
+        "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+        "slides": [],
+        "headline": "Products That<br><em>Sell Themselves.</em>",
+        "pillText": "Studio bookings open in Dublin",
+        "trustLine": "Trusted by 30+ Irish brands & e-commerce stores",
+        "subheadline": "94% of online purchase decisions are driven by product images. Yours should be impossible to scroll past.",
+        "cta": { "text": "Get a Free Quote", "action": "form" },
+        "ctaSecondary": { "text": "See My Work", "link": "#lp-services" }
+      },
+      "stats": [
+        { "value": "+30%", "label": "Conversion Rate" },
+        { "value": "3x", "label": "Perceived Value" },
+        { "value": "94%", "label": "Decisions Based on Images" }
+      ],
+      "problem": {
+        "headline": "Your Product is Great.<br><em>Your Photos Are Killing Your Sales.</em>",
+        "text": "In a crowded online marketplace, your product image IS your storefront. Blurry, flat or inconsistent photos lose the sale before the customer reads a single word — no matter how good your product actually is. Every day with subpar visuals is revenue left on the table.",
+        "image": ""
+      },
+      "services": [
+        {
+          "icon": "⬜",
+          "title": "White Background",
+          "description": "Clean, platform-ready images on pure white — the standard for Amazon, Shopify, marketplaces and e-commerce catalogues.",
+          "features": ["Amazon & marketplace compliant", "Consistent lighting & shadows", "Clipping path included", "Multiple angles per product"],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "White background product" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "Clean studio shot" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "Multiple angles" }
+          ],
+          "videoUrl": "", "tourUrl": "", "whatsappMsg": "Hi! I need white background product photography."
+        },
+        {
+          "icon": "🌿",
+          "title": "Lifestyle & Ambient",
+          "description": "Your product in context — styled scenes and environments that tell a story, build desire and connect emotionally with your audience.",
+          "features": ["Props & styling included", "Indoor & outdoor setups", "Instagram & social-ready", "Storytelling composition"],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "Lifestyle setup" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "Ambient product shot" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "Styled scene" }
+          ],
+          "videoUrl": "", "tourUrl": "", "whatsappMsg": "Hi! I need lifestyle product photography."
+        },
+        {
+          "icon": "✦",
+          "title": "Digital Composite",
+          "description": "Impossible-to-shoot scenes built in post — your product placed into premium digital environments, luxury textures or abstract backgrounds that premium brands use.",
+          "features": ["Custom digital backgrounds", "Colour-matched lighting", "Luxury & editorial aesthetics", "Unlimited creative options"],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "Digital composite" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "Premium background composite" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "Editorial manipulation" }
+          ],
+          "videoUrl": "", "tourUrl": "", "whatsappMsg": "Hi! I need digital composite product images."
+        },
+        {
+          "icon": "◈",
+          "title": "Retouching & Editing",
+          "description": "Pixel-perfect post-production — colour grading, dust removal, surface imperfections, shadow creation and format optimisation for every platform.",
+          "features": ["Dust & scratch removal", "Colour correction & grading", "Natural shadow creation", "Web, print & social formats"],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "Before & after retouching" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "Colour grading" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "Edited final result" }
+          ],
+          "videoUrl": "", "tourUrl": "", "whatsappMsg": "Hi! I need product photo retouching."
+        }
+      ],
+      "process": [
+        { "step": "1", "title": "Brief", "text": "Send your product + style references. We plan angles, props, lighting and backgrounds to match your brand." },
+        { "step": "2", "title": "Shoot", "text": "Studio day in Dublin — multiple setups, angles and styles captured. Raw selects shared same day for approval." },
+        { "step": "3", "title": "Edit", "text": "Full post-production: retouching, colour grading and compositing to pixel-perfect standard." },
+        { "step": "4", "title": "Deliver", "text": "All files optimised for web, print and social media — delivered within 48 hours in every format you need." }
+      ],
+      "packages": [
+        {
+          "name": "Starter",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "features": ["1 product, up to 3 angles", "White background + 1 lifestyle setup", "5 retouched final images", "Web & social formats", "48h delivery"]
+        },
+        {
+          "name": "Professional",
+          "price": "",
+          "showPrice": false,
+          "highlighted": true,
+          "features": ["Up to 5 products", "White bg + lifestyle + 1 composite", "20 retouched final images", "All digital formats included", "Priority 24h delivery", "1 free revision round"]
+        },
+        {
+          "name": "Brand Campaign",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "features": ["Unlimited products", "All 4 service types", "Unlimited final images", "Custom digital composites", "Full campaign edit", "Dedicated art direction"]
+        }
+      ],
+      "testimonials": [
+        {
+          "name": "Laura K.",
+          "role": "Founder, Skincare Brand",
+          "text": "Our conversion rate went up 28% the week we switched to Vinicius's product photos. The white background shots are flawless — Amazon loves them.",
+          "rating": 5
+        },
+        {
+          "name": "Mark D.",
+          "role": "E-commerce Manager",
+          "text": "The lifestyle setups are stunning. Customers comment on the photos all the time. Best investment we made for our Shopify store.",
+          "rating": 5
+        },
+        {
+          "name": "Sofia R.",
+          "role": "Jewellery Designer",
+          "text": "The digital composites gave my jewellery line a luxury feel I couldn't afford with a physical set. Absolutely worth every cent.",
+          "rating": 5
+        }
+      ],
+      "faq": [
+        { "q": "How many products can I send per session?", "a": "A standard shoot handles 3–10 products depending on complexity. Multiple products with many angles and setups should be discussed in the brief." },
+        { "q": "Can I send my products by post?", "a": "Yes! Many clients ship products to our Dublin studio. We photograph them and ship back. Just let us know when booking." },
+        { "q": "Do you provide props and styling?", "a": "Yes — props, surfaces, fabrics and styling are all included. Share your brand references and we'll build the right setup." },
+        { "q": "What file formats will I receive?", "a": "You receive high-res JPEGs for print, optimised WebP/JPEGs for web and PNG with transparent background where applicable." },
+        { "q": "Can you retouch photos I already have?", "a": "Absolutely. We offer standalone retouching and editing for existing photos. Just send samples and we'll quote you." }
+      ],
+      "portfolio": [],
+      "beforeAfter": [],
+      "showreel": { "url": "", "thumbnail": "" },
+      "contact": {
+        "whatsapp": "",
+        "whatsappMessage": "Hi! I'm interested in product photography services.",
+        "finalCtaTitle": "Ready to Make Your Products <em>Irresistible?</em>",
+        "finalCtaSub": "Book your shoot today and start converting more browsers into buyers.",
+        "web3formsKey": ""
+      }
     }
   ],
   "web3formsKey": "13bc49db-f397-4327-95f4-befd57a733d8",
