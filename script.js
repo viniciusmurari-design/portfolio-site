@@ -471,6 +471,46 @@ function closeGallery() {
 galClose.addEventListener('click', closeGallery);
 galModal.addEventListener('click', e => { if (e.target === galModal) closeGallery(); });
 
+// ─── Drone Preview Grid ────────────────────────────────────────────────────
+async function loadDronePreview() {
+  const grid = document.getElementById('dronePreviewGrid');
+  if (!grid) return;
+
+  let photos = [];
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/photos?category=eq.drone&order=created_at.asc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    if (res.ok) photos = await res.json();
+  } catch(e) {}
+
+  if (!photos.length) {
+    grid.innerHTML = `
+      <div class="drone-card drone-card-placeholder">Add drone photos &amp; videos via admin</div>
+      <div class="drone-card drone-card-placeholder">Aerial Photography</div>
+      <div class="drone-card drone-card-placeholder">Video Production</div>
+      <div class="drone-card drone-card-placeholder">Brand Films</div>`;
+    return;
+  }
+
+  grid.innerHTML = '';
+  photos.slice(0, 4).forEach(photo => {
+    const isVid = isVideoUrl(photo.url);
+    const thumbSrc = isVid ? (getVideoPoster(photo.url) || photo.thumb || photo.url) : photo.url;
+    const label = photo.sub || (isVid ? 'Video' : 'Aerial');
+    const card = document.createElement('div');
+    card.className = 'drone-card' + (isVid ? ' gal-item-video' : '');
+    card.innerHTML = `
+      <img src="${thumbSrc}" alt="${generateAlt(photo.filename || 'drone', 'drone')}" loading="lazy">
+      <div class="drone-card-label">${isVid ? '▶ ' : ''}${label}</div>
+      ${isVid ? '<div class="gal-play-icon"><svg viewBox="0 0 24 24" fill="white" width="32" height="32"><polygon points="5,3 19,12 5,21"/></svg></div>' : ''}`;
+    card.addEventListener('click', () => openGallery('drone'));
+    grid.appendChild(card);
+  });
+}
+
+loadDronePreview();
+
 // ─── Lightbox ──────────────────────────────────────────────────────────────
 
 const lightbox  = document.getElementById('lightbox');

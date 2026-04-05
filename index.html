@@ -58,7 +58,7 @@
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=16">
 
   <!-- ─── JSON-LD Structured Data ─── -->
 
@@ -480,25 +480,11 @@
       <div class="drone-btns">
         <a href="#contact" class="btn btn-white-fill">Book Drone Session</a>
         <a href="#" class="btn btn-white" id="showreelBtn">Watch Showreel →</a>
+        <button class="btn btn-white-outline" onclick="openGallery('drone')">View Gallery →</button>
       </div>
     </div>
-    <div class="drone-cards rev d2">
-      <a href="#contact" class="drone-card" aria-label="Book aerial photography in Dublin">
-        <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=80" alt="Drone aerial photography over Ireland — licensed drone pilot Vinicius Murari" loading="lazy">
-        <div class="drone-card-label">Aerial Photography</div>
-      </a>
-      <a href="#contact" class="drone-card" aria-label="Book video production in Dublin">
-        <img src="https://images.unsplash.com/photo-1579566346927-c68383817a25?w=600&q=80" alt="Video production and filmmaking in Dublin — Vinicius Murari" loading="lazy">
-        <div class="drone-card-label">Video Production</div>
-      </a>
-      <a href="#contact" class="drone-card" aria-label="Book landscape and events drone photography">
-        <img src="https://images.unsplash.com/photo-1508444845599-5c89863b1c44?w=600&q=80" alt="Drone landscape and event photography across Ireland — Vinicius Murari" loading="lazy">
-        <div class="drone-card-label">Landscape &amp; Events</div>
-      </a>
-      <a href="#contact" class="drone-card" aria-label="Book brand film production in Dublin">
-        <img src="https://images.unsplash.com/photo-1601506521793-dc748fc80b67?w=600&q=80" alt="Brand film production in Dublin — cinematic video by Vinicius Murari" loading="lazy">
-        <div class="drone-card-label">Brand Films</div>
-      </a>
+    <div class="drone-cards rev d2" id="dronePreviewGrid">
+      <!-- injected by JS from Supabase -->
     </div>
   </div>
 </section>
@@ -1033,6 +1019,9 @@
     <figure data-sub="interior"><img src="https://static.wixstatic.com/media/9d9634_11485173008a416083b8d5ee1137fb6a~mv2.jpg/v1/fill/w_1200,h_1600,al_c,q_85,enc_avif,quality_auto/9d9634_11485173008a416083b8d5ee1137fb6a~mv2.jpg" alt="Architecture interior"></figure>
   </div>
 
+  <div data-id="drone" data-title="Drone &amp; Film" data-eyebrow="Aerial &amp; Cinematic" data-subs="All,Aerial,Video,Real Estate,Events" data-description="Taking storytelling to new heights. Cinematic aerial footage and ground-level video production for brands, real estate, events and creative campaigns across Ireland.">
+  </div>
+
 </div><!-- end #galleryData -->
 
 <script>
@@ -1048,8 +1037,8 @@
       el.innerHTML = val.replace(/<(?!\/?(?:em|strong|br)\s*\/?>)[^>]+>/gi, '');
     }
 
-    // Hero
-    set('heroPillText', s.heroPill);
+    // Hero — only apply pill text if it looks like a real message (guard against "All" corruption)
+    if (s.heroPill && s.heroPill.trim().length > 8) set('heroPillText', s.heroPill);
     setHTML('heroHeadline', s.heroHeadline);
     set('heroSub', s.heroSub);
     if (s.heroBg && /^https?:\/\//.test(s.heroBg)) document.documentElement.style.setProperty('--hero-bg', `url('${s.heroBg.replace(/['"()]/g, '')}')`);
@@ -1210,7 +1199,7 @@
   </div>
 </div>
 
-<script src="script.js?v=14"></script>
+<script src="script.js?v=15"></script>
 <script>
 // Dynamic copyright year
 (function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();
