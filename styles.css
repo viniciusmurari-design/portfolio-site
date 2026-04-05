@@ -585,14 +585,15 @@ a.gal-book-btn, button.gal-book-btn {
   padding: 6px 14px; transition: background .2s; border: none; cursor: pointer;
 }
 a.gal-book-btn:hover, button.gal-book-btn:hover { background: rgba(0,113,227,0.13); }
-a.gal-landing-btn {
-  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
-  color: var(--text-2); text-decoration: none; white-space: nowrap;
-  background: transparent; border-radius: 100px;
-  padding: 6px 14px; transition: background .2s, color .2s;
-  border: 1px solid var(--border);
+.gal-count-row {
+  display: flex; align-items: center; gap: 10px;
 }
-a.gal-landing-btn:hover { background: var(--surface-2); color: var(--text-1); }
+a.gal-landing-btn {
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 500;
+  color: var(--blue); text-decoration: none; white-space: nowrap;
+  transition: opacity .2s;
+}
+a.gal-landing-btn:hover { opacity: 0.7; }
 
 /* ── Sub-category pills ── */
 .gal-subs {
