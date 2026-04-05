@@ -752,7 +752,6 @@ a.gal-landing-btn:hover { background: var(--surface-2); color: var(--text-1); }
   .gal-subs { padding: 10px 16px 0; }
   .gal-modal-header { padding: 20px 20px 0; flex-wrap: wrap; }
   .gal-book-btn { display: none; }
-  .gal-landing-btn { display: none !important; }
 }
 @media (max-width: 600px) {
   .gal-grid { columns: 2; padding: 10px 12px; column-gap: 4px; }
