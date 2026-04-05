@@ -58,7 +58,7 @@
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=16">
+  <link rel="stylesheet" href="styles.css?v=17">
 
   <!-- ─── JSON-LD Structured Data ─── -->
 
@@ -1045,7 +1045,17 @@
     // Hero slideshow (multiple slides) is loaded by script.js
 
     // About
-    if (s.aboutPhoto) { const ap = document.getElementById('aboutPhoto'); if (ap) ap.src = s.aboutPhoto; }
+    if (s.aboutPhoto) {
+      const ap = document.getElementById('aboutPhoto');
+      if (ap) {
+        // Inject size transforms if missing to prevent grid expansion from large intrinsic image size
+        let src = s.aboutPhoto;
+        if (src.includes('res.cloudinary.com') && !src.match(/\/w_\d+/) && !src.match(/\/c_fill/)) {
+          src = src.replace('/upload/', '/upload/w_600,h_800,c_fill,q_auto,f_auto/').replace(/\/q_auto,f_auto\/q_auto,f_auto\//, '/q_auto,f_auto/');
+        }
+        ap.src = src;
+      }
+    }
     set('aboutText1', s.aboutText1);
     set('aboutText2', s.aboutText2);
     set('aboutText3', s.aboutText3);
