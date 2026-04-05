@@ -326,13 +326,12 @@ h2 em { font-style: italic; color: var(--muted); }
 .sc-link:hover { opacity: 0.7; }
 
 /* ─── About ─── */
-.about-g { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; align-items: center; }
-.about-g > * { min-width: 0; }
+.about-g { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; align-items: center; }
 .a-photo { border-radius: var(--r); overflow: hidden; aspect-ratio: 4/5; max-width: 420px; }
 .a-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .a-stats {
   display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 2px; margin-top: 14px;
+  gap: 2px; margin-top: 14px; width: 100%;
   background: var(--light); border-radius: 14px; overflow: hidden;
 }
 .a-stat { background: var(--white); padding: 20px 14px; text-align: center; }
