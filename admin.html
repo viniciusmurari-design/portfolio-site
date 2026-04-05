@@ -905,7 +905,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.0</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.1</div>
     </div>
   </nav>
 
@@ -1930,6 +1930,19 @@ async function loadFromServer() {
   } catch(e) {
     // Server not responding — use localStorage only
   }
+  // Sync landingPages from Supabase — ensures admin always sees pages
+  // added outside this session (e.g. via settings.json + push)
+  try {
+    const sbRes = await sbFetch('/rest/v1/site_settings?id=eq.1&select=data');
+    if (sbRes.ok) {
+      const rows = await sbRes.json();
+      const sbData = rows?.[0]?.data;
+      if (sbData?.landingPages && sbData.landingPages.length > (S.landingPages?.length || 0)) {
+        S.landingPages = sbData.landingPages;
+        localStorage.setItem('vmSettings', JSON.stringify(S));
+      }
+    }
+  } catch(e2) { /* silent — Supabase unavailable */ }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
