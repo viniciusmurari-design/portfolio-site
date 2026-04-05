@@ -585,6 +585,14 @@ a.gal-book-btn, button.gal-book-btn {
   padding: 6px 14px; transition: background .2s; border: none; cursor: pointer;
 }
 a.gal-book-btn:hover, button.gal-book-btn:hover { background: rgba(0,113,227,0.13); }
+a.gal-landing-btn {
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
+  color: var(--text-2); text-decoration: none; white-space: nowrap;
+  background: transparent; border-radius: 100px;
+  padding: 6px 14px; transition: background .2s, color .2s;
+  border: 1px solid var(--border);
+}
+a.gal-landing-btn:hover { background: var(--surface-2); color: var(--text-1); }
 
 /* ── Sub-category pills ── */
 .gal-subs {
@@ -744,6 +752,7 @@ a.gal-book-btn:hover, button.gal-book-btn:hover { background: rgba(0,113,227,0.1
   .gal-subs { padding: 10px 16px 0; }
   .gal-modal-header { padding: 20px 20px 0; flex-wrap: wrap; }
   .gal-book-btn { display: none; }
+  .gal-landing-btn { display: none !important; }
 }
 @media (max-width: 600px) {
   .gal-grid { columns: 2; padding: 10px 12px; column-gap: 4px; }

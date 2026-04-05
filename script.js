@@ -322,6 +322,20 @@ async function openGallery(id) {
   galPhotoCount.textContent = '';
   activeSubFilter = 'all';
 
+  // Show landing page link if this gallery has a linked active landing page
+  const galLandingBtn = document.getElementById('galLandingBtn');
+  if (galLandingBtn) {
+    const landingSlug = section.dataset.landing;
+    const settings = Settings.get();
+    const lp = landingSlug && (settings.landingPages || []).find(p => p.slug === landingSlug && p.active);
+    if (lp) {
+      galLandingBtn.href = '/' + landingSlug;
+      galLandingBtn.style.display = '';
+    } else {
+      galLandingBtn.style.display = 'none';
+    }
+  }
+
   // Build sub-category pills — check settings first, then HTML fallback
   galSubs.innerHTML = '';
   const savedSettings = Settings.get();
