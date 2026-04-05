@@ -544,6 +544,167 @@
         "finalCtaSub": "Book your shoot today and start converting more browsers into buyers.",
         "web3formsKey": ""
       }
+    },
+    {
+      "id": "portrait-photography",
+      "slug": "portrait-photography",
+      "active": true,
+      "seo": {
+        "title": "Portrait & Headshot Photography Dublin | Corporate, Personal Branding & Creative | Vinicius Murari",
+        "description": "Professional portrait and headshot photography in Dublin. Black & white background, ambient sessions, portable studio available on-site. 48h delivery for corporate teams and personal brands.",
+        "ogImage": ""
+      },
+      "hero": {
+        "headline": "The Photo That<br><em>Opens Doors.</em>",
+        "pillText": "Studio & on-location bookings open in Dublin",
+        "trustLine": "Trusted by 200+ professionals, executives & creatives across Dublin",
+        "subheadline": "Your portrait is seen before your CV, your pitch deck, and your handshake. In 7 seconds it either opens doors — or closes them.",
+        "cta": { "text": "Book Your Session", "action": "form" },
+        "ctaSecondary": { "text": "See Examples", "link": "#lp-services" },
+        "mode": "photo",
+        "image": "",
+        "slides": []
+      },
+      "stats": [
+        { "value": "7s", "label": "To Form a First Impression" },
+        { "value": "+40%", "label": "Profile Views with Pro Headshot" },
+        { "value": "48h", "label": "Turnaround Delivery" }
+      ],
+      "problem": {
+        "headline": "A Bad Photo Is <em>Costing You Opportunities</em>",
+        "text": "A blurry selfie, a cropped group shot, an outdated corporate photo from five years ago — every day you keep the wrong portrait online, someone with a better one is getting the meeting, the callback, or the deal. First impressions happen in 7 seconds. Online, they happen before you even speak.",
+        "image": ""
+      },
+      "services": [
+        {
+          "title": "White Background",
+          "icon": "⬜",
+          "description": "Clean, sharp, timeless. The white background headshot that works on LinkedIn, company bios, press kits and email signatures — professional in every context.",
+          "features": ["Seamless white backdrop", "Studio & portable on-site", "Multiple expressions"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "title": "Black Background",
+          "icon": "⬛",
+          "description": "Bold, dramatic, high-contrast authority. The black background portrait commands attention — ideal for speakers, executives, creatives, and anyone who wants presence before they say a word.",
+          "features": ["Dramatic studio lighting", "High-contrast finish", "Print & digital ready"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "title": "Ambient & Lifestyle",
+          "icon": "🌿",
+          "description": "Portraits with personality. Natural light, real environments — your office, a café, outdoors. Authentic and relaxed for personal brands, coaches, and creatives who want to show who they are, not just what they do.",
+          "features": ["Natural light & real locations", "Multiple outfits & contexts", "Storytelling approach"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "title": "Portable Studio On-Site",
+          "icon": "📍",
+          "description": "We bring the studio to you. Full professional setup — lighting, backdrops, equipment — delivered to your office, event, or venue. Consistent, polished headshots for your entire team without a single commute.",
+          "features": ["Full studio at your location", "Teams of any size", "Same-day batch sessions"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        }
+      ],
+      "process": [
+        {
+          "step": "1",
+          "title": "Brief",
+          "text": "Tell us your goals, industry, and where you'll use the photos. We align on style, background, and wardrobe before you arrive — no surprises on the day."
+        },
+        {
+          "step": "2",
+          "title": "Session",
+          "text": "A relaxed 60–90 min shoot with full direction. No awkward freezing — we guide every pose and expression so you look like yourself at your best."
+        },
+        {
+          "step": "3",
+          "title": "Select",
+          "text": "Browse your private online gallery within 24h and choose your favourites. We help you pick the ones that work hardest for your goals."
+        },
+        {
+          "step": "4",
+          "title": "Deliver",
+          "text": "Professionally retouched finals ready in 48h. Web-optimised and print-ready files, delivered straight to your inbox."
+        }
+      ],
+      "packages": [
+        {
+          "name": "Essential Headshot",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Book Now",
+          "features": ["1 background style", "60-min session", "5 retouched photos", "Web & print files", "48h delivery"]
+        },
+        {
+          "name": "Personal Brand",
+          "price": "",
+          "showPrice": false,
+          "highlighted": true,
+          "cta": "Book Now",
+          "features": ["2 background styles", "90-min session", "15 retouched photos", "Outfit change included", "Web & print files", "48h delivery"]
+        },
+        {
+          "name": "Team On-Site",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Get a Quote",
+          "features": ["Portable studio at your office", "5+ people", "Consistent style & lighting", "Individual galleries", "Priority 48h delivery"]
+        }
+      ],
+      "testimonials": [
+        {
+          "name": "David K.",
+          "role": "Senior Manager, Financial Services",
+          "text": "I updated my LinkedIn on a Tuesday. By Friday I had two unsolicited recruitment calls. The photo finally looks like the person I am in the room.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Emma L.",
+          "role": "Executive Coach & Speaker",
+          "text": "I'd been putting off proper photos for two years. The session was 90 minutes — the results changed how I show up online completely. Worth every cent.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Roisín F.",
+          "role": "Actor & Creative",
+          "text": "As an actor, headshots are my CV. Vinicius understood castability immediately — not just photography. I got called back for three roles the week I updated my Spotlight profile.",
+          "photo": "",
+          "rating": 5
+        }
+      ],
+      "faq": [
+        { "q": "What should I wear?", "a": "Solid colours work best — avoid busy patterns. Bring 2–3 outfit options if possible. During the brief we'll advise based on your background choice and goals." },
+        { "q": "How long does the session take?", "a": "Essential headshots take 45–60 minutes. Personal branding sessions with multiple looks run 90 minutes to 2 hours. Team on-site sessions are scheduled by volume." },
+        { "q": "When will I receive my photos?", "a": "Your retouched gallery is delivered within 48 hours of your session. Rush 24h delivery is available on request." },
+        { "q": "Do I need modelling experience?", "a": "Not at all. Most of our clients have never been professionally photographed before. We guide every pose and expression — you just need to show up." },
+        { "q": "Can you come to our office for team photos?", "a": "Yes — that's exactly what the portable studio is for. We set up a full professional backdrop and lighting at your location. Teams of any size, no commute required." }
+      ],
+      "portfolio": [],
+      "beforeAfter": [],
+      "showreel": { "url": "", "thumbnail": "" },
+      "contact": {
+        "whatsapp": "",
+        "whatsappMessage": "Hi! I'm interested in booking a portrait or headshot session.",
+        "finalCtaTitle": "Ready for a Portrait That <em>Works for You?</em>",
+        "finalCtaSub": "Book your session today and show up online with the confidence you already have.",
+        "web3formsKey": ""
+      }
     }
   ],
   "web3formsKey": "13bc49db-f397-4327-95f4-befd57a733d8",
