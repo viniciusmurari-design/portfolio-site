@@ -1050,8 +1050,8 @@
       if (ap) {
         // Inject size transforms if missing to prevent grid expansion from large intrinsic image size
         let src = s.aboutPhoto;
-        if (src.includes('res.cloudinary.com') && !src.match(/\/w_\d+/) && !src.match(/\/c_fill/)) {
-          src = src.replace('/upload/', '/upload/w_600,h_800,c_fill,q_auto,f_auto/').replace(/\/q_auto,f_auto\/q_auto,f_auto\//, '/q_auto,f_auto/');
+        if (src.includes('res.cloudinary.com') && !src.match(/\/w_\d+/)) {
+          src = src.replace(/\/upload\/.*?\/(portfolio\/)/, '/upload/w_600,h_800,c_fill,q_auto,f_auto/$1');
         }
         ap.src = src;
       }
