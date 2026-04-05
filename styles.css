@@ -593,6 +593,14 @@ a.gal-landing-btn {
   color: var(--blue); text-decoration: none; white-space: nowrap;
   transition: opacity .2s;
 }
+a.gal-landing-btn::before {
+  content: '·';
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--muted);
+  margin-right: 8px;
+  vertical-align: middle;
+}
 a.gal-landing-btn:hover { opacity: 0.7; }
 
 /* ── Sub-category pills ── */
