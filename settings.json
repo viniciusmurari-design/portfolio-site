@@ -195,7 +195,15 @@
             "Twilight & golden hour shots",
             "Optimised for Airbnb/Booking.com"
           ],
-          "description": "High-end interior and exterior shots that make guests fall in love before they arrive."
+          "description": "High-end interior and exterior shots that make guests fall in love before they arrive.",
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "" }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
         },
         {
           "icon": "🎬",
@@ -205,7 +213,15 @@
             "Professional colour grading",
             "Background music licensed"
           ],
-          "description": "Cinematic walkthrough videos that give guests the full experience of your property."
+          "description": "Cinematic walkthrough videos that give guests the full experience of your property.",
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "" }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
         },
         {
           "icon": "🚁",
@@ -215,7 +231,15 @@
             "Location & neighbourhood views",
             "4K aerial video included"
           ],
-          "description": "Stunning aerial perspectives that showcase your property's location and surroundings."
+          "description": "Stunning aerial perspectives that showcase your property's location and surroundings.",
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "" }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
         },
         {
           "icon": "📱",
@@ -225,7 +249,15 @@
             "Trending transitions & effects",
             "Ready to post"
           ],
-          "description": "Short-form vertical content optimised for Instagram, TikTok and social media marketing."
+          "description": "Short-form vertical content optimised for Instagram, TikTok and social media marketing.",
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "" }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
         },
         {
           "icon": "🏠",
@@ -235,7 +267,15 @@
             "Embed on any platform",
             "Floor plans included"
           ],
-          "description": "Interactive Matterport 3D tours that let guests explore every room from their phone."
+          "description": "Interactive Matterport 3D tours that let guests explore every room from their phone.",
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "" }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
         },
         {
           "icon": "✨",
@@ -245,7 +285,15 @@
             "Best value",
             "Priority turnaround"
           ],
-          "description": "The complete visual solution — everything your property needs in one shoot day."
+          "description": "The complete visual solution — everything your property needs in one shoot day.",
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05", "caption": "" }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
         }
       ],
       "showreel": {
