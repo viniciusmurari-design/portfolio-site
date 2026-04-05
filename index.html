@@ -58,7 +58,7 @@
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=19">
+  <link rel="stylesheet" href="styles.css?v=20">
 
   <!-- ─── JSON-LD Structured Data ─── -->
 
@@ -1060,10 +1060,11 @@
     set('aboutText1', s.aboutText1);
     set('aboutText2', s.aboutText2);
     set('aboutText3', s.aboutText3);
-    if (s.stat1Val) set('stat1Val', s.stat1Val); if (s.stat1Lbl) set('stat1Lbl', s.stat1Lbl);
-    if (s.stat2Val) set('stat2Val', s.stat2Val); if (s.stat2Lbl) set('stat2Lbl', s.stat2Lbl);
-    if (s.stat3Val) set('stat3Val', s.stat3Val); if (s.stat3Lbl) set('stat3Lbl', s.stat3Lbl);
-    if (s.stat4Val) set('stat4Val', s.stat4Val); if (s.stat4Lbl) set('stat4Lbl', s.stat4Lbl);
+    const okStat = v => v && v.length <= 12 && !v.includes('/') && !v.includes('http');
+    if (okStat(s.stat1Val)) set('stat1Val', s.stat1Val); if (okStat(s.stat1Lbl)) set('stat1Lbl', s.stat1Lbl);
+    if (okStat(s.stat2Val)) set('stat2Val', s.stat2Val); if (okStat(s.stat2Lbl)) set('stat2Lbl', s.stat2Lbl);
+    if (okStat(s.stat3Val)) set('stat3Val', s.stat3Val); if (okStat(s.stat3Lbl)) set('stat3Lbl', s.stat3Lbl);
+    if (okStat(s.stat4Val)) set('stat4Val', s.stat4Val); if (okStat(s.stat4Lbl)) set('stat4Lbl', s.stat4Lbl);
 
     // Quote & contact
     set('quoteText', s.quote);
@@ -1210,7 +1211,7 @@
   </div>
 </div>
 
-<script src="script.js?v=16"></script>
+<script src="script.js?v=17"></script>
 <script>
 // Dynamic copyright year
 (function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();
