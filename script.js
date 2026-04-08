@@ -959,15 +959,18 @@ function saveEdits() {
       <span>${label}</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </div>`;
-    ctaEl.addEventListener('click', () => {
-      const target = document.querySelector(slide.link);
-      if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
-      else if (slide.link.startsWith('#')) {
-        const catId = slide.link.replace('#', '');
-        const card = document.querySelector(`[data-id="${catId}"]`);
-        if (card) card.click();
+    ctaEl.onclick = () => {
+      const catId = slide.link.replace('#', '');
+      const card = document.querySelector(`.cat-card[data-gallery="${catId}"]`)
+                || document.querySelector(`.cat-card[data-id="${catId}"]`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => card.click(), 350);
+      } else {
+        const section = document.getElementById(catId) || document.querySelector(slide.link);
+        if (section) section.scrollIntoView({ behavior: 'smooth' });
       }
-    }, { once: true });
+    };
     // Animate in
     requestAnimationFrame(() => {
       const pill = ctaEl.querySelector('.hero-slide-cta-pill');
