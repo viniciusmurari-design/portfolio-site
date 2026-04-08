@@ -106,7 +106,7 @@ scrollTopBtn.addEventListener('click', () => {
 });
 
 // ─── Active nav link ──────────────────────────────────────────────────────
-const sections = ['portfolio', 'drone', 'services', 'about', 'contact'];
+const sections = ['portfolio', 'drone', 'services', 'about', 'journal', 'contact'];
 const navLinksAll = document.querySelectorAll('.nav-links a');
 
 function updateActiveNav() {
@@ -490,6 +490,8 @@ async function loadDronePreview() {
   const grid = document.getElementById('dronePreviewGrid');
   if (!grid) return;
 
+  grid.innerHTML = Array(4).fill('<div class="drone-card drone-skeleton"></div>').join('');
+
   let photos = [];
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/photos?category=eq.drone&order=created_at.asc`, {
@@ -515,7 +517,7 @@ async function loadDronePreview() {
     const card = document.createElement('div');
     card.className = 'drone-card' + (isVid ? ' gal-item-video' : '');
     card.innerHTML = `
-      <img src="${thumbSrc}" alt="${generateAlt(photo.filename || 'drone', 'drone')}" loading="lazy">
+      <img src="${thumbSrc}" alt="${generateAlt(photo.filename || 'drone', 'drone')}" loading="lazy" decoding="async">
       <div class="drone-card-label">${isVid ? '▶ ' : ''}${label}</div>
       ${isVid ? '<div class="gal-play-icon"><svg viewBox="0 0 24 24" fill="white" width="32" height="32"><polygon points="5,3 19,12 5,21"/></svg></div>' : ''}`;
     card.addEventListener('click', () => openGallery('drone'));
@@ -524,6 +526,50 @@ async function loadDronePreview() {
 }
 
 loadDronePreview();
+
+// ─── Journal Posts ────────────────────────────────────────────────────────
+async function loadJournalPosts() {
+  const grid = document.getElementById('journalGrid');
+  if (!grid) return;
+
+  grid.innerHTML = Array(3).fill('<div class="journal-skeleton"></div>').join('');
+
+  let posts = [];
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/posts?status=eq.published&order=published_at.desc&limit=3`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+    );
+    if (res.ok) posts = await res.json();
+  } catch(e) {}
+
+  if (!posts.length) {
+    grid.innerHTML = '<p class="journal-empty">Posts coming soon.</p>';
+    return;
+  }
+
+  grid.innerHTML = '';
+  posts.forEach(post => {
+    const date = post.published_at
+      ? new Date(post.published_at).toLocaleDateString('en-IE', { year: 'numeric', month: 'long', day: 'numeric' })
+      : '';
+    const card = document.createElement('a');
+    card.className = 'journal-card';
+    card.href = `/blog-post.html?slug=${encodeURIComponent(post.slug)}`;
+    card.innerHTML = `
+      <div class="journal-card-img${post.cover_image ? '' : ' journal-card-img--empty'}">
+        ${post.cover_image ? `<img src="${post.cover_image}" alt="${post.title}" loading="lazy" decoding="async">` : ''}
+      </div>
+      <div class="journal-card-body">
+        ${date ? `<time class="journal-card-date">${date}</time>` : ''}
+        <h3 class="journal-card-title">${post.title}</h3>
+        ${post.excerpt ? `<p class="journal-card-excerpt">${post.excerpt}</p>` : ''}
+        <span class="journal-card-cta">Read more →</span>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+loadJournalPosts();
 
 // ─── Lightbox ──────────────────────────────────────────────────────────────
 
@@ -565,8 +611,8 @@ function buildThumbs() {
       thumbSrc = pid ? clUrl(pid, 'w_150,h_100,c_fill') : photo.src;
     }
     const inner = photo.type === 'video'
-      ? `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy"><span class="lb-thumb-play">▶</span>`
-      : `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy">`;
+      ? `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy" decoding="async"><span class="lb-thumb-play">▶</span>`
+      : `<img src="${thumbSrc}" alt="${photo.alt}" loading="lazy" decoding="async">`;
     t.innerHTML = inner;
     t.addEventListener('click', () => { lbIndex = i; showLbPhoto(true); });
     lbThumbs.appendChild(t);

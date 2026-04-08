@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- SEO — overridden dynamically by JS after post loads -->
+  <title>Journal — Vinicius Murari Photography</title>
+  <meta name="description" content="Photography journal and behind-the-scenes stories from Vinicius Murari, photographer based in Dublin, Ireland.">
+  <meta name="robots" content="index, follow">
+  <link id="bpCanonical" rel="canonical" href="https://viniciusmurari.com/blog-post.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Vinicius Murari Photography">
+  <meta id="ogTitle"       property="og:title"       content="Journal — Vinicius Murari Photography">
+  <meta id="ogDescription" property="og:description" content="Photography journal by Vinicius Murari, Dublin.">
+  <meta id="ogImage"       property="og:image"       content="">
+  <meta id="ogUrl"         property="og:url"         content="https://viniciusmurari.com/blog-post.html">
+  <meta property="og:locale" content="en_IE">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta id="twTitle" name="twitter:title" content="Journal — Vinicius Murari Photography">
+  <meta id="twDesc"  name="twitter:description" content="Photography journal by Vinicius Murari, Dublin.">
+  <meta id="twImg"   name="twitter:image" content="">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white: #ffffff; --bg: #f5f5f7; --text: #1d1d1f;
+      --muted: #6e6e73; --light: #d2d2d7; --blue: #0071e3;
+      --sans: 'Inter', -apple-system, sans-serif;
+      --serif: 'Playfair Display', Georgia, serif;
+      --r: 18px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--white); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 56px;
+      transition: background .3s, box-shadow .3s;
+    }
+    nav.scrolled { background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); box-shadow: 0 1px 0 rgba(0,0,0,0.08); }
+    .nav-logo { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; text-decoration: none; color: var(--text); }
+    .nav-back { font-size: 0.8rem; font-weight: 500; color: var(--blue); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .nav-back:hover { opacity: 0.75; }
+
+    /* Hero cover */
+    .post-hero {
+      width: 100%; aspect-ratio: 21/8; background: var(--bg);
+      overflow: hidden; margin-top: 56px;
+    }
+    .post-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .post-hero-empty { background: linear-gradient(135deg, #e8e8e8 0%, #d2d2d7 100%); }
+
+    /* Content */
+    .post-wrap { max-width: 740px; margin: 0 auto; padding: 56px 24px 80px; }
+    .post-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .post-date { font-size: 0.72rem; font-weight: 500; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; }
+    .post-title { font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; line-height: 1.15; margin-bottom: 24px; }
+    .post-excerpt { font-size: 1.1rem; font-weight: 300; color: var(--muted); line-height: 1.7; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--light); }
+    .post-body { font-size: 1rem; line-height: 1.85; color: var(--text); }
+    .post-body p { margin-bottom: 1.4em; }
+    .post-body h2 { font-family: var(--serif); font-size: 1.7rem; font-weight: 400; margin: 2.4em 0 0.8em; line-height: 1.2; }
+    .post-body h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin: 2em 0 0.6em; }
+    .post-body img { max-width: 100%; border-radius: var(--r); margin: 2em 0; display: block; }
+    .post-body a { color: var(--blue); }
+    .post-body ul, .post-body ol { padding-left: 1.4em; margin-bottom: 1.4em; }
+    .post-body li { margin-bottom: 0.4em; }
+    .post-body strong { font-weight: 600; }
+    .post-body em { font-style: italic; }
+    .post-body blockquote { border-left: 3px solid var(--blue); padding: 12px 0 12px 20px; margin: 2em 0; color: var(--muted); font-style: italic; font-size: 1.05rem; }
+
+    /* Back link */
+    .post-back { display: inline-flex; align-items: center; gap: 8px; margin-top: 56px; font-size: 0.82rem; font-weight: 500; color: var(--blue); text-decoration: none; }
+    .post-back:hover { opacity: 0.75; }
+
+    /* States */
+    .bp-loading, .bp-error { max-width: 740px; margin: 120px auto 0; padding: 0 24px; text-align: center; }
+    .bp-loading { color: var(--muted); font-size: 0.9rem; }
+    .bp-error h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; margin-bottom: 12px; }
+    .bp-error p { color: var(--muted); margin-bottom: 24px; }
+    .bp-error a { color: var(--blue); }
+
+    /* Skeleton */
+    .bp-skel { max-width: 740px; margin: 80px auto 0; padding: 0 24px; }
+    .bp-skel-bar { border-radius: 6px; background: linear-gradient(110deg, #e8e8e8 8%, #f5f5f5 18%, #e8e8e8 33%); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* Footer */
+    footer { background: var(--bg); border-top: 1px solid var(--light); padding: 32px 24px; text-align: center; }
+    footer a { color: var(--text); text-decoration: none; font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; }
+    .fcopy { font-size: 0.72rem; color: var(--muted); margin-top: 10px; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 18px; }
+      .post-hero { aspect-ratio: 16/9; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-logo">Vinicius Murari</a>
+  <a href="/#journal" class="nav-back">← Back to Journal</a>
+</nav>
+
+<div id="bpHero"></div>
+
+<main id="bpMain">
+  <div class="bp-skel" id="bpSkeleton">
+    <div class="bp-skel-bar" style="height:40px;width:30%;margin-bottom:20px"></div>
+    <div class="bp-skel-bar" style="height:64px;width:80%;margin-bottom:16px"></div>
+    <div class="bp-skel-bar" style="height:64px;width:65%;margin-bottom:40px"></div>
+    <div class="bp-skel-bar" style="height:18px;margin-bottom:12px"></div>
+    <div class="bp-skel-bar" style="height:18px;margin-bottom:12px"></div>
+    <div class="bp-skel-bar" style="height:18px;width:75%;margin-bottom:12px"></div>
+  </div>
+</main>
+
+<footer>
+  <a href="/">Vinicius Murari</a>
+  <p class="fcopy">© <span id="footerYear"></span> Vinicius Murari Photography · Dublin, Ireland</p>
+</footer>
+
+<script>
+'use strict';
+const SUPABASE_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
+
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+// Scroll nav
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+function setSeo(post) {
+  const base = 'https://viniciusmurari.com/blog-post.html?slug=';
+  const url  = base + encodeURIComponent(post.slug);
+  document.title = (post.title || 'Journal') + ' — Vinicius Murari Photography';
+  document.getElementById('bpCanonical').href = url;
+  document.getElementById('ogUrl').content      = url;
+  document.getElementById('ogTitle').content    = post.title || 'Journal';
+  document.getElementById('twTitle').content    = post.title || 'Journal';
+  if (post.excerpt) {
+    document.getElementById('ogDescription').content = post.excerpt;
+    document.getElementById('twDesc').content        = post.excerpt;
+    document.querySelector('meta[name="description"]').content = post.excerpt;
+  }
+  if (post.cover_image) {
+    document.getElementById('ogImage').content = post.cover_image;
+    document.getElementById('twImg').content   = post.cover_image;
+  }
+}
+
+function renderPost(post) {
+  const date = post.published_at
+    ? new Date(post.published_at).toLocaleDateString('en-IE', { year:'numeric', month:'long', day:'numeric' })
+    : '';
+
+  // Hero
+  const hero = document.getElementById('bpHero');
+  if (post.cover_image) {
+    hero.innerHTML = `<div class="post-hero"><img src="${post.cover_image}" alt="${post.title}" loading="eager" decoding="async"></div>`;
+  } else {
+    hero.innerHTML = '<div class="post-hero post-hero-empty"></div>';
+  }
+
+  // Body
+  const main = document.getElementById('bpMain');
+  main.innerHTML = `
+    <div class="post-wrap">
+      <div class="post-meta">
+        ${date ? `<time class="post-date">${date}</time>` : ''}
+      </div>
+      <h1 class="post-title">${post.title || 'Untitled'}</h1>
+      ${post.excerpt ? `<p class="post-excerpt">${post.excerpt}</p>` : ''}
+      <div class="post-body">${post.body || ''}</div>
+      <a href="/#journal" class="post-back">← Back to Journal</a>
+    </div>`;
+
+  setSeo(post);
+}
+
+async function loadPost() {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+
+  if (!slug) {
+    // No slug — show all posts list
+    showAllPosts();
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/posts?slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+    );
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    document.getElementById('bpSkeleton').remove();
+    if (!data.length) {
+      showError('Post not found', 'This post may have been moved or unpublished.', slug);
+      return;
+    }
+    renderPost(data[0]);
+  } catch(e) {
+    document.getElementById('bpSkeleton').remove();
+    showError('Could not load post', 'Please check your connection and try again.', slug);
+  }
+}
+
+async function showAllPosts() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/posts?status=eq.published&order=published_at.desc`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+    );
+    const posts = res.ok ? await res.json() : [];
+    document.getElementById('bpSkeleton').remove();
+    document.getElementById('bpHero').innerHTML = '';
+    document.title = 'Journal — Vinicius Murari Photography';
+    const main = document.getElementById('bpMain');
+    if (!posts.length) {
+      main.innerHTML = `<div class="bp-error"><h2>Journal</h2><p>No posts published yet. Check back soon.</p><a href="/">← Back to site</a></div>`;
+      return;
+    }
+    main.innerHTML = `
+      <div class="post-wrap">
+        <h1 class="post-title">The Journal</h1>
+        <div style="display:grid;gap:28px;margin-top:40px">
+          ${posts.map(p => {
+            const date = p.published_at ? new Date(p.published_at).toLocaleDateString('en-IE', { year:'numeric', month:'long', day:'numeric' }) : '';
+            return `<a href="/blog-post.html?slug=${encodeURIComponent(p.slug)}" style="display:flex;gap:20px;text-decoration:none;color:inherit;border-bottom:1px solid #e5e5e5;padding-bottom:28px;align-items:flex-start">
+              ${p.cover_image ? `<img src="${p.cover_image}" alt="${p.title}" loading="lazy" style="width:100px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0">` : ''}
+              <div>
+                ${date ? `<div style="font-size:0.7rem;font-weight:500;color:#0071e3;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">${date}</div>` : ''}
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;margin-bottom:8px">${p.title}</div>
+                ${p.excerpt ? `<div style="font-size:0.82rem;color:#6e6e73;line-height:1.6">${p.excerpt}</div>` : ''}
+              </div>
+            </a>`;
+          }).join('')}
+        </div>
+        <a href="/" class="post-back">← Back to site</a>
+      </div>`;
+  } catch(e) {
+    document.getElementById('bpSkeleton').remove();
+    document.getElementById('bpMain').innerHTML = `<div class="bp-error"><h2>Journal</h2><p>Could not load posts.</p><a href="/">← Back to site</a></div>`;
+  }
+}
+
+function showError(title, msg, slug) {
+  document.getElementById('bpHero').innerHTML = '';
+  document.getElementById('bpMain').innerHTML = `
+    <div class="bp-error">
+      <h2>${title}</h2>
+      <p>${msg}</p>
+      <a href="/#journal">← Back to Journal</a>
+    </div>`;
+}
+
+loadPost();
+</script>
+</body>
+</html>

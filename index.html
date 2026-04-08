@@ -58,7 +58,7 @@
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20">
+  <link rel="stylesheet" href="styles.css?v=21">
 
   <!-- ─── JSON-LD Structured Data ─── -->
 
@@ -330,6 +330,7 @@
     <li><a href="#drone" onclick="closeNav()">Drone & Film</a></li>
     <li><a href="#services" onclick="closeNav()">Services</a></li>
     <li><a href="#about" onclick="closeNav()">About</a></li>
+    <li><a href="#journal" onclick="closeNav()">Journal</a></li>
     <li><a href="#contact" onclick="closeNav()">Contact</a></li>
   </ul>
   <div class="nav-right">
@@ -783,6 +784,20 @@
   </div>
 </section>
 
+<!-- ─── Journal ─── -->
+<section id="journal" class="sec">
+  <div class="inner">
+    <div class="sec-head rev">
+      <p class="eyebrow">Behind the Lens</p>
+      <h2>The <em>Journal</em></h2>
+    </div>
+    <div class="journal-grid rev d1" id="journalGrid"></div>
+    <div class="journal-more rev d2">
+      <a href="/blog-post.html" class="btn btn-ghost">Read All Posts →</a>
+    </div>
+  </div>
+</section>
+
 <!-- ─── Contact ─── -->
 <section id="contact" class="sec" aria-label="Contact Vinicius Murari — book a photography session in Dublin">
   <div class="inner">
@@ -894,6 +909,7 @@
       <a href="#drone">Drone &amp; Film</a>
       <a href="#services">Services</a>
       <a href="#about">About</a>
+      <a href="#journal">Journal</a>
       <a href="#contact">Contact</a>
     </div>
     <p class="fcopy">© <span id="footerYear">2026</span> Vinicius Murari Photography · Dublin, Ireland</p>
@@ -1213,7 +1229,7 @@
   </div>
 </div>
 
-<script src="script.js?v=17"></script>
+<script src="script.js?v=18"></script>
 <script>
 // Dynamic copyright year
 (function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();

@@ -894,6 +894,11 @@
         <span class="nav-label">Landing Pages</span>
         <span class="nav-badge" id="lpCount" style="background:var(--blue);color:#fff;font-size:0.6rem;padding:1px 6px;border-radius:10px;margin-left:auto">0</span>
       </button>
+      <button class="nav-btn" data-tab="blog">
+        <span class="nav-icon">✍️</span>
+        <span class="nav-label">Blog / Journal</span>
+        <span class="nav-badge" id="blogCount" style="background:var(--blue);color:#fff;font-size:0.6rem;padding:1px 6px;border-radius:10px;margin-left:auto;display:none">0</span>
+      </button>
     </div>
 
     <div class="sidebar-footer">
@@ -905,7 +910,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.2</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.3</div>
     </div>
   </nav>
 
@@ -1493,6 +1498,71 @@
         </div>
       </div>
 
+      <!-- ══════════════ BLOG / JOURNAL TAB ══════════════ -->
+      <div class="tab-panel" id="tab-blog">
+        <div class="page-header">
+          <div class="page-title">Blog / Journal</div>
+          <div class="page-subtitle">Write posts that appear in the Journal section of your site</div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+          <button class="btn btn-primary" id="blogNewBtn" style="font-size:0.8rem">+ New Post</button>
+        </div>
+
+        <div id="blogPostList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px"></div>
+
+        <!-- Post editor -->
+        <div id="blogEditor" style="display:none;background:var(--bg);border-radius:var(--r);padding:28px;border:1px solid var(--border)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+            <h3 id="blogEditorTitle" style="font-size:1rem;font-weight:600;margin:0">New Post</h3>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-secondary btn-sm" id="blogCancelBtn">Cancel</button>
+              <button class="btn btn-primary btn-sm" id="blogSaveBtn">Save Post</button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+            <div>
+              <label class="form-label">Title *</label>
+              <input type="text" id="blogTitle" class="form-input" placeholder="My first post">
+            </div>
+            <div>
+              <label class="form-label">Slug (URL path)</label>
+              <input type="text" id="blogSlug" class="form-input" placeholder="my-first-post">
+            </div>
+          </div>
+          <div style="margin-bottom:16px">
+            <label class="form-label">Excerpt (shown on cards)</label>
+            <textarea id="blogExcerpt" class="form-input" rows="2" placeholder="Brief description of the post…" style="resize:vertical"></textarea>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+            <div>
+              <label class="form-label">Cover Image URL</label>
+              <input type="text" id="blogCover" class="form-input" placeholder="https://res.cloudinary.com/…">
+            </div>
+            <div>
+              <label class="form-label">Published Date</label>
+              <input type="datetime-local" id="blogDate" class="form-input">
+            </div>
+          </div>
+          <div style="margin-bottom:16px">
+            <label class="form-label">Status</label>
+            <select id="blogStatus" class="form-input" style="width:auto">
+              <option value="draft">Draft (not visible on site)</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Body (HTML supported)</label>
+            <textarea id="blogBody" class="form-input" rows="14" placeholder="Write your post here. Basic HTML tags are supported: &lt;p&gt;, &lt;h2&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;a href=&quot;…&quot;&gt;, &lt;img src=&quot;…&quot;&gt;" style="resize:vertical;font-family:monospace;font-size:0.8rem;line-height:1.6"></textarea>
+          </div>
+        </div>
+
+        <div id="blogSetupNote" style="display:none;background:rgba(0,113,227,0.07);border:1px solid rgba(0,113,227,0.2);border-radius:12px;padding:20px;margin-top:16px;font-size:0.8rem;line-height:1.8">
+          <strong>⚠️ First-time setup required</strong> — Create a <code>posts</code> table in your Supabase dashboard:<br>
+          Columns: <code>id uuid PK</code> · <code>slug text unique</code> · <code>title text</code> · <code>excerpt text</code> · <code>body text</code> · <code>cover_image text</code> · <code>published_at timestamptz</code> · <code>status text</code> · <code>created_at timestamptz default now()</code>
+        </div>
+      </div>
+
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /app -->
@@ -1766,7 +1836,7 @@ function setTab(tabId) {
     dashboard: 'Dashboard', galleries: 'Galleries',
     content: 'Content', appearance: 'Appearance',
     social: 'Social & Integrations', preview: 'Site Preview',
-    launch: 'Launch Checklist', landingpages: 'Landing Pages'
+    launch: 'Launch Checklist', landingpages: 'Landing Pages', blog: 'Blog / Journal'
   };
   const titleEl = document.getElementById('topbar-title');
   if (tabId === 'galleries') {
@@ -4186,6 +4256,154 @@ window.setTab = function(tab) {
   }
   setTimeout(renderList, 800);
   setTimeout(renderList, 2000);
+})();
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BLOG / JOURNAL
+// ─────────────────────────────────────────────────────────────────────────────
+(function() {
+  let blogPosts = [];
+  let editingId = null;
+
+  function slugify(str) {
+    return str.toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
+  }
+
+  async function loadBlogPosts() {
+    const list = document.getElementById('blogPostList');
+    list.innerHTML = '<div style="color:var(--muted);font-size:0.82rem">Loading…</div>';
+    try {
+      const res = await sbFetch('/rest/v1/posts?order=created_at.desc');
+      if (res.status === 404 || res.status === 400) {
+        document.getElementById('blogSetupNote').style.display = 'block';
+        list.innerHTML = '';
+        return;
+      }
+      blogPosts = res.ok ? await res.json() : [];
+    } catch(e) {
+      blogPosts = [];
+      document.getElementById('blogSetupNote').style.display = 'block';
+    }
+    document.getElementById('blogSetupNote').style.display = 'none';
+    renderBlogList();
+    const badge = document.getElementById('blogCount');
+    const pub = blogPosts.filter(p => p.status === 'published').length;
+    if (pub > 0) { badge.textContent = pub; badge.style.display = 'inline'; }
+  }
+
+  function renderBlogList() {
+    const list = document.getElementById('blogPostList');
+    if (!blogPosts.length) {
+      list.innerHTML = '<div style="color:var(--muted);font-size:0.82rem;padding:12px 0">No posts yet. Click "+ New Post" to create your first.</div>';
+      return;
+    }
+    list.innerHTML = blogPosts.map(p => {
+      const date = p.published_at ? new Date(p.published_at).toLocaleDateString('en-IE', { year:'numeric', month:'short', day:'numeric' }) : '—';
+      const statusColor = p.status === 'published' ? '#34c759' : '#ff9f0a';
+      return `<div style="display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:500;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title || 'Untitled'}</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:3px">${date} · <span style="color:${statusColor}">${p.status}</span></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          <button class="btn btn-secondary btn-sm" onclick="blogEdit('${p.id}')">Edit</button>
+          <button class="btn btn-sm" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:none" onclick="blogDelete('${p.id}')">Delete</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function openEditor(post) {
+    editingId = post ? post.id : null;
+    document.getElementById('blogEditorTitle').textContent = post ? 'Edit Post' : 'New Post';
+    document.getElementById('blogTitle').value = post?.title || '';
+    document.getElementById('blogSlug').value = post?.slug || '';
+    document.getElementById('blogExcerpt').value = post?.excerpt || '';
+    document.getElementById('blogCover').value = post?.cover_image || '';
+    document.getElementById('blogStatus').value = post?.status || 'draft';
+    document.getElementById('blogBody').value = post?.body || '';
+    if (post?.published_at) {
+      const d = new Date(post.published_at);
+      document.getElementById('blogDate').value = d.toISOString().slice(0,16);
+    } else {
+      document.getElementById('blogDate').value = new Date().toISOString().slice(0,16);
+    }
+    document.getElementById('blogEditor').style.display = 'block';
+    document.getElementById('blogEditor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Auto-generate slug from title
+  document.getElementById('blogTitle')?.addEventListener('input', function() {
+    const slugEl = document.getElementById('blogSlug');
+    if (!editingId || !slugEl.value) slugEl.value = slugify(this.value);
+  });
+
+  document.getElementById('blogNewBtn')?.addEventListener('click', () => openEditor(null));
+  document.getElementById('blogCancelBtn')?.addEventListener('click', () => {
+    document.getElementById('blogEditor').style.display = 'none';
+    editingId = null;
+  });
+
+  document.getElementById('blogSaveBtn')?.addEventListener('click', async () => {
+    const title = document.getElementById('blogTitle').value.trim();
+    if (!title) return toast('Title is required', 'error');
+    const slug = document.getElementById('blogSlug').value.trim() || slugify(title);
+    const dateVal = document.getElementById('blogDate').value;
+    const payload = {
+      title,
+      slug,
+      excerpt:     document.getElementById('blogExcerpt').value.trim(),
+      cover_image: document.getElementById('blogCover').value.trim(),
+      status:      document.getElementById('blogStatus').value,
+      body:        document.getElementById('blogBody').value,
+      published_at: dateVal ? new Date(dateVal).toISOString() : new Date().toISOString(),
+    };
+    if (editingId) payload.id = editingId;
+
+    const btn = document.getElementById('blogSaveBtn');
+    btn.textContent = 'Saving…'; btn.disabled = true;
+    try {
+      const res = await sbFetch('/rest/v1/posts', {
+        method: 'POST',
+        headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok || res.status === 201) {
+        toast(editingId ? 'Post updated!' : 'Post created!', 'success');
+        document.getElementById('blogEditor').style.display = 'none';
+        editingId = null;
+        await loadBlogPosts();
+      } else {
+        const err = await res.text();
+        toast('Save failed: ' + err, 'error');
+      }
+    } catch(e) { toast('Save failed', 'error'); }
+    btn.textContent = 'Save Post'; btn.disabled = false;
+  });
+
+  window.blogEdit = function(id) {
+    const post = blogPosts.find(p => p.id === id);
+    if (post) openEditor(post);
+  };
+
+  window.blogDelete = async function(id) {
+    if (!confirm('Delete this post? This cannot be undone.')) return;
+    try {
+      const res = await sbFetch(`/rest/v1/posts?id=eq.${id}`, { method: 'DELETE' });
+      if (res.ok) { toast('Post deleted', 'success'); await loadBlogPosts(); }
+      else toast('Delete failed', 'error');
+    } catch(e) { toast('Delete failed', 'error'); }
+  };
+
+  // Load when tab opens
+  const _origSetTabBlog = window.setTab;
+  window.setTab = function(tab) {
+    _origSetTabBlog(tab);
+    if (tab === 'blog') loadBlogPosts();
+  };
 })();
 </script>
 </body>
