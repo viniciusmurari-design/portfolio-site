@@ -58,7 +58,7 @@
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=21">
+  <link rel="stylesheet" href="styles.css?v=23">
 
   <!-- ─── JSON-LD Structured Data ─── -->
 
@@ -354,6 +354,7 @@
   <video id="heroVideo" class="hero-video" muted loop playsinline autoplay style="display:none"></video>
   <div class="hero-overlay"></div>
   <div class="hero-dots" id="heroDots"></div>
+  <div id="heroCta" style="display:none"></div>
 
   <div class="hero-pill" id="heroPill">
     <span class="dot"></span><span id="heroPillText" data-edit="heroPill" contenteditable="false">Available for projects · Dublin &amp; Ireland</span>
@@ -1229,7 +1230,7 @@
   </div>
 </div>
 
-<script src="script.js?v=18"></script>
+<script src="script.js?v=20"></script>
 <script>
 // Dynamic copyright year
 (function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();

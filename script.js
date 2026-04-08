@@ -936,6 +936,43 @@ function saveEdits() {
     } else {
       dotsContainer.style.display = 'none';
     }
+
+    updateHeroCta(0);
+  }
+
+  const SLIDE_LABELS = {
+    food: 'Food Photography', wedding: 'Wedding Photography',
+    portrait: 'Portrait & Studio', drone: 'Drone & Film',
+    family: 'Family', events: 'Events', product: 'Product Photography',
+    hotels: 'Hotels & Hospitality', corporate: 'Corporate', architecture: 'Architecture'
+  };
+
+  function updateHeroCta(index) {
+    const ctaEl = document.getElementById('heroCta');
+    if (!ctaEl) return;
+    const slide = slides[index];
+    if (!slide || !slide.link) { ctaEl.style.display = 'none'; return; }
+    const catKey = slide.link.replace('#', '');
+    const label = slide.caption || SLIDE_LABELS[catKey] || 'View Gallery';
+    ctaEl.style.display = 'block';
+    ctaEl.innerHTML = `<div class="hero-slide-cta-pill">
+      <span>${label}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </div>`;
+    ctaEl.addEventListener('click', () => {
+      const target = document.querySelector(slide.link);
+      if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+      else if (slide.link.startsWith('#')) {
+        const catId = slide.link.replace('#', '');
+        const card = document.querySelector(`[data-id="${catId}"]`);
+        if (card) card.click();
+      }
+    }, { once: true });
+    // Animate in
+    requestAnimationFrame(() => {
+      const pill = ctaEl.querySelector('.hero-slide-cta-pill');
+      if (pill) { pill.offsetHeight; pill.classList.add('visible'); }
+    });
   }
 
   function goToSlide(index) {
@@ -951,6 +988,7 @@ function saveEdits() {
     const slideEls = slidesContainer.querySelectorAll('.hero-slide');
     slideEls.forEach((s, i) => s.classList.toggle('active', i === index));
     dotsContainer.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === index));
+    updateHeroCta(index);
 
     const activeEl = slideEls[index];
     if (!activeEl) return;

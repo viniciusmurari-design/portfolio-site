@@ -115,6 +115,27 @@ nav.scrolled .nav-burger span { background: var(--text); }
 }
 .hero-slide.active { opacity: 1; }
 .hero-slide[data-link] { cursor: pointer; }
+
+/* ── Slide click affordance — direct child of #hero, above overlay ── */
+#hero #heroCta {
+  position: absolute; top: 72px; right: 40px; z-index: 10;
+  pointer-events: auto;
+}
+#hero.slideshow-active #heroCta { display: block !important; }
+.hero-slide-cta-pill {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 50px; padding: 10px 22px;
+  color: #fff; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em;
+  cursor: pointer; white-space: nowrap;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(.22,1,.36,1), background 0.2s;
+}
+.hero-slide-cta-pill.visible { opacity: 1; transform: translateY(0); }
+.hero-slide-cta-pill:hover { background: rgba(255,255,255,0.24); }
+.hero-slide-cta-pill svg { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.9; }
 /* YouTube iframe — cover the hero area like object-fit:cover */
 .hero-slide[data-type="youtube"] { transform: none; animation: none; background: #000; }
 .hero-slide[data-type="youtube"] iframe {
