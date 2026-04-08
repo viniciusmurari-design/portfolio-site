@@ -751,7 +751,11 @@
           "icon": "🍽️",
           "description": "The signature shots that define your brand. Styled, lit, and composed to make your best dishes look exactly the way they taste — extraordinary. Perfect for menus, websites, and social.",
           "features": ["Full styling & props", "Studio or on-location", "Web & print resolution"],
-          "portfolio": [],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639560760_food_photography-01", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639562837_food_photography-02", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639564747_food_photography-03", "caption": "" }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I need hero dish photography for my restaurant."
@@ -761,7 +765,11 @@
           "icon": "📖",
           "description": "A complete menu shoot covering your full range — starters, mains, desserts, drinks. Consistent lighting and style across every plate so your printed and digital menus feel premium throughout.",
           "features": ["Full menu coverage", "Consistent style", "High-volume efficiency"],
-          "portfolio": [],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639572437_food_photography-07", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639573928_food_photography-08", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639575500_food_photography-09", "caption": "" }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I need a full menu photography shoot."
@@ -771,7 +779,11 @@
           "icon": "🍸",
           "description": "Drinks photography is its own art form. Condensation, ice, colour, pour — we capture every detail that makes a cocktail irresistible. For bars, hotel lounges, and beverage brands.",
           "features": ["Liquid & pour photography", "Cocktail & spirit styling", "Brand & lifestyle use"],
-          "portfolio": [],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639580822_food_photography-13", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639582180_food_photography-14", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639583803_food_photography-15", "caption": "" }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I need bar and cocktail photography."
@@ -781,7 +793,11 @@
           "icon": "✨",
           "description": "Sell the whole experience. Guests at the table, the atmosphere, the details — lifestyle photography that captures what it actually feels like to dine with you. Content built for Instagram and social campaigns.",
           "features": ["In-service shooting", "Atmosphere & ambience", "Social-ready content"],
-          "portfolio": [],
+          "portfolio": [
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639703977_food_photography-25", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639706748_food_photography-26", "caption": "" },
+            { "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639709948_food_photography-27", "caption": "" }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I need lifestyle food and restaurant photography."
