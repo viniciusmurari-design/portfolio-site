@@ -535,7 +535,16 @@
         { "q": "Can you retouch photos I already have?", "a": "Absolutely. We offer standalone retouching and editing for existing photos. Just send samples and we'll quote you." }
       ],
       "portfolio": [],
-      "beforeAfter": [],
+      "beforeAfter": [
+        {
+          "before": "https://static.wixstatic.com/media/9d9634_880b016d028342be89b4d364fd330b7c~mv2.jpg/v1/fill/w_600,h_800,al_c,q_85/20.jpg",
+          "after": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01"
+        },
+        {
+          "before": "https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_600,h_800,al_c,q_85/KT-90084-357-4.jpg",
+          "after": "https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_1200,h_1600,al_c,q_85,enc_avif,quality_auto/KT-90084-357-4.jpg"
+        }
+      ],
       "showreel": { "url": "", "thumbnail": "" },
       "contact": {
         "whatsapp": "",
@@ -703,6 +712,167 @@
         "whatsappMessage": "Hi! I'm interested in booking a portrait or headshot session.",
         "finalCtaTitle": "Ready for a Portrait That <em>Works for You?</em>",
         "finalCtaSub": "Book your session today and show up online with the confidence you already have.",
+        "web3formsKey": ""
+      }
+    },
+    {
+      "id": "food-photography",
+      "slug": "food-photography",
+      "active": true,
+      "seo": {
+        "title": "Food & Beverage Photography Dublin | Restaurant, Bar & Product | Vinicius Murari",
+        "description": "Professional food and beverage photography in Dublin. Hero shots, lifestyle menus, bar and cocktail photography for restaurants, cafés and food brands. Makes mouths water.",
+        "ogImage": ""
+      },
+      "hero": {
+        "headline": "Food That<br><em>Makes Mouths Water.</em>",
+        "pillText": "Bookings open for Dublin restaurants & brands",
+        "trustLine": "Trusted by 40+ Dublin restaurants, cafés & food brands",
+        "subheadline": "Diners decide where to eat before they leave the sofa. The difference between a full booking and an empty table is the photo they see first.",
+        "cta": { "text": "Book a Shoot", "action": "form" },
+        "ctaSecondary": { "text": "See My Work", "link": "#lp-services" },
+        "mode": "photo",
+        "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+        "slides": []
+      },
+      "stats": [
+        { "value": "68%", "label": "Diners choose based on food photos" },
+        { "value": "3x", "label": "More engagement with pro imagery" },
+        { "value": "48h", "label": "Turnaround Delivery" }
+      ],
+      "problem": {
+        "headline": "Bad Food Photos Are <em>Costing You Covers</em>",
+        "text": "A dark, blurry photo of your signature dish tells the guest to scroll to the next restaurant. In a city full of options, your food photography is doing the selling before your staff even says hello. If the photo doesn't make them hungry, nothing else matters.",
+        "image": ""
+      },
+      "services": [
+        {
+          "title": "Hero Dishes",
+          "icon": "🍽️",
+          "description": "The signature shots that define your brand. Styled, lit, and composed to make your best dishes look exactly the way they taste — extraordinary. Perfect for menus, websites, and social.",
+          "features": ["Full styling & props", "Studio or on-location", "Web & print resolution"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I need hero dish photography for my restaurant."
+        },
+        {
+          "title": "Menu Photography",
+          "icon": "📖",
+          "description": "A complete menu shoot covering your full range — starters, mains, desserts, drinks. Consistent lighting and style across every plate so your printed and digital menus feel premium throughout.",
+          "features": ["Full menu coverage", "Consistent style", "High-volume efficiency"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I need a full menu photography shoot."
+        },
+        {
+          "title": "Bar & Cocktails",
+          "icon": "🍸",
+          "description": "Drinks photography is its own art form. Condensation, ice, colour, pour — we capture every detail that makes a cocktail irresistible. For bars, hotel lounges, and beverage brands.",
+          "features": ["Liquid & pour photography", "Cocktail & spirit styling", "Brand & lifestyle use"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I need bar and cocktail photography."
+        },
+        {
+          "title": "Lifestyle & Ambient",
+          "icon": "✨",
+          "description": "Sell the whole experience. Guests at the table, the atmosphere, the details — lifestyle photography that captures what it actually feels like to dine with you. Content built for Instagram and social campaigns.",
+          "features": ["In-service shooting", "Atmosphere & ambience", "Social-ready content"],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I need lifestyle food and restaurant photography."
+        }
+      ],
+      "process": [
+        {
+          "step": "1",
+          "title": "Brief",
+          "text": "Share your menu, brand guidelines, and where the photos will be used. We plan the shoot list, props, and style before the day so every minute on set counts."
+        },
+        {
+          "step": "2",
+          "title": "Shoot",
+          "text": "Studio or in your kitchen and dining room. We work with your team — minimal disruption, maximum results. Most shoots are completed in a single day."
+        },
+        {
+          "step": "3",
+          "title": "Edit",
+          "text": "Colour grading, retouching, and format optimisation. Every image goes through post-production to make it print-ready and screen-perfect."
+        },
+        {
+          "step": "4",
+          "title": "Deliver",
+          "text": "Full gallery in 48 hours. Web-optimised JPEGs, high-res print files, and social-crop variants — everything you need, ready to publish."
+        }
+      ],
+      "packages": [
+        {
+          "name": "Starter",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Book Now",
+          "features": ["Up to 10 dishes", "Half-day shoot", "20 edited images", "Web & print files", "48h delivery"]
+        },
+        {
+          "name": "Full Menu",
+          "price": "",
+          "showPrice": false,
+          "highlighted": true,
+          "cta": "Book Now",
+          "features": ["Unlimited dishes", "Full-day shoot", "60+ edited images", "Bar & drinks included", "Social crop variants", "48h delivery"]
+        },
+        {
+          "name": "Brand Campaign",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Get a Quote",
+          "features": ["Multi-day production", "Lifestyle & ambient included", "Video content add-on", "Art direction & styling", "Usage licensing"]
+        }
+      ],
+      "testimonials": [
+        {
+          "name": "Marco R.",
+          "role": "Head Chef & Co-owner, Dublin 2",
+          "text": "We relaunched our website with Vinicius's photos and saw a 40% jump in online reservations within the first month. The food looks exactly how it tastes — incredible.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Sinéad O.",
+          "role": "Marketing Manager, Hotel Group",
+          "text": "We needed a complete rebrand of our F&B visuals. Vinicius delivered 80 images in two days, all consistent, all beautiful. Our social engagement tripled.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "James T.",
+          "role": "Founder, Craft Cocktail Bar",
+          "text": "I was sceptical drinks photography would make a difference. The cocktail shots he produced are now our most-saved posts on Instagram. Completely changed how people perceive us.",
+          "photo": "",
+          "rating": 5
+        }
+      ],
+      "faq": [
+        { "q": "Do you provide styling and props?", "a": "Yes — props, surfaces, linens, and garnish styling are all included. Share your brand references and we'll build the right setup. You can also provide your own props if preferred." },
+        { "q": "Can you shoot in our restaurant kitchen?", "a": "Absolutely. We regularly shoot on-location in working kitchens and dining rooms. We schedule around service hours to minimise disruption." },
+        { "q": "How many dishes can you shoot in a day?", "a": "A full-day shoot typically covers 20–40 hero shots depending on complexity and styling. A half-day covers 8–15. We'll agree on a shot list in advance." },
+        { "q": "What file formats will I receive?", "a": "You receive high-res JPEGs for print and menus, optimised web JPEGs for website, and square/portrait crops for social media — all in one delivery." },
+        { "q": "Do you work with food delivery platforms like Deliveroo or Just Eat?", "a": "Yes — we create optimised images specifically for delivery platform listings, following their technical specs to maximise visibility and click-through." }
+      ],
+      "portfolio": [],
+      "beforeAfter": [],
+      "showreel": { "url": "", "thumbnail": "" },
+      "contact": {
+        "whatsapp": "",
+        "whatsappMessage": "Hi! I'm interested in food and beverage photography.",
+        "finalCtaTitle": "Ready to Make Your Food <em>Impossible to Ignore?</em>",
+        "finalCtaSub": "Book your shoot today and give your restaurant the photography it deserves.",
         "web3formsKey": ""
       }
     }

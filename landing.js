@@ -9,6 +9,7 @@
   // ─── Determine which landing page to load ───
   const slug = getSlug();
   let PAGE = null;
+  let SETTINGS = {};
 
   function getSlug() {
     // Check URL param first (?page=slug), then path
@@ -50,6 +51,7 @@
       PAGE = getDefaultPage();
     }
 
+    SETTINGS = settings;
     updateSeoTags();
     render();
     setupNav();
@@ -417,9 +419,9 @@
     setText('lpFinalCtaTitle', c.finalCtaTitle);
     setText('lpFinalCtaSub', c.finalCtaSub);
 
-    // WhatsApp
+    // WhatsApp — falls back to global settings.whatsappNumber
     const waBtn = document.getElementById('lpWhatsappBtn');
-    const waNum = c.whatsapp || '';
+    const waNum = c.whatsapp || SETTINGS.whatsappNumber || '';
     if (waNum) {
       const msg = encodeURIComponent(c.whatsappMessage || 'Hi! I\'m interested in your photography services.');
       waBtn.href = `https://wa.me/${waNum.replace(/\D/g, '')}?text=${msg}`;
