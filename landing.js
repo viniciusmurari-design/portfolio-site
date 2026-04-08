@@ -328,7 +328,7 @@
 
   function renderBeforeAfter() {
     const items = PAGE.beforeAfter || [];
-    if (items.length === 0) return;
+    if (!PAGE.showBeforeAfter || items.length === 0) return;
     document.getElementById('lp-beforeafter').style.display = '';
     const grid = document.getElementById('lpBAGrid');
     grid.innerHTML = items.map(ba => `

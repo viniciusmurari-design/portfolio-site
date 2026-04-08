@@ -1441,6 +1441,20 @@
             <button class="btn btn-secondary btn-sm" id="lpAddPortfolio" style="margin-top:8px;font-size:0.75rem">+ Add Image</button>
           </div>
 
+          <!-- Before & After -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+              <span>Before &amp; After</span>
+              <label style="display:flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:400;cursor:pointer">
+                <input type="checkbox" id="lp-showBeforeAfter" style="width:16px;height:16px;cursor:pointer">
+                Show on page
+              </label>
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:12px">Enable when you have before/after content to display.</p>
+            <div id="lpBAEditor"></div>
+            <button class="btn btn-secondary btn-sm" id="lpAddBA" style="margin-top:8px;font-size:0.75rem">+ Add Pair</button>
+          </div>
+
           <!-- Showreel -->
           <div class="card" style="margin-bottom:16px">
             <div class="card-title">Showreel Video</div>
@@ -3871,6 +3885,11 @@ window.setTab = function(tab) {
     // Portfolio
     renderRepeater('lpPortfolioEditor', p.portfolio || [], renderPortfolioRow);
 
+    // Before & After
+    const baCheck = document.getElementById('lp-showBeforeAfter');
+    if (baCheck) baCheck.checked = !!p.showBeforeAfter;
+    renderRepeater('lpBAEditor', p.beforeAfter || [], renderBARow);
+
     // Showreel
     val('lp-showreelUrl', p.showreel?.url);
     val('lp-showreelThumb', p.showreel?.thumbnail);
@@ -3935,6 +3954,8 @@ window.setTab = function(tab) {
     p.problem = { headline: gval('lp-problemTitle'), text: gval('lp-problemText'), image: gval('lp-problemImage') };
     p.services = collectServices();
     p.portfolio = collectRepeater('lpPortfolioEditor', ['url', 'caption']);
+    p.showBeforeAfter = document.getElementById('lp-showBeforeAfter')?.checked || false;
+    p.beforeAfter = collectRepeater('lpBAEditor', ['before', 'after']);
     p.showreel = { url: gval('lp-showreelUrl'), thumbnail: gval('lp-showreelThumb') };
     p.process = collectRepeater('lpProcessEditor', ['step', 'title', 'text']);
     p.packages = collectPackages();
@@ -4201,6 +4222,25 @@ window.setTab = function(tab) {
     }));
   }
 
+  function renderBARow(item) {
+    const row = makeRow();
+    row.innerHTML += `
+      <div style="font-size:0.72rem;font-weight:600;color:var(--text-2);margin-bottom:8px;padding-right:28px">Before / After pair</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-right:28px">
+        <div>
+          <div style="font-size:0.68rem;color:var(--text-3);margin-bottom:4px">BEFORE — original/raw image URL</div>
+          <input data-field="before" value="${escA(item.before||'')}" placeholder="https://..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem">
+          ${item.before ? `<img src="${escA(item.before)}" style="margin-top:6px;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;border:1px solid var(--border)">` : ''}
+        </div>
+        <div>
+          <div style="font-size:0.68rem;color:var(--text-3);margin-bottom:4px">AFTER — retouched/final image URL</div>
+          <input data-field="after" value="${escA(item.after||'')}" placeholder="https://..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem">
+          ${item.after ? `<img src="${escA(item.after)}" style="margin-top:6px;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;border:1px solid var(--border)">` : ''}
+        </div>
+      </div>`;
+    return row;
+  }
+
   function renderPortfolioRow(item) {
     const row = makeRow();
     row.innerHTML += `<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;padding-right:28px"><input data-field="url" value="${escA(item.url)}" placeholder="Image URL" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="caption" value="${escA(item.caption || '')}" placeholder="Caption" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div>`;
@@ -4265,6 +4305,7 @@ window.setTab = function(tab) {
 
   document.getElementById('lpAddStat')?.addEventListener('click', () => addRepeater('lpStatsEditor', renderStatRow, { value: '', label: '' }));
   document.getElementById('lpAddService')?.addEventListener('click', () => addRepeater('lpServicesEditor', renderServiceRow, { icon: '', title: '', description: '', features: [] }));
+  document.getElementById('lpAddBA')?.addEventListener('click', () => addRepeater('lpBAEditor', renderBARow, { before: '', after: '' }));
   document.getElementById('lpAddPortfolio')?.addEventListener('click', () => addRepeater('lpPortfolioEditor', renderPortfolioRow, { url: '', caption: '' }));
   document.getElementById('lpAddProcess')?.addEventListener('click', () => addRepeater('lpProcessEditor', renderProcessRow, { step: '', title: '', text: '' }));
   document.getElementById('lpAddPackage')?.addEventListener('click', () => addRepeater('lpPackagesEditor', renderPackageRow, { name: '', features: [], price: '', showPrice: false, highlighted: false }));
