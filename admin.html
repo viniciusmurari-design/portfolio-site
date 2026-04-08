@@ -4041,16 +4041,45 @@ window.setTab = function(tab) {
     row.dataset.portfolio = JSON.stringify(photos);
     const thumbWrap = row.querySelector('.svc-photo-thumbs');
     const div = document.createElement('div');
-    div.style.cssText = 'position:relative;width:64px;height:64px;border-radius:6px;overflow:hidden;border:1px solid var(--border);flex-shrink:0';
-    div.innerHTML = `<img src="${escA(url)}" style="width:100%;height:100%;object-fit:cover"><button type="button" class="svc-photo-remove" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
+    div.style.cssText = 'position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;cursor:grab';
+    div.innerHTML = `<img src="${escA(url)}" style="width:100%;height:100%;object-fit:cover"><button type="button" class="svc-photo-remove" title="Remove" style="position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.75);border:none;border-radius:50%;width:20px;height:20px;color:#fff;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
     div.querySelector('.svc-photo-remove').onclick = () => {
       const p2 = JSON.parse(row.dataset.portfolio || '[]');
       const idx = p2.findIndex(p => p.url === url);
       if (idx > -1) p2.splice(idx, 1);
       row.dataset.portfolio = JSON.stringify(p2);
       div.remove();
+      svcUpdateBadge(row);
     };
     thumbWrap.appendChild(div);
+    svcUpdateBadge(row);
+  }
+
+  function svcUpdateBadge(row) {
+    const count = JSON.parse(row.dataset.portfolio || '[]').length;
+    const summary = row.querySelector('details summary');
+    if (!summary) return;
+    let badge = summary.querySelector('.svc-count-badge');
+    let empty = summary.querySelector('.svc-empty-hint');
+    if (count > 0) {
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'svc-count-badge';
+        badge.style.cssText = 'background:var(--blue);color:#fff;border-radius:100px;padding:1px 7px;font-size:0.65rem;font-weight:600';
+        summary.appendChild(badge);
+      }
+      badge.textContent = count;
+      if (empty) empty.remove();
+    } else {
+      if (badge) badge.remove();
+      if (!empty) {
+        empty = document.createElement('span');
+        empty.className = 'svc-empty-hint';
+        empty.style.cssText = 'color:var(--text-3);font-size:0.7rem';
+        empty.textContent = '— click to add';
+        summary.appendChild(empty);
+      }
+    }
   }
 
   function renderServiceRow(item) {
@@ -4066,16 +4095,19 @@ window.setTab = function(tab) {
       <textarea data-field="description" rows="2" placeholder="Description..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;margin-bottom:6px;resize:vertical">${escH(item.description || '')}</textarea>
       <input data-field="features" value="${escA((item.features||[]).join(', '))}" placeholder="Feature 1, Feature 2, Feature 3" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem;color:var(--text-2);margin-bottom:8px">
 
-      <details style="margin-top:4px">
-        <summary style="font-size:0.75rem;color:var(--text-2);cursor:pointer;user-select:none;padding:4px 0">+ Portfolio Media</summary>
+      <details style="margin-top:4px" ${portfolio.length > 0 ? 'open' : ''}>
+        <summary style="font-size:0.75rem;color:var(--text-2);cursor:pointer;user-select:none;padding:4px 0;display:flex;align-items:center;gap:6px">
+          <span>Portfolio Media</span>
+          ${portfolio.length > 0 ? `<span style="background:var(--blue);color:#fff;border-radius:100px;padding:1px 7px;font-size:0.65rem;font-weight:600">${portfolio.length}</span>` : '<span style="color:var(--text-3);font-size:0.7rem">— click to add</span>'}
+        </summary>
         <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px">
 
           <div>
-            <div style="font-size:0.72rem;font-weight:600;color:var(--text-2);margin-bottom:6px">Photos</div>
-            <div class="svc-photo-thumbs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">${portfolio.map(p => `
-              <div style="position:relative;width:64px;height:64px;border-radius:6px;overflow:hidden;border:1px solid var(--border);flex-shrink:0">
+            <div style="font-size:0.72rem;font-weight:600;color:var(--text-2);margin-bottom:6px">Photos <span style="font-weight:400;color:var(--text-3)">(drag to reorder)</span></div>
+            <div class="svc-photo-thumbs" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">${portfolio.map(p => `
+              <div style="position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1px solid var(--border);flex-shrink:0;cursor:grab">
                 <img src="${escA(p.url)}" style="width:100%;height:100%;object-fit:cover">
-                <button type="button" data-url="${escA(p.url)}" class="svc-photo-remove" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);border:none;border-radius:50%;width:18px;height:18px;color:#fff;font-size:0.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+                <button type="button" data-url="${escA(p.url)}" class="svc-photo-remove" title="Remove" style="position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.75);border:none;border-radius:50%;width:20px;height:20px;color:#fff;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
               </div>`).join('')}
             </div>
             <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -4119,6 +4151,7 @@ window.setTab = function(tab) {
         if (idx > -1) photos.splice(idx, 1);
         row.dataset.portfolio = JSON.stringify(photos);
         btn.closest('div[style*="position:relative"]').remove();
+        svcUpdateBadge(row);
       };
     });
 
