@@ -555,7 +555,7 @@ async function loadJournalPosts() {
       : '';
     const card = document.createElement('a');
     card.className = 'journal-card';
-    card.href = `/blog-post.html?slug=${encodeURIComponent(post.slug)}`;
+    card.href = `/blog-post?slug=${encodeURIComponent(post.slug)}`;
     card.innerHTML = `
       <div class="journal-card-img${post.cover_image ? '' : ' journal-card-img--empty'}">
         ${post.cover_image ? `<img src="${post.cover_image}" alt="${post.title}" loading="lazy" decoding="async">` : ''}

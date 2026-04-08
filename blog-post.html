@@ -8,7 +8,7 @@
   <title>Journal — Vinicius Murari Photography</title>
   <meta name="description" content="Photography journal and behind-the-scenes stories from Vinicius Murari, photographer based in Dublin, Ireland.">
   <meta name="robots" content="index, follow">
-  <link id="bpCanonical" rel="canonical" href="https://viniciusmurari.com/blog-post.html">
+  <link id="bpCanonical" rel="canonical" href="https://viniciusmurari.com/blog-post">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
@@ -16,7 +16,7 @@
   <meta id="ogTitle"       property="og:title"       content="Journal — Vinicius Murari Photography">
   <meta id="ogDescription" property="og:description" content="Photography journal by Vinicius Murari, Dublin.">
   <meta id="ogImage"       property="og:image"       content="">
-  <meta id="ogUrl"         property="og:url"         content="https://viniciusmurari.com/blog-post.html">
+  <meta id="ogUrl"         property="og:url"         content="https://viniciusmurari.com/blog-post">
   <meta property="og:locale" content="en_IE">
 
   <!-- Twitter -->
@@ -143,7 +143,7 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 function setSeo(post) {
-  const base = 'https://viniciusmurari.com/blog-post.html?slug=';
+  const base = 'https://viniciusmurari.com/blog-post?slug=';
   const url  = base + encodeURIComponent(post.slug);
   document.title = (post.title || 'Journal') + ' — Vinicius Murari Photography';
   document.getElementById('bpCanonical').href = url;
@@ -240,7 +240,7 @@ async function showAllPosts() {
         <div style="display:grid;gap:28px;margin-top:40px">
           ${posts.map(p => {
             const date = p.published_at ? new Date(p.published_at).toLocaleDateString('en-IE', { year:'numeric', month:'long', day:'numeric' }) : '';
-            return `<a href="/blog-post.html?slug=${encodeURIComponent(p.slug)}" style="display:flex;gap:20px;text-decoration:none;color:inherit;border-bottom:1px solid #e5e5e5;padding-bottom:28px;align-items:flex-start">
+            return `<a href="/blog-post?slug=${encodeURIComponent(p.slug)}" style="display:flex;gap:20px;text-decoration:none;color:inherit;border-bottom:1px solid #e5e5e5;padding-bottom:28px;align-items:flex-start">
               ${p.cover_image ? `<img src="${p.cover_image}" alt="${p.title}" loading="lazy" style="width:100px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0">` : ''}
               <div>
                 ${date ? `<div style="font-size:0.7rem;font-weight:500;color:#0071e3;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">${date}</div>` : ''}
