@@ -910,7 +910,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.5</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.6</div>
     </div>
   </nav>
 
@@ -1095,6 +1095,11 @@
                 <button type="button" class="btn btn-sm" id="stripModeSlideshow" onclick="setStripMode('slideshow')" style="flex:1">Slideshow Selector</button>
               </div>
               <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;line-height:1.5" id="stripModeHint"></p>
+            </div>
+            <div class="field">
+              <label>Strip Photos</label>
+              <div id="stripPhotoGrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:6px"></div>
+              <p style="font-size:0.72rem;color:var(--muted);margin-top:6px">Click a photo to replace it. Photos are saved automatically.</p>
             </div>
           </div>
 
@@ -2685,6 +2690,7 @@ function loadContentFields() {
 
   // Hero strip mode
   updateStripModeUI(S.heroStripMode || 'gallery');
+  buildStripPhotoGrid();
 
   // Showreel video upload
   document.getElementById('c-showreelUpload').addEventListener('change', async function(e) {
@@ -2731,6 +2737,81 @@ function setStripMode(mode) {
   updateStripModeUI(mode);
   saveSettings();
   toast(`Strip mode: ${mode === 'gallery' ? 'Gallery Links' : 'Slideshow Selector'}`, 'success');
+}
+
+// ─── Hero Strip Photo Editor ──────────────────────────────────────────────
+const STRIP_DEFAULTS = [
+  { gallery: 'portrait', label: 'Portrait' },
+  { gallery: 'food',     label: 'Food'     },
+  { gallery: 'wedding',  label: 'Wedding'  },
+  { gallery: 'family',   label: 'Family'   },
+  { gallery: 'product',  label: 'Product'  }
+];
+
+function buildStripPhotoGrid() {
+  const grid = document.getElementById('stripPhotoGrid');
+  if (!grid) return;
+  const stripData = S.heroStrip || STRIP_DEFAULTS.map(d => ({ ...d, url: '' }));
+  grid.innerHTML = '';
+  stripData.forEach((item, idx) => {
+    const slot = document.createElement('div');
+    slot.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer';
+    slot.title = `Click to change ${item.label} photo`;
+
+    const imgWrap = document.createElement('div');
+    imgWrap.style.cssText = 'width:100%;aspect-ratio:2/3;border-radius:6px;overflow:hidden;border:2px solid var(--border);position:relative;background:var(--surface-2)';
+
+    const img = document.createElement('img');
+    img.src = item.url || '';
+    img.alt = item.label;
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
+    if (!item.url) img.style.display = 'none';
+
+    const placeholder = document.createElement('div');
+    placeholder.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--muted)';
+    placeholder.textContent = '+';
+    placeholder.style.display = item.url ? 'none' : 'flex';
+
+    const spinner = document.createElement('div');
+    spinner.style.cssText = 'position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);font-size:0.7rem;color:#fff;border-radius:4px';
+    spinner.textContent = 'Uploading…';
+
+    imgWrap.append(img, placeholder, spinner);
+
+    const lbl = document.createElement('span');
+    lbl.style.cssText = 'font-size:0.7rem;color:var(--text-3);text-align:center';
+    lbl.textContent = item.label;
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    fileInput.addEventListener('change', async function() {
+      const file = this.files[0];
+      if (!file) return;
+      spinner.style.display = 'flex';
+      try {
+        const url = await uploadImageOnly(file, 'hero/strip');
+        const strip = S.heroStrip || STRIP_DEFAULTS.map(d => ({ ...d, url: '' }));
+        strip[idx] = { ...strip[idx], url };
+        S.heroStrip = strip;
+        saveSettings();
+        img.src = url;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+        toast(`${item.label} photo updated`, 'success');
+      } catch(e) {
+        toast('Upload failed: ' + e.message, 'error');
+      } finally {
+        spinner.style.display = 'none';
+        this.value = '';
+      }
+    });
+
+    slot.append(imgWrap, lbl, fileInput);
+    slot.addEventListener('click', () => fileInput.click());
+    grid.appendChild(slot);
+  });
 }
 
 function updateShowreelPreview() {

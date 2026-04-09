@@ -1105,6 +1105,19 @@ function saveEdits() {
   const cards = document.querySelectorAll('.strip-card[data-gallery]');
   if (!cards.length) return;
 
+  // Apply heroStrip photos/labels from settings
+  const stripConfig = Settings.get().heroStrip;
+  if (stripConfig && stripConfig.length) {
+    stripConfig.forEach(item => {
+      const card = document.querySelector(`.strip-card[data-gallery="${item.gallery}"]`);
+      if (!card) return;
+      const img = card.querySelector('img');
+      const label = card.querySelector('.strip-label');
+      if (img && item.url) img.src = item.url;
+      if (label && item.label) label.textContent = item.label;
+    });
+  }
+
   function getMode() {
     return (Settings.get().heroStripMode) || 'gallery';
   }
