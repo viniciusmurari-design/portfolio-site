@@ -418,6 +418,14 @@ async function openGallery(id) {
   } else {
     galPhotoCount.textContent = `${currentGalleryImages.length} photo${currentGalleryImages.length !== 1 ? 's' : ''}`;
   }
+  adjustGalColumns(currentGalleryImages.length);
+}
+
+function adjustGalColumns(count) {
+  if      (count <= 2)  galGrid.style.columnCount = '2';
+  else if (count <= 4)  galGrid.style.columnCount = '3';
+  else if (count <= 8)  galGrid.style.columnCount = '4';
+  else                  galGrid.style.columnCount = '';
 }
 
 function filterGallery(sub, activePill) {
@@ -440,6 +448,7 @@ function filterGallery(sub, activePill) {
   });
 
   galPhotoCount.textContent = `${currentGalleryImages.length} photo${currentGalleryImages.length !== 1 ? 's' : ''}`;
+  adjustGalColumns(currentGalleryImages.length);
 }
 
 function addGalItem(src, alt, index, sub) {
