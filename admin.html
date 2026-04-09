@@ -910,7 +910,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.4</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.5</div>
     </div>
   </nav>
 
@@ -1624,6 +1624,12 @@
 const CLOUDINARY_CLOUD = 'dnocmwoub';
 const CLOUDINARY_PRESET = 'portfolio_upload';
 
+// Admin token — stored in sessionStorage after login, sent with delete requests.
+// Set ADMIN_TOKEN env var in Cloudflare Pages dashboard to activate server-side check.
+function getAdminToken() {
+  return sessionStorage.getItem('adminToken') || '';
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // SUPABASE CONFIG
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1780,6 +1786,8 @@ async function doLogin(pwd) {
   const customHash = localStorage.getItem('adminPasswordHash');
   if (hash === (customHash || PASSWORD_HASH)) {
     sessionStorage.setItem('adminAuth', '1');
+    // Store hash as session token — sent as X-Admin-Token on protected API calls
+    sessionStorage.setItem('adminToken', hash);
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     initApp();
@@ -1804,6 +1812,7 @@ document.getElementById('loginInput').addEventListener('keydown', e => {
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
   sessionStorage.removeItem('adminAuth');
+  sessionStorage.removeItem('adminToken');
   document.getElementById('app').classList.add('hidden');
   document.getElementById('loginScreen').classList.remove('hidden');
   document.getElementById('loginInput').value = '';
@@ -1815,7 +1824,7 @@ document.getElementById('changePasswordBtn')?.addEventListener('click', async ()
   const cp = document.getElementById('confirmPassword').value;
   if (!np) return toast('Enter a new password', 'error');
   if (np !== cp) return toast('Passwords do not match', 'error');
-  if (np.length < 4) return toast('Password must be at least 4 characters', 'error');
+  if (np.length < 12) return toast('Password must be at least 12 characters', 'error');
   const newHash = await hashPassword(np);
   localStorage.setItem('adminPasswordHash', newHash);
   document.getElementById('newPassword').value = '';
@@ -2270,11 +2279,25 @@ async function deletePhoto(cat, filename, card) {
 
   const publicId = card.dataset.publicId;
 
-  // Delete from Supabase
+  // Delete from Supabase (metadata)
   if (publicId) {
     try {
       await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' });
     } catch(e) { console.error('Supabase delete failed', e); }
+  }
+
+  // Delete from Cloudinary (actual file) — requires ADMIN_TOKEN env var on Cloudflare
+  if (publicId) {
+    try {
+      await fetch('/api/delete-photo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Admin-Token': getAdminToken()
+        },
+        body: JSON.stringify({ public_id: publicId })
+      });
+    } catch(e) { console.error('Cloudinary delete failed', e); }
   }
 
   // Remove from localStorage cache and order
@@ -2477,6 +2500,13 @@ document.getElementById('batchDeleteBtn').addEventListener('click', async () => 
     const filename = card.dataset.filename;
     if (publicId) {
       try { await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' }); } catch(e) {}
+      try {
+        await fetch('/api/delete-photo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Token': getAdminToken() },
+          body: JSON.stringify({ public_id: publicId })
+        });
+      } catch(e) {}
     }
     setCloudPhotos(current, getCloudPhotos(current).filter(p => p.filename !== filename));
     const order = JSON.parse(localStorage.getItem('photoOrder_' + current) || '[]').filter(f => f !== filename);

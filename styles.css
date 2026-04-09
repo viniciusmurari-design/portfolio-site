@@ -107,8 +107,7 @@ nav.scrolled .nav-burger span { background: var(--text); }
   position: absolute; inset: 0; z-index: 0; display: none;
 }
 .hero-slide {
-  position: absolute; inset: 0;
-  background: center/cover no-repeat;
+  position: absolute; inset: 0; overflow: hidden;
   opacity: 0; transition: opacity 1.2s ease;
   transform: scale(1.04);
   animation: heroZoom 12s ease-in-out infinite alternate;

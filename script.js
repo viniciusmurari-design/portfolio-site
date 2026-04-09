@@ -55,6 +55,19 @@ function getYouTubeId(url) {
   const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/\s]+)/);
   return m ? m[1] : null;
 }
+// Generate a srcset from a Cloudinary image URL with responsive widths
+function cloudinarySrcset(url, widths = [640, 1024, 1600, 2400]) {
+  if (!url || !url.includes('res.cloudinary.com')) return '';
+  // Strip existing transformation segment (everything between /upload/ and the public_id)
+  const base = url.replace(/\/upload\/[^/]*\//, '/upload/');
+  const pidMatch = base.match(/\/upload\/(.+)$/);
+  if (!pidMatch) return '';
+  const publicId = pidMatch[1];
+  return widths
+    .map(w => `https://res.cloudinary.com/dnocmwoub/image/upload/w_${w},q_auto,f_auto/${publicId} ${w}w`)
+    .join(', ');
+}
+
 function optimizeCloudinaryVideo(url) {
   if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) return url;
   // Extract public_id after 'portfolio/' to avoid duplicating existing transformations
@@ -358,6 +371,11 @@ async function openGallery(id) {
 
   // Load photos from Supabase — visible to ALL visitors on ALL devices
   let photos = [];
+  const skeletonTimeout = setTimeout(() => {
+    if (galGrid.querySelector('.gal-skeleton')) {
+      galGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted);padding:2rem">Could not load photos. Please try again.</p>';
+    }
+  }, 8000);
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/photos?category=eq.${id}&order=created_at.asc`, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
@@ -370,6 +388,7 @@ async function openGallery(id) {
       if (stored) photos = JSON.parse(stored);
     } catch(e2) { photos = []; }
   }
+  clearTimeout(skeletonTimeout);
 
   currentGalleryImages = [];
   allGalleryItems = [];
@@ -493,12 +512,18 @@ async function loadDronePreview() {
   grid.innerHTML = Array(4).fill('<div class="drone-card drone-skeleton"></div>').join('');
 
   let photos = [];
+  const droneTimeout = setTimeout(() => {
+    if (grid.querySelector('.drone-skeleton')) {
+      grid.innerHTML = '<div class="drone-card drone-card-placeholder" style="grid-column:1/-1">Could not load. Please refresh.</div>';
+    }
+  }, 8000);
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/photos?category=eq.drone&order=created_at.asc`, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
     });
     if (res.ok) photos = await res.json();
   } catch(e) {}
+  clearTimeout(droneTimeout);
 
   if (!photos.length) {
     grid.innerHTML = `
@@ -535,6 +560,11 @@ async function loadJournalPosts() {
   grid.innerHTML = Array(3).fill('<div class="journal-skeleton"></div>').join('');
 
   let posts = [];
+  const journalTimeout = setTimeout(() => {
+    if (grid.querySelector('.journal-skeleton')) {
+      grid.innerHTML = '<p class="journal-empty">Could not load posts. Please refresh.</p>';
+    }
+  }, 8000);
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/posts?status=eq.published&order=published_at.desc&limit=3`,
@@ -542,6 +572,7 @@ async function loadJournalPosts() {
     );
     if (res.ok) posts = await res.json();
   } catch(e) {}
+  clearTimeout(journalTimeout);
 
   if (!posts.length) {
     grid.innerHTML = '<p class="journal-empty">Posts coming soon.</p>';
@@ -906,7 +937,19 @@ function saveEdits() {
           if (i === 0) vid.play().catch(() => {});
         }
       } else {
-        el.style.backgroundImage = `url('${slide.url}')`;
+        // Image slide — use <img> with srcset for responsive loading
+        el.dataset.type = 'image';
+        const img = document.createElement('img');
+        img.src = slide.url;
+        const ss = cloudinarySrcset(slide.url);
+        if (ss) img.srcset = ss;
+        img.sizes = '100vw';
+        img.alt = slide.caption || '';
+        img.loading = i === 0 ? 'eager' : 'lazy';
+        img.fetchPriority = i === 0 ? 'high' : 'auto';
+        img.decoding = i === 0 ? 'sync' : 'async';
+        img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
+        el.appendChild(img);
       }
 
       if (slide.link) {

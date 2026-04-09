@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Page Not Found | Vinicius Murari Photography</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e0e;
+      --surface: #161616;
+      --border: rgba(255,255,255,0.08);
+      --text: #f0f0f0;
+      --muted: rgba(240,240,240,0.45);
+      --accent: #c8a96e;
+      --radius: 12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 540px;
+      width: 100%;
+    }
+
+    .code {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(7rem, 20vw, 12rem);
+      font-weight: 400;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(200,169,110,0.35);
+      letter-spacing: -0.04em;
+      margin-bottom: 0.25rem;
+      user-select: none;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    h1 em { font-style: italic; color: var(--accent); }
+
+    p {
+      color: var(--muted);
+      font-size: 0.97rem;
+      line-height: 1.65;
+      margin-bottom: 2.4rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.85; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0e0e0e;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+      margin: 2.5rem auto;
+    }
+
+    .links {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .links a {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .links a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="code" aria-hidden="true">404</div>
+    <p class="eyebrow">Page not found</p>
+    <h1>This frame is <em>out of focus</em></h1>
+    <p>The page you're looking for doesn't exist or has been moved.<br>Let's get you back to something worth seeing.</p>
+
+    <div class="btn-row">
+      <a href="/" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Back to Portfolio
+      </a>
+      <a href="/#contact" class="btn btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Contact
+      </a>
+    </div>
+
+    <div class="divider"></div>
+
+    <nav class="links" aria-label="Quick navigation">
+      <a href="/#portfolio">Portfolio</a>
+      <a href="/#about">About</a>
+      <a href="/#services">Services</a>
+      <a href="/#journal">Journal</a>
+      <a href="/#reviews">Reviews</a>
+    </nav>
+  </div>
+</body>
+</html>
