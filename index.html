@@ -58,7 +58,7 @@
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=24">
+  <link rel="stylesheet" href="styles.css?v=25">
 
   <!-- ─── JSON-LD Structured Data ─── -->
 
@@ -366,11 +366,26 @@
     <a href="#contact"   class="btn btn-ghost">Book a session →</a>
   </div>
   <div class="hero-strip">
-    <img src="https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg"   alt="Portrait photography session — Vinicius Murari, Dublin photographer" loading="eager" fetchpriority="high">
-    <img src="https://static.wixstatic.com/media/9d9634_880b016d028342be89b4d364fd330b7c~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/20.jpg"               alt="Food photography for Dublin restaurant — Vinicius Murari"    loading="lazy">
-    <img src="https://static.wixstatic.com/media/9d9634_fc59490555934b7dbb4e38c7331f8aab~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC6033-2.jpg"      alt="Wedding ceremony photography in Dublin — Vinicius Murari" loading="lazy">
-    <img src="https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC5076_JPG.jpg"   alt="Family portrait photography in Dublin — Vinicius Murari"  loading="lazy">
-    <img src="https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/KT-90084-357-4.jpg" alt="Product photography for Dublin brands — Vinicius Murari" loading="lazy">
+    <button class="strip-card" data-gallery="portrait" aria-label="View Portrait gallery">
+      <img src="https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg" alt="Portrait photography session — Vinicius Murari, Dublin photographer" loading="eager" fetchpriority="high">
+      <span class="strip-label">Portrait</span>
+    </button>
+    <button class="strip-card" data-gallery="food" aria-label="View Food gallery">
+      <img src="https://static.wixstatic.com/media/9d9634_880b016d028342be89b4d364fd330b7c~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/20.jpg" alt="Food photography for Dublin restaurant — Vinicius Murari" loading="lazy">
+      <span class="strip-label">Food</span>
+    </button>
+    <button class="strip-card" data-gallery="wedding" aria-label="View Wedding gallery">
+      <img src="https://static.wixstatic.com/media/9d9634_fc59490555934b7dbb4e38c7331f8aab~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC6033-2.jpg" alt="Wedding ceremony photography in Dublin — Vinicius Murari" loading="lazy">
+      <span class="strip-label">Wedding</span>
+    </button>
+    <button class="strip-card" data-gallery="family" aria-label="View Family gallery">
+      <img src="https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC5076_JPG.jpg" alt="Family portrait photography in Dublin — Vinicius Murari" loading="lazy">
+      <span class="strip-label">Family</span>
+    </button>
+    <button class="strip-card" data-gallery="product" aria-label="View Product gallery">
+      <img src="https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/KT-90084-357-4.jpg" alt="Product photography for Dublin brands — Vinicius Murari" loading="lazy">
+      <span class="strip-label">Product</span>
+    </button>
   </div>
 </section>
 
@@ -1230,7 +1245,7 @@
   </div>
 </div>
 
-<script src="script.js?v=22"></script>
+<script src="script.js?v=23"></script>
 <script>
 // Dynamic copyright year
 (function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();

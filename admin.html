@@ -1088,6 +1088,14 @@
             <div class="field"><label>Pill badge text</label><input id="c-heroPill" placeholder="Available for projects · Dublin & Ireland"></div>
             <div class="field"><label>Main headline</label><textarea id="c-heroHeadline" rows="2" placeholder="Photography that&#10;speaks for itself."></textarea></div>
             <div class="field"><label>Subtitle</label><textarea id="c-heroSub" rows="3" placeholder="Photographer, filmmaker and drone pilot…"></textarea></div>
+            <div class="field">
+              <label>Photo Strip Mode</label>
+              <div style="display:flex;gap:8px;margin-top:4px">
+                <button type="button" class="btn btn-sm" id="stripModeGallery" onclick="setStripMode('gallery')" style="flex:1">Gallery Links</button>
+                <button type="button" class="btn btn-sm" id="stripModeSlideshow" onclick="setStripMode('slideshow')" style="flex:1">Slideshow Selector</button>
+              </div>
+              <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;line-height:1.5" id="stripModeHint"></p>
+            </div>
           </div>
 
           <!-- About -->
@@ -2675,6 +2683,9 @@ function loadContentFields() {
   updateShowreelPreview();
   document.getElementById('c-showreelUrl').addEventListener('input', updateShowreelPreview);
 
+  // Hero strip mode
+  updateStripModeUI(S.heroStripMode || 'gallery');
+
   // Showreel video upload
   document.getElementById('c-showreelUpload').addEventListener('change', async function(e) {
     const file = e.target.files[0];
@@ -2697,6 +2708,29 @@ function loadContentFields() {
     }
     e.target.value = '';
   });
+}
+
+function updateStripModeUI(mode) {
+  const hints = {
+    gallery:   'Clicking a strip photo scrolls to that gallery and opens it.',
+    slideshow: 'Clicking a strip photo changes the hero background to that image.'
+  };
+  const btnGallery   = document.getElementById('stripModeGallery');
+  const btnSlideshow = document.getElementById('stripModeSlideshow');
+  const hint         = document.getElementById('stripModeHint');
+  if (!btnGallery) return;
+  btnGallery.style.background   = mode === 'gallery'   ? 'var(--accent)' : '';
+  btnGallery.style.color        = mode === 'gallery'   ? '#fff' : '';
+  btnSlideshow.style.background = mode === 'slideshow' ? 'var(--accent)' : '';
+  btnSlideshow.style.color      = mode === 'slideshow' ? '#fff' : '';
+  if (hint) hint.textContent = hints[mode] || '';
+}
+
+function setStripMode(mode) {
+  S.heroStripMode = mode;
+  updateStripModeUI(mode);
+  saveSettings();
+  toast(`Strip mode: ${mode === 'gallery' ? 'Gallery Links' : 'Slideshow Selector'}`, 'success');
 }
 
 function updateShowreelPreview() {

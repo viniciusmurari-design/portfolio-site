@@ -1092,4 +1092,62 @@ function saveEdits() {
     buildSlides();
     resetInterval();
   };
+
+  // Expose slide navigation for hero strip slideshow mode
+  window._heroGoToSlide  = goToSlide;
+  window._heroGetSlides  = () => slides;
+  window._heroPauseAuto  = () => { clearInterval(interval); interval = null; };
+  window._heroResumeAuto = () => resetInterval();
+})();
+
+// ─── Hero Strip interactive cards ────────────────────────────────────────────
+(function initHeroStrip() {
+  const cards = document.querySelectorAll('.strip-card[data-gallery]');
+  if (!cards.length) return;
+
+  function getMode() {
+    return (Settings.get().heroStripMode) || 'gallery';
+  }
+
+  function setActive(card) {
+    cards.forEach(c => c.classList.remove('strip-active'));
+    if (card) card.classList.add('strip-active');
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const gallery = card.dataset.gallery;
+      const mode = getMode();
+
+      if (mode === 'slideshow') {
+        // ── Slideshow mode: swap hero to matching slide ──────────────────
+        const allSlides = window._heroGetSlides ? window._heroGetSlides() : [];
+        const idx = allSlides.findIndex(s => s.link && s.link.replace('#', '') === gallery);
+        if (idx !== -1 && window._heroGoToSlide) {
+          window._heroPauseAuto && window._heroPauseAuto();
+          window._heroGoToSlide(idx);
+          // Resume auto after 6s of inactivity
+          clearTimeout(window._heroStripResumeTimer);
+          window._heroStripResumeTimer = setTimeout(() => {
+            window._heroResumeAuto && window._heroResumeAuto();
+          }, 6000);
+        } else {
+          // No matching slide — fall back to gallery mode
+          triggerGallery(gallery);
+        }
+        setActive(card);
+      } else {
+        // ── Gallery mode: scroll to category card + open gallery ─────────
+        triggerGallery(gallery);
+      }
+    });
+  });
+
+  function triggerGallery(gallery) {
+    const catCard = document.querySelector(`.cat-card[data-gallery="${gallery}"]`);
+    if (catCard) {
+      catCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => catCard.click(), 400);
+    }
+  }
 })();
