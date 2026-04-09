@@ -161,29 +161,68 @@ function setSeo(post) {
   }
 }
 
+// Escape plain-text values for safe insertion into HTML attributes / text nodes
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Sanitize HTML body — strips scripts/event handlers while keeping formatting tags
+function sanitizeBody(html) {
+  const doc = new DOMParser().parseFromString(html || '', 'text/html');
+  // Remove dangerous elements
+  doc.querySelectorAll('script, iframe, object, embed, form, input, button, style, base, link').forEach(el => el.remove());
+  // Remove event handler attributes on every element
+  doc.querySelectorAll('*').forEach(el => {
+    [...el.attributes].forEach(attr => {
+      if (/^on/i.test(attr.name) || (attr.name === 'href' && /^javascript:/i.test(attr.value))) {
+        el.removeAttribute(attr.name);
+      }
+    });
+  });
+  return doc.body.innerHTML;
+}
+
 function renderPost(post) {
   const date = post.published_at
     ? new Date(post.published_at).toLocaleDateString('en-IE', { year:'numeric', month:'long', day:'numeric' })
     : '';
 
-  // Hero
+  // Hero — use DOM APIs so src/alt are never interpreted as markup
   const hero = document.getElementById('bpHero');
   if (post.cover_image) {
-    hero.innerHTML = `<div class="post-hero"><img src="${post.cover_image}" alt="${post.title}" loading="eager" decoding="async"></div>`;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'post-hero';
+    const img = document.createElement('img');
+    img.src = post.cover_image;        // assigned as property, not innerHTML
+    img.alt = post.title || '';
+    img.loading = 'eager';
+    img.decoding = 'async';
+    wrapper.appendChild(img);
+    hero.innerHTML = '';
+    hero.appendChild(wrapper);
   } else {
     hero.innerHTML = '<div class="post-hero post-hero-empty"></div>';
   }
 
-  // Body
+  // Body — title/excerpt escaped as plain text; body sanitized via DOMParser
+  const safeTitle   = escHtml(post.title || 'Untitled');
+  const safeExcerpt = escHtml(post.excerpt || '');
+  const safeBody    = sanitizeBody(post.body);
+
   const main = document.getElementById('bpMain');
   main.innerHTML = `
     <div class="post-wrap">
       <div class="post-meta">
-        ${date ? `<time class="post-date">${date}</time>` : ''}
+        ${date ? `<time class="post-date">${escHtml(date)}</time>` : ''}
       </div>
-      <h1 class="post-title">${post.title || 'Untitled'}</h1>
-      ${post.excerpt ? `<p class="post-excerpt">${post.excerpt}</p>` : ''}
-      <div class="post-body">${post.body || ''}</div>
+      <h1 class="post-title">${safeTitle}</h1>
+      ${safeExcerpt ? `<p class="post-excerpt">${safeExcerpt}</p>` : ''}
+      <div class="post-body">${safeBody}</div>
       <a href="/#journal" class="post-back">← Back to Journal</a>
     </div>`;
 

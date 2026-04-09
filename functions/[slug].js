@@ -1,7 +1,7 @@
 // Cloudflare Pages Function: serve landing.html for clean landing page URLs
 // e.g. /airbnb-photography → serves /landing.html (JS reads slug from window.location.pathname)
 
-const SKIP = new Set(['admin', 'index', 'landing', 'api', 'photos', 'functions', 'styles', 'script', 'blog-post']);
+const SKIP = new Set(['admin', 'index', 'landing', 'api', 'photos', 'functions', 'styles', 'script', 'blog-post', 'blog', 'journal', '404']);
 
 export async function onRequest({ request, env, params }) {
   const slug = params.slug || '';

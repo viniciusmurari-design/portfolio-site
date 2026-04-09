@@ -14,7 +14,7 @@ function corsHeaders(origin) {
     ? origin
     : (origin?.includes('localhost') ? origin : null);
   return {
-    'Access-Control-Allow-Origin':  allowed || 'null',
+    'Access-Control-Allow-Origin':  allowed || 'https://viniciusmurari.com',
     'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Token',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
   };

@@ -289,6 +289,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def _delete(self, category, filename):
         if category not in CATEGORIES or not filename:
             return self._json({'error': 'Invalid parameters'}, 400)
+        # Explicit guard against path traversal attempts before Path.resolve()
+        if '..' in filename or '/' in filename or '\\' in filename:
+            return self._json({'error': 'Invalid filename'}, 400)
 
         if USE_CLOUDINARY:
             db = load_cloud_db()
