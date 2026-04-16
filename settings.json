@@ -1278,9 +1278,22 @@
           "text": "See Recent Sessions",
           "link": "#lp-services"
         },
-        "mode": "photo",
-        "image": "",
-        "slides": []
+        "mode": "slideshow",
+        "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1600&q=80&auto=format&fit=crop",
+        "slides": [
+          {
+            "url": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1600&q=80&auto=format&fit=crop",
+            "duration": 5
+          },
+          {
+            "url": "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=1600&q=80&auto=format&fit=crop",
+            "duration": 5
+          },
+          {
+            "url": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1600&q=80&auto=format&fit=crop",
+            "duration": 5
+          }
+        ]
       },
       "stats": [
         {
@@ -1311,7 +1324,23 @@
             "0–12 weeks ideal window",
             "Parents & siblings included"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Newborn baby wrapped, peaceful",
+              "caption": "First days — at home"
+            },
+            {
+              "url": "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Tiny newborn hands",
+              "caption": "Details that vanish in weeks"
+            },
+            {
+              "url": "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Mother holding newborn",
+              "caption": "Skin to skin"
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I'd like to book a newborn session."
@@ -1325,7 +1354,23 @@
             "60–90 min relaxed session",
             "Candid + gentle direction"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42~mv2.jpg/v1/fill/w_1600,h_2133,al_c,q_85,enc_avif,quality_auto/_DSC5076_JPG.jpg",
+              "alt": "Outdoor family portrait — Vinicius Murari Dublin",
+              "caption": "Outdoor session"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_1600,h_2133,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg",
+              "alt": "Studio family portrait — Vinicius Murari Dublin",
+              "caption": "Studio session"
+            },
+            {
+              "url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Family candid outdoor",
+              "caption": "Real laughter, real light"
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I'd like to book a family portrait session."
@@ -1339,7 +1384,23 @@
             "Calm, guided direction",
             "Multiple family combinations"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://images.unsplash.com/photo-1518398046578-8cca57782e17?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Grandparents with grandchildren",
+              "caption": "Three generations"
+            },
+            {
+              "url": "https://images.unsplash.com/photo-1529316275108-aa4aa89d9b83?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Elderly grandparents and family",
+              "caption": "The frame they will keep"
+            },
+            {
+              "url": "https://images.unsplash.com/photo-1546015450-62a9e8dc1741?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Grandfather with grandchild",
+              "caption": "Quiet moments, forever"
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I'd like to book a multi-generation family session."
@@ -1353,7 +1414,23 @@
             "Documentary + posed coverage",
             "Same-day highlights available"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Christening ceremony",
+              "caption": "Christenings"
+            },
+            {
+              "url": "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=1600&q=80&auto=format&fit=crop",
+              "alt": "First Communion child in white",
+              "caption": "First Communion"
+            },
+            {
+              "url": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1600&q=80&auto=format&fit=crop",
+              "alt": "Family birthday celebration",
+              "caption": "Milestone birthdays"
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": "Hi! I'd like to book coverage for a family occasion."
