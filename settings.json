@@ -1586,6 +1586,328 @@
         "web3formsKey": ""
       },
       "showBeforeAfter": false
+    },
+    {
+      "id": "event-photography",
+      "slug": "event-photography",
+      "active": true,
+      "seo": {
+        "title": "Event Photography Dublin | Corporate, Festivals, Galas, Brand Launches | Vinicius Murari",
+        "description": "Professional event photography in Dublin & Ireland. Corporate conferences, brand launches, galas, festivals and cultural events. Same-day highlights, 48h full gallery. Trusted by 200+ events.",
+        "ogImage": ""
+      },
+      "hero": {
+        "headline": "One Night.<br><em>One Shot to Get It Right.</em>",
+        "pillText": "Event coverage booking across Dublin & Ireland",
+        "trustLine": "200+ events photographed — corporate, cultural, and everything in between",
+        "subheadline": "Your event happens once. The keynote, the handshake, the exact second the lights hit the stage — there is no retake. You need a photographer who doesn't miss it.",
+        "cta": {
+          "text": "Get Event Coverage",
+          "action": "form"
+        },
+        "ctaSecondary": {
+          "text": "See Recent Events",
+          "link": "#lp-services"
+        },
+        "mode": "slideshow",
+        "image": "https://static.wixstatic.com/media/9d9634_65f78adc2330492eb447864380d63e48~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+        "slides": [
+          {
+            "url": "https://static.wixstatic.com/media/9d9634_65f78adc2330492eb447864380d63e48~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "duration": 5
+          },
+          {
+            "url": "https://static.wixstatic.com/media/9d9634_0122e853d8ca40f7a1e6a381d3ac7c7b~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "duration": 5
+          },
+          {
+            "url": "https://static.wixstatic.com/media/9d9634_6fa452d009134c4dabc68495b1a704df~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "duration": 5
+          }
+        ]
+      },
+      "stats": [
+        {
+          "value": "200+",
+          "label": "Events Photographed"
+        },
+        {
+          "value": "24h",
+          "label": "Same-Day Highlights"
+        },
+        {
+          "value": "48h",
+          "label": "Full Gallery Delivery"
+        }
+      ],
+      "problem": {
+        "headline": "An Event Is Temporary. <em>Bad Photos Are Forever.</em>",
+        "text": "The keynote you rehearsed for three weeks, the CEO cutting the ribbon, the guest who flew in from Sydney, the moment the lights hit the stage — all gone by midnight. Hire the wrong photographer and what's left are blurry, backlit, half-cropped memories posted a week too late. Hire the right one and tomorrow morning your social is on fire, the board has proof of every handshake, and your team is already sharing the highlights.",
+        "image": ""
+      },
+      "services": [
+        {
+          "title": "Corporate & Conferences",
+          "icon": "🏢",
+          "description": "Keynotes, delegates, branded moments. Documentary coverage of the full day plus polished hero shots for press, reports, and LinkedIn. We shoot fast, deliver faster, and know exactly what matters for your comms team.",
+          "features": [
+            "Keynote + breakout coverage",
+            "Delegate & networking shots",
+            "Same-day press-ready hero images"
+          ],
+          "portfolio": [
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_bffde8f8600d45f3824bbe943abc10d1~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Corporate conference coverage Dublin",
+              "caption": "Conference day"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_0dd3337a99774e06a93c0c23b9115120.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Corporate keynote speaker",
+              "caption": "Keynote speaker"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_196fa5395fce48b4b2c8e286176ef025.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Corporate event delegates",
+              "caption": "Delegates networking"
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book coverage for a corporate event."
+        },
+        {
+          "title": "Brand Launches & Activations",
+          "icon": "🚀",
+          "description": "Product reveals, press previews, PR-ready activations. Coverage that gives your marketing team every frame they need — the reveal shot, the crowd reaction, the branded detail, the influencer moment. Ready for socials same-day.",
+          "features": [
+            "Hero reveal shots",
+            "Crowd & reaction moments",
+            "Influencer + press coverage"
+          ],
+          "portfolio": [
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_07fa6c49e1d44dcfba5f06f994beb3ce.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Brand launch gala Dublin",
+              "caption": "Launch night"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_42602bd3517449098a3637cae0d424da.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Brand activation event",
+              "caption": "Activation moment"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_41c7a5c1bee74c32994815a51a9531de.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Product launch coverage",
+              "caption": "Press coverage"
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book coverage for a brand launch or activation."
+        },
+        {
+          "title": "Galas & Private Parties",
+          "icon": "🥂",
+          "description": "Charity dinners, milestone celebrations, private receptions. Elegant, discreet coverage that captures both the posed moments and the real ones — the toasts, the dances, the reactions you didn't see from the head table.",
+          "features": [
+            "Arrivals + key guests",
+            "Candid + posed coverage",
+            "Speeches, toasts, entertainment"
+          ],
+          "portfolio": [
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_5896bc174f6e427f9ad1cdbcab3c3b70~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Gala at Municipal Theater",
+              "caption": "Evening gala"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_7bb8689243e8435e915393a8d820485f~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Formal evening event",
+              "caption": "Formal reception"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_92dcffc689db4d968c9044372c2f61ec~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Opera venue event",
+              "caption": "Cultural gala"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_8552aad15e19485ba1b32533ef8ede21~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Performance photography",
+              "caption": "Stage moments"
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book coverage for a gala or private event."
+        },
+        {
+          "title": "Live & Cultural",
+          "icon": "🎭",
+          "description": "Festivals, concerts, theatre, performance. High-energy coverage that captures movement, atmosphere, and the crowd energy. From pit to crowd to backstage — the full story of the night.",
+          "features": [
+            "Stage + crowd + atmosphere",
+            "Fast delivery for artist socials",
+            "Festival & multi-stage coverage"
+          ],
+          "portfolio": [
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_a8476d168a1f4fe6b29945a7810347fd~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Tomorrowland festival energy",
+              "caption": "Festival night"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_3f17caaaf06844d296f580b5efe018c5~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Concert crowd coverage",
+              "caption": "Live music"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_16fd88beddaa4116b54f22c7bc806040~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Dance festival movement",
+              "caption": "Dance festival"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_c3e6949e30e54009947960910170f7fe~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Live performance photography",
+              "caption": "Performance"
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book coverage for a live event or festival."
+        }
+      ],
+      "process": [
+        {
+          "step": "1",
+          "title": "Brief",
+          "text": "A quick call to align on VIPs, key moments, branded assets, shot list, and timings. Your comms team tells me what matters — I make sure nothing gets missed."
+        },
+        {
+          "step": "2",
+          "title": "Cover",
+          "text": "On-site ahead of doors, fully equipped, discreet. Documentary flow plus the hero moments you specifically need. Backup gear, backup batteries, backup storage — every frame captured twice."
+        },
+        {
+          "step": "3",
+          "title": "Highlights",
+          "text": "Within 24 hours you get a curated highlights set — press-ready, social-ready. Your team can publish the next morning while the buzz is still live."
+        },
+        {
+          "step": "4",
+          "title": "Deliver",
+          "text": "Full edited gallery within 48h. Web-optimised, print-ready, organised by moment. Licensed for your marketing, PR, and internal comms."
+        }
+      ],
+      "packages": [
+        {
+          "name": "Event Essential",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Book Now",
+          "features": [
+            "2-hour coverage",
+            "1 photographer",
+            "30 retouched photos",
+            "48h gallery delivery",
+            "Web & print licence"
+          ]
+        },
+        {
+          "name": "Full Event",
+          "price": "",
+          "showPrice": false,
+          "highlighted": true,
+          "cta": "Book Now",
+          "features": [
+            "Up to 6 hours coverage",
+            "Same-day highlights (10 hero shots)",
+            "80+ retouched photos",
+            "Candid + posed coverage",
+            "48h full gallery",
+            "Full commercial licence"
+          ]
+        },
+        {
+          "name": "Conference Day",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Get a Quote",
+          "features": [
+            "Full-day coverage (8+ hours)",
+            "Multi-speaker / multi-room",
+            "Delegate headshot station",
+            "Same-day press-ready set",
+            "150+ retouched photos",
+            "Priority 24h full delivery"
+          ]
+        }
+      ],
+      "testimonials": [
+        {
+          "name": "Orla K.",
+          "role": "Head of Marketing, Tech Conference Dublin",
+          "text": "We needed hero shots of our keynote on socials within 2 hours of him leaving stage. Vinicius delivered them in 90 minutes. The speaker's team literally called us to ask who our photographer was.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "David R.",
+          "role": "Event Producer, Brand Launch",
+          "text": "Six hours of coverage, 100+ press-ready frames, full gallery by noon the next day. Our PR team was pushing stories to Irish Times by 9am. That's what 'same-day delivery' actually means.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Ciara D.",
+          "role": "Charity Gala Chairwoman",
+          "text": "He moved through 300 guests without anyone noticing — and caught moments I didn't see happening from the top table. The candid photos are now what everyone remembers from the night.",
+          "photo": "",
+          "rating": 5
+        }
+      ],
+      "faq": [
+        {
+          "q": "How far in advance should I book?",
+          "a": "Corporate events and galas ideally 4–6 weeks. Brand launches and smaller events often feasible within a week. Last-minute (48h) is possible — send a message and I'll tell you honestly if I can cover it."
+        },
+        {
+          "q": "Do you deliver photos the same day?",
+          "a": "Yes — a curated highlights set of 10–15 hero shots is standard with Full Event and Conference Day packages, delivered within 24 hours (usually sooner). Perfect for next-morning press and social."
+        },
+        {
+          "q": "Can you photograph multiple rooms / stages at once?",
+          "a": "For conferences with simultaneous sessions I can bring a second photographer to ensure every keynote and breakout is covered. Discussed during the brief."
+        },
+        {
+          "q": "What about branded content — logos, signage, banners?",
+          "a": "Always prioritised. During the brief we go through every branded asset that must be in-frame. Your marketing team gets everything they need for reports, decks, and sponsor deliverables."
+        },
+        {
+          "q": "Do you do headshot stations at events?",
+          "a": "Yes — popular at conferences. We set up a small portable studio corner where attendees get a professional headshot. Great perk for delegates, great branded content for you."
+        },
+        {
+          "q": "What's your licence?",
+          "a": "All packages include full commercial licence for web, social, print, PR, and internal use. No extra fees for reuse. For paid advertising campaigns we agree a licence extension upfront."
+        }
+      ],
+      "portfolio": [],
+      "beforeAfter": [],
+      "showreel": {
+        "url": "",
+        "thumbnail": ""
+      },
+      "contact": {
+        "whatsapp": "",
+        "whatsappMessage": "Hi! I'd like to book event photography coverage.",
+        "finalCtaTitle": "Your Event Happens Once. <em>Cover It Right.</em>",
+        "finalCtaSub": "Book event coverage today — and give your team the images they'll be using for the next twelve months.",
+        "web3formsKey": ""
+      },
+      "showBeforeAfter": false
     }
   ],
   "heroStrip": [
