@@ -28,6 +28,51 @@ const Settings = {
   update(patch) { const s = this.get(); Object.assign(s, patch); this.set(s); }
 };
 
+// ─── Settings Loader (fetch from server, populate localStorage) ──────────
+// The public site has no admin — so it must pull settings fresh on load.
+// Order: /api/settings (local dev) → /settings.json (Cloudflare static) → Supabase
+// Runs BEFORE DOMContentLoaded listeners so the gallery modal / hero / etc.
+// see the latest data.
+window.__settingsReady = (async function loadSettingsFromServer() {
+  let loaded = null;
+  try {
+    const r = await fetch('/api/settings');
+    if (r.ok) loaded = await r.json();
+  } catch(e) {}
+  if (!loaded || !Object.keys(loaded).length) {
+    try {
+      const r2 = await fetch('/settings.json?t=' + Date.now());
+      if (r2.ok) loaded = await r2.json();
+    } catch(e) {}
+  }
+  if (!loaded || !Object.keys(loaded).length) {
+    try {
+      const r3 = await fetch(SUPABASE_URL + '/rest/v1/site_settings?id=eq.1&select=data', {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+      });
+      if (r3.ok) {
+        const rows = await r3.json();
+        loaded = rows?.[0]?.data || null;
+      }
+    } catch(e) {}
+  }
+  if (loaded && Object.keys(loaded).length > 0) {
+    // Merge landingPages by slug so local edits aren't lost if admin was
+    // used on this device. For everything else, server wins (public site
+    // should always reflect latest published settings).
+    const localSettings = Settings.get();
+    const localPages = localSettings.landingPages || [];
+    const serverPages = loaded.landingPages || [];
+    const mergedPages = [...serverPages];
+    localPages.forEach(lp => {
+      if (!mergedPages.find(p => p.slug === lp.slug)) mergedPages.push(lp);
+    });
+    const merged = { ...localSettings, ...loaded, landingPages: mergedPages };
+    Settings.set(merged);
+  }
+  return Settings.get();
+})();
+
 // ─── Cloudinary URL Helpers ──────────────────────────────────────────────
 const CL_BASE = 'https://res.cloudinary.com/dnocmwoub/image/upload';
 
@@ -335,6 +380,9 @@ async function openGallery(id) {
   galPhotoCount.textContent = '';
   activeSubFilter = 'all';
 
+  // Wait for initial settings fetch so landingPages is populated
+  if (window.__settingsReady) { try { await window.__settingsReady; } catch(e) {} }
+
   // Show landing page link if this gallery has a linked active landing page
   const galLandingBtn = document.getElementById('galLandingBtn');
   if (galLandingBtn) {
@@ -422,10 +470,9 @@ async function openGallery(id) {
 }
 
 function adjustGalColumns(count) {
-  if      (count <= 2)  galGrid.style.columnCount = '2';
-  else if (count <= 4)  galGrid.style.columnCount = '3';
-  else if (count <= 8)  galGrid.style.columnCount = '4';
-  else                  galGrid.style.columnCount = '';
+  if      (count <= 4)  galGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+  else if (count <= 9)  galGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  else                  galGrid.style.gridTemplateColumns = '';
 }
 
 function filterGallery(sub, activePill) {

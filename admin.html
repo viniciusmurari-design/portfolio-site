@@ -910,7 +910,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.6</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v3.8</div>
     </div>
   </nav>
 
@@ -2011,13 +2011,14 @@ async function syncAllToServer() {
 }
 
 async function loadFromServer() {
+  let serverSettings = null;
   try {
     const [r1, r2] = await Promise.all([
       fetch('/api/settings'),
       fetch('/api/content')
     ]);
     if (r1.ok) {
-      const serverSettings = await r1.json();
+      serverSettings = await r1.json();
       if (serverSettings && Object.keys(serverSettings).length > 0) {
         S = { ...S, ...serverSettings };
         if (!S.gallerySubs) S.gallerySubs = {};
@@ -2036,16 +2037,51 @@ async function loadFromServer() {
   } catch(e) {
     // Server not responding — use localStorage only
   }
+  // Fallback: if /api/settings is unavailable (e.g. Cloudflare Pages),
+  // load the static settings.json so the admin picks up new landing pages
+  // that were pushed via git.
+  if (!serverSettings) {
+    try {
+      const rStatic = await fetch('/settings.json?t=' + Date.now());
+      if (rStatic.ok) {
+        const staticSettings = await rStatic.json();
+        if (staticSettings && Object.keys(staticSettings).length > 0) {
+          // Merge landingPages by slug — preserve any local-only edits while
+          // adding pages that exist on the server but not locally
+          const localPages = S.landingPages || [];
+          const staticPages = staticSettings.landingPages || [];
+          const merged = [...localPages];
+          staticPages.forEach(sp => {
+            const localIdx = merged.findIndex(lp => lp.slug === sp.slug);
+            if (localIdx === -1) merged.push(sp);
+          });
+          S = { ...staticSettings, ...S, landingPages: merged };
+          if (!S.gallerySubs) S.gallerySubs = {};
+          if (!S.photoSubs)   S.photoSubs = {};
+          saveSettings();
+        }
+      }
+    } catch(eStatic) { /* silent */ }
+  }
   // Sync landingPages from Supabase — ensures admin always sees pages
-  // added outside this session (e.g. via settings.json + push)
+  // added outside this session (e.g. via settings.json + push).
+  // Merge by slug so new pages from any source appear.
   try {
     const sbRes = await sbFetch('/rest/v1/site_settings?id=eq.1&select=data');
     if (sbRes.ok) {
       const rows = await sbRes.json();
       const sbData = rows?.[0]?.data;
-      if (sbData?.landingPages && sbData.landingPages.length > (S.landingPages?.length || 0)) {
-        S.landingPages = sbData.landingPages;
-        localStorage.setItem('vmSettings', JSON.stringify(S));
+      if (sbData?.landingPages?.length) {
+        const localPages = S.landingPages || [];
+        const merged = [...localPages];
+        sbData.landingPages.forEach(sp => {
+          const localIdx = merged.findIndex(lp => lp.slug === sp.slug);
+          if (localIdx === -1) merged.push(sp);
+        });
+        if (merged.length !== localPages.length) {
+          S.landingPages = merged;
+          localStorage.setItem('vmSettings', JSON.stringify(S));
+        }
       }
     }
   } catch(e2) { /* silent — Supabase unavailable */ }

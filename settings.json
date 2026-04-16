@@ -1255,14 +1255,268 @@
         "web3formsKey": ""
       },
       "showBeforeAfter": false
+    },
+    {
+      "id": "family-photography",
+      "slug": "family-photography",
+      "active": true,
+      "seo": {
+        "title": "Family Photography Dublin | Newborn, Generations, Communions & Christenings | Vinicius Murari",
+        "description": "Warm, authentic family photography in Dublin. Newborn sessions, family portraits, generational frames, Christenings and Communions. 48h delivery. 150+ Irish families trust us.",
+        "ogImage": ""
+      },
+      "hero": {
+        "headline": "The Days Are Long.<br><em>The Years Are Short.</em>",
+        "pillText": "Family sessions booking across Dublin & Ireland",
+        "trustLine": "Trusted by 150+ families across Dublin",
+        "subheadline": "You keep meaning to book the family photos. One more month, after Christmas, when the baby is bigger, when the weather clears. They'll never be this age again — and this is the week you finally do it.",
+        "cta": {
+          "text": "Book Your Family Session",
+          "action": "form"
+        },
+        "ctaSecondary": {
+          "text": "See Recent Sessions",
+          "link": "#lp-services"
+        },
+        "mode": "photo",
+        "image": "",
+        "slides": []
+      },
+      "stats": [
+        {
+          "value": "936",
+          "label": "Weeks Between Birth & 18"
+        },
+        {
+          "value": "150+",
+          "label": "Dublin Families Photographed"
+        },
+        {
+          "value": "48h",
+          "label": "Your Gallery Delivered"
+        }
+      ],
+      "problem": {
+        "headline": "The Photo You Keep <em>Meaning to Book.</em>",
+        "text": "It's on your list every year. You'll do it after the holidays, once the baby sleeps through, when everyone's hair is just right, when the weather is better. Meanwhile the milestones pass in camera rolls and blurry phone shots — and the photo that was supposed to go above the fireplace is still imaginary. The right time isn't coming. The right time is deciding.",
+        "image": ""
+      },
+      "services": [
+        {
+          "title": "Newborn & First Year",
+          "icon": "👶",
+          "description": "Those impossibly small fingers. The way they curl against your chest. Newborn sessions capture the details that vanish in weeks — delicate, calm, at home or in studio with full comfort for you and baby.",
+          "features": [
+            "At-home or studio sessions",
+            "0–12 weeks ideal window",
+            "Parents & siblings included"
+          ],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book a newborn session."
+        },
+        {
+          "title": "Family Portraits",
+          "icon": "👨‍👩‍👧",
+          "description": "Your family, as you actually are — laughing, chasing kids, holding hands. Relaxed outdoor sessions in Dublin's parks or warm at-home mornings. No awkward poses, no forced smiles. Real light, real moments.",
+          "features": [
+            "Outdoor or at-home",
+            "60–90 min relaxed session",
+            "Candid + gentle direction"
+          ],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book a family portrait session."
+        },
+        {
+          "title": "Generations Together",
+          "icon": "🌳",
+          "description": "Grandparents, parents, kids — in one frame, while you still can. The photo your children will hold one day and say 'that was everyone.' We make it comfortable and quick, so even the shyest grandad relaxes.",
+          "features": [
+            "Up to 15 people",
+            "Calm, guided direction",
+            "Multiple family combinations"
+          ],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book a multi-generation family session."
+        },
+        {
+          "title": "Milestones & Occasions",
+          "icon": "🎂",
+          "description": "Christenings, First Communions, Confirmations, milestone birthdays — the days Irish families mark and never forget. Documentary coverage plus posed family portraits, so nothing important goes unphotographed.",
+          "features": [
+            "Christenings & Communions",
+            "Documentary + posed coverage",
+            "Same-day highlights available"
+          ],
+          "portfolio": [],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": "Hi! I'd like to book coverage for a family occasion."
+        }
+      ],
+      "process": [
+        {
+          "step": "1",
+          "title": "Chat",
+          "text": "We talk before the day — your kids' ages, what matters, where to shoot, what you want the photos to feel like. No forms, just a real conversation."
+        },
+        {
+          "step": "2",
+          "title": "Session",
+          "text": "A relaxed 60–90 min shoot. Kids play, we photograph. No freezing faces, no 'say cheese' — just gentle guidance so everyone looks like themselves."
+        },
+        {
+          "step": "3",
+          "title": "Select",
+          "text": "Your private gallery arrives within 48h. Pick favourites, order prints, or simply download everything to share with family abroad."
+        },
+        {
+          "step": "4",
+          "title": "Keep",
+          "text": "Web-ready and print-ready files, plus print recommendations. Frame them, send them home, keep them forever — the hard part is done."
+        }
+      ],
+      "packages": [
+        {
+          "name": "Mini Family",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Book Now",
+          "features": [
+            "30-min session",
+            "1 location",
+            "10 retouched photos",
+            "Web & print files",
+            "48h delivery"
+          ]
+        },
+        {
+          "name": "Full Family",
+          "price": "",
+          "showPrice": false,
+          "highlighted": true,
+          "cta": "Book Now",
+          "features": [
+            "90-min session",
+            "Outdoor or at-home",
+            "30 retouched photos",
+            "Candid + posed moments",
+            "Print-ready heirlooms",
+            "48h delivery"
+          ]
+        },
+        {
+          "name": "Generations Day",
+          "price": "",
+          "showPrice": false,
+          "highlighted": false,
+          "cta": "Get a Quote",
+          "features": [
+            "Up to 3 generations",
+            "Multiple family groupings",
+            "Individual portraits included",
+            "50+ retouched photos",
+            "Priority 48h delivery"
+          ]
+        }
+      ],
+      "testimonials": [
+        {
+          "name": "Sarah O'Brien",
+          "role": "Mum of 3, Rathmines",
+          "text": "We'd been saying 'next summer' for four years. Our youngest is now six, and these are our first proper family photos. I cried when the gallery arrived — my mum's on FaceTime every week asking me to send another one.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "James & Aoife M.",
+          "role": "Family of 5, Clontarf",
+          "text": "Booked for our son's Communion thinking we'd get a few group shots. Vinicius photographed the whole day — my nan making tea, my dad laughing, the kids in the garden. We have photos of moments we didn't even know were happening. Priceless.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Emma N.",
+          "role": "Daughter & Mother",
+          "text": "I have a photo of my daughter and my father that I'll look at for the rest of my life. He passed six months after the session. We didn't know, of course. But now I have it — and so will she.",
+          "photo": "",
+          "rating": 5
+        }
+      ],
+      "faq": [
+        {
+          "q": "What if my kids don't cooperate?",
+          "a": "They usually don't — and that's perfectly fine. We work around wriggles, tears, and snack breaks. The best photos almost always come after the first 20 minutes, once everyone forgets the camera is there. No pressure, ever."
+        },
+        {
+          "q": "Indoor or outdoor?",
+          "a": "Whatever suits your family. Dublin parks (Phoenix Park, Iveagh Gardens, Herbert Park, St. Anne's) or at-home sessions in your own light. We'll advise based on your kids' ages and the time of year."
+        },
+        {
+          "q": "What should we wear?",
+          "a": "Soft solid colours work best — avoid bold logos or busy patterns. Coordinate loosely, don't match exactly. We send a short style guide once you book so nobody stresses the night before."
+        },
+        {
+          "q": "When will we get the photos?",
+          "a": "Your private gallery is delivered within 48 hours. For Christenings and Communions, same-day highlights are available on request so you can share immediately with family."
+        },
+        {
+          "q": "Can grandparents be in the photos?",
+          "a": "Please — we encourage it. Multi-generation frames are some of the most meaningful photos we take. Bring them all: the shy grandad, the chatty aunt, everyone."
+        },
+        {
+          "q": "Do you cover Christenings and Communions?",
+          "a": "Yes — full church and celebration coverage, documentary style plus key posed family portraits. We've photographed dozens of Irish family occasions and know the rhythm of the day."
+        }
+      ],
+      "portfolio": [],
+      "beforeAfter": [],
+      "showreel": {
+        "url": "",
+        "thumbnail": ""
+      },
+      "contact": {
+        "whatsapp": "",
+        "whatsappMessage": "Hi! I'd like to book a family photography session.",
+        "finalCtaTitle": "The Right Time Is <em>Deciding.</em>",
+        "finalCtaSub": "Book your family session today — and give your future self the photo you keep meaning to take.",
+        "web3formsKey": ""
+      },
+      "showBeforeAfter": false
     }
   ],
   "heroStrip": [
-    {"url": "https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg", "gallery": "portrait", "label": "Portrait"},
-    {"url": "https://static.wixstatic.com/media/9d9634_880b016d028342be89b4d364fd330b7c~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/20.jpg", "gallery": "food", "label": "Food"},
-    {"url": "https://static.wixstatic.com/media/9d9634_fc59490555934b7dbb4e38c7331f8aab~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC6033-2.jpg", "gallery": "wedding", "label": "Wedding"},
-    {"url": "https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42~mv2.jpg/v1/fill/w_800,h_1066,al_c,q_85,enc_avif,quality_auto/_DSC5076_JPG.jpg", "gallery": "family", "label": "Family"},
-    {"url": "https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/KT-90084-357-4.jpg", "gallery": "product", "label": "Product"}
+    {
+      "url": "https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg",
+      "gallery": "portrait",
+      "label": "Portrait"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9d9634_880b016d028342be89b4d364fd330b7c~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/20.jpg",
+      "gallery": "food",
+      "label": "Food"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9d9634_fc59490555934b7dbb4e38c7331f8aab~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC6033-2.jpg",
+      "gallery": "wedding",
+      "label": "Wedding"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42~mv2.jpg/v1/fill/w_800,h_1066,al_c,q_85,enc_avif,quality_auto/_DSC5076_JPG.jpg",
+      "gallery": "family",
+      "label": "Family"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/KT-90084-357-4.jpg",
+      "gallery": "product",
+      "label": "Product"
+    }
   ],
   "web3formsKey": "13bc49db-f397-4327-95f4-befd57a733d8",
   "heroVideoSaved": "https://res.cloudinary.com/dnocmwoub/video/upload/q_auto/portfolio/hero_video/1774809994720_fuertventura",

@@ -1,2 +1,6 @@
 # Landing page clean URLs → serve landing.html (200 = rewrite, URL stays the same)
-/airbnb-photography /landing.html 200
+/airbnb-photography    /landing.html  200
+/portrait-photography  /landing.html  200
+/product-photography   /landing.html  200
+/food-photography      /landing.html  200
+/family-photography    /landing.html  200

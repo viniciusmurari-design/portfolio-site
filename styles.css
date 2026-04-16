@@ -668,33 +668,33 @@ a.gal-landing-btn:hover { opacity: 0.7; }
   background: var(--text); color: var(--white); border-color: var(--text);
 }
 
-/* ── Photo grid (masonry) ── */
+/* ── Photo grid ── */
 .gal-grid {
-  columns: 5; column-gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
   padding: 14px 32px;
   overflow-y: auto; flex: 1;
+  align-content: start;
 }
 .gal-item {
-  break-inside: avoid; margin-bottom: 4px;
   border-radius: 6px; overflow: hidden;
   cursor: zoom-in; position: relative; background: #e5e5e5;
-  display: inline-block; width: 100%; min-height: 80px;
+  aspect-ratio: 2/3;
   transition: opacity .3s, transform .3s;
 }
 
 /* ── Skeleton loading ── */
 .gal-skeleton {
-  break-inside: avoid; margin-bottom: 4px; border-radius: 6px;
+  border-radius: 6px; aspect-ratio: 2/3;
   background: linear-gradient(110deg, #e8e8e8 8%, #f5f5f5 18%, #e8e8e8 33%);
   background-size: 200% 100%;
   animation: shimmer 1.2s linear infinite;
 }
-.gal-skeleton:nth-child(odd) { height: 260px; }
-.gal-skeleton:nth-child(even) { height: 340px; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 .gal-item.hidden { display: none; }
 .gal-item img {
-  width: 100%; display: block;
+  width: 100%; height: 100%; object-fit: cover; display: block;
   transition: transform .45s ease, filter .3s;
 }
 .gal-item:hover img { transform: scale(1.06); filter: brightness(0.92); }
@@ -802,13 +802,13 @@ a.gal-landing-btn:hover { opacity: 0.7; }
 .lb-next { right: 18px; }
 
 @media (max-width: 900px) {
-  .gal-grid { columns: 3; column-gap: 4px; padding: 12px 16px; }
+  .gal-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 12px 16px; }
   .gal-subs { padding: 10px 16px 0; }
   .gal-modal-header { padding: 20px 20px 0; flex-wrap: wrap; }
   .gal-book-btn { display: none; }
 }
 @media (max-width: 600px) {
-  .gal-grid { columns: 2; padding: 10px 12px; column-gap: 4px; }
+  .gal-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 10px 12px; }
   .gal-subs { padding: 8px 12px 0; gap: 4px; }
   .gal-sub-pill { font-size: 0.68rem; padding: 5px 12px; }
   .gal-modal-header { padding: 18px 16px 0; }
