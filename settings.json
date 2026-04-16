@@ -1279,18 +1279,18 @@
           "link": "#lp-services"
         },
         "mode": "slideshow",
-        "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1600&q=80&auto=format&fit=crop",
+        "image": "https://static.wixstatic.com/media/9d9634_a4938c8dc75d4a9d9573f6b94b47f6ff.png/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
         "slides": [
           {
-            "url": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1600&q=80&auto=format&fit=crop",
+            "url": "https://static.wixstatic.com/media/9d9634_a4938c8dc75d4a9d9573f6b94b47f6ff.png/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
             "duration": 5
           },
           {
-            "url": "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=1600&q=80&auto=format&fit=crop",
+            "url": "https://static.wixstatic.com/media/9d9634_ca69c675d33d4543a310206feecf5922.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
             "duration": 5
           },
           {
-            "url": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1600&q=80&auto=format&fit=crop",
+            "url": "https://static.wixstatic.com/media/9d9634_a61a7d520c19403990c23bc9e4c54ddc.png/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
             "duration": 5
           }
         ]
@@ -1356,19 +1356,34 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42~mv2.jpg/v1/fill/w_1600,h_2133,al_c,q_85,enc_avif,quality_auto/_DSC5076_JPG.jpg",
-              "alt": "Outdoor family portrait — Vinicius Murari Dublin",
+              "url": "https://static.wixstatic.com/media/9d9634_6fc8942bcfbb4cfbbfcca51e492f970f.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Outdoor family portrait session — Vinicius Murari",
               "caption": "Outdoor session"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_1600,h_2133,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg",
-              "alt": "Studio family portrait — Vinicius Murari Dublin",
-              "caption": "Studio session"
+              "url": "https://static.wixstatic.com/media/9d9634_ad51b19ea3864f2e948c5207ec3f4982.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family candid moment — Vinicius Murari",
+              "caption": "Real moments"
             },
             {
-              "url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1600&q=80&auto=format&fit=crop",
-              "alt": "Family candid outdoor",
-              "caption": "Real laughter, real light"
+              "url": "https://static.wixstatic.com/media/9d9634_3ea44948f31640afb812cc26675c5f46.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family portrait — Vinicius Murari Dublin",
+              "caption": "Your family, as you are"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_23fb24e3d4384bf5bb43ee71dab28c58.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family outdoor — Vinicius Murari",
+              "caption": "Natural light"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family portrait — Vinicius Murari Dublin",
+              "caption": "Candid outdoor"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family studio portrait — Vinicius Murari",
+              "caption": "Studio session"
             }
           ],
           "videoUrl": "",
@@ -1386,19 +1401,19 @@
           ],
           "portfolio": [
             {
-              "url": "https://images.unsplash.com/photo-1518398046578-8cca57782e17?w=1600&q=80&auto=format&fit=crop",
-              "alt": "Grandparents with grandchildren",
-              "caption": "Three generations"
+              "url": "https://static.wixstatic.com/media/9d9634_02b15fe32c9e4377ae5ad4e248742d34.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Graduation family portrait — Vinicius Murari",
+              "caption": "Graduation — three generations"
             },
             {
-              "url": "https://images.unsplash.com/photo-1529316275108-aa4aa89d9b83?w=1600&q=80&auto=format&fit=crop",
-              "alt": "Elderly grandparents and family",
-              "caption": "The frame they will keep"
+              "url": "https://static.wixstatic.com/media/9d9634_2e30093d4b054340a5cea1d19ea5ff31.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Graduation celebration — Vinicius Murari",
+              "caption": "Family milestone"
             },
             {
-              "url": "https://images.unsplash.com/photo-1546015450-62a9e8dc1741?w=1600&q=80&auto=format&fit=crop",
-              "alt": "Grandfather with grandchild",
-              "caption": "Quiet moments, forever"
+              "url": "https://static.wixstatic.com/media/9d9634_a2486ba0eb8a4981afb2c10618c6b7a1.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Generational family portrait — Vinicius Murari",
+              "caption": "The frame they keep"
             }
           ],
           "videoUrl": "",
@@ -1416,19 +1431,24 @@
           ],
           "portfolio": [
             {
-              "url": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80&auto=format&fit=crop",
-              "alt": "Christening ceremony",
-              "caption": "Christenings"
+              "url": "https://static.wixstatic.com/media/9d9634_27979e6e65914487a9a5afb71899a49b.png/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family occasion — Vinicius Murari",
+              "caption": "Family celebration"
             },
             {
-              "url": "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=1600&q=80&auto=format&fit=crop",
-              "alt": "First Communion child in white",
-              "caption": "First Communion"
+              "url": "https://static.wixstatic.com/media/9d9634_ce1c61bc5e044bb5a4b4384ceec8a5f7.png/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family milestone — Vinicius Murari",
+              "caption": "Milestone moment"
             },
             {
-              "url": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1600&q=80&auto=format&fit=crop",
-              "alt": "Family birthday celebration",
-              "caption": "Milestone birthdays"
+              "url": "https://static.wixstatic.com/media/9d9634_93d00de99abb491b85760d6746647e22.png/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Occasion portrait — Vinicius Murari",
+              "caption": "Days worth marking"
+            },
+            {
+              "url": "https://static.wixstatic.com/media/9d9634_b50f1ed3c4d249639bc951924de85d41.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "alt": "Family occasion — Vinicius Murari",
+              "caption": "Celebration coverage"
             }
           ],
           "videoUrl": "",
