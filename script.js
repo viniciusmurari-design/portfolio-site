@@ -450,9 +450,9 @@ async function openGallery(id) {
 }
 
 function adjustGalColumns(count) {
-  if      (count <= 4)  galGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-  else if (count <= 9)  galGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-  else                  galGrid.style.gridTemplateColumns = '';
+  if      (count <= 4)  galGrid.style.columns = '3';
+  else if (count <= 9)  galGrid.style.columns = '4';
+  else                  galGrid.style.columns = '';
 }
 
 function filterGallery(sub, activePill) {
