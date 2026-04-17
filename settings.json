@@ -723,12 +723,12 @@
       "portfolio": [],
       "beforeAfter": [
         {
-          "before": "https://static.wixstatic.com/media/9d9634_880b016d028342be89b4d364fd330b7c~mv2.jpg/v1/fill/w_600,h_800,al_c,q_85/20.jpg",
+          "before": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776400983/portfolio/njbhha6flx1dnvudthbr.jpg",
           "after": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01"
         },
         {
-          "before": "https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_600,h_800,al_c,q_85/KT-90084-357-4.jpg",
-          "after": "https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_1200,h_1600,al_c,q_85,enc_avif,quality_auto/KT-90084-357-4.jpg"
+          "before": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776400985/portfolio/rwyhc3uwqbmt02beplh6.jpg",
+          "after": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776400986/portfolio/h21ktr7owfrnt5qfhjxt.jpg"
         }
       ],
       "showreel": {
@@ -1279,18 +1279,18 @@
           "link": "#lp-services"
         },
         "mode": "slideshow",
-        "image": "https://static.wixstatic.com/media/9d9634_a4938c8dc75d4a9d9573f6b94b47f6ff.png/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+        "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=2000&q=80&auto=format&fit=crop",
         "slides": [
           {
-            "url": "https://static.wixstatic.com/media/9d9634_a4938c8dc75d4a9d9573f6b94b47f6ff.png/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "url": "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=2000&q=80&auto=format&fit=crop",
             "duration": 5
           },
           {
-            "url": "https://static.wixstatic.com/media/9d9634_ca69c675d33d4543a310206feecf5922.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "url": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=2000&q=80&auto=format&fit=crop",
             "duration": 5
           },
           {
-            "url": "https://static.wixstatic.com/media/9d9634_a61a7d520c19403990c23bc9e4c54ddc.png/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "url": "https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?w=2000&q=80&auto=format&fit=crop",
             "duration": 5
           }
         ]
@@ -1356,32 +1356,32 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_6fc8942bcfbb4cfbbfcca51e492f970f.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=1400&q=80&auto=format&fit=crop",
               "alt": "Outdoor family portrait session — Vinicius Murari",
               "caption": "Outdoor session"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_ad51b19ea3864f2e948c5207ec3f4982.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1602030638412-bb8dcc0bc8b0?w=1400&q=80&auto=format&fit=crop",
               "alt": "Family candid moment — Vinicius Murari",
               "caption": "Real moments"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_3ea44948f31640afb812cc26675c5f46.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1581952976147-5a2d15560349?w=1400&q=80&auto=format&fit=crop",
               "alt": "Family portrait — Vinicius Murari Dublin",
               "caption": "Your family, as you are"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_23fb24e3d4384bf5bb43ee71dab28c58.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1400&q=80&auto=format&fit=crop",
               "alt": "Family outdoor — Vinicius Murari",
               "caption": "Natural light"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=1400&q=80&auto=format&fit=crop",
               "alt": "Family portrait — Vinicius Murari Dublin",
               "caption": "Candid outdoor"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776400996/portfolio/prvzo37xfullivqv7epf.jpg",
               "alt": "Family studio portrait — Vinicius Murari",
               "caption": "Studio session"
             }
@@ -1401,17 +1401,17 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_02b15fe32c9e4377ae5ad4e248742d34.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1623091410901-00e2d268901f?w=1400&q=80&auto=format&fit=crop",
               "alt": "Graduation family portrait — Vinicius Murari",
               "caption": "Graduation — three generations"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_2e30093d4b054340a5cea1d19ea5ff31.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1529778873920-4da4926a72c2?w=1400&q=80&auto=format&fit=crop",
               "alt": "Graduation celebration — Vinicius Murari",
               "caption": "Family milestone"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_a2486ba0eb8a4981afb2c10618c6b7a1.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1484665754804-74b091211472?w=1400&q=80&auto=format&fit=crop",
               "alt": "Generational family portrait — Vinicius Murari",
               "caption": "The frame they keep"
             }
@@ -1431,22 +1431,22 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_27979e6e65914487a9a5afb71899a49b.png/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=1400&q=80&auto=format&fit=crop",
               "alt": "Family occasion — Vinicius Murari",
               "caption": "Family celebration"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_ce1c61bc5e044bb5a4b4384ceec8a5f7.png/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&q=80&auto=format&fit=crop",
               "alt": "Family milestone — Vinicius Murari",
               "caption": "Milestone moment"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_93d00de99abb491b85760d6746647e22.png/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1566140967404-b8b3932483f5?w=1400&q=80&auto=format&fit=crop",
               "alt": "Occasion portrait — Vinicius Murari",
               "caption": "Days worth marking"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_b50f1ed3c4d249639bc951924de85d41.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1400&q=80&auto=format&fit=crop",
               "alt": "Family occasion — Vinicius Murari",
               "caption": "Celebration coverage"
             }
@@ -1610,18 +1610,18 @@
           "link": "#lp-services"
         },
         "mode": "slideshow",
-        "image": "https://static.wixstatic.com/media/9d9634_65f78adc2330492eb447864380d63e48~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+        "image": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401002/portfolio/rbztozoy3kmhoofvw2aj.jpg",
         "slides": [
           {
-            "url": "https://static.wixstatic.com/media/9d9634_65f78adc2330492eb447864380d63e48~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401004/portfolio/tgu2z1sxlbqkhz2qd6so.jpg",
             "duration": 5
           },
           {
-            "url": "https://static.wixstatic.com/media/9d9634_0122e853d8ca40f7a1e6a381d3ac7c7b~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401005/portfolio/gumb6nz3p0641tu7ek09.jpg",
             "duration": 5
           },
           {
-            "url": "https://static.wixstatic.com/media/9d9634_6fa452d009134c4dabc68495b1a704df~mv2.jpg/v1/fill/w_2000,h_1200,al_c,q_90,enc_avif,quality_auto/",
+            "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401006/portfolio/yyyo4xgnsd6x1lxs4qde.jpg",
             "duration": 5
           }
         ]
@@ -1657,17 +1657,17 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_bffde8f8600d45f3824bbe943abc10d1~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401008/portfolio/gee7yhquzzvovwxl37zb.jpg",
               "alt": "Corporate conference coverage Dublin",
               "caption": "Conference day"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_0dd3337a99774e06a93c0c23b9115120.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401009/portfolio/knypbuec46q9hiiky7hi.jpg",
               "alt": "Corporate keynote speaker",
               "caption": "Keynote speaker"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_196fa5395fce48b4b2c8e286176ef025.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401010/portfolio/ytl69inmr9vmxzr0fdyu.jpg",
               "alt": "Corporate event delegates",
               "caption": "Delegates networking"
             }
@@ -1687,17 +1687,17 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_07fa6c49e1d44dcfba5f06f994beb3ce.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401012/portfolio/xrmpfoiozadqjoyyjzmm.jpg",
               "alt": "Brand launch gala Dublin",
               "caption": "Launch night"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_42602bd3517449098a3637cae0d424da.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401013/portfolio/c1puqfcucnuxa23dai4h.jpg",
               "alt": "Brand activation event",
               "caption": "Activation moment"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_41c7a5c1bee74c32994815a51a9531de.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401014/portfolio/hyzw9evd2nrrj27kg0ix.jpg",
               "alt": "Product launch coverage",
               "caption": "Press coverage"
             }
@@ -1717,22 +1717,22 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_5896bc174f6e427f9ad1cdbcab3c3b70~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401016/portfolio/d4qimnatvxsqopcqmg88.jpg",
               "alt": "Gala at Municipal Theater",
               "caption": "Evening gala"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_7bb8689243e8435e915393a8d820485f~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401017/portfolio/xwordve9b6sk2yc8s9fv.jpg",
               "alt": "Formal evening event",
               "caption": "Formal reception"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_92dcffc689db4d968c9044372c2f61ec~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401019/portfolio/hzy8rldb6dugtr4i9nbo.jpg",
               "alt": "Opera venue event",
               "caption": "Cultural gala"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_8552aad15e19485ba1b32533ef8ede21~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401020/portfolio/sikln63zbkm1b255fe3f.jpg",
               "alt": "Performance photography",
               "caption": "Stage moments"
             }
@@ -1752,22 +1752,22 @@
           ],
           "portfolio": [
             {
-              "url": "https://static.wixstatic.com/media/9d9634_a8476d168a1f4fe6b29945a7810347fd~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401021/portfolio/nluh6zyx8eouwszif0ek.jpg",
               "alt": "Tomorrowland festival energy",
               "caption": "Festival night"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_3f17caaaf06844d296f580b5efe018c5~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401023/portfolio/nwwxmgfciogyicrz11cw.jpg",
               "alt": "Concert crowd coverage",
               "caption": "Live music"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_16fd88beddaa4116b54f22c7bc806040~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401024/portfolio/ldlo8wcrbkv3cw9sjjwy.jpg",
               "alt": "Dance festival movement",
               "caption": "Dance festival"
             },
             {
-              "url": "https://static.wixstatic.com/media/9d9634_c3e6949e30e54009947960910170f7fe~mv2.jpg/v1/fill/w_1200,h_1800,al_c,q_90,enc_avif,quality_auto/",
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401025/portfolio/vgykxxahkecvpbejmsh2.jpg",
               "alt": "Live performance photography",
               "caption": "Performance"
             }
@@ -1912,27 +1912,27 @@
   ],
   "heroStrip": [
     {
-      "url": "https://static.wixstatic.com/media/9d9634_546e6e7c875447d489ac61cd7619b2b3.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC2782final.jpg",
+      "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401370/portfolio/m6dt0euigwuopfbsux3o.jpg",
       "gallery": "portrait",
       "label": "Portrait"
     },
     {
-      "url": "https://static.wixstatic.com/media/9d9634_880b016d028342be89b4d364fd330b7c~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/20.jpg",
+      "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401371/portfolio/dkfavej4kcwzegwdqc3l.jpg",
       "gallery": "food",
       "label": "Food"
     },
     {
-      "url": "https://static.wixstatic.com/media/9d9634_fc59490555934b7dbb4e38c7331f8aab~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/_DSC6033-2.jpg",
+      "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401373/portfolio/smcxpwhicyr92upqo5gu.jpg",
       "gallery": "wedding",
       "label": "Wedding"
     },
     {
-      "url": "https://static.wixstatic.com/media/9d9634_1a34c7b1629b4d8e8f2139b4cef08a42~mv2.jpg/v1/fill/w_800,h_1066,al_c,q_85,enc_avif,quality_auto/_DSC5076_JPG.jpg",
+      "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401374/portfolio/tufsx6cbuue7q23zpev8.jpg",
       "gallery": "family",
       "label": "Family"
     },
     {
-      "url": "https://static.wixstatic.com/media/9d9634_ff219d53a7054eb5bc4b729ee6418840~mv2.jpg/v1/fill/w_380,h_540,al_c,q_85,enc_avif,quality_auto/KT-90084-357-4.jpg",
+      "url": "https://res.cloudinary.com/dnocmwoub/image/upload/v1776401376/portfolio/clkekpuyretdvsbq10ff.jpg",
       "gallery": "product",
       "label": "Product"
     }

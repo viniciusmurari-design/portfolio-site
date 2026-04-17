@@ -19,11 +19,19 @@ import json
 import urllib.request
 import urllib.parse
 import re
+import ssl
 import sys
 
 CLOUDINARY_CLOUD = 'dnocmwoub'
 UPLOAD_PRESET = 'portfolio_upload'
 UPLOAD_URL = f'https://api.cloudinary.com/v1_1/{CLOUDINARY_CLOUD}/image/upload'
+
+# macOS Python often ships without system CAs; use certifi's bundle when available.
+try:
+    import certifi
+    SSL_CTX = ssl.create_default_context(cafile=certifi.where())
+except ImportError:
+    SSL_CTX = ssl.create_default_context()
 
 
 def clean_wix_url(url: str) -> str:
@@ -41,7 +49,7 @@ def upload_to_cloudinary(image_url: str, folder: str) -> str:
         'folder': folder,
     }).encode('utf-8')
     req = urllib.request.Request(UPLOAD_URL, data=data, method='POST')
-    with urllib.request.urlopen(req, timeout=60) as resp:
+    with urllib.request.urlopen(req, timeout=60, context=SSL_CTX) as resp:
         result = json.loads(resp.read())
     return result['secure_url']
 
