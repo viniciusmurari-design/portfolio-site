@@ -24,9 +24,8 @@
   // ─── Load settings and render ───
   async function init() {
     let settings = {};
-    const bust = '?t=' + Date.now();
     try {
-      const r = await fetch('/api/settings' + bust, { cache: 'no-store' });
+      const r = await fetch('/api/settings');
       if (r.ok) {
         settings = await r.json();
       } else {
@@ -34,7 +33,7 @@
       }
     } catch(e) {
       try {
-        const r2 = await fetch('/settings.json' + bust, { cache: 'no-store' });
+        const r2 = await fetch('/settings.json');
         if (r2.ok) settings = await r2.json();
       } catch(e2) {}
     }

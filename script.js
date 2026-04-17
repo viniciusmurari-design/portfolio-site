@@ -35,40 +35,20 @@ const Settings = {
 // see the latest data.
 window.__settingsReady = (async function loadSettingsFromServer() {
   let loaded = null;
+  // 1st try: local dev server API
   try {
     const r = await fetch('/api/settings');
     if (r.ok) loaded = await r.json();
   } catch(e) {}
+  // 2nd try: static settings.json (production — Cloudflare serves with no-cache header)
   if (!loaded || !Object.keys(loaded).length) {
     try {
-      const r2 = await fetch('/settings.json?t=' + Date.now());
+      const r2 = await fetch('/settings.json');
       if (r2.ok) loaded = await r2.json();
     } catch(e) {}
   }
-  if (!loaded || !Object.keys(loaded).length) {
-    try {
-      const r3 = await fetch(SUPABASE_URL + '/rest/v1/site_settings?id=eq.1&select=data', {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-      });
-      if (r3.ok) {
-        const rows = await r3.json();
-        loaded = rows?.[0]?.data || null;
-      }
-    } catch(e) {}
-  }
   if (loaded && Object.keys(loaded).length > 0) {
-    // Merge landingPages by slug so local edits aren't lost if admin was
-    // used on this device. For everything else, server wins (public site
-    // should always reflect latest published settings).
-    const localSettings = Settings.get();
-    const localPages = localSettings.landingPages || [];
-    const serverPages = loaded.landingPages || [];
-    const mergedPages = [...serverPages];
-    localPages.forEach(lp => {
-      if (!mergedPages.find(p => p.slug === lp.slug)) mergedPages.push(lp);
-    });
-    const merged = { ...localSettings, ...loaded, landingPages: mergedPages };
-    Settings.set(merged);
+    Settings.set(loaded);
   }
   return Settings.get();
 })();

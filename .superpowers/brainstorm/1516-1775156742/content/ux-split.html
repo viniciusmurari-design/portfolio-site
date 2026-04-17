@@ -1,0 +1,167 @@
+<h2>Comparação lado a lado</h2>
+<p class="subtitle">As duas melhores opções para mostrar o trabalho de cada serviço</p>
+
+<div class="split">
+
+  <!-- OPTION A: Modal -->
+  <div class="mockup" data-choice="a" onclick="toggleSelect(this)" style="cursor:pointer">
+    <div class="mockup-header">⭐ A — Modal Full-Screen <span style="font-size:11px;opacity:0.6">(recomendado)</span></div>
+    <div class="mockup-body" style="background:#0a0a0a;padding:0;overflow:hidden;min-height:420px;position:relative">
+
+      <!-- Background: página atrás -->
+      <div style="padding:16px;opacity:0.25;filter:blur(1px)">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="background:#1a1a1a;border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:18px;margin-bottom:4px">📸</div>
+            <div style="font-size:9px;color:#fff;font-weight:600">Photography</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:18px;margin-bottom:4px">🎬</div>
+            <div style="font-size:9px;color:#fff;font-weight:600">Video Tour</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:18px;margin-bottom:4px">🚁</div>
+            <div style="font-size:9px;color:#fff;font-weight:600">Drone</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overlay escuro -->
+      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.75)"></div>
+
+      <!-- Modal -->
+      <div style="position:absolute;inset:12px;background:#111;border-radius:14px;overflow:hidden;border:1px solid #2a2a2a;box-shadow:0 24px 80px rgba(0,0,0,0.9)">
+        <!-- Header -->
+        <div style="background:#161616;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222">
+          <div>
+            <div style="font-size:10px;color:#c9a96e;font-weight:700;letter-spacing:1px;text-transform:uppercase">Photography</div>
+            <div style="font-size:8px;color:#666;margin-top:1px">12 trabalhos</div>
+          </div>
+          <div style="width:22px;height:22px;background:#222;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#888">✕</div>
+        </div>
+
+        <!-- Media tabs -->
+        <div style="display:flex;gap:0;border-bottom:1px solid #1e1e1e">
+          <div style="padding:7px 12px;font-size:9px;color:#c9a96e;border-bottom:2px solid #c9a96e;font-weight:600">📷 Fotos</div>
+          <div style="padding:7px 12px;font-size:9px;color:#555">🎬 Vídeo</div>
+          <div style="padding:7px 12px;font-size:9px;color:#555">🏠 3D Tour</div>
+        </div>
+
+        <!-- Photo grid -->
+        <div style="padding:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px">
+          <div style="aspect-ratio:1;border-radius:5px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_100,h_100,c_fill,q_auto/portfolio/hero/1774804783769_food_photography-01" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="aspect-ratio:1;border-radius:5px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_100,h_100,c_fill,q_auto/portfolio/hero/1774804785917_food_photography-05" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="aspect-ratio:1;border-radius:5px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_100,h_100,c_fill,q_auto/portfolio/hero/1774805269339_31_Ranelagh_002" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="aspect-ratio:1;border-radius:5px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_100,h_100,c_fill,q_auto/portfolio/hero/1774804783769_food_photography-01" style="width:100%;height:100%;object-fit:cover;filter:hue-rotate(20deg) brightness(0.8)">
+          </div>
+          <div style="aspect-ratio:1;border-radius:5px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_100,h_100,c_fill,q_auto/portfolio/hero/1774804785917_food_photography-05" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.9)">
+          </div>
+          <div style="aspect-ratio:1;background:#1a1a1a;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#555">+7</div>
+        </div>
+
+        <!-- CTA -->
+        <div style="padding:8px 10px;border-top:1px solid #1e1e1e">
+          <div style="background:#c9a96e;color:#000;border-radius:8px;padding:8px;text-align:center;font-size:10px;font-weight:700">Solicitar Orçamento</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:12px 14px">
+      <p style="font-size:12px;color:#ccc;margin:0 0 8px">Clica no cartão → overlay escuro + modal centralizado com tabs: Fotos / Vídeo / 3D Tour. Foco total. ESC fecha.</p>
+      <ul style="margin:0;padding-left:16px;font-size:11px;color:#888">
+        <li style="color:#6fcf97">Premium e imersivo</li>
+        <li style="color:#6fcf97">Muito espaço para o trabalho</li>
+        <li style="color:#6fcf97">CTA dentro do modal (converte melhor)</li>
+        <li style="color:#eb5757">Bloqueia scroll da página</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- OPTION B: Inline expand -->
+  <div class="mockup" data-choice="b" onclick="toggleSelect(this)" style="cursor:pointer">
+    <div class="mockup-header">B — Expande Inline</div>
+    <div class="mockup-body" style="background:#0a0a0a;padding:14px;min-height:420px">
+
+      <!-- Services grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px">
+        <div style="background:#1a1a1a;border-radius:8px;padding:8px;text-align:center;border:1px solid #c9a96e;position:relative">
+          <div style="font-size:16px;margin-bottom:3px">📸</div>
+          <div style="font-size:8px;color:#fff;font-weight:600">Photography</div>
+          <div style="font-size:7px;color:#c9a96e;margin-top:3px">▼ ver trabalhos</div>
+        </div>
+        <div style="background:#1a1a1a;border-radius:8px;padding:8px;text-align:center;opacity:0.55">
+          <div style="font-size:16px;margin-bottom:3px">🎬</div>
+          <div style="font-size:8px;color:#fff;font-weight:600">Video Tour</div>
+        </div>
+        <div style="background:#1a1a1a;border-radius:8px;padding:8px;text-align:center;opacity:0.55">
+          <div style="font-size:16px;margin-bottom:3px">🚁</div>
+          <div style="font-size:8px;color:#fff;font-weight:600">Drone</div>
+        </div>
+      </div>
+
+      <!-- Expanded panel -->
+      <div style="background:#161616;border:1px solid #c9a96e30;border-radius:10px;overflow:hidden;margin-bottom:6px">
+        <!-- Panel header -->
+        <div style="background:#1a1a1a;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222">
+          <div style="font-size:9px;color:#c9a96e;font-weight:700;letter-spacing:1px">📸 PHOTOGRAPHY</div>
+          <div style="display:flex;gap:6px">
+            <div style="padding:3px 7px;font-size:8px;color:#c9a96e;border:1px solid #c9a96e40;border-radius:4px">🎬 Vídeo</div>
+            <div style="padding:3px 7px;font-size:8px;color:#c9a96e;border:1px solid #c9a96e40;border-radius:4px">🏠 3D</div>
+            <div style="font-size:10px;color:#555">▲</div>
+          </div>
+        </div>
+        <!-- Photos scroll -->
+        <div style="padding:8px;display:grid;grid-template-columns:repeat(5,1fr);gap:3px">
+          <div style="aspect-ratio:1;border-radius:4px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_80,h_80,c_fill,q_auto/portfolio/hero/1774804783769_food_photography-01" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="aspect-ratio:1;border-radius:4px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_80,h_80,c_fill,q_auto/portfolio/hero/1774804785917_food_photography-05" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="aspect-ratio:1;border-radius:4px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_80,h_80,c_fill,q_auto/portfolio/hero/1774805269339_31_Ranelagh_002" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="aspect-ratio:1;border-radius:4px;overflow:hidden">
+            <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_80,h_80,c_fill,q_auto/portfolio/hero/1774804783769_food_photography-01" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.85)">
+          </div>
+          <div style="aspect-ratio:1;background:#222;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#555">+8</div>
+        </div>
+      </div>
+
+      <!-- Rest of services continue below -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;opacity:0.4">
+        <div style="background:#1a1a1a;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:16px;margin-bottom:3px">📱</div>
+          <div style="font-size:8px;color:#fff;font-weight:600">Reels</div>
+        </div>
+        <div style="background:#1a1a1a;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:16px;margin-bottom:3px">🏠</div>
+          <div style="font-size:8px;color:#fff;font-weight:600">3D Tour</div>
+        </div>
+        <div style="background:#1a1a1a;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:16px;margin-bottom:3px">✨</div>
+          <div style="font-size:8px;color:#fff;font-weight:600">Full Pack</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:12px 14px">
+      <p style="font-size:12px;color:#ccc;margin:0 0 8px">Clica no cartão → painel com fotos + botões de vídeo/3D abre <em>entre os serviços</em>. Página não é bloqueada, cliente pode continuar a scrollar.</p>
+      <ul style="margin:0;padding-left:16px;font-size:11px;color:#888">
+        <li style="color:#6fcf97">Tudo no fluxo natural da página</li>
+        <li style="color:#6fcf97">Excelente no mobile</li>
+        <li style="color:#6fcf97">Pode comparar serviços facilmente</li>
+        <li style="color:#eb5757">Empurra conteúdo para baixo</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px;text-align:center">Clica no mockup que preferires — ou diz aqui. Posso ajustar qualquer detalhe.</p>
