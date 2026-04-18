@@ -2394,6 +2394,7 @@ function renderGrid(photos, id) {
     card.addEventListener('dragend', () => {
       card.classList.remove('dragging');
       document.querySelectorAll('.photo-card').forEach(c => c.classList.remove('drop-target'));
+      dragSrc = null;
       // Clear sidebar drop zones
       photoDragData = null;
       document.getElementById('catList').classList.remove('gallery-drag-active');
@@ -3562,6 +3563,7 @@ function buildBarChart() {
 
 let _mcResolve = null;
 let _mcPreviousFocus = null;
+let _mcOnKeydown = null;
 
 function openMoveCopyModal(targetCatLabel) {
   // Guard against being called while already open
@@ -3576,19 +3578,15 @@ function openMoveCopyModal(targetCatLabel) {
   );
 
   // Escape key closes modal (WCAG 2.1 SC 2.1.2 — No Keyboard Trap)
-  function onKeydown(e) {
-    if (e.key === 'Escape') {
-      document.removeEventListener('keydown', onKeydown);
-      closeMoveCopyModal(null);
-    }
-  }
-  document.addEventListener('keydown', onKeydown);
+  _mcOnKeydown = e => { if (e.key === 'Escape') closeMoveCopyModal(null); };
+  document.addEventListener('keydown', _mcOnKeydown);
 
   return new Promise(resolve => { _mcResolve = resolve; });
 }
 
 function closeMoveCopyModal(result) {
   document.getElementById('moveCopyModal').classList.remove('open');
+  if (_mcOnKeydown) { document.removeEventListener('keydown', _mcOnKeydown); _mcOnKeydown = null; }
   // Return focus to the element that triggered the drag
   if (_mcPreviousFocus) { _mcPreviousFocus.focus(); _mcPreviousFocus = null; }
   if (_mcResolve) { _mcResolve(result); _mcResolve = null; }
