@@ -2468,7 +2468,7 @@ async function deletePhoto(cat, filename, card) {
 }
 
 async function movePhoto(data, newCatId, newCatLabel) {
-  if (!data.publicId) { toast('Cannot move: no public ID', 'error'); return; }
+  if (!data.publicId) { toast('Erro ao mover foto: sem ID', 'error'); return; }
   try {
     const res = await sbFetch(
       `/rest/v1/photos?public_id=eq.${encodeURIComponent(data.publicId)}&category=eq.${encodeURIComponent(data.category)}`,
@@ -2485,7 +2485,7 @@ async function movePhoto(data, newCatId, newCatLabel) {
     data.card.style.transition = 'opacity .2s, transform .2s';
     data.card.style.opacity = '0';
     data.card.style.transform = 'scale(0.9)';
-    setTimeout(() => { data.card.remove(); loadPhotos(data.category); }, 230);
+    setTimeout(() => { data.card.remove(); if (current === data.category) loadPhotos(data.category); }, 230);
 
     toast(`Movido para ${newCatLabel} ✓`, 'success');
   } catch(err) {
@@ -2495,8 +2495,9 @@ async function movePhoto(data, newCatId, newCatLabel) {
 }
 
 async function copyPhoto(data, newCatId, newCatLabel) {
-  if (!data.publicId) { toast('Cannot copy: no public ID', 'error'); return; }
+  if (!data.publicId) { toast('Erro ao copiar foto: sem ID', 'error'); return; }
   try {
+    // Source category cache stays intact — photo remains in original category
     const res = await sbFetch('/rest/v1/photos', {
       method: 'POST',
       headers: { 'Prefer': 'return=minimal' },
