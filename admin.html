@@ -2467,6 +2467,55 @@ async function deletePhoto(cat, filename, card) {
   toast('Photo deleted', 'success');
 }
 
+async function movePhoto(data, newCatId, newCatLabel) {
+  if (!data.publicId) { toast('Cannot move: no public ID', 'error'); return; }
+  try {
+    const res = await sbFetch(
+      `/rest/v1/photos?public_id=eq.${encodeURIComponent(data.publicId)}&category=eq.${encodeURIComponent(data.category)}`,
+      { method: 'PATCH', body: JSON.stringify({ category: newCatId }) }
+    );
+    if (!res.ok) throw new Error(await res.text());
+
+    // Remove from source category localStorage cache & order
+    setCloudPhotos(data.category, getCloudPhotos(data.category).filter(p => p.filename !== data.filename));
+    const order = JSON.parse(localStorage.getItem('photoOrder_' + data.category) || '[]').filter(f => f !== data.filename);
+    localStorage.setItem('photoOrder_' + data.category, JSON.stringify(order));
+
+    // Animate and remove card from grid
+    data.card.style.transition = 'opacity .2s, transform .2s';
+    data.card.style.opacity = '0';
+    data.card.style.transform = 'scale(0.9)';
+    setTimeout(() => { data.card.remove(); loadPhotos(data.category); }, 230);
+
+    toast(`Movido para ${newCatLabel} ✓`, 'success');
+  } catch(err) {
+    console.error('movePhoto error', err);
+    toast('Erro ao mover foto', 'error');
+  }
+}
+
+async function copyPhoto(data, newCatId, newCatLabel) {
+  if (!data.publicId) { toast('Cannot copy: no public ID', 'error'); return; }
+  try {
+    const res = await sbFetch('/rest/v1/photos', {
+      method: 'POST',
+      headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({
+        category:  newCatId,
+        filename:  data.filename,
+        url:       data.url,
+        thumb:     data.thumb,
+        public_id: data.publicId
+      })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    toast(`Copiado para ${newCatLabel} ✓`, 'success');
+  } catch(err) {
+    console.error('copyPhoto error', err);
+    toast('Erro ao copiar foto', 'error');
+  }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // UPLOAD
 // ─────────────────────────────────────────────────────────────────────────────
