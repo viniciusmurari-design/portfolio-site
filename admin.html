@@ -2171,11 +2171,44 @@ function buildSidebar() {
       sidebarDragSrc = id;
       e.dataTransfer.effectAllowed = 'move';
     });
-    btn.addEventListener('dragover', e => { e.preventDefault(); btn.classList.add('drag-over'); });
-    btn.addEventListener('dragleave', () => btn.classList.remove('drag-over'));
-    btn.addEventListener('drop', e => {
-      e.preventDefault(); btn.classList.remove('drag-over');
-      if (sidebarDragSrc && sidebarDragSrc !== id) {
+    btn.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (photoDragData && id !== current) {
+        btn.classList.add('cat-drop-hover');
+      } else if (!photoDragData) {
+        btn.classList.add('drag-over');
+      }
+    });
+    btn.addEventListener('dragleave', () => {
+      btn.classList.remove('drag-over');
+      btn.classList.remove('cat-drop-hover');
+    });
+    btn.addEventListener('dragend', () => { sidebarDragSrc = null; });
+    btn.addEventListener('drop', async e => {
+      e.preventDefault();
+      btn.classList.remove('drag-over');
+      btn.classList.remove('cat-drop-hover');
+
+      if (photoDragData && id !== current) {
+        // Photo-to-category drop
+        const data = photoDragData;
+        photoDragData = null;
+        document.getElementById('catList').classList.remove('gallery-drag-active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('cat-drop-hover'));
+
+        const targetCat = CATEGORIES.find(c => c.id === id);
+        const targetLabel = targetCat ? targetCat.label : id;
+        const action = await openMoveCopyModal(targetLabel);
+
+        if (action === 'move') {
+          await movePhoto(data, id, targetLabel);
+        } else if (action === 'copy') {
+          await copyPhoto(data, id, targetLabel);
+        }
+        // action === null means Cancel — do nothing
+
+      } else if (!photoDragData && sidebarDragSrc && sidebarDragSrc !== id) {
+        // Existing sidebar reorder logic
         const from = catOrder.indexOf(sidebarDragSrc);
         const to   = catOrder.indexOf(id);
         catOrder.splice(from, 1);
