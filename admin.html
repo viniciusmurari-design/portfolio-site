@@ -2341,15 +2341,30 @@ function renderGrid(photos, id) {
       toast(newAlt ? 'Alt text saved' : 'Alt text cleared', 'success');
     });
 
-    // Drag-to-reorder
+    // Drag-to-reorder + drag-to-category
     card.addEventListener('dragstart', e => {
       dragSrc = card;
       card.classList.add('dragging');
       e.dataTransfer.effectAllowed = 'move';
+      // Store photo data for potential category drop
+      photoDragData = {
+        publicId: card.dataset.publicId,
+        filename: card.dataset.filename,
+        category: id,
+        url:      photo.url,
+        thumb:    photo.thumb,
+        card
+      };
+      // Activate sidebar drop zones
+      document.getElementById('catList').classList.add('gallery-drag-active');
     });
     card.addEventListener('dragend', () => {
       card.classList.remove('dragging');
       document.querySelectorAll('.photo-card').forEach(c => c.classList.remove('drop-target'));
+      // Clear sidebar drop zones
+      photoDragData = null;
+      document.getElementById('catList').classList.remove('gallery-drag-active');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('cat-drop-hover'));
     });
     card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drop-target'); });
     card.addEventListener('dragleave', () => card.classList.remove('drop-target'));
