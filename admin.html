@@ -2434,25 +2434,31 @@ async function deletePhoto(cat, filename, card) {
 
   const publicId = card.dataset.publicId;
 
-  // Delete from Supabase (metadata)
+  // Reference-counted delete: only remove from Cloudinary if this is the last reference
   if (publicId) {
     try {
-      await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' });
-    } catch(e) { console.error('Supabase delete failed', e); }
-  }
+      // Count how many categories use this asset
+      const countRes = await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}&select=id`);
+      const refs = countRes.ok ? (await countRes.json()) : [];
+      const isLastRef = refs.length <= 1;
 
-  // Delete from Cloudinary (actual file) — requires ADMIN_TOKEN env var on Cloudflare
-  if (publicId) {
-    try {
-      await fetch('/api/delete-photo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Admin-Token': getAdminToken()
-        },
-        body: JSON.stringify({ public_id: publicId })
-      });
-    } catch(e) { console.error('Cloudinary delete failed', e); }
+      if (isLastRef) {
+        // Delete the Supabase row (last one)
+        await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' });
+        // Delete the actual Cloudinary file
+        await fetch('/api/delete-photo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Token': getAdminToken() },
+          body: JSON.stringify({ public_id: publicId })
+        });
+      } else {
+        // Only delete THIS category's Supabase row — keep Cloudinary file intact
+        await sbFetch(
+          `/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}&category=eq.${encodeURIComponent(cat)}`,
+          { method: 'DELETE' }
+        );
+      }
+    } catch(e) { console.error('Delete failed', e); }
   }
 
   // Remove from localStorage cache and order
@@ -2704,14 +2710,29 @@ document.getElementById('batchDeleteBtn').addEventListener('click', async () => 
     const publicId = card.dataset.publicId;
     const filename = card.dataset.filename;
     if (publicId) {
-      try { await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' }); } catch(e) {}
       try {
-        await fetch('/api/delete-photo', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Admin-Token': getAdminToken() },
-          body: JSON.stringify({ public_id: publicId })
-        });
-      } catch(e) {}
+        // Count how many categories use this asset
+        const countRes = await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}&select=id`);
+        const refs = countRes.ok ? (await countRes.json()) : [];
+        const isLastRef = refs.length <= 1;
+
+        if (isLastRef) {
+          // Delete the Supabase row (last one)
+          await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}`, { method: 'DELETE' });
+          // Delete the actual Cloudinary file
+          await fetch('/api/delete-photo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Admin-Token': getAdminToken() },
+            body: JSON.stringify({ public_id: publicId })
+          });
+        } else {
+          // Only delete THIS category's Supabase row — keep Cloudinary file intact
+          await sbFetch(
+            `/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}&category=eq.${encodeURIComponent(current)}`,
+            { method: 'DELETE' }
+          );
+        }
+      } catch(e) { console.error('Delete failed', e); }
     }
     setCloudPhotos(current, getCloudPhotos(current).filter(p => p.filename !== filename));
     const order = JSON.parse(localStorage.getItem('photoOrder_' + current) || '[]').filter(f => f !== filename);
