@@ -2439,7 +2439,12 @@ async function deletePhoto(cat, filename, card) {
     try {
       // Count how many categories use this asset
       const countRes = await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}&select=id`);
-      const refs = countRes.ok ? (await countRes.json()) : [];
+      if (!countRes.ok) {
+        toast('Erro ao verificar referências, tente novamente', 'error');
+        return;
+      }
+      const refs = await countRes.json();
+      // refs.length <= 1: handles 0 (orphan/already removed) and 1 (this is the last row)
       const isLastRef = refs.length <= 1;
 
       if (isLastRef) {
@@ -2713,7 +2718,12 @@ document.getElementById('batchDeleteBtn').addEventListener('click', async () => 
       try {
         // Count how many categories use this asset
         const countRes = await sbFetch(`/rest/v1/photos?public_id=eq.${encodeURIComponent(publicId)}&select=id`);
-        const refs = countRes.ok ? (await countRes.json()) : [];
+        if (!countRes.ok) {
+          toast('Erro ao verificar referências, tente novamente', 'error');
+          continue; // skip this photo, move to next in batch
+        }
+        const refs = await countRes.json();
+        // refs.length <= 1: handles 0 (orphan) and 1 (last reference)
         const isLastRef = refs.length <= 1;
 
         if (isLastRef) {
