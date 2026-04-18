@@ -377,6 +377,50 @@
     .photo-card:hover { box-shadow: var(--shadow); }
     .photo-card.dragging { opacity: 0.4; cursor: grabbing; }
     .photo-card.drop-target { outline: 2px dashed var(--blue); outline-offset: 2px; }
+
+    /* ─── Drag photo-to-category states ─── */
+    #catList.gallery-drag-active .nav-btn:not(.active) {
+      box-shadow: inset 0 0 0 1px rgba(59,130,246,0.35);
+      transition: box-shadow 0.15s, background 0.15s;
+    }
+    .nav-btn.cat-drop-hover {
+      box-shadow: inset 0 0 0 2px var(--blue) !important;
+      background: rgba(59,130,246,0.18) !important;
+      color: #fff !important;
+    }
+
+    /* ─── Move/Copy confirmation modal ─── */
+    #moveCopyModal {
+      display: none; position: fixed; inset: 0; z-index: 4000;
+      background: rgba(0,0,0,0.45); align-items: center; justify-content: center;
+    }
+    #moveCopyModal.open { display: flex; }
+    .mc-dialog {
+      background: var(--surface); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg); padding: 28px 32px; width: 340px;
+      max-width: 90vw; text-align: center;
+    }
+    .mc-dialog h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .mc-dialog p  { font-size: 0.82rem; color: var(--text-2); margin-bottom: 24px; }
+    .mc-btns { display: flex; flex-direction: column; gap: 10px; }
+    .mc-btn-move {
+      background: var(--blue); color: #fff; border: none;
+      border-radius: var(--radius-sm); padding: 10px 0; font-size: 0.88rem;
+      font-weight: 600; cursor: pointer; transition: background 0.15s;
+    }
+    .mc-btn-move:hover { background: var(--blue-h); }
+    .mc-btn-copy {
+      background: transparent; color: var(--blue); border: 1.5px solid var(--blue);
+      border-radius: var(--radius-sm); padding: 10px 0; font-size: 0.88rem;
+      font-weight: 600; cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .mc-btn-copy:hover { background: var(--blue-soft); }
+    .mc-btn-cancel {
+      background: transparent; color: var(--text-3); border: none;
+      font-size: 0.82rem; cursor: pointer; padding: 4px 0;
+    }
+    .mc-btn-cancel:hover { color: var(--text-2); }
+
     .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
     .photo-delete {
       position: absolute; top: 8px; right: 8px;
