@@ -3513,17 +3513,36 @@ function buildBarChart() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 let _mcResolve = null;
+let _mcPreviousFocus = null;
 
 function openMoveCopyModal(targetCatLabel) {
+  // Guard against being called while already open
+  if (_mcResolve) { _mcResolve(null); }
+  _mcPreviousFocus = document.activeElement;
+
   document.getElementById('mcTargetLabel').textContent = targetCatLabel;
   document.getElementById('moveCopyModal').classList.add('open');
-  // Move focus to first button for keyboard accessibility
-  setTimeout(() => document.getElementById('mcBtnMove').focus(), 50);
+  // Double-rAF: consistent with toast pattern in this file — ensures element is painted before focus
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => document.getElementById('mcBtnMove').focus())
+  );
+
+  // Escape key closes modal (WCAG 2.1 SC 2.1.2 — No Keyboard Trap)
+  function onKeydown(e) {
+    if (e.key === 'Escape') {
+      document.removeEventListener('keydown', onKeydown);
+      closeMoveCopyModal(null);
+    }
+  }
+  document.addEventListener('keydown', onKeydown);
+
   return new Promise(resolve => { _mcResolve = resolve; });
 }
 
 function closeMoveCopyModal(result) {
   document.getElementById('moveCopyModal').classList.remove('open');
+  // Return focus to the element that triggered the drag
+  if (_mcPreviousFocus) { _mcPreviousFocus.focus(); _mcPreviousFocus = null; }
   if (_mcResolve) { _mcResolve(result); _mcResolve = null; }
 }
 
@@ -3531,7 +3550,7 @@ document.getElementById('mcBtnMove').addEventListener('click',   () => closeMove
 document.getElementById('mcBtnCopy').addEventListener('click',   () => closeMoveCopyModal('copy'));
 document.getElementById('mcBtnCancel').addEventListener('click', () => closeMoveCopyModal(null));
 document.getElementById('moveCopyModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('moveCopyModal')) closeMoveCopyModal(null);
+  if (e.target === e.currentTarget) closeMoveCopyModal(null);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
