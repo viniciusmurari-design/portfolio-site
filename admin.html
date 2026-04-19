@@ -329,6 +329,14 @@
     .sub-tag:hover { border-color: var(--blue); background: var(--blue-soft); }
     .sub-tag.all-tag { cursor: default; background: var(--text); color: #fff; border-color: var(--text); }
     .sub-tag.drag-over { border-color: var(--blue); background: var(--blue-soft); }
+    .sub-tag.filter-active {
+      background: var(--blue) !important; color: #fff !important;
+      border-color: var(--blue) !important;
+      box-shadow: 0 2px 6px rgba(59,130,246,0.35);
+    }
+    .sub-tag.filter-active .sub-tag-name { color: #fff; }
+    .sub-tag.filter-active .sub-del { background: rgba(255,255,255,0.22); color: #fff; }
+    .sub-tag.all-tag.filter-active { background: var(--blue) !important; border-color: var(--blue) !important; }
     .sub-tag-name {
       border: none; background: none; font-family: var(--sans); font-size: 0.78rem;
       color: inherit; outline: none; min-width: 30px; max-width: 120px;
@@ -964,7 +972,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.0</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.3</div>
     </div>
   </nav>
 
@@ -1798,6 +1806,8 @@ let current = catOrder[0] || CATEGORIES[0].id;
 let dragSrc = null;
 let sidebarDragSrc = null;
 let photoDragData = null;   // { publicId, filename, category, url, thumb, card }
+let activeSubFilter = null; // sub-category filter (lowercased); null = show all
+let currentPhotosList = []; // last-loaded photos for current category (for re-filtering)
 
 function saveSettings() {
   localStorage.setItem('vmSettings', JSON.stringify(S));
@@ -2238,6 +2248,7 @@ function buildSidebar() {
 
 function switchCategory(id) {
   current = id;
+  activeSubFilter = null;
   buildSidebar();
   buildSubsEditor();
   const cat = CATEGORIES.find(c => c.id === id);
@@ -2286,8 +2297,22 @@ async function loadPhotos(id) {
   counts[id] = photos.length;
   const el = document.getElementById(`cnt-${id}`);
   if (el) el.textContent = photos.length;
-  renderGrid(photos, id);
+  currentPhotosList = photos;
+  renderFilteredGrid();
   updateDashboard();
+}
+
+function renderFilteredGrid() {
+  const id = current;
+  let photos = currentPhotosList;
+  if (activeSubFilter) {
+    photos = photos.filter(p => getPhotoSub(id, p.filename) === activeSubFilter);
+  }
+  renderGrid(photos, id);
+  const hint = document.getElementById('photosHint');
+  if (activeSubFilter && hint) {
+    hint.textContent = `Filtered by "${activeSubFilter}" — click the tag again or "All" to clear`;
+  }
 }
 
 function renderGrid(photos, id) {
@@ -2817,9 +2842,27 @@ function buildSubsEditor() {
 
   subs.forEach((sub, i) => {
     const tag = document.createElement('div');
-    tag.className = 'sub-tag' + (sub.toLowerCase() === 'all' ? ' all-tag' : '');
-    tag.draggable = sub.toLowerCase() !== 'all';
+    const subLower = sub.toLowerCase();
+    const isAll = subLower === 'all';
+    tag.className = 'sub-tag' + (isAll ? ' all-tag' : '');
+    tag.draggable = !isAll;
     tag.dataset.index = i;
+    // Highlight if currently filtering by this sub (or "All" when no filter)
+    if ((isAll && !activeSubFilter) || (!isAll && activeSubFilter === subLower)) {
+      tag.classList.add('filter-active');
+    }
+    // Click to filter photo grid by this sub-category
+    tag.addEventListener('click', e => {
+      // Ignore clicks on the editable name input or the delete button
+      if (e.target.closest('.sub-tag-name') || e.target.closest('.sub-del')) return;
+      if (isAll) {
+        activeSubFilter = null;
+      } else {
+        activeSubFilter = (activeSubFilter === subLower) ? null : subLower;
+      }
+      buildSubsEditor();
+      renderFilteredGrid();
+    });
 
     const nameInput = document.createElement('input');
     nameInput.className = 'sub-tag-name';
@@ -2926,6 +2969,9 @@ function setPhotoSub(catId, filename, sub) {
   if (!S.photoSubs) S.photoSubs = {};
   S.photoSubs[`${catId}/${filename}`] = sub;
   saveSettings();
+  // If the admin is currently filtering this category by a sub, re-render
+  // so photos that no longer match drop out (or newly-match photos appear).
+  if (catId === current && activeSubFilter) renderFilteredGrid();
 }
 
 
