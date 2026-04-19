@@ -388,6 +388,17 @@
       color: #fff !important;
     }
 
+    /* ─── Drag photo-to-sub-category states ─── */
+    #subsList.gallery-drag-active .sub-tag:not(.all-tag) {
+      box-shadow: inset 0 0 0 1px rgba(59,130,246,0.35);
+      transition: box-shadow .15s, background .15s;
+    }
+    .sub-tag.sub-drop-hover {
+      box-shadow: inset 0 0 0 2px var(--blue) !important;
+      background: rgba(59,130,246,0.18) !important;
+      border-color: var(--blue) !important;
+    }
+
     /* ─── Move/Copy confirmation modal ─── */
     #moveCopyModal {
       display: none; position: fixed; inset: 0; z-index: 4000;
@@ -2194,7 +2205,9 @@ function buildSidebar() {
         const data = photoDragData;
         photoDragData = null;
         document.getElementById('catList').classList.remove('gallery-drag-active');
+        document.getElementById('subsList').classList.remove('gallery-drag-active');
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('cat-drop-hover'));
+        document.querySelectorAll('.sub-tag').forEach(t => t.classList.remove('sub-drop-hover'));
 
         const targetCat = CATEGORIES.find(c => c.id === id);
         const targetLabel = targetCat ? targetCat.label : id;
@@ -2388,17 +2401,20 @@ function renderGrid(photos, id) {
         thumb:    photo.thumb,
         card
       };
-      // Activate sidebar drop zones
+      // Activate sidebar + sub-category drop zones
       document.getElementById('catList').classList.add('gallery-drag-active');
+      document.getElementById('subsList').classList.add('gallery-drag-active');
     });
     card.addEventListener('dragend', () => {
       card.classList.remove('dragging');
       document.querySelectorAll('.photo-card').forEach(c => c.classList.remove('drop-target'));
       dragSrc = null;
-      // Clear sidebar drop zones
+      // Clear sidebar + sub-category drop zones
       photoDragData = null;
       document.getElementById('catList').classList.remove('gallery-drag-active');
+      document.getElementById('subsList').classList.remove('gallery-drag-active');
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('cat-drop-hover'));
+      document.querySelectorAll('.sub-tag').forEach(t => t.classList.remove('sub-drop-hover'));
     });
     card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drop-target'); });
     card.addEventListener('dragleave', () => card.classList.remove('drop-target'));
@@ -2841,19 +2857,48 @@ function buildSubsEditor() {
         e.dataTransfer.setData('text/plain', String(i));
         e.dataTransfer.effectAllowed = 'move';
       });
-      tag.addEventListener('dragover', e => { e.preventDefault(); tag.classList.add('drag-over'); });
-      tag.addEventListener('dragleave', () => tag.classList.remove('drag-over'));
+      tag.addEventListener('dragover', e => {
+        e.preventDefault();
+        if (photoDragData) {
+          tag.classList.add('sub-drop-hover');
+        } else {
+          tag.classList.add('drag-over');
+        }
+      });
+      tag.addEventListener('dragleave', () => {
+        tag.classList.remove('drag-over');
+        tag.classList.remove('sub-drop-hover');
+      });
       tag.addEventListener('drop', e => {
-        e.preventDefault(); tag.classList.remove('drag-over');
-        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
-        const toIdx = i;
-        if (fromIdx !== toIdx && fromIdx > 0) {
-          const newSubs = [...getSubsFor(current)];
-          const [moved] = newSubs.splice(fromIdx, 1);
-          newSubs.splice(toIdx, 0, moved);
-          saveSubsFor(current, newSubs);
-          buildSubsEditor();
-          toast('Sub-category order saved');
+        e.preventDefault();
+        tag.classList.remove('drag-over');
+        tag.classList.remove('sub-drop-hover');
+
+        if (photoDragData) {
+          // Assign sub-category to the dragged photo
+          const data = photoDragData;
+          photoDragData = null;
+          document.getElementById('catList').classList.remove('gallery-drag-active');
+          document.getElementById('subsList').classList.remove('gallery-drag-active');
+          document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('cat-drop-hover'));
+          document.querySelectorAll('.sub-tag').forEach(t => t.classList.remove('sub-drop-hover'));
+
+          setPhotoSub(data.category, data.filename, sub.toLowerCase());
+          const badge = data.card.querySelector('.photo-sub-badge');
+          if (badge) badge.textContent = sub;
+          toast(`Marcado como "${sub}" ✓`, 'success');
+        } else {
+          // Existing reorder logic
+          const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
+          const toIdx = i;
+          if (fromIdx !== toIdx && fromIdx > 0) {
+            const newSubs = [...getSubsFor(current)];
+            const [moved] = newSubs.splice(fromIdx, 1);
+            newSubs.splice(toIdx, 0, moved);
+            saveSubsFor(current, newSubs);
+            buildSubsEditor();
+            toast('Sub-category order saved');
+          }
         }
       });
     }
