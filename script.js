@@ -688,9 +688,15 @@ function buildThumbs() {
 
 const lbVideo = document.getElementById('lbVideo');
 
+let _lbFadeTimer = null; // cancel pending fade if user navigates fast
+
 function showLbPhoto(animate = true) {
-  const photo = currentGalleryImages[lbIndex];
+  const targetIndex = lbIndex; // snapshot — may change before setTimeout fires
+  const photo = currentGalleryImages[targetIndex];
   const isVid = photo.type === 'video';
+
+  // Cancel any in-flight fade from a previous navigation
+  if (_lbFadeTimer) { clearTimeout(_lbFadeTimer); _lbFadeTimer = null; lbImg.classList.remove('lb-fade'); }
 
   // Pause any playing video when switching
   if (!isVid && lbVideo) { lbVideo.pause(); lbVideo.src = ''; lbVideo.style.display = 'none'; }
@@ -705,33 +711,70 @@ function showLbPhoto(animate = true) {
     lbImg.style.display = '';
     if (animate) {
       lbImg.classList.add('lb-fade');
-      setTimeout(() => {
-        lbImg.src = photo.src;
-        lbImg.alt = photo.alt;
+      _lbFadeTimer = setTimeout(() => {
+        _lbFadeTimer = null;
+        // Only apply if the user hasn't moved on to another photo
+        if (lbIndex === targetIndex) {
+          lbImg.src = photo.src;
+          lbImg.alt = photo.alt;
+        }
         lbImg.classList.remove('lb-fade');
-      }, 140);
+      }, 120);
     } else {
       lbImg.src = photo.src;
       lbImg.alt = photo.alt;
     }
   }
 
-  lbCounter.textContent = `${lbIndex + 1} / ${currentGalleryImages.length}`;
-  lbPrev.style.visibility = lbIndex === 0 ? 'hidden' : 'visible';
-  lbNext.style.visibility = lbIndex === currentGalleryImages.length - 1 ? 'hidden' : 'visible';
+  lbCounter.textContent = `${targetIndex + 1} / ${currentGalleryImages.length}`;
+  lbPrev.style.visibility = targetIndex === 0 ? 'hidden' : 'visible';
+  lbNext.style.visibility = targetIndex === currentGalleryImages.length - 1 ? 'hidden' : 'visible';
 
   // Update active thumb + scroll into view
   lbThumbs.querySelectorAll('.lb-thumb').forEach((t, i) => {
-    t.classList.toggle('active', i === lbIndex);
+    t.classList.toggle('active', i === targetIndex);
   });
-  const activeThumb = lbThumbs.children[lbIndex];
+  const activeThumb = lbThumbs.children[targetIndex];
   if (activeThumb) activeThumb.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+
+  // Preload adjacent images so next/prev are instant
+  [targetIndex - 1, targetIndex + 1, targetIndex + 2].forEach(pi => {
+    const p = currentGalleryImages[pi];
+    if (p && p.type !== 'video' && p.src) {
+      const pre = new Image();
+      pre.src = p.src;
+    }
+  });
 }
 
 lbClose.addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
 lbPrev.addEventListener('click', () => { if (lbIndex > 0) { lbIndex--; showLbPhoto(true); } });
 lbNext.addEventListener('click', () => { if (lbIndex < currentGalleryImages.length - 1) { lbIndex++; showLbPhoto(true); } });
+
+// Swipe navigation on the full lightbox overlay (mobile)
+(function() {
+  let swipeStartX = 0, swipeStartY = 0, swipeMoved = false;
+  lightbox.addEventListener('touchstart', e => {
+    swipeStartX = e.touches[0].clientX;
+    swipeStartY = e.touches[0].clientY;
+    swipeMoved = false;
+  }, { passive: true });
+  lightbox.addEventListener('touchmove', e => {
+    const dx = Math.abs(e.touches[0].clientX - swipeStartX);
+    const dy = Math.abs(e.touches[0].clientY - swipeStartY);
+    if (dx > 8 || dy > 8) swipeMoved = true;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', e => {
+    if (!swipeMoved) return;
+    const dx = e.changedTouches[0].clientX - swipeStartX;
+    const dy = Math.abs(e.changedTouches[0].clientY - swipeStartY);
+    // Only treat as horizontal swipe if it's clearly horizontal
+    if (Math.abs(dx) < 40 || dy > Math.abs(dx) * 0.7) return;
+    if (dx < 0 && lbIndex < currentGalleryImages.length - 1) { lbIndex++; showLbPhoto(true); }
+    else if (dx > 0 && lbIndex > 0) { lbIndex--; showLbPhoto(true); }
+  }, { passive: true });
+})();
 
 document.addEventListener('keydown', e => {
   if (lightbox.classList.contains('open')) {
