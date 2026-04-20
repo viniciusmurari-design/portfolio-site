@@ -170,10 +170,12 @@
   // ─── Render all sections ───
   function render() {
     renderSEO();
+    renderSectionTitles();
     renderHero();
     renderStats();
     renderProblem();
     renderServices();
+    renderBackgroundsGuide();
     renderPortfolio();
     renderShowreel();
     renderBeforeAfter();
@@ -182,6 +184,65 @@
     renderTestimonials();
     renderFaq();
     renderContact();
+  }
+
+  // ─── Section titles override (per-page, falls back to HTML defaults) ───
+  function renderSectionTitles() {
+    const t = PAGE.sectionTitles || {};
+    const map = {
+      servicesEyebrow: '#lp-services .eyebrow',
+      servicesTitle: '#lpServicesTitle',
+      servicesSub: '#lpServicesSub',
+      portfolioEyebrow: '#lp-portfolio .eyebrow',
+      portfolioTitle: '#lpPortfolioTitle',
+      processEyebrow: '#lp-process .eyebrow',
+      processTitle: '#lpProcessTitle',
+      packagesEyebrow: '#lp-packages .eyebrow',
+      packagesTitle: '#lpPackagesTitle',
+      testimonialsEyebrow: '#lp-testimonials .eyebrow',
+      testimonialsTitle: '#lpTestimonialsTitle',
+      faqEyebrow: '#lp-faq .eyebrow',
+      faqTitle: '#lpFaqTitle',
+      baTitle: '#lpBATitle'
+    };
+    Object.keys(map).forEach(k => {
+      if (!t[k]) return;
+      const el = document.querySelector(map[k]);
+      if (el) el.innerHTML = t[k];
+    });
+  }
+
+  // ─── Backgrounds Guide CTA banner (portrait landing only) ───
+  function renderBackgroundsGuide() {
+    const g = PAGE.backgroundsGuide;
+    if (!g || !g.enabled) return;
+    // Avoid duplicate insert on re-render
+    if (document.getElementById('lp-bg-guide')) return;
+    const section = document.createElement('section');
+    section.className = 'lp-section lp-bg-guide-section';
+    section.id = 'lp-bg-guide';
+    section.innerHTML = `
+      <div class="lp-inner">
+        <div class="lp-bg-guide-card lp-reveal">
+          <div class="lp-bg-guide-swatches" aria-hidden="true">
+            <div class="lp-bg-guide-swatch" style="background:#f5f5f7"><span>White</span></div>
+            <div class="lp-bg-guide-swatch" style="background:#111"><span>Black</span></div>
+            <div class="lp-bg-guide-swatch" style="background:linear-gradient(160deg,#3b82f6 0%,#8b5cf6 50%,#ec4899 100%)"><span>Brand</span></div>
+            <div class="lp-bg-guide-swatch" style="background:linear-gradient(160deg,#1a3a2a 0%,#2d5a3d 40%,#4a7c5a 100%)"><span>Natural</span></div>
+          </div>
+          <div class="lp-bg-guide-body">
+            <span class="eyebrow">${esc(g.eyebrow || 'Studio Guide')}</span>
+            <h2>${g.title || 'Not Sure Which Background Suits You?'}</h2>
+            <p>${esc(g.text || '')}</p>
+            <a href="${esc(g.link || '#')}" class="btn btn-fill" target="_blank" rel="noopener">${esc(g.cta || 'Read the Guide')} →</a>
+          </div>
+        </div>
+      </div>`;
+    // Insert after services
+    const servicesSection = document.getElementById('lp-services');
+    if (servicesSection && servicesSection.parentNode) {
+      servicesSection.parentNode.insertBefore(section, servicesSection.nextSibling);
+    }
   }
 
   function renderSEO() {

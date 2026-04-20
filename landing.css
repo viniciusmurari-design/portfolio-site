@@ -669,3 +669,47 @@
 [data-theme="dark"] .lp-gallery-tab.active { background: #fff; color: #1a1a1a; }
 [data-theme="dark"] .lp-gallery-photo-item { background: #2a2a2a; }
 [data-theme="dark"] .lp-gallery-footer { border-top-color: #2a2a2a; }
+
+/* ─── Backgrounds Guide CTA (portrait landing) ─── */
+.lp-bg-guide-section { padding: 60px 0; }
+.lp-bg-guide-card {
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 0;
+  background: #1d1d1f; color: #fff;
+  border-radius: 20px; overflow: hidden; position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.lp-bg-guide-card::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at top right, rgba(0,113,227,0.18) 0%, transparent 65%);
+}
+.lp-bg-guide-swatches { display: flex; aspect-ratio: auto; min-height: 280px; }
+.lp-bg-guide-swatch {
+  flex: 1; position: relative; overflow: hidden;
+  display: flex; align-items: flex-end; justify-content: flex-start;
+  padding: 16px;
+}
+.lp-bg-guide-swatch + .lp-bg-guide-swatch { border-left: 1px solid rgba(255,255,255,0.10); }
+.lp-bg-guide-swatch span {
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  background: rgba(0,0,0,0.4); padding: 4px 9px; border-radius: 100px;
+  backdrop-filter: blur(6px);
+}
+.lp-bg-guide-swatch:first-child span { color: #1d1d1f; background: rgba(255,255,255,0.85); }
+.lp-bg-guide-body {
+  padding: 48px 44px; display: flex; flex-direction: column; justify-content: center;
+  position: relative; z-index: 1;
+}
+.lp-bg-guide-body .eyebrow { color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+.lp-bg-guide-body h2 { color: #fff; font-size: 2rem; line-height: 1.15; margin: 0 0 14px; font-family: var(--serif); font-weight: 500; }
+.lp-bg-guide-body h2 em { color: #0071e3; font-style: italic; }
+.lp-bg-guide-body p { color: rgba(255,255,255,0.72); font-size: 0.95rem; line-height: 1.6; margin: 0 0 24px; max-width: 52ch; }
+.lp-bg-guide-body .btn { align-self: flex-start; }
+
+@media (max-width: 768px) {
+  .lp-bg-guide-card { grid-template-columns: 1fr; }
+  .lp-bg-guide-swatches { min-height: 180px; }
+  .lp-bg-guide-body { padding: 32px 24px; }
+  .lp-bg-guide-body h2 { font-size: 1.55rem; }
+}

@@ -1542,7 +1542,28 @@
         "finalCtaSub": "Book your session today and show up online with the confidence you already have.",
         "web3formsKey": ""
       },
-      "showBeforeAfter": false
+      "showBeforeAfter": false,
+      "sectionTitles": {
+        "servicesEyebrow": "Backgrounds & Styles",
+        "servicesTitle": "Every Portrait Has a <em>Background</em>",
+        "servicesSub": "White, black, brand colour or natural environment — each tells a completely different story. Choose the one that fits yours.",
+        "portfolioEyebrow": "Portfolio",
+        "portfolioTitle": "See the <em>Work</em>",
+        "processTitle": "Simple. Relaxed. <em>You, at Your Best.</em>",
+        "packagesTitle": "Choose Your <em>Session</em>",
+        "testimonialsEyebrow": "What Clients Say",
+        "testimonialsTitle": "Trusted by Professionals <em>Across Dublin</em>",
+        "faqTitle": "Common <em>Questions</em>",
+        "baTitle": "Before & <em>After</em>"
+      },
+      "backgroundsGuide": {
+        "enabled": true,
+        "eyebrow": "Studio Guide",
+        "title": "Not Sure Which Background <em>Suits You?</em>",
+        "text": "White, black, a brand colour, or a natural environment — every background changes the story the portrait tells. Read the full guide with examples before your session.",
+        "cta": "Read the Background Guide",
+        "link": "/blog-post?slug=portrait-studio-backgrounds"
+      }
     },
     {
       "id": "food-photography",
