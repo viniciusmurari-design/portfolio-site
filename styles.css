@@ -1116,6 +1116,32 @@ nav.scrolled .nav-links a.active { color: var(--blue); }
 [data-theme="dark"] .journal-card { background: #151515; }
 [data-theme="dark"] .journal-skeleton { background: linear-gradient(110deg, #1a1a1a 8%, #222 18%, #1a1a1a 33%); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; }
 
+/* ── Journal Guide Card (dark editorial) ── */
+.journal-card--guide { background: #1d1d1f; color: #fff; position: relative; overflow: hidden; }
+.journal-card--guide::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(0,113,227,0.15) 0%, transparent 65%); pointer-events: none; }
+.guide-swatches { display: flex; aspect-ratio: 16/9; overflow: hidden; flex-shrink: 0; }
+.guide-swatch { flex: 1; height: 100%; position: relative; overflow: hidden; }
+.guide-swatch + .guide-swatch { border-left: 1px solid rgba(255,255,255,0.10); }
+.guide-swatch--white  { background: #f5f5f7; }
+.guide-swatch--black  { background: #111111; }
+.guide-swatch--brand  { background: linear-gradient(160deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%); }
+.guide-swatch--nature { background: linear-gradient(160deg, #1a3a2a 0%, #2d5a3d 40%, #4a7c5a 100%); }
+.guide-swatch-label { position: absolute; bottom: 7px; left: 0; right: 0; text-align: center; font-size: 0.5rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.65); text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+.guide-swatch--white .guide-swatch-label { color: rgba(0,0,0,0.4); text-shadow: none; }
+.journal-card--guide .journal-card-body { background: transparent; }
+.journal-card--guide .journal-card-date { color: rgba(0,113,227,0.85); }
+.journal-card--guide .journal-card-title { color: #fff; }
+.journal-card--guide .journal-card-excerpt { color: rgba(255,255,255,0.52); }
+.journal-card--guide .journal-card-cta { color: #fff; display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 500; }
+.journal-card--guide .journal-card-cta::after { content: '→'; transition: transform .2s ease; }
+.journal-card--guide:hover .journal-card-cta::after { transform: translateX(3px); }
+.journal-card--guide:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.28); }
+[data-theme="dark"] .journal-card--guide { background: #111; }
+
+/* ── Portrait gallery background guide CTA ── */
+.gal-bg-guide { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; font-size: 0.76rem; font-weight: 500; color: var(--blue); text-decoration: none; padding: 6px 13px; background: rgba(0,113,227,0.07); border-radius: 20px; border: 1px solid rgba(0,113,227,0.18); transition: background .2s, border-color .2s; white-space: nowrap; }
+.gal-bg-guide:hover { background: rgba(0,113,227,0.13); border-color: rgba(0,113,227,0.35); }
+
 /* ─── Dark Mode ─── */
 [data-theme="dark"] {
   --white: #0a0a0a; --bg: #111; --bg2: #151515;

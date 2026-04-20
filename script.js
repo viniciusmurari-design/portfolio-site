@@ -377,6 +377,21 @@ async function openGallery(id) {
     }
   }
 
+  // Portrait gallery: backgrounds guide CTA pill
+  const existingGuideCta = document.getElementById('galBgGuide');
+  if (existingGuideCta) existingGuideCta.remove();
+  if (id === 'portrait') {
+    const guideCta = document.createElement('a');
+    guideCta.id = 'galBgGuide';
+    guideCta.className = 'gal-bg-guide';
+    guideCta.href = '/blog-post?slug=portrait-studio-backgrounds';
+    guideCta.setAttribute('target', '_blank');
+    guideCta.setAttribute('rel', 'noopener');
+    guideCta.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Not sure which background suits you? Read the guide →`;
+    const countRow = document.querySelector('.gal-count-row');
+    if (countRow) countRow.insertAdjacentElement('afterend', guideCta);
+  }
+
   // Build sub-category pills — check settings first, then HTML fallback
   galSubs.innerHTML = '';
   const savedSettings = Settings.get();
@@ -635,6 +650,26 @@ async function loadJournalPosts() {
       </div>`;
     grid.appendChild(card);
   });
+
+  // Pinned guide card — always last in the journal grid
+  const guideCard = document.createElement('a');
+  guideCard.className = 'journal-card journal-card--guide';
+  guideCard.href = '/blog-post?slug=portrait-studio-backgrounds';
+  guideCard.setAttribute('aria-label', 'Studio Background Guide — How to choose the right background for your portrait session');
+  guideCard.innerHTML = `
+    <div class="guide-swatches" aria-hidden="true">
+      <div class="guide-swatch guide-swatch--white"><span class="guide-swatch-label">White</span></div>
+      <div class="guide-swatch guide-swatch--black"><span class="guide-swatch-label">Black</span></div>
+      <div class="guide-swatch guide-swatch--brand"><span class="guide-swatch-label">Brand</span></div>
+      <div class="guide-swatch guide-swatch--nature"><span class="guide-swatch-label">Natural</span></div>
+    </div>
+    <div class="journal-card-body">
+      <time class="journal-card-date">Studio Guide</time>
+      <h3 class="journal-card-title">How to Choose the Right Background for Your Session</h3>
+      <p class="journal-card-excerpt">White, black, brand colour or natural environment — each tells a completely different story. Find yours.</p>
+      <span class="journal-card-cta">Read the guide</span>
+    </div>`;
+  grid.appendChild(guideCard);
 }
 loadJournalPosts();
 
