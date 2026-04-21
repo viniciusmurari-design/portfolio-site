@@ -18,6 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
 const SUPABASE_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
 
+// ─── XSS Helper ───────────────────────────────────────────────────────────
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // ─── Settings Manager (single source of truth) ───────────────────────────
 const Settings = {
   get() {
@@ -578,8 +588,8 @@ async function loadDronePreview() {
 
   if (!photos.length) {
     grid.innerHTML = `
-      <div class="drone-card drone-card-placeholder">Add drone photos &amp; videos via admin</div>
       <div class="drone-card drone-card-placeholder">Aerial Photography</div>
+      <div class="drone-card drone-card-placeholder">Landscape &amp; Real Estate</div>
       <div class="drone-card drone-card-placeholder">Video Production</div>
       <div class="drone-card drone-card-placeholder">Brand Films</div>`;
     return;
@@ -593,8 +603,8 @@ async function loadDronePreview() {
     const card = document.createElement('div');
     card.className = 'drone-card' + (isVid ? ' gal-item-video' : '');
     card.innerHTML = `
-      <img src="${thumbSrc}" alt="${generateAlt(photo.filename || 'drone', 'drone')}" loading="lazy" decoding="async">
-      <div class="drone-card-label">${isVid ? '▶ ' : ''}${label}</div>
+      <img src="${escHtml(thumbSrc)}" alt="${escHtml(generateAlt(photo.filename || 'drone', 'drone'))}" loading="lazy" decoding="async">
+      <div class="drone-card-label">${isVid ? '▶ ' : ''}${escHtml(label)}</div>
       ${isVid ? '<div class="gal-play-icon"><svg viewBox="0 0 24 24" fill="white" width="32" height="32"><polygon points="5,3 19,12 5,21"/></svg></div>' : ''}`;
     card.addEventListener('click', () => openGallery('drone'));
     grid.appendChild(card);
@@ -640,12 +650,12 @@ async function loadJournalPosts() {
     card.href = `/blog-post?slug=${encodeURIComponent(post.slug)}`;
     card.innerHTML = `
       <div class="journal-card-img${post.cover_image ? '' : ' journal-card-img--empty'}">
-        ${post.cover_image ? `<img src="${post.cover_image}" alt="${post.title}" loading="lazy" decoding="async">` : ''}
+        ${post.cover_image ? `<img src="${escHtml(post.cover_image)}" alt="${escHtml(post.title)}" loading="lazy" decoding="async">` : ''}
       </div>
       <div class="journal-card-body">
-        ${date ? `<time class="journal-card-date">${date}</time>` : ''}
-        <h3 class="journal-card-title">${post.title}</h3>
-        ${post.excerpt ? `<p class="journal-card-excerpt">${post.excerpt}</p>` : ''}
+        ${date ? `<time class="journal-card-date">${escHtml(date)}</time>` : ''}
+        <h3 class="journal-card-title">${escHtml(post.title)}</h3>
+        ${post.excerpt ? `<p class="journal-card-excerpt">${escHtml(post.excerpt)}</p>` : ''}
         <span class="journal-card-cta">Read more →</span>
       </div>`;
     grid.appendChild(card);

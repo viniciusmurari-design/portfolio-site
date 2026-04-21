@@ -238,6 +238,31 @@ function renderPost(post) {
     </div>`;
 
   setSeo(post);
+
+  // Inject BlogPosting structured data
+  const existingLd = document.getElementById('bpJsonLd');
+  if (existingLd) existingLd.remove();
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.id = 'bpJsonLd';
+  ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    'headline': post.title || '',
+    'description': post.excerpt || '',
+    'image': post.cover_image || '',
+    'datePublished': post.published_at || '',
+    'dateModified': post.updated_at || post.published_at || '',
+    'url': 'https://viniciusmurari.com/blog-post?slug=' + encodeURIComponent(post.slug || ''),
+    'author': { '@type': 'Person', 'name': 'Vinicius Murari', 'url': 'https://viniciusmurari.com' },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Vinicius Murari Photography',
+      'url': 'https://viniciusmurari.com',
+      'logo': { '@type': 'ImageObject', 'url': 'https://viniciusmurari.com/favicon.ico' }
+    }
+  });
+  document.head.appendChild(ld);
 }
 
 async function loadPost() {
@@ -291,11 +316,11 @@ async function showAllPosts() {
           ${posts.map(p => {
             const date = p.published_at ? new Date(p.published_at).toLocaleDateString('en-IE', { year:'numeric', month:'long', day:'numeric' }) : '';
             return `<a href="/blog-post?slug=${encodeURIComponent(p.slug)}" style="display:flex;gap:20px;text-decoration:none;color:inherit;border-bottom:1px solid #e5e5e5;padding-bottom:28px;align-items:flex-start">
-              ${p.cover_image ? `<img src="${p.cover_image}" alt="${p.title}" loading="lazy" style="width:100px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0">` : ''}
+              ${p.cover_image ? `<img src="${escHtml(p.cover_image)}" alt="${escHtml(p.title)}" loading="lazy" style="width:100px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0">` : ''}
               <div>
-                ${date ? `<div style="font-size:0.7rem;font-weight:500;color:#0071e3;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">${date}</div>` : ''}
-                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;margin-bottom:8px">${p.title}</div>
-                ${p.excerpt ? `<div style="font-size:0.82rem;color:#6e6e73;line-height:1.6">${p.excerpt}</div>` : ''}
+                ${date ? `<div style="font-size:0.7rem;font-weight:500;color:#0071e3;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">${escHtml(date)}</div>` : ''}
+                <div style="font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;margin-bottom:8px">${escHtml(p.title)}</div>
+                ${p.excerpt ? `<div style="font-size:0.82rem;color:#6e6e73;line-height:1.6">${escHtml(p.excerpt)}</div>` : ''}
               </div>
             </a>`;
           }).join('')}
