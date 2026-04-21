@@ -613,6 +613,12 @@
     }
     .about-photo-wrap { display: flex; gap: 14px; align-items: flex-start; }
 
+    /* ─── Category Covers ──────────────────────────────────────────── */
+    .cat-cover-item { display:flex; flex-direction:column; gap:8px; background:rgba(255,255,255,0.04); border-radius:10px; padding:12px; }
+    .cat-cover-label { font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.08em; }
+    .cat-cover-preview { width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:6px; }
+    .cat-cover-input { width:100%; box-sizing:border-box; }
+
     /* ─── Launch Checklist ─────────────────────────────────────────── */
     .launch-step {
       background: var(--surface); border-radius: var(--radius-lg); padding: 20px 24px;
@@ -972,7 +978,7 @@
         <span class="nav-icon">⎋</span>
         <span class="nav-label">Lock Admin</span>
       </button>
-      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.8</div>
+      <div style="text-align:center;font-size:0.6rem;color:rgba(255,255,255,0.25);margin-top:8px;">v2.9</div>
     </div>
   </nav>
 
@@ -1182,6 +1188,82 @@
             <div class="field"><label>Paragraph 1</label><textarea id="c-aboutText1" rows="3"></textarea></div>
             <div class="field"><label>Paragraph 2</label><textarea id="c-aboutText2" rows="3"></textarea></div>
             <div class="field"><label>Paragraph 3</label><textarea id="c-aboutText3" rows="2"></textarea></div>
+          </div>
+
+          <!-- Category Covers -->
+          <div class="card">
+            <div class="card-title">Gallery Category Covers</div>
+            <p style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin:0 0 14px">Choose the banner photo shown for each category on the portfolio grid.</p>
+            <div id="catCoversGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
+
+              <div class="cat-cover-item" data-cat="wedding">
+                <div class="cat-cover-label">Wedding</div>
+                <img id="catCoverPreview-wedding" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-wedding" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="wedding" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="portrait">
+                <div class="cat-cover-label">Portrait &amp; Studio</div>
+                <img id="catCoverPreview-portrait" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-portrait" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="portrait" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="food">
+                <div class="cat-cover-label">Food &amp; Beverage</div>
+                <img id="catCoverPreview-food" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-food" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="food" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="family">
+                <div class="cat-cover-label">Family</div>
+                <img id="catCoverPreview-family" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-family" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="family" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="events">
+                <div class="cat-cover-label">Events &amp; Celebrations</div>
+                <img id="catCoverPreview-events" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-events" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="events" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="product">
+                <div class="cat-cover-label">Product &amp; Still Life</div>
+                <img id="catCoverPreview-product" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-product" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="product" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="hotels">
+                <div class="cat-cover-label">Hotels &amp; Hospitality</div>
+                <img id="catCoverPreview-hotels" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-hotels" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="hotels" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="corporate">
+                <div class="cat-cover-label">Corporate Events</div>
+                <img id="catCoverPreview-corporate" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-corporate" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="corporate" style="display:none"></label>
+              </div>
+
+              <div class="cat-cover-item" data-cat="architecture">
+                <div class="cat-cover-label">Architecture</div>
+                <img id="catCoverPreview-architecture" class="cat-cover-preview" src="" alt="" style="display:none">
+                <input id="c-catCover-architecture" class="cat-cover-input" type="text" placeholder="Cloudinary URL">
+                <label class="btn btn-secondary btn-sm btn-full" style="cursor:pointer;text-align:center">Upload<input type="file" accept="image/*" class="cat-cover-file" data-cat="architecture" style="display:none"></label>
+              </div>
+
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:20px">
+              <button id="saveCatCovers" class="btn btn-primary">Save Category Covers</button>
+              <span id="catCoversSaved" style="display:none;color:#34c759;font-size:0.8rem">Saved!</span>
+            </div>
           </div>
 
           <!-- Stats -->
@@ -2997,6 +3079,55 @@ function loadContentFields() {
     if (this.value) { aboutPreview.src = this.value; aboutPreview.style.display = 'block'; }
     else aboutPreview.style.display = 'none';
   });
+
+  // ─── Category Covers ───────────────────────────────────────────────────────
+  (function initCatCovers() {
+    const CAT_COVER_KEYS = ['wedding','portrait','food','family','events','product','hotels','corporate','architecture'];
+    const covers = S.categoryCover || {};
+
+    CAT_COVER_KEYS.forEach(cat => {
+      const input   = document.getElementById('c-catCover-' + cat);
+      const preview = document.getElementById('catCoverPreview-' + cat);
+      if (!input || !preview) return;
+
+      if (covers[cat]) {
+        input.value = covers[cat];
+        preview.src = covers[cat];
+        preview.style.display = 'block';
+      }
+
+      input.addEventListener('input', function() {
+        if (this.value) { preview.src = this.value; preview.style.display = 'block'; }
+        else preview.style.display = 'none';
+      });
+    });
+
+    document.querySelectorAll('.cat-cover-file').forEach(fileInput => {
+      fileInput.addEventListener('change', async function() {
+        if (!this.files[0]) return;
+        const cat = this.dataset.cat;
+        const url = await uploadImageOnly(this.files[0], 'portfolio/covers');
+        if (!url) return;
+        const input   = document.getElementById('c-catCover-' + cat);
+        const preview = document.getElementById('catCoverPreview-' + cat);
+        if (input)   input.value = url;
+        if (preview) { preview.src = url; preview.style.display = 'block'; }
+      });
+    });
+
+    document.getElementById('saveCatCovers').addEventListener('click', function() {
+      const result = {};
+      CAT_COVER_KEYS.forEach(cat => {
+        const val = (document.getElementById('c-catCover-' + cat) || {}).value;
+        if (val) result[cat] = val;
+      });
+      S.categoryCover = result;
+      saveSettings();
+      const saved = document.getElementById('catCoversSaved');
+      saved.style.display = 'inline';
+      setTimeout(() => { saved.style.display = 'none'; }, 2000);
+    });
+  })();
 
   // Showreel preview
   updateShowreelPreview();

@@ -1242,6 +1242,16 @@ function saveEdits() {
     });
   }
 
+  // Apply category covers from settings
+  (function applyCategoryCover() {
+    const covers = (Settings.get().categoryCover) || {};
+    Object.entries(covers).forEach(([cat, url]) => {
+      if (!url) return;
+      const img = document.querySelector(`.cat-card[data-gallery="${cat}"] img`);
+      if (img) img.src = url;
+    });
+  })();
+
   function getMode() {
     return (Settings.get().heroStripMode) || 'gallery';
   }
