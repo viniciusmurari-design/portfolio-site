@@ -1312,7 +1312,23 @@
         "finalCtaSub": "Book your shoot today and start converting more browsers into buyers.",
         "web3formsKey": ""
       },
-      "showBeforeAfter": true
+      "showBeforeAfter": true,
+      "sectionTitles": {
+        "servicesEyebrow": "Services",
+        "servicesTitle": "Everything Your Product <em>Needs</em>",
+        "servicesSub": "A complete visual package to make your products sell on e-commerce, marketplaces and social.",
+        "portfolioEyebrow": "Portfolio",
+        "portfolioTitle": "See the <em>Work</em>",
+        "processEyebrow": "How It Works",
+        "processTitle": "Simple. Fast. <em>Conversion-Ready.</em>",
+        "packagesEyebrow": "Packages",
+        "packagesTitle": "Choose Your <em>Package</em>",
+        "testimonialsEyebrow": "What Clients Say",
+        "testimonialsTitle": "Trusted by Brands & <em>E-commerce Founders</em>",
+        "faqEyebrow": "FAQ",
+        "faqTitle": "Common <em>Questions</em>",
+        "baTitle": "The Power of <em>Professional Product Photography</em>"
+      }
     },
     {
       "id": "portrait-photography",
@@ -1845,7 +1861,23 @@
         "finalCtaSub": "Book your shoot today and give your restaurant the photography it deserves.",
         "web3formsKey": ""
       },
-      "showBeforeAfter": false
+      "showBeforeAfter": false,
+      "sectionTitles": {
+        "servicesEyebrow": "Services",
+        "servicesTitle": "Everything Your Menu <em>Needs</em>",
+        "servicesSub": "A complete food & beverage visual package that fills tables and builds appetites online.",
+        "portfolioEyebrow": "Portfolio",
+        "portfolioTitle": "See the <em>Work</em>",
+        "processEyebrow": "How It Works",
+        "processTitle": "Simple. Fast. <em>Mouth-Watering.</em>",
+        "packagesEyebrow": "Packages",
+        "packagesTitle": "Choose Your <em>Package</em>",
+        "testimonialsEyebrow": "What Clients Say",
+        "testimonialsTitle": "Trusted by Dublin <em>Restaurants & Food Brands</em>",
+        "faqEyebrow": "FAQ",
+        "faqTitle": "Common <em>Questions</em>",
+        "baTitle": "The Power of <em>Professional Food Photography</em>"
+      }
     },
     {
       "id": "family-photography",
@@ -2176,7 +2208,23 @@
         "finalCtaSub": "Book your family session today — and give your future self the photo you keep meaning to take.",
         "web3formsKey": ""
       },
-      "showBeforeAfter": false
+      "showBeforeAfter": false,
+      "sectionTitles": {
+        "servicesEyebrow": "Sessions",
+        "servicesTitle": "Every Family Has a <em>Story</em>",
+        "servicesSub": "Warm, natural family photography — at home, outdoors, or wherever feels like yours.",
+        "portfolioEyebrow": "Portfolio",
+        "portfolioTitle": "Recent <em>Families</em>",
+        "processEyebrow": "How It Works",
+        "processTitle": "Simple. Relaxed. <em>Genuinely You.</em>",
+        "packagesEyebrow": "Sessions",
+        "packagesTitle": "Choose Your <em>Session</em>",
+        "testimonialsEyebrow": "What Families Say",
+        "testimonialsTitle": "Trusted by Families <em>Across Dublin</em>",
+        "faqEyebrow": "FAQ",
+        "faqTitle": "Common <em>Questions</em>",
+        "baTitle": "Moments <em>Worth Keeping</em>"
+      }
     },
     {
       "id": "event-photography",
@@ -2498,7 +2546,23 @@
         "finalCtaSub": "Book event coverage today — and give your team the images they'll be using for the next twelve months.",
         "web3formsKey": ""
       },
-      "showBeforeAfter": false
+      "showBeforeAfter": false,
+      "sectionTitles": {
+        "servicesEyebrow": "Coverage",
+        "servicesTitle": "Everything Your Event <em>Needs</em>",
+        "servicesSub": "Candid coverage, key moments, and brand-ready imagery delivered fast after the day.",
+        "portfolioEyebrow": "Portfolio",
+        "portfolioTitle": "Recent <em>Events</em>",
+        "processEyebrow": "How It Works",
+        "processTitle": "Simple. Unobtrusive. <em>On the Day.</em>",
+        "packagesEyebrow": "Packages",
+        "packagesTitle": "Choose Your <em>Coverage</em>",
+        "testimonialsEyebrow": "What Organisers Say",
+        "testimonialsTitle": "Trusted by Organisers & <em>Brands in Dublin</em>",
+        "faqEyebrow": "FAQ",
+        "faqTitle": "Common <em>Questions</em>",
+        "baTitle": "Moments That <em>Made the Day</em>"
+      }
     }
   ],
   "heroStrip": [
