@@ -659,7 +659,12 @@
         },
         "mode": "photo",
         "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
-        "slides": [],
+        "slides": [
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637303944_photo_2dceb6e38e5b",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637346368_photo_9ebce7fa8113",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637391079_photo_b4d95bfe3649",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637446041_photo_dda64b7d8576"
+        ],
         "headline": "More Bookings.<br><em>Higher Rates.</em>",
         "pillText": "Available for bookings in Dublin",
         "trustLine": "Trusted by 50+ Airbnb hosts in Dublin",
@@ -924,7 +929,40 @@
         "url": "",
         "thumbnail": ""
       },
-      "portfolio": [],
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637303944_photo_2dceb6e38e5b",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637322868_photo_145f5126da38",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637346368_photo_9ebce7fa8113",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637366124_photo_7613176472bb",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637391079_photo_b4d95bfe3649",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637420137_photo_fe8786c283b3",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637446041_photo_dda64b7d8576",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637470431_photo_715dfb39f298",
+          "caption": ""
+        }
+      ],
       "beforeAfter": [],
       "testimonials": [
         {
@@ -1036,7 +1074,12 @@
       "hero": {
         "mode": "photo",
         "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
-        "slides": [],
+        "slides": [
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637865173_photo_6f9cba71d807",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637905077_KT-90081-357-3",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637944061_IS00601STUDIO",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637960079_alledit"
+        ],
         "headline": "Products That<br><em>Sell Themselves.</em>",
         "pillText": "Studio bookings open in Dublin",
         "trustLine": "Trusted by 30+ Irish brands & e-commerce stores",
@@ -1290,7 +1333,40 @@
           "a": "Absolutely. We offer standalone retouching and editing for existing photos. Just send samples and we'll quote you."
         }
       ],
-      "portfolio": [],
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637865173_photo_6f9cba71d807",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637886129_MX-20066",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637905077_KT-90081-357-3",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637927985_DSC6123",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637944061_IS00601STUDIO",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637951964_Udystill",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637960079_alledit",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/product/1776637974010_about",
+          "caption": ""
+        }
+      ],
       "beforeAfter": [
         {
           "before": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/njbhha6flx1dnvudthbr.jpg",
@@ -1354,7 +1430,12 @@
         },
         "mode": "photo",
         "image": "",
-        "slides": []
+        "slides": [
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/lupsia2am7haglugbr5t.jpg",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635749893_DSC7044",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635776054_portrait_296a435c1751",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635806641_portrait_6410202c0aac"
+        ]
       },
       "stats": [
         {
@@ -1385,7 +1466,20 @@
             "Studio & portable on-site",
             "Multiple expressions"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/lupsia2am7haglugbr5t.jpg",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635755308_portrait_0352f2cc8df3",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635799491_DSC7048",
+              "caption": ""
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": ""
@@ -1399,7 +1493,20 @@
             "High-contrast finish",
             "Print & digital ready"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/ne3doggzld7txebzs3yg.jpg",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635756891_portrait_ef5e448f4b4d",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635801190_DSC7154",
+              "caption": ""
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": ""
@@ -1413,7 +1520,20 @@
             "Multiple outfits & contexts",
             "Storytelling approach"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/gk38iyqkknk67wtgsoc9.jpg",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635758735_portrait_c8f9635c34c9",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635795192_DSC7081",
+              "caption": ""
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": ""
@@ -1427,7 +1547,20 @@
             "Teams of any size",
             "Same-day batch sessions"
           ],
-          "portfolio": [],
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/qxxsrus2abws4ljdxbgr.jpg",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635761439_portrait_546e6e7c8754",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635797578_DSC71412",
+              "caption": ""
+            }
+          ],
           "videoUrl": "",
           "tourUrl": "",
           "whatsappMsg": ""
@@ -1545,7 +1678,40 @@
           "a": "Yes — that's exactly what the portable studio is for. We set up a full professional backdrop and lighting at your location. Teams of any size, no commute required."
         }
       ],
-      "portfolio": [],
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/lupsia2am7haglugbr5t.jpg",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/fashion/1776635730795_portrait_fashion_dfcde022b8",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635749893_DSC7044",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635763206_portrait_5e442b8b5f0f",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635776054_portrait_296a435c1751",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635793369_DSC7290",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/professional/1776635806641_portrait_6410202c0aac",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/portrait/studio/1776635819781_monique_studio_db8ade75",
+          "caption": ""
+        }
+      ],
       "beforeAfter": [],
       "showreel": {
         "url": "",
@@ -1605,7 +1771,12 @@
         },
         "mode": "photo",
         "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
-        "slides": []
+        "slides": [
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639560760_food_photography-01",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639585139_food_photography-16",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639719067_food_photography-31",
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1776638385848_photo_501303f172cf"
+        ]
       },
       "stats": [
         {
@@ -1848,7 +2019,40 @@
           "a": "Yes — we create optimised images specifically for delivery platform listings, following their technical specs to maximise visibility and click-through."
         }
       ],
-      "portfolio": [],
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639560760_food_photography-01",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639573928_food_photography-08",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639585139_food_photography-16",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639594618_food_photography-23",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1774639719067_food_photography-31",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1776638354357_photo_5a669c5e5e47",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1776638385848_photo_501303f172cf",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/food/1776638418013_photo_2199f2afaf7e",
+          "caption": ""
+        }
+      ],
       "beforeAfter": [],
       "showreel": {
         "url": "",
@@ -2195,7 +2399,40 @@
           "a": "Yes — full church and celebration coverage, documentary style plus key posed family portraits. We've photographed dozens of Irish family occasions and know the rhythm of the day."
         }
       ],
-      "portfolio": [],
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hjd0o3g3rwkcltuoas8s.jpg",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/qcj6wvpwro28h2zp4jky.jpg",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/family/1776637994435_DSC7658minor",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/family/1776638007446_DSC_4297",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/family/1776638019650_DSC_3352-2",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/family/1776638067946_DSC5102",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/family/1776638118363_DSC_0166face",
+          "caption": ""
+        }
+      ],
       "beforeAfter": [],
       "showreel": {
         "url": "",
@@ -2533,7 +2770,40 @@
           "a": "All packages include full commercial licence for web, social, print, PR, and internal use. No extra fees for reuse. For paid advertising campaigns we agree a licence extension upfront."
         }
       ],
-      "portfolio": [],
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/dance-festival/1776603572534_Dance_Festival_Ecofit_Club-11",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/dance-festival/1776603587864_Dance_Festival_Ecofit_Club-17",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/dance-festival/1776603606229_Dance_Festival_Ecofit_Club-04",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/dance-festival/1776603625293_Dance_Festival_Ecofit_Club-20",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/tomorrowland/1776603663282_DSC1870",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/tomorrowland/1776603685165_Tomorrowland_f184f93fad",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/tomorrowland/1776603716633_Tomorrowland_6be86ac902",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/events/tomorrowland/1776603743087_tomorrowland_d388541654",
+          "caption": ""
+        }
+      ],
       "beforeAfter": [],
       "showreel": {
         "url": "",
