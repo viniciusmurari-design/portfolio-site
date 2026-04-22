@@ -1942,6 +1942,12 @@ let currentPhotosList = []; // last-loaded photos for current category (for re-f
 
 function saveSettings() {
   localStorage.setItem('vmSettings', JSON.stringify(S));
+  // Save to settings.json (local dev) so git push picks it up for production
+  fetch('/api/settings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(S)
+  }).catch(() => {}); // silent fail on Cloudflare (no writable FS)
   sbSaveSettings(); // Save to Supabase — instant, visible everywhere
 }
 
