@@ -648,6 +648,9 @@
     .lb-filename { font-size:0.78rem; color:rgba(255,255,255,0.55); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
     .lb-actions { display:flex; gap:10px; flex-shrink:0; }
     .lb-btn { padding:7px 16px; border-radius:6px; border:none; font-size:0.78rem; font-weight:600; cursor:pointer; transition:background .15s; }
+    .lb-btn-cover { background:rgba(52,199,89,0.75); color:#fff; }
+    .lb-btn-cover:hover { background:rgba(52,199,89,1); }
+    .lb-btn-cover.saved { background:rgba(52,199,89,1); }
     .lb-btn-download { background:rgba(255,255,255,0.14); color:#fff; }
     .lb-btn-download:hover { background:rgba(255,255,255,0.26); }
     .lb-btn-delete { background:rgba(210,45,45,0.75); color:#fff; }
@@ -1828,6 +1831,7 @@
   <div class="lb-bar">
     <span id="lbFilename" class="lb-filename"></span>
     <div class="lb-actions">
+      <button id="lbSetCover" class="lb-btn lb-btn-cover">📌 Set as Cover</button>
       <button id="lbDownload" class="lb-btn lb-btn-download">⬇ Download</button>
       <button id="lbDelete" class="lb-btn lb-btn-delete">🗑 Excluir</button>
     </div>
@@ -3278,6 +3282,23 @@ function _lbDownload() {
   document.getElementById('lbClose').addEventListener('click', closeLightbox);
   document.getElementById('lbPrev').addEventListener('click', () => _lbNavigate(-1));
   document.getElementById('lbNext').addEventListener('click', () => _lbNavigate(1));
+  document.getElementById('lbSetCover').addEventListener('click', () => {
+    const photo = _lbPhotos[_lbIndex];
+    if (!photo || !current) return;
+    if (!S.categoryCover) S.categoryCover = {};
+    S.categoryCover[current] = photo.url;
+    saveSettings();
+    // Update the preview in the Category Covers section if visible
+    const inp = document.getElementById('c-catCover-' + current);
+    const prev = document.getElementById('catCoverPreview-' + current);
+    if (inp) inp.value = photo.url;
+    if (prev) { prev.src = photo.url; prev.style.display = 'block'; }
+    // Visual feedback on button
+    const btn = document.getElementById('lbSetCover');
+    btn.textContent = '✓ Cover Set!';
+    setTimeout(() => { btn.textContent = '📌 Set as Cover'; }, 2000);
+    toast(`Cover da galeria "${current}" guardado ✓`, 'success');
+  });
   document.getElementById('lbDownload').addEventListener('click', _lbDownload);
   document.getElementById('lbDelete').addEventListener('click', () => {
     const photo = _lbPhotos[_lbIndex];
