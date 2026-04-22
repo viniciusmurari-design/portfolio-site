@@ -3252,26 +3252,19 @@ function _lbNavigate(dir) {
   _lbRender();
 }
 
-async function _lbDownload() {
+function _lbDownload() {
   const photo = _lbPhotos[_lbIndex];
   if (!photo) return;
-  const btn = document.getElementById('lbDownload');
-  btn.textContent = '...';
-  btn.disabled = true;
-  try {
-    const res  = await fetch(photo.url);
-    const blob = await res.blob();
-    const a    = document.createElement('a');
-    a.href     = URL.createObjectURL(blob);
-    a.download = photo.filename;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  } catch(e) {
-    alert('Download failed: ' + e.message);
-  } finally {
-    btn.textContent = '⬇ Download';
-    btn.disabled = false;
-  }
+  // Use Cloudinary fl_attachment to serve with Content-Disposition: attachment
+  // This avoids CORS issues with fetch — the browser downloads directly from CDN
+  const url = photo.url.replace('/upload/', '/upload/fl_attachment/');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = photo.filename;
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 (function _initLightbox() {
