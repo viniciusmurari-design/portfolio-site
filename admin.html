@@ -3188,85 +3188,6 @@ function loadContentFields() {
     });
   })();
 
-  // ─── Photo Lightbox ─────────────────────────────────────────────────────────
-  let _lbPhotos = [];
-  let _lbIndex  = 0;
-
-  function openLightbox(photos, index) {
-    _lbPhotos = photos;
-    _lbIndex  = index;
-    _lbRender();
-    document.getElementById('photoLightbox').classList.add('open');
-  }
-
-  function closeLightbox() {
-    document.getElementById('photoLightbox').classList.remove('open');
-    document.getElementById('lbImg').src = '';
-  }
-
-  function _lbRender() {
-    const photo = _lbPhotos[_lbIndex];
-    if (!photo) return;
-    document.getElementById('lbImg').src = photo.url;
-    document.getElementById('lbImg').alt = photo.filename;
-    document.getElementById('lbFilename').textContent = photo.filename;
-    const multi = _lbPhotos.length > 1;
-    document.getElementById('lbPrev').style.display = multi ? '' : 'none';
-    document.getElementById('lbNext').style.display = multi ? '' : 'none';
-  }
-
-  function _lbNavigate(dir) {
-    _lbIndex = (_lbIndex + dir + _lbPhotos.length) % _lbPhotos.length;
-    _lbRender();
-  }
-
-  async function _lbDownload() {
-    const photo = _lbPhotos[_lbIndex];
-    if (!photo) return;
-    const btn = document.getElementById('lbDownload');
-    btn.textContent = '...';
-    btn.disabled = true;
-    try {
-      const res  = await fetch(photo.url);
-      const blob = await res.blob();
-      const a    = document.createElement('a');
-      a.href     = URL.createObjectURL(blob);
-      a.download = photo.filename;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    } catch(e) {
-      alert('Download failed: ' + e.message);
-    } finally {
-      btn.textContent = '⬇ Download';
-      btn.disabled = false;
-    }
-  }
-
-  (function _initLightbox() {
-    const lb = document.getElementById('photoLightbox');
-    document.getElementById('lbClose').addEventListener('click', closeLightbox);
-    document.getElementById('lbPrev').addEventListener('click', () => _lbNavigate(-1));
-    document.getElementById('lbNext').addEventListener('click', () => _lbNavigate(1));
-    document.getElementById('lbDownload').addEventListener('click', _lbDownload);
-    document.getElementById('lbDelete').addEventListener('click', () => {
-      const photo = _lbPhotos[_lbIndex];
-      if (!photo) return;
-      const card = document.querySelector(`#photoGrid .photo-card[data-filename="${CSS.escape(photo.filename)}"]`);
-      deletePhoto(current, photo.filename, card || document.createElement('div'));
-      _lbPhotos.splice(_lbIndex, 1);
-      if (_lbPhotos.length === 0) { closeLightbox(); return; }
-      if (_lbIndex >= _lbPhotos.length) _lbIndex = _lbPhotos.length - 1;
-      _lbRender();
-    });
-    lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
-    document.addEventListener('keydown', e => {
-      if (!lb.classList.contains('open')) return;
-      if (e.key === 'Escape')     closeLightbox();
-      if (e.key === 'ArrowLeft')  _lbNavigate(-1);
-      if (e.key === 'ArrowRight') _lbNavigate(1);
-    });
-  })();
-
   // Showreel preview
   updateShowreelPreview();
   document.getElementById('c-showreelUrl').addEventListener('input', updateShowreelPreview);
@@ -3298,6 +3219,85 @@ function loadContentFields() {
     e.target.value = '';
   });
 }
+
+// ─── Photo Lightbox ──────────────────────────────────────────────────────────
+let _lbPhotos = [];
+let _lbIndex  = 0;
+
+function openLightbox(photos, index) {
+  _lbPhotos = photos;
+  _lbIndex  = index;
+  _lbRender();
+  document.getElementById('photoLightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('photoLightbox').classList.remove('open');
+  document.getElementById('lbImg').src = '';
+}
+
+function _lbRender() {
+  const photo = _lbPhotos[_lbIndex];
+  if (!photo) return;
+  document.getElementById('lbImg').src = photo.url;
+  document.getElementById('lbImg').alt = photo.filename;
+  document.getElementById('lbFilename').textContent = photo.filename;
+  const multi = _lbPhotos.length > 1;
+  document.getElementById('lbPrev').style.display = multi ? '' : 'none';
+  document.getElementById('lbNext').style.display = multi ? '' : 'none';
+}
+
+function _lbNavigate(dir) {
+  _lbIndex = (_lbIndex + dir + _lbPhotos.length) % _lbPhotos.length;
+  _lbRender();
+}
+
+async function _lbDownload() {
+  const photo = _lbPhotos[_lbIndex];
+  if (!photo) return;
+  const btn = document.getElementById('lbDownload');
+  btn.textContent = '...';
+  btn.disabled = true;
+  try {
+    const res  = await fetch(photo.url);
+    const blob = await res.blob();
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = photo.filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch(e) {
+    alert('Download failed: ' + e.message);
+  } finally {
+    btn.textContent = '⬇ Download';
+    btn.disabled = false;
+  }
+}
+
+(function _initLightbox() {
+  const lb = document.getElementById('photoLightbox');
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', () => _lbNavigate(-1));
+  document.getElementById('lbNext').addEventListener('click', () => _lbNavigate(1));
+  document.getElementById('lbDownload').addEventListener('click', _lbDownload);
+  document.getElementById('lbDelete').addEventListener('click', () => {
+    const photo = _lbPhotos[_lbIndex];
+    if (!photo) return;
+    const card = document.querySelector(`#photoGrid .photo-card[data-filename="${CSS.escape(photo.filename)}"]`);
+    deletePhoto(current, photo.filename, card || document.createElement('div'));
+    _lbPhotos.splice(_lbIndex, 1);
+    if (_lbPhotos.length === 0) { closeLightbox(); return; }
+    if (_lbIndex >= _lbPhotos.length) _lbIndex = _lbPhotos.length - 1;
+    _lbRender();
+  });
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  _lbNavigate(-1);
+    if (e.key === 'ArrowRight') _lbNavigate(1);
+  });
+})();
 
 function updateStripModeUI(mode) {
   const hints = {
