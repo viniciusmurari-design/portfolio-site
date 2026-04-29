@@ -257,6 +257,73 @@
       const ogImg = document.querySelector('meta[property="og:image"]');
       if (ogImg && PAGE.seo.ogImage) ogImg.content = PAGE.seo.ogImage;
     }
+    injectStructuredData();
+  }
+
+  // ─── JSON-LD: Service + FAQPage + BreadcrumbList per landing page ───
+  function injectStructuredData() {
+    const slug    = PAGE.slug || '';
+    const url     = 'https://viniciusmurari.com/' + slug;
+    const seoT    = (PAGE.seo && PAGE.seo.title) || '';
+    const seoD    = (PAGE.seo && PAGE.seo.description) || '';
+    const ogImage = (PAGE.seo && PAGE.seo.ogImage) || (PAGE.hero && PAGE.hero.image) || '';
+
+    const blocks = [];
+
+    // Service schema (one per landing page)
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': url + '#service',
+      'name': seoT.replace(/\s*\|.*$/, ''), // strip "| Vinicius Murari" suffix
+      'description': seoD,
+      'url': url,
+      'provider': { '@id': 'https://viniciusmurari.com/#organization' },
+      'areaServed': [
+        { '@type': 'City',    'name': 'Dublin' },
+        { '@type': 'Country', 'name': 'Ireland' }
+      ],
+      'serviceType': 'Photography',
+      'image': ogImage || undefined
+    });
+
+    // FAQPage schema (if FAQs exist)
+    if (PAGE.faq && PAGE.faq.length) {
+      blocks.push({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        '@id': url + '#faq',
+        'mainEntity': PAGE.faq.map(item => ({
+          '@type': 'Question',
+          'name': item.q,
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': item.a
+          }
+        }))
+      });
+    }
+
+    // Breadcrumbs
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'Home',     'item': 'https://viniciusmurari.com/' },
+        { '@type': 'ListItem', 'position': 2, 'name': seoT.replace(/\s*\|.*$/, '') || slug, 'item': url }
+      ]
+    });
+
+    // Remove any previous JSON-LD blocks we injected (re-renders)
+    document.querySelectorAll('script[data-lp-jsonld]').forEach(s => s.remove());
+
+    blocks.forEach(b => {
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.setAttribute('data-lp-jsonld', '1');
+      s.textContent = JSON.stringify(b);
+      document.head.appendChild(s);
+    });
   }
 
   function renderHero() {
@@ -467,10 +534,10 @@
     const items = PAGE.faq || [];
     if (items.length === 0) { document.getElementById('lp-faq').style.display = 'none'; return; }
     const list = document.getElementById('lpFaqList');
-    list.innerHTML = items.map(f => `
+    list.innerHTML = items.map((f, i) => `
       <details class="faq-item">
-        <summary>${esc(f.q)}</summary>
-        <p>${esc(f.a)}</p>
+        <summary aria-controls="lp-faq-ans-${i}">${esc(f.q)}</summary>
+        <p id="lp-faq-ans-${i}">${esc(f.a)}</p>
       </details>
     `).join('');
   }
@@ -623,8 +690,23 @@
       }
     }
 
-    function closeLb() { lb.remove(); document.removeEventListener('keydown', onLbKey); }
+    const _lastFocused = document.activeElement;
+    function closeLb() {
+      lb.remove();
+      document.removeEventListener('keydown', onLbKey);
+      if (_lastFocused && typeof _lastFocused.focus === 'function') _lastFocused.focus();
+    }
+    function trapFocus(e) {
+      if (e.key !== 'Tab') return;
+      const focusables = lb.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last  = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+    }
     function onLbKey(e) {
+      trapFocus(e);
       if (e.key === 'Escape') closeLb();
       if (e.key === 'ArrowRight' && photos.length > 1) { idx = (idx + 1) % photos.length; renderLb(); }
       if (e.key === 'ArrowLeft'  && photos.length > 1) { idx = (idx - 1 + photos.length) % photos.length; renderLb(); }
@@ -634,6 +716,9 @@
     document.addEventListener('keydown', onLbKey);
     renderLb();
     document.body.appendChild(lb);
+    // Move focus into the dialog
+    const closeBtn = lb.querySelector('.lp-lightbox-close');
+    if (closeBtn) closeBtn.focus();
   }
 
   function buildGalleryTabs(service) {

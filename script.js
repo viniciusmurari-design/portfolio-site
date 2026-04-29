@@ -57,6 +57,20 @@ window.__settingsReady = (async function loadSettingsFromServer() {
       if (r2.ok) loaded = await r2.json();
     } catch(e) {}
   }
+  // 3rd try: Supabase — always merge on top so live admin changes (covers, etc.) win
+  try {
+    const sbRes = await fetch(
+      `${SUPABASE_URL}/rest/v1/site_settings?id=eq.1&select=data`,
+      { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+    );
+    if (sbRes.ok) {
+      const rows = await sbRes.json();
+      if (rows && rows[0] && rows[0].data && Object.keys(rows[0].data).length) {
+        // Merge: Supabase wins for keys it has (latest admin saves), file wins for the rest
+        loaded = Object.assign({}, loaded || {}, rows[0].data);
+      }
+    }
+  } catch(e) {}
   if (loaded && Object.keys(loaded).length > 0) {
     Settings.set(loaded);
   }
@@ -1242,15 +1256,7 @@ function saveEdits() {
     });
   }
 
-  // Apply category covers from settings (after server settings are loaded)
-  window.__settingsReady.then(() => {
-    const covers = (Settings.get().categoryCover) || {};
-    Object.entries(covers).forEach(([cat, url]) => {
-      if (!url) return;
-      const img = document.querySelector(`.cat-card[data-gallery="${cat}"] img`);
-      if (img) img.src = url;
-    });
-  });
+  // Category covers applied after Supabase fetch resolves (see applyCategoryCover below)
 
   function getMode() {
     return (Settings.get().heroStripMode) || 'gallery';
@@ -1297,4 +1303,330 @@ function saveEdits() {
       setTimeout(() => catCard.click(), 400);
     }
   }
+})();
+
+// ─── Apply Category Covers ────────────────────────────────────────────────
+// Runs after Supabase/settings fetch so covers set in admin appear on the site.
+// Updates both the portfolio cat-cards AND the hero strip thumbnails.
+window.__settingsReady.then(() => {
+  const covers = (Settings.get().categoryCover) || {};
+  Object.entries(covers).forEach(([cat, url]) => {
+    if (!url) return;
+    // Portfolio grid thumbnail
+    const catImg = document.querySelector(`.cat-card[data-gallery="${CSS.escape(cat)}"] img`);
+    if (catImg) catImg.src = url;
+    // Hero strip thumbnail
+    const stripImg = document.querySelector(`.strip-card[data-gallery="${CSS.escape(cat)}"] img`);
+    if (stripImg) stripImg.src = url;
+  });
+});
+
+// ─── Extracted from index.html on 2026-04-25 ─────────────────────────────
+
+// Block #9 — Google Maps now embedded directly as an iframe in HTML
+// (no JS needed; this block intentionally left empty for diff parity).
+function loadMap() { /* no-op: map now embedded directly in markup */ }
+
+
+// Block #10 (was inline) — Apply saved settings to DOM
+
+// Apply saved settings — load from settings.json (server/static) first, fallback to localStorage
+(function() {
+  function applySettings(s) {
+    function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+    function set(id, val) { const el = document.getElementById(id); if (el && val) el.textContent = val; }
+    // Allow only safe inline tags (<em>, <strong>, <br>) — strip everything else
+    function setHTML(id, val) {
+      const el = document.getElementById(id);
+      if (!el || !val) return;
+      el.innerHTML = val.replace(/<(?!\/?(?:em|strong|br)\s*\/?>)[^>]+>/gi, '');
+    }
+
+    // Hero — only apply pill text if it looks like a real message (guard against "All" corruption)
+    if (s.heroPill && s.heroPill.trim().length > 8) set('heroPillText', s.heroPill);
+    setHTML('heroHeadline', s.heroHeadline);
+    set('heroSub', s.heroSub);
+    if (s.heroBg && /^https?:\/\//.test(s.heroBg)) document.documentElement.style.setProperty('--hero-bg', `url('${s.heroBg.replace(/['"()]/g, '')}')`);
+    // Hero slideshow (multiple slides) is loaded by script.js
+
+    // About
+    if (s.aboutPhoto) {
+      const ap = document.getElementById('aboutPhoto');
+      if (ap) {
+        // Inject size transforms if missing to prevent grid expansion from large intrinsic image size
+        let src = s.aboutPhoto;
+        if (src.includes('res.cloudinary.com') && !src.match(/\/w_\d+/)) {
+          src = src.replace(/\/upload\/.*?\/(portfolio\/)/, '/upload/w_600,h_800,c_fill,q_auto,f_auto/$1');
+        }
+        ap.src = src;
+      }
+    }
+    set('aboutText1', s.aboutText1);
+    set('aboutText2', s.aboutText2);
+    set('aboutText3', s.aboutText3);
+    const okStat = v => v && v.length <= 12 && !v.includes('/') && !v.includes('http');
+    if (okStat(s.stat1Val)) set('stat1Val', s.stat1Val); if (okStat(s.stat1Lbl)) set('stat1Lbl', s.stat1Lbl);
+    if (okStat(s.stat2Val)) set('stat2Val', s.stat2Val); if (okStat(s.stat2Lbl)) set('stat2Lbl', s.stat2Lbl);
+    if (okStat(s.stat3Val)) set('stat3Val', s.stat3Val); if (okStat(s.stat3Lbl)) set('stat3Lbl', s.stat3Lbl);
+    if (okStat(s.stat4Val)) set('stat4Val', s.stat4Val); if (okStat(s.stat4Lbl)) set('stat4Lbl', s.stat4Lbl);
+
+    // Quote & contact
+    set('quoteText', s.quote);
+    set('contactLocation', s.contactLocation);
+    set('contactPhone', s.contactPhone);
+    set('contactEmail', s.contactEmail);
+
+    // Gallery order
+    if (s.galleryOrder && Array.isArray(s.galleryOrder)) {
+      const grid = document.querySelector('.cat-grid');
+      if (grid) {
+        const cards = {};
+        grid.querySelectorAll('.cat-card[data-gallery]').forEach(c => { cards[c.dataset.gallery] = c; });
+        s.galleryOrder.forEach(id => { if (cards[id]) grid.appendChild(cards[id]); });
+      }
+    }
+
+    // Accent color
+    if (s.accentColor) document.documentElement.style.setProperty('--blue', s.accentColor);
+
+    // ── Reviews from admin ──
+    if (s.reviews && s.reviews.length) {
+      const scroll = document.getElementById('reviewsScroll');
+      if (scroll) {
+        const starSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>';
+        const fbSvg = '<svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>';
+        scroll.innerHTML = s.reviews.map(r => `
+          <article class="review-card">
+            <div class="review-top">
+              <div class="review-avatar">${esc(r.name).charAt(0)}</div>
+              <div><div class="review-name">${esc(r.name)}</div><div class="review-date">${esc(r.category)} · ${esc(r.date)}</div></div>
+            </div>
+            <div class="review-stars">${starSvg.repeat(Math.min(r.stars || 5, 5))}</div>
+            <p class="review-text">${esc(r.text)}</p>
+            <div class="review-source">${fbSvg}<span>Facebook Review</span></div>
+          </article>`).join('');
+      }
+    }
+
+    // ── Social & Integrations ──
+    // WhatsApp float button
+    const waFloat = document.getElementById('waFloat');
+    if (waFloat && s.whatsappNumber) {
+      const num = s.whatsappNumber.replace(/[^0-9]/g, '');
+      const msg = encodeURIComponent(s.whatsappMessage || "Hi Vinicius, I'd like to know more about your services");
+      waFloat.href = `https://wa.me/${num}?text=${msg}`;
+    }
+    // WhatsApp link in contact
+    const waContact = document.getElementById('waContactLink');
+    if (waContact && s.whatsappNumber) {
+      const num = s.whatsappNumber.replace(/[^0-9]/g, '');
+      waContact.href = `https://wa.me/${num}`;
+    }
+
+    // Social links
+    function setLink(id, url) { const el = document.getElementById(id); if (el && url) el.href = url; }
+    setLink('igLink', s.instagramUrl);
+    setLink('igContactLink', s.instagramUrl);
+    setLink('fbContactLink', s.facebookUrl);
+    setLink('fbReviewsLink', s.facebookReviewsUrl);
+
+    // Map
+    if (s.mapEmbedUrl) {
+      const mapFrame = document.getElementById('mapFrame');
+      if (mapFrame) mapFrame.src = s.mapEmbedUrl;
+    }
+
+    // Showreel
+    const showreelBtn = document.getElementById('showreelBtn');
+    if (showreelBtn) {
+      if (s.showreelUrl) {
+        showreelBtn.style.display = '';
+        window._showreelUrl = s.showreelUrl;
+      } else if (!window._showreelUrl) {
+        showreelBtn.style.display = 'none';
+      }
+    }
+
+    // SEO
+    if (s.seoTitle) document.title = s.seoTitle;
+    if (s.seoDescription) {
+      let meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.content = s.seoDescription;
+    }
+    if (s.seoOgImage) {
+      let og = document.querySelector('meta[property="og:image"]');
+      if (og) og.content = s.seoOgImage;
+    }
+  }
+
+  // Try settings.json first (works on both local server and Netlify static),
+  // then fall back to localStorage
+  try {
+    const local = JSON.parse(localStorage.getItem('vmSettings') || '{}');
+    applySettings(local); // Apply localStorage immediately (no flash)
+  } catch(e) {}
+
+  // Load from Supabase — instant, works everywhere (Cloudflare, any device)
+  const _SB_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
+  const _SB_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
+  var _settingsJsonP = fetch('settings.json').then(r => r.ok ? r.json() : null).catch(() => null);
+
+  fetch(_SB_URL + '/rest/v1/site_settings?id=eq.1&select=data', {
+    headers: { 'apikey': _SB_KEY, 'Authorization': 'Bearer ' + _SB_KEY }
+  }).then(r => r.ok ? r.json() : [])
+    .then(rows => {
+      const server = rows?.[0]?.data;
+      if (server && Object.keys(server).length > 0) {
+        // Merge settings.json defaults for any keys missing in Supabase
+        _settingsJsonP.then(file => {
+          if (file) Object.keys(file).forEach(k => { if (!server[k] && file[k]) server[k] = file[k]; });
+          localStorage.setItem('vmSettings', JSON.stringify(server));
+          applySettings(server);
+          if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
+        });
+      }
+    }).catch(() => {
+      // Fallback to settings.json if Supabase unreachable
+      _settingsJsonP.then(s => {
+        if (s && Object.keys(s).length > 0) {
+          localStorage.setItem('vmSettings', JSON.stringify(s));
+          applySettings(s);
+          if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
+        }
+      });
+    });
+})();
+
+
+// Block #11 (was inline) — Footer year + showreel player + misc
+
+// Dynamic copyright year
+(function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();
+
+// Showreel cinema player
+(function() {
+  const btn = document.getElementById('showreelBtn');
+  const cinema = document.getElementById('showreelCinema');
+  if (!btn || !cinema) return;
+
+  function closeShowreel() {
+    cinema.classList.remove('open');
+    setTimeout(function() { document.getElementById('showreelPlayer').innerHTML = ''; }, 400);
+  }
+
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var url = window._showreelUrl;
+    if (!url) return;
+    var player = document.getElementById('showreelPlayer');
+    var ytM = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?\/\s]+)/);
+    var vmM = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (ytM) {
+      player.innerHTML = '<iframe src="https://www.youtube.com/embed/' + ytM[1] + '?autoplay=1&rel=0" allow="autoplay;fullscreen" allowfullscreen></iframe>';
+    } else if (vmM) {
+      player.innerHTML = '<iframe src="https://player.vimeo.com/video/' + vmM[1] + '?autoplay=1" allow="autoplay;fullscreen" allowfullscreen></iframe>';
+    } else {
+      player.innerHTML = '<video src="' + url + '" autoplay controls playsinline style="width:100%;height:100%;object-fit:contain"></video>';
+    }
+    cinema.classList.add('open');
+  });
+
+  document.getElementById('showreelClose').addEventListener('click', closeShowreel);
+  cinema.addEventListener('click', function(e) { if (e.target === cinema) closeShowreel(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && cinema.classList.contains('open')) closeShowreel(); });
+})();
+
+// ─── CSP-friendly event delegation (replaces removed inline onclick=...) ─────
+(function() {
+  document.querySelectorAll('[data-close-nav]').forEach(a => {
+    a.addEventListener('click', () => { if (typeof closeNav === 'function') closeNav(); });
+  });
+  document.querySelectorAll('[data-toggle-nav]').forEach(b => {
+    b.addEventListener('click', () => { if (typeof toggleNav === 'function') toggleNav(); });
+  });
+  document.querySelectorAll('[data-open-gallery]').forEach(b => {
+    b.addEventListener('click', () => { if (typeof openGallery === 'function') openGallery(b.dataset.openGallery); });
+  });
+  document.querySelectorAll('[data-load-map]').forEach(el => {
+    el.addEventListener('click', () => { if (typeof loadMap === 'function') loadMap(); });
+    el.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && typeof loadMap === 'function') { e.preventDefault(); loadMap(); }
+    });
+  });
+  document.querySelectorAll('img[data-fallback="map"]').forEach(img => {
+    img.addEventListener('error', function() {
+      this.style.background = '#e8e8e8';
+      this.alt = '';
+    });
+  });
+  document.querySelectorAll('[data-close-gallery]').forEach(b => {
+    b.addEventListener('click', () => { if (typeof closeGallery === 'function') closeGallery(); });
+  });
+})();
+
+// ─── Google Analytics 4 + RGPD cookie consent ────────────────────────────────
+// GA only loads AFTER the visitor accepts (or has previously accepted).
+// Measurement ID is read from settings.gaMeasurementId — paste it in the admin
+// panel (Social & SEO tab → "Google Analytics ID"). Without an ID, the banner
+// never shows and no tracking happens.
+(function gaConsent() {
+  function getStoredConsent() {
+    try { return localStorage.getItem('vm_consent_analytics'); } catch(e) { return null; }
+  }
+  function setStoredConsent(v) {
+    try { localStorage.setItem('vm_consent_analytics', v); } catch(e) {}
+  }
+
+  function loadGA(gaId) {
+    if (!gaId || window._gaLoaded) return;
+    window._gaLoaded = true;
+    // gtag stub
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() { window.dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', gaId, { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
+    // Inject script
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
+    document.head.appendChild(s);
+  }
+
+  function showBanner(gaId) {
+    if (document.getElementById('vmConsentBanner')) return;
+    const banner = document.createElement('div');
+    banner.id = 'vmConsentBanner';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-label', 'Cookie consent');
+    banner.style.cssText = 'position:fixed;bottom:16px;left:16px;right:16px;max-width:520px;margin-left:auto;margin-right:16px;background:#0e0e0e;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:18px 20px;font-family:Inter,system-ui,sans-serif;font-size:0.85rem;line-height:1.5;z-index:10000;box-shadow:0 18px 40px rgba(0,0,0,0.35)';
+    banner.innerHTML =
+      '<div style="margin-bottom:14px">This site uses Google Analytics (cookies) so I can see what people read most. Pure stats — never sold or shared. <a href="/privacy" style="color:#c8a96e;text-decoration:underline">Privacy policy</a>.</div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+      '<button id="vmConsentAccept" style="background:#fff;color:#0e0e0e;border:0;padding:9px 18px;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer">Accept</button>' +
+      '<button id="vmConsentReject" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);padding:9px 18px;border-radius:8px;font-size:0.8rem;font-weight:500;cursor:pointer">Reject</button>' +
+      '</div>';
+    document.body.appendChild(banner);
+    document.getElementById('vmConsentAccept').addEventListener('click', function() {
+      setStoredConsent('granted');
+      banner.remove();
+      loadGA(gaId);
+    });
+    document.getElementById('vmConsentReject').addEventListener('click', function() {
+      setStoredConsent('denied');
+      banner.remove();
+    });
+  }
+
+  // Wait for settings to load before deciding
+  if (!window.__settingsReady) return;
+  window.__settingsReady.then(function() {
+    var s = (typeof Settings !== 'undefined') ? Settings.get() : {};
+    var gaId = s.gaMeasurementId || '';
+    if (!gaId) return; // No GA configured → nothing happens, no banner
+    var stored = getStoredConsent();
+    if (stored === 'granted') { loadGA(gaId); return; }
+    if (stored === 'denied') return;
+    // First visit + GA configured → show banner
+    showBanner(gaId);
+  });
 })();

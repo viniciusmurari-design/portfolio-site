@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemaps-image/1.1">
+
+  <url>
+    <loc>https://viniciusmurari.com/</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1920/portfolio/hero/1774805269339_31_Ranelagh_002</image:loc>
+      <image:title>Hospitality interior photography in Dublin</image:title>
+      <image:caption>Hotel and Airbnb photography by Vinicius Murari, Dublin photographer</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/smcxpwhicyr92upqo5gu.jpg</image:loc>
+      <image:title>Wedding photography Dublin</image:title>
+      <image:caption>Wedding ceremony photography by Vinicius Murari</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/m6dt0euigwuopfbsux3o.jpg</image:loc>
+      <image:title>Portrait photography Dublin</image:title>
+      <image:caption>Studio portrait session by Vinicius Murari, Dublin</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/dkfavej4kcwzegwdqc3l.jpg</image:loc>
+      <image:title>Food photography Dublin</image:title>
+      <image:caption>Restaurant and food photography by Vinicius Murari</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/clkekpuyretdvsbq10ff.jpg</image:loc>
+      <image:title>Product photography Dublin</image:title>
+      <image:caption>Commercial product photography by Vinicius Murari</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/d4qimnatvxsqopcqmg88.jpg</image:loc>
+      <image:title>Event photography Dublin</image:title>
+      <image:caption>Event and gala photography by Vinicius Murari</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/gee7yhquzzvovwxl37zb.jpg</image:loc>
+      <image:title>Corporate photography Dublin</image:title>
+      <image:caption>Corporate event photography by Vinicius Murari</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/kp4w1meyysg91j4wbg82.png</image:loc>
+      <image:title>Family photography Dublin</image:title>
+      <image:caption>Outdoor family session by Vinicius Murari</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200/portfolio/tufsx6cbuue7q23zpev8.jpg</image:loc>
+      <image:title>Family portrait photography Dublin</image:title>
+      <image:caption>Family portrait session by Vinicius Murari, Dublin</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://viniciusmurari.com/wedding-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/smcxpwhicyr92upqo5gu.jpg</image:loc>
+      <image:title>Wedding photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/portrait-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/m6dt0euigwuopfbsux3o.jpg</image:loc>
+      <image:title>Portrait photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/food-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/dkfavej4kcwzegwdqc3l.jpg</image:loc>
+      <image:title>Food photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/product-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/clkekpuyretdvsbq10ff.jpg</image:loc>
+      <image:title>Product photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/family-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/kp4w1meyysg91j4wbg82.png</image:loc>
+      <image:title>Family photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/event-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/d4qimnatvxsqopcqmg88.jpg</image:loc>
+      <image:title>Event photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/corporate-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/gee7yhquzzvovwxl37zb.jpg</image:loc>
+      <image:title>Corporate photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/drone-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/hero/1774805269339_31_Ranelagh_002</image:loc>
+      <image:title>Drone photographer Dublin</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://viniciusmurari.com/airbnb-photography</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1600/portfolio/hero/1774805269339_31_Ranelagh_002</image:loc>
+      <image:title>Airbnb &amp; hotel photographer Dublin</image:title>
+    </image:image>
+  </url>
+
+</urlset>

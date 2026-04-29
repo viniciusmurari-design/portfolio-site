@@ -30,7 +30,7 @@
   <meta property="og:description" content="Award-winning photographer in Dublin. Wedding photography, corporate events, portraits, drone & aerial, food and product photography across Ireland.">
   <meta property="og:url" content="https://viniciusmurari.com/">
   <meta property="og:locale" content="en_IE">
-  <meta property="og:image" content="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/hero/og_cover">
+  <meta property="og:image" content="https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_jpg,w_1200,h_630,c_fill/portfolio/hero/1774805269339_31_Ranelagh_002">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Vinicius Murari — Professional Photographer in Dublin">
@@ -40,12 +40,14 @@
   <meta name="twitter:site" content="@viniciusmurari">
   <meta name="twitter:title" content="Portrait Photographer Dublin | Photography Services Ireland | Vinicius Murari">
   <meta name="twitter:description" content="Award-winning photographer in Dublin. Wedding photography, corporate events, portraits, drone, food and product photography across Ireland.">
-  <meta name="twitter:image" content="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_630,c_fill,q_auto,f_jpg/hero/og_cover">
+  <meta name="twitter:image" content="https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_jpg,w_1200,h_630,c_fill/portfolio/hero/1774805269339_31_Ranelagh_002">
   <meta name="twitter:image:alt" content="Vinicius Murari — Professional Photographer in Dublin">
 
-  <!-- ─── Favicon ─── -->
+  <!-- ─── Favicon + PWA manifest ─── -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0e0e0e">
 
   <!-- ─── Preconnect for external resources ─── -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,14 +55,74 @@
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="preconnect" href="https://buhuwnkljilyysyrdkxr.supabase.co" crossorigin>
 
-  <!-- ─── Preload critical font ─── -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" as="style">
+  <!-- ─── Preload critical assets (hero LCP + fonts) ─── -->
+  <link rel="preload" as="image" href="https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1920,c_fill,g_auto/portfolio/hero/1774805269339_31_Ranelagh_002" fetchpriority="high">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" as="style">
 
   <!-- ─── Fonts & Styles ─── -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=34">
+  <link rel="stylesheet" href="styles.css?v=36">
 
   <!-- ─── JSON-LD Structured Data ─── -->
+
+  <!-- WebSite (enables Google Sitelinks Searchbox) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://viniciusmurari.com/#website",
+  "url": "https://viniciusmurari.com/",
+  "name": "Vinicius Murari Photography",
+  "description": "Professional photography services in Dublin, Ireland — weddings, portraits, food, product, corporate, drone and architecture.",
+  "publisher": {"@id": "https://viniciusmurari.com/#organization"},
+  "inLanguage": "en-IE",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://viniciusmurari.com/?s={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+  <!-- Organization (Knowledge Graph entity) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://viniciusmurari.com/#organization",
+  "name": "Vinicius Murari Photography",
+  "alternateName": "Vinicius Murari",
+  "url": "https://viniciusmurari.com/",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_512,h_512,c_fill/portfolio/about-profile",
+    "width": 512,
+    "height": 512
+  },
+  "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto,w_1200,h_630,c_fill/portfolio/hero/1774805269339_31_Ranelagh_002",
+  "description": "Dublin-based photography studio specialising in weddings, portraits, food, product, corporate events, drone and architecture photography.",
+  "email": "hello@viniciusmurari.com",
+  "telephone": "+353832063109",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dublin",
+    "addressRegion": "County Dublin",
+    "addressCountry": "IE"
+  },
+  "founder": {"@id": "https://viniciusmurari.com/#person"},
+  "areaServed": [
+    {"@type": "City", "name": "Dublin"},
+    {"@type": "Country", "name": "Ireland"}
+  ],
+  "sameAs": [
+    "https://www.instagram.com/viniciusmurari",
+    "https://www.linkedin.com/in/viniciusmurari"
+  ]
+}
+</script>
 
   <!-- LocalBusiness + ProfessionalService -->
 <script type="application/ld+json">
@@ -120,20 +182,44 @@
     {
       "@type": "Review",
       "author": {"@type": "Person", "name": "Junior Joly"},
-      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-      "reviewBody": "Vinicius is a photographer who cares about the smallest details. He has the sensitivity to focus on the best aspects of every scene, bringing out the best in each one."
+      "datePublished": "2020-12-15",
+      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1"},
+      "reviewBody": "Vinicius is a photographer who cares about the smallest details. He has the sensitivity to focus on the best aspects of every scene, bringing out the best in each one. A subtle and romantic photographer."
     },
     {
       "@type": "Review",
       "author": {"@type": "Person", "name": "Isabela Castilho"},
-      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-      "reviewBody": "He deserves far more than 5 stars — a dedicated, qualified, experienced and talented professional!"
+      "datePublished": "2020-11-08",
+      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1"},
+      "reviewBody": "He deserves far more than 5 stars. A dedicated, qualified, experienced and talented professional. Congratulations on your work, I would do 10 more projects with you!"
     },
     {
       "@type": "Review",
       "author": {"@type": "Person", "name": "Sabrina Almeida"},
-      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-      "reviewBody": "Vinicius has an incredible talent!! We loved his professionalism — he treats every image with total dedication and love!!"
+      "datePublished": "2019-09-22",
+      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1"},
+      "reviewBody": "Vinicius has an incredible talent! We loved his professionalism. He treats every image with total dedication and love. We absolutely recommend him!"
+    },
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Miyashiro Alexandre"},
+      "datePublished": "2020-11-30",
+      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1"},
+      "reviewBody": "A professional with excellent skills, great equipment and punctuality."
+    },
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Maza Maza"},
+      "datePublished": "2019-05-14",
+      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1"},
+      "reviewBody": "The Best! An attentive professional who plays beautifully with colours!"
+    },
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "Debora Arantes"},
+      "datePublished": "2019-09-04",
+      "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1"},
+      "reviewBody": "A great professional, always doing incredible work! I highly recommend him."
     }
   ],
   "hasOfferCatalog": {
@@ -326,12 +412,12 @@
 <nav id="nav" aria-label="Main navigation">
   <a href="#" class="nav-logo">Vinicius Murari</a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#portfolio" onclick="closeNav()">Portfolio</a></li>
-    <li><a href="#drone" onclick="closeNav()">Drone & Film</a></li>
-    <li><a href="#services" onclick="closeNav()">Services</a></li>
-    <li><a href="#about" onclick="closeNav()">About</a></li>
-    <li><a href="#journal" onclick="closeNav()">Journal</a></li>
-    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+    <li><a href="#portfolio" data-close-nav>Portfolio</a></li>
+    <li><a href="#drone" data-close-nav>Drone & Film</a></li>
+    <li><a href="#services" data-close-nav>Services</a></li>
+    <li><a href="#about" data-close-nav>About</a></li>
+    <li><a href="#journal" data-close-nav>Journal</a></li>
+    <li><a href="#contact" data-close-nav>Contact</a></li>
   </ul>
   <div class="nav-right">
     <button id="darkToggle" class="nav-dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
@@ -339,7 +425,7 @@
       <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
     <a href="#contact" class="nav-cta">Book a Session</a>
-    <button class="nav-burger" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+    <button class="nav-burger" data-toggle-nav aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -367,23 +453,23 @@
   </div>
   <div class="hero-strip">
     <button class="strip-card" data-gallery="portrait" aria-label="View Portrait gallery">
-      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" alt="Portrait photography session — Vinicius Murari, Dublin photographer" loading="eager" fetchpriority="high">
+      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" alt="Portrait photography session — Vinicius Murari, Dublin photographer" width="380" height="540" loading="eager" fetchpriority="high" decoding="async">
       <span class="strip-label">Portrait</span>
     </button>
     <button class="strip-card" data-gallery="food" aria-label="View Food gallery">
-      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" alt="Food photography for Dublin restaurant — Vinicius Murari" loading="lazy">
+      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" alt="Food photography for Dublin restaurant — Vinicius Murari" width="380" height="540" loading="lazy" decoding="async">
       <span class="strip-label">Food</span>
     </button>
     <button class="strip-card" data-gallery="wedding" aria-label="View Wedding gallery">
-      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg" alt="Wedding ceremony photography in Dublin — Vinicius Murari" loading="lazy">
+      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg" alt="Wedding ceremony photography in Dublin — Vinicius Murari" width="380" height="540" loading="lazy" decoding="async">
       <span class="strip-label">Wedding</span>
     </button>
     <button class="strip-card" data-gallery="family" aria-label="View Family gallery">
-      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/tufsx6cbuue7q23zpev8.jpg" alt="Family portrait photography in Dublin — Vinicius Murari" loading="lazy">
+      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/tufsx6cbuue7q23zpev8.jpg" alt="Family portrait photography in Dublin — Vinicius Murari" width="380" height="540" loading="lazy" decoding="async">
       <span class="strip-label">Family</span>
     </button>
     <button class="strip-card" data-gallery="product" aria-label="View Product gallery">
-      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" alt="Product photography for Dublin brands — Vinicius Murari" loading="lazy">
+      <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_380,h_540,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" alt="Product photography for Dublin brands — Vinicius Murari" width="380" height="540" loading="lazy" decoding="async">
       <span class="strip-label">Product</span>
     </button>
   </div>
@@ -402,7 +488,7 @@
     <div class="cat-grid rev d1">
 
       <a href="#" class="cat-card" data-gallery="wedding" aria-label="View wedding photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg" alt="Wedding photographer Dublin — ceremony photography by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg" alt="Wedding photographer Dublin — ceremony photography by Vinicius Murari" width="800" height="1066" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Wedding</div>
@@ -411,7 +497,7 @@
       </a>
 
       <a href="#" class="cat-card" data-gallery="portrait" aria-label="View portrait and studio photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" alt="Portrait photographer Dublin — studio portrait session by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" width="800" height="1066" alt="Portrait photographer Dublin — studio portrait session by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Portrait &amp; Studio</div>
@@ -420,7 +506,7 @@
       </a>
 
       <a href="#" class="cat-card" data-gallery="food" aria-label="View food and beverage photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" alt="Food photographer Dublin — restaurant and food photography by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" width="800" height="1066" alt="Food photographer Dublin — restaurant and food photography by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Food &amp; Beverage</div>
@@ -429,7 +515,7 @@
       </a>
 
       <a href="#" class="cat-card" data-gallery="family" aria-label="View family photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" alt="Family portrait photographer Dublin — outdoor family session by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" width="800" height="1066" alt="Family portrait photographer Dublin — outdoor family session by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Family</div>
@@ -438,7 +524,7 @@
       </a>
 
       <a href="#" class="cat-card wide" data-gallery="events" aria-label="View events and celebrations photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_788,c_fill,q_auto,f_auto/portfolio/d4qimnatvxsqopcqmg88.jpg" alt="Event photographer Dublin — celebrations and gala photography by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_788,c_fill,q_auto,f_auto/portfolio/d4qimnatvxsqopcqmg88.jpg" width="1400" height="788" alt="Event photographer Dublin — celebrations and gala photography by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Events &amp; Celebrations</div>
@@ -447,7 +533,7 @@
       </a>
 
       <a href="#" class="cat-card" data-gallery="product" aria-label="View product and still life photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" alt="Product photographer Dublin — commercial product and still life photography by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" width="800" height="1066" alt="Product photographer Dublin — commercial product and still life photography by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Product &amp; Still Life</div>
@@ -456,7 +542,7 @@
       </a>
 
       <a href="#" class="cat-card" data-gallery="hotels" aria-label="View hotels and hospitality photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" alt="Hotel photographer Dublin — hospitality interior photography by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" width="800" height="1066" alt="Hotel photographer Dublin — hospitality interior photography by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Hotels &amp; Hospitality</div>
@@ -465,7 +551,7 @@
       </a>
 
       <a href="#" class="cat-card wide" data-gallery="corporate" aria-label="View corporate events photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_788,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" alt="Corporate photographer Dublin — conference and corporate event photography by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_788,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" width="1400" height="788" alt="Corporate photographer Dublin — conference and corporate event photography by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Corporate Events</div>
@@ -474,7 +560,7 @@
       </a>
 
       <a href="#" class="cat-card" data-gallery="architecture" aria-label="View architecture photography gallery">
-        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" alt="Architectural photographer Dublin — building and interior architecture photography by Vinicius Murari" loading="lazy">
+        <img src="https://res.cloudinary.com/dnocmwoub/image/upload/w_800,h_1066,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" width="800" height="1066" alt="Architectural photographer Dublin — building and interior architecture photography by Vinicius Murari" loading="lazy" decoding="async">
         <div class="cat-overlay">
           <span class="cat-label">Photography</span>
           <div class="cat-name">Architecture</div>
@@ -497,7 +583,7 @@
       <div class="drone-btns">
         <a href="#contact" class="btn btn-white-fill">Book Drone Session</a>
         <a href="#" class="btn btn-white" id="showreelBtn">Watch Showreel →</a>
-        <button class="btn btn-white-outline" onclick="openGallery('drone')">View Gallery →</button>
+        <button class="btn btn-white-outline" data-open-gallery="drone">View Gallery →</button>
       </div>
     </div>
     <div class="drone-cards rev d2" id="dronePreviewGrid">
@@ -574,7 +660,7 @@
     <div class="about-g">
       <div class="rev">
         <div class="a-photo">
-          <img id="aboutPhoto" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_600,h_800,c_fill,q_auto,f_auto/portfolio/about-profile" alt="Vinicius Murari — professional photographer and filmmaker based in Dublin, Ireland" loading="lazy">
+          <img id="aboutPhoto" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_600,h_800,c_fill,q_auto,f_auto/portfolio/about-profile" width="600" height="800" alt="Vinicius Murari — professional photographer and filmmaker based in Dublin, Ireland" loading="lazy" decoding="async">
         </div>
         <div class="a-stats">
           <div class="a-stat"><strong id="stat1Val" data-edit="stat1Val" contenteditable="false">10+</strong><span id="stat1Lbl" data-edit="stat1Lbl" contenteditable="false">Years</span></div>
@@ -881,36 +967,19 @@
         <p class="fok" id="fok" aria-live="polite" role="alert">✓ Message sent! I'll be in touch soon.</p>
       </form>
     </div>
-    <!-- ─── Map (click-to-load — avoids ~300KB Google Maps JS on page load) ─── -->
+    <!-- ─── Map (Google Maps Embed — no API key required) ─── -->
     <div class="map-wrap" id="mapWrap">
-      <div id="mapPlaceholder" class="map-placeholder" role="button" tabindex="0" aria-label="Load map — Ranelagh, Dublin" onclick="loadMap()" onkeydown="if(event.key==='Enter'||event.key===' ')loadMap()">
-        <img src="https://maps.googleapis.com/maps/api/staticmap?center=53.3244,-6.2603&zoom=15&size=800x320&scale=2&maptype=roadmap&markers=color:red%7C53.3244,-6.2603&style=feature:all%7Celement:labels.text.fill%7Ccolor:0x616161&key=" width="100%" height="320" alt="Map showing Ranelagh, Dublin — click to load interactive map" style="border-radius:16px;object-fit:cover;display:block" loading="lazy" onerror="this.style.background='#e8e8e8';this.alt=''">
-        <div class="map-placeholder-overlay">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span>Ranelagh, Dublin · Click to open map</span>
-        </div>
-      </div>
+      <iframe
+        src="https://www.google.com/maps?q=Ranelagh,Dublin,Ireland&z=14&output=embed"
+        width="800"
+        height="320"
+        style="border:0;border-radius:16px;width:100%;height:auto;aspect-ratio:800/320;display:block"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Map of Ranelagh, Dublin — Vinicius Murari Photography"
+        aria-label="Map showing Ranelagh, Dublin where Vinicius Murari Photography is based"></iframe>
     </div>
-    <script>
-    function loadMap() {
-      const p = document.getElementById('mapPlaceholder');
-      const iframe = document.createElement('iframe');
-      iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2382.8!2d-6.2603!3d53.3244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670ea37ef6e97f%3A0x33eb5e6b6073f0d1!2sRanelagh%2C%20Dublin!5e0!3m2!1sen!2sie!4v1';
-      iframe.width = '100%'; iframe.height = '320';
-      iframe.style.cssText = 'border:0;border-radius:16px;display:block';
-      iframe.allowFullscreen = true; iframe.referrerPolicy = 'no-referrer-when-downgrade';
-      iframe.title = 'Google Map — Ranelagh, Dublin';
-      p.replaceWith(iframe);
-    }
-    // Auto-load map when contact section comes into view
-    (function() {
-      const wrap = document.getElementById('mapWrap');
-      if (!wrap || !('IntersectionObserver' in window)) return;
-      new IntersectionObserver(function(entries, obs) {
-        if (entries[0].isIntersecting) { loadMap(); obs.disconnect(); }
-      }, { rootMargin: '200px' }).observe(wrap);
-    })();
-    </script>
+    
   </div>
 </section>
 
@@ -927,6 +996,7 @@
       <a href="#about">About</a>
       <a href="#journal">Journal</a>
       <a href="#contact">Contact</a>
+      <a href="/privacy">Privacy</a>
     </div>
     <p class="fcopy">© <span id="footerYear">2026</span> Vinicius Murari Photography · Dublin, Ireland</p>
   </div>
@@ -958,7 +1028,7 @@
         <button class="gal-close" id="galClose" aria-label="Close gallery">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
-        <a href="#contact" class="gal-book-btn" id="galBookBtn" onclick="closeGallery()">Book this session</a>
+        <a href="#contact" class="gal-book-btn" id="galBookBtn" data-close-gallery>Book this session</a>
       </div>
     </div>
     <div class="gal-subs" id="galSubs">
@@ -968,7 +1038,7 @@
       <!-- Photos injected by JS -->
     </div>
     <div class="gal-modal-footer">
-      <a href="#contact" class="btn btn-fill" onclick="closeGallery()">Book this session →</a>
+      <a href="#contact" class="btn btn-fill" data-close-gallery>Book this session →</a>
     </div>
   </div>
 </div>
@@ -1001,57 +1071,57 @@
 
   <!-- ── WEDDING GALLERY ── -->
   <div data-id="wedding" data-title="Wedding" data-eyebrow="Photography" data-subs="All,Ceremony,Reception,Getting Ready,Details" data-description="Timeless moments, genuine emotion. From intimate ceremonies to grand receptions, every wedding is a unique love story told through light and feeling.">
-    <figure data-sub="ceremony"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg" alt="Wedding ceremony"></figure>
-    <figure data-sub="getting ready"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" alt="Wedding portrait"></figure>
-    <figure data-sub="reception"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" alt="Wedding reception"></figure>
+    <figure data-sub="ceremony"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg" width="1200" height="1600" alt="Wedding ceremony" decoding="async"></figure>
+    <figure data-sub="getting ready"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" width="1200" height="1600" alt="Wedding portrait" decoding="async"></figure>
+    <figure data-sub="reception"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" width="1200" height="1600" alt="Wedding reception" decoding="async"></figure>
   </div>
 
   <!-- ── PORTRAIT & STUDIO GALLERY ── -->
   <div data-id="portrait" data-title="Portrait &amp; Studio" data-eyebrow="Photography" data-subs="All,Studio,Outdoor,Creative" data-description="Authentic portraits that reveal personality and soul. Whether in studio light or natural surroundings, every session is crafted to capture who you truly are." data-landing="portrait-photography">
-    <figure data-sub="studio"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" alt="Portrait studio"></figure>
-    <figure data-sub="outdoor"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" alt="Portrait outdoor"></figure>
+    <figure data-sub="studio"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" width="1200" height="1600" alt="Portrait studio" decoding="async"></figure>
+    <figure data-sub="outdoor"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" width="1200" height="1600" alt="Portrait outdoor" decoding="async"></figure>
   </div>
 
   <!-- ── FOOD & BEVERAGE GALLERY ── -->
   <div data-id="food" data-title="Food &amp; Beverage" data-eyebrow="Photography" data-subs="All,Restaurant,Products,Lifestyle" data-description="Visual storytelling for culinary artistry. From hero shots to lifestyle imagery — food and drink photography that makes mouths water and brands shine." data-landing="food-photography">
-    <figure data-sub="restaurant"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" alt="Food photography"></figure>
-    <figure data-sub="products"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" alt="Beverage shot"></figure>
+    <figure data-sub="restaurant"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" width="1200" height="1600" alt="Food photography" decoding="async"></figure>
+    <figure data-sub="products"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" width="1200" height="1600" alt="Beverage shot" decoding="async"></figure>
   </div>
 
   <!-- ── FAMILY GALLERY ── -->
   <div data-id="family" data-title="Family" data-eyebrow="Photography" data-subs="All,Studio,Outdoor,Newborn" data-landing="family-photography" data-description="Candid, joyful, real. Family portraits that freeze the fleeting moments — the laughter, the connection, the love that defines your story.">
-    <figure data-sub="outdoor"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" alt="Family portrait"></figure>
-    <figure data-sub="studio"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" alt="Family outdoor"></figure>
+    <figure data-sub="outdoor"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/kp4w1meyysg91j4wbg82.png" width="1200" height="1600" alt="Family portrait" decoding="async"></figure>
+    <figure data-sub="studio"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/m6dt0euigwuopfbsux3o.jpg" width="1200" height="1600" alt="Family outdoor" decoding="async"></figure>
   </div>
 
   <!-- ── EVENTS & CELEBRATIONS GALLERY ── -->
   <div data-id="events" data-title="Events &amp; Celebrations" data-eyebrow="Photography" data-subs="All,Birthday,Gala,Launch" data-landing="event-photography" data-description="From milestone birthdays to galas and brand launches — every celebration deserves to be remembered in full colour and emotion.">
-    <figure data-sub="gala"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/d4qimnatvxsqopcqmg88.jpg" alt="Event celebration"></figure>
-    <figure data-sub="launch"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" alt="Corporate event"></figure>
+    <figure data-sub="gala"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/d4qimnatvxsqopcqmg88.jpg" width="1400" height="900" alt="Event celebration" decoding="async"></figure>
+    <figure data-sub="launch"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" width="1400" height="900" alt="Corporate event" decoding="async"></figure>
   </div>
 
   <!-- ── PRODUCT & STILL LIFE GALLERY ── -->
   <div data-id="product" data-title="Product &amp; Still Life" data-eyebrow="Photography" data-subs="All,Cosmetics,Fashion,Tech" data-description="Clean, precise, compelling. Product and still life photography that showcases your brand's quality and drives real results." data-landing="product-photography">
-    <figure data-sub="fashion"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" alt="Product photography"></figure>
-    <figure data-sub="cosmetics"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" alt="Still life"></figure>
+    <figure data-sub="fashion"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/clkekpuyretdvsbq10ff.jpg" width="1200" height="1600" alt="Product photography" decoding="async"></figure>
+    <figure data-sub="cosmetics"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/dkfavej4kcwzegwdqc3l.jpg" width="1200" height="1600" alt="Still life" decoding="async"></figure>
   </div>
 
   <!-- ── HOTELS & HOSPITALITY GALLERY ── -->
   <div data-id="hotels" data-title="Hotels &amp; Hospitality" data-eyebrow="Photography" data-subs="All,Interior,Exterior,Details" data-description="Aspirational imagery that sells the experience before the guest arrives. Interior, exterior and lifestyle photography for the world's finest hospitality brands." data-landing="airbnb-photography">
-    <figure data-sub="interior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" alt="Hotel interior"></figure>
-    <figure data-sub="exterior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" alt="Hospitality space"></figure>
+    <figure data-sub="interior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" width="1200" height="1600" alt="Hotel interior" decoding="async"></figure>
+    <figure data-sub="exterior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" width="1200" height="1600" alt="Hospitality space" decoding="async"></figure>
   </div>
 
   <!-- ── CORPORATE EVENTS GALLERY ── -->
   <div data-id="corporate" data-title="Corporate Events" data-eyebrow="Photography" data-subs="All,Conference,Team Day,Launch,Press" data-description="Professional coverage for conferences, team days, product launches and press events — polished results with fast turnaround delivery.">
-    <figure data-sub="conference"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" alt="Corporate event"></figure>
-    <figure data-sub="launch"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/d4qimnatvxsqopcqmg88.jpg" alt="Corporate conference"></figure>
+    <figure data-sub="conference"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg" width="1400" height="900" alt="Corporate event" decoding="async"></figure>
+    <figure data-sub="launch"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1400,h_900,c_fill,q_auto,f_auto/portfolio/d4qimnatvxsqopcqmg88.jpg" width="1400" height="900" alt="Corporate conference" decoding="async"></figure>
   </div>
 
   <!-- ── ARCHITECTURE GALLERY ── -->
   <div data-id="architecture" data-title="Architecture" data-eyebrow="Photography" data-subs="All,Exterior,Interior,Details" data-description="The art of space and light. Architectural photography that honours a building's design intent — capturing form, texture and atmosphere with precision." data-landing="airbnb-photography">
-    <figure data-sub="exterior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" alt="Architecture exterior"></figure>
-    <figure data-sub="interior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" alt="Architecture interior"></figure>
+    <figure data-sub="exterior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" width="1200" height="1600" alt="Architecture exterior" decoding="async"></figure>
+    <figure data-sub="interior"><img loading="lazy" src="https://res.cloudinary.com/dnocmwoub/image/upload/w_1200,h_1600,c_fill,q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002" width="1200" height="1600" alt="Architecture interior" decoding="async"></figure>
   </div>
 
   <div data-id="drone" data-title="Drone &amp; Film" data-eyebrow="Aerial &amp; Cinematic" data-subs="All,Aerial,Video,Real Estate,Events" data-description="Taking storytelling to new heights. Cinematic aerial footage and ground-level video production for brands, real estate, events and creative campaigns across Ireland.">
@@ -1059,174 +1129,7 @@
 
 </div><!-- end #galleryData -->
 
-<script>
-// Apply saved settings — load from settings.json (server/static) first, fallback to localStorage
-(function() {
-  function applySettings(s) {
-    function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
-    function set(id, val) { const el = document.getElementById(id); if (el && val) el.textContent = val; }
-    // Allow only safe inline tags (<em>, <strong>, <br>) — strip everything else
-    function setHTML(id, val) {
-      const el = document.getElementById(id);
-      if (!el || !val) return;
-      el.innerHTML = val.replace(/<(?!\/?(?:em|strong|br)\s*\/?>)[^>]+>/gi, '');
-    }
 
-    // Hero — only apply pill text if it looks like a real message (guard against "All" corruption)
-    if (s.heroPill && s.heroPill.trim().length > 8) set('heroPillText', s.heroPill);
-    setHTML('heroHeadline', s.heroHeadline);
-    set('heroSub', s.heroSub);
-    if (s.heroBg && /^https?:\/\//.test(s.heroBg)) document.documentElement.style.setProperty('--hero-bg', `url('${s.heroBg.replace(/['"()]/g, '')}')`);
-    // Hero slideshow (multiple slides) is loaded by script.js
-
-    // About
-    if (s.aboutPhoto) {
-      const ap = document.getElementById('aboutPhoto');
-      if (ap) {
-        // Inject size transforms if missing to prevent grid expansion from large intrinsic image size
-        let src = s.aboutPhoto;
-        if (src.includes('res.cloudinary.com') && !src.match(/\/w_\d+/)) {
-          src = src.replace(/\/upload\/.*?\/(portfolio\/)/, '/upload/w_600,h_800,c_fill,q_auto,f_auto/$1');
-        }
-        ap.src = src;
-      }
-    }
-    set('aboutText1', s.aboutText1);
-    set('aboutText2', s.aboutText2);
-    set('aboutText3', s.aboutText3);
-    const okStat = v => v && v.length <= 12 && !v.includes('/') && !v.includes('http');
-    if (okStat(s.stat1Val)) set('stat1Val', s.stat1Val); if (okStat(s.stat1Lbl)) set('stat1Lbl', s.stat1Lbl);
-    if (okStat(s.stat2Val)) set('stat2Val', s.stat2Val); if (okStat(s.stat2Lbl)) set('stat2Lbl', s.stat2Lbl);
-    if (okStat(s.stat3Val)) set('stat3Val', s.stat3Val); if (okStat(s.stat3Lbl)) set('stat3Lbl', s.stat3Lbl);
-    if (okStat(s.stat4Val)) set('stat4Val', s.stat4Val); if (okStat(s.stat4Lbl)) set('stat4Lbl', s.stat4Lbl);
-
-    // Quote & contact
-    set('quoteText', s.quote);
-    set('contactLocation', s.contactLocation);
-    set('contactPhone', s.contactPhone);
-    set('contactEmail', s.contactEmail);
-
-    // Gallery order
-    if (s.galleryOrder && Array.isArray(s.galleryOrder)) {
-      const grid = document.querySelector('.cat-grid');
-      if (grid) {
-        const cards = {};
-        grid.querySelectorAll('.cat-card[data-gallery]').forEach(c => { cards[c.dataset.gallery] = c; });
-        s.galleryOrder.forEach(id => { if (cards[id]) grid.appendChild(cards[id]); });
-      }
-    }
-
-    // Accent color
-    if (s.accentColor) document.documentElement.style.setProperty('--blue', s.accentColor);
-
-    // ── Reviews from admin ──
-    if (s.reviews && s.reviews.length) {
-      const scroll = document.getElementById('reviewsScroll');
-      if (scroll) {
-        const starSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-star"/></svg>';
-        const fbSvg = '<svg viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true"><use href="#ico-facebook"/></svg>';
-        scroll.innerHTML = s.reviews.map(r => `
-          <article class="review-card">
-            <div class="review-top">
-              <div class="review-avatar">${esc(r.name).charAt(0)}</div>
-              <div><div class="review-name">${esc(r.name)}</div><div class="review-date">${esc(r.category)} · ${esc(r.date)}</div></div>
-            </div>
-            <div class="review-stars">${starSvg.repeat(Math.min(r.stars || 5, 5))}</div>
-            <p class="review-text">${esc(r.text)}</p>
-            <div class="review-source">${fbSvg}<span>Facebook Review</span></div>
-          </article>`).join('');
-      }
-    }
-
-    // ── Social & Integrations ──
-    // WhatsApp float button
-    const waFloat = document.getElementById('waFloat');
-    if (waFloat && s.whatsappNumber) {
-      const num = s.whatsappNumber.replace(/[^0-9]/g, '');
-      const msg = encodeURIComponent(s.whatsappMessage || "Hi Vinicius, I'd like to know more about your services");
-      waFloat.href = `https://wa.me/${num}?text=${msg}`;
-    }
-    // WhatsApp link in contact
-    const waContact = document.getElementById('waContactLink');
-    if (waContact && s.whatsappNumber) {
-      const num = s.whatsappNumber.replace(/[^0-9]/g, '');
-      waContact.href = `https://wa.me/${num}`;
-    }
-
-    // Social links
-    function setLink(id, url) { const el = document.getElementById(id); if (el && url) el.href = url; }
-    setLink('igLink', s.instagramUrl);
-    setLink('igContactLink', s.instagramUrl);
-    setLink('fbContactLink', s.facebookUrl);
-    setLink('fbReviewsLink', s.facebookReviewsUrl);
-
-    // Map
-    if (s.mapEmbedUrl) {
-      const mapFrame = document.getElementById('mapFrame');
-      if (mapFrame) mapFrame.src = s.mapEmbedUrl;
-    }
-
-    // Showreel
-    const showreelBtn = document.getElementById('showreelBtn');
-    if (showreelBtn) {
-      if (s.showreelUrl) {
-        showreelBtn.style.display = '';
-        window._showreelUrl = s.showreelUrl;
-      } else if (!window._showreelUrl) {
-        showreelBtn.style.display = 'none';
-      }
-    }
-
-    // SEO
-    if (s.seoTitle) document.title = s.seoTitle;
-    if (s.seoDescription) {
-      let meta = document.querySelector('meta[name="description"]');
-      if (meta) meta.content = s.seoDescription;
-    }
-    if (s.seoOgImage) {
-      let og = document.querySelector('meta[property="og:image"]');
-      if (og) og.content = s.seoOgImage;
-    }
-  }
-
-  // Try settings.json first (works on both local server and Netlify static),
-  // then fall back to localStorage
-  try {
-    const local = JSON.parse(localStorage.getItem('vmSettings') || '{}');
-    applySettings(local); // Apply localStorage immediately (no flash)
-  } catch(e) {}
-
-  // Load from Supabase — instant, works everywhere (Cloudflare, any device)
-  const _SB_URL = 'https://buhuwnkljilyysyrdkxr.supabase.co';
-  const _SB_KEY = 'sb_publishable_dc31AWiwdbDVgMGXEY4fTg_t2rPBi1G';
-  var _settingsJsonP = fetch('settings.json').then(r => r.ok ? r.json() : null).catch(() => null);
-
-  fetch(_SB_URL + '/rest/v1/site_settings?id=eq.1&select=data', {
-    headers: { 'apikey': _SB_KEY, 'Authorization': 'Bearer ' + _SB_KEY }
-  }).then(r => r.ok ? r.json() : [])
-    .then(rows => {
-      const server = rows?.[0]?.data;
-      if (server && Object.keys(server).length > 0) {
-        // Merge settings.json defaults for any keys missing in Supabase
-        _settingsJsonP.then(file => {
-          if (file) Object.keys(file).forEach(k => { if (!server[k] && file[k]) server[k] = file[k]; });
-          localStorage.setItem('vmSettings', JSON.stringify(server));
-          applySettings(server);
-          if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
-        });
-      }
-    }).catch(() => {
-      // Fallback to settings.json if Supabase unreachable
-      _settingsJsonP.then(s => {
-        if (s && Object.keys(s).length > 0) {
-          localStorage.setItem('vmSettings', JSON.stringify(s));
-          applySettings(s);
-          if (typeof window.reloadHeroSlides === 'function') window.reloadHeroSlides();
-        }
-      });
-    });
-})();
-</script>
 <!-- ─── Mobile Floating CTA ─── -->
 <a href="#contact" class="mobile-book-cta" id="mobileBookCta" aria-label="Book a session">Book Now</a>
 
@@ -1245,44 +1148,8 @@
   </div>
 </div>
 
-<script src="script.js?v=35"></script>
-<script>
-// Dynamic copyright year
-(function(){ const el = document.getElementById('footerYear'); if(el) el.textContent = new Date().getFullYear(); })();
+<script src="script.js?v=39" defer></script>
 
-// Showreel cinema player
-(function() {
-  const btn = document.getElementById('showreelBtn');
-  const cinema = document.getElementById('showreelCinema');
-  if (!btn || !cinema) return;
-
-  function closeShowreel() {
-    cinema.classList.remove('open');
-    setTimeout(function() { document.getElementById('showreelPlayer').innerHTML = ''; }, 400);
-  }
-
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    var url = window._showreelUrl;
-    if (!url) return;
-    var player = document.getElementById('showreelPlayer');
-    var ytM = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?\/\s]+)/);
-    var vmM = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
-    if (ytM) {
-      player.innerHTML = '<iframe src="https://www.youtube.com/embed/' + ytM[1] + '?autoplay=1&rel=0" allow="autoplay;fullscreen" allowfullscreen></iframe>';
-    } else if (vmM) {
-      player.innerHTML = '<iframe src="https://player.vimeo.com/video/' + vmM[1] + '?autoplay=1" allow="autoplay;fullscreen" allowfullscreen></iframe>';
-    } else {
-      player.innerHTML = '<video src="' + url + '" autoplay controls playsinline style="width:100%;height:100%;object-fit:contain"></video>';
-    }
-    cinema.classList.add('open');
-  });
-
-  document.getElementById('showreelClose').addEventListener('click', closeShowreel);
-  cinema.addEventListener('click', function(e) { if (e.target === cinema) closeShowreel(); });
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && cinema.classList.contains('open')) closeShowreel(); });
-})();
-</script>
 <noscript>
   <style>.page-loader,.hero-dots,.hero-strip{display:none!important}</style>
   <div style="position:fixed;top:0;left:0;right:0;background:#1d1d1f;color:#fff;text-align:center;padding:10px 20px;font-family:sans-serif;font-size:0.85rem;z-index:9999">

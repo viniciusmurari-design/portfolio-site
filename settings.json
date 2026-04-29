@@ -1,19 +1,68 @@
 {
-  "quote": "",
-  "heroBg": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
-  "mapLat": "",
-  "mapLng": "",
-  "heroSub": "",
-  "heroPill": "",
-  "seoTitle": "",
-  "stat1Lbl": "Years",
-  "stat1Val": "10+",
-  "stat2Lbl": "Projects",
-  "stat2Val": "500+",
-  "stat3Lbl": "In Dublin",
-  "stat3Val": "4",
-  "stat4Lbl": "Stories",
-  "stat4Val": "∞",
+  "gallerySubs": {
+    "events": [
+      "All",
+      "Birthday",
+      "Gala",
+      "Launch",
+      "Festival",
+      "Theater",
+      "Dance Festival"
+    ],
+    "portrait": [
+      "All",
+      "Fashion",
+      "Professional",
+      "DJ",
+      "Studio",
+      "Essay"
+    ],
+    "hotels": [
+      "All",
+      "Interior",
+      "Exterior",
+      "Details"
+    ],
+    "architecture": [
+      "All",
+      "Exterior",
+      "Interior",
+      "Details"
+    ],
+    "product": [
+      "All",
+      "Cosmetics",
+      "Fashion",
+      "Tech"
+    ],
+    "family": [
+      "All",
+      "Studio",
+      "Outdoor",
+      "Newborn"
+    ],
+    "wedding": [
+      "All",
+      "Pre-Wedding",
+      "Ceremony",
+      "Reception",
+      "Getting Ready",
+      "Details"
+    ],
+    "food": [
+      "All",
+      "Restaurant",
+      "Products",
+      "Lifestyle"
+    ],
+    "corporate": [
+      "All",
+      "Conference",
+      "Team Day",
+      "Launch",
+      "Press"
+    ]
+  },
   "photoSubs": {
     "events/Dance Festival Ecofit Club-11.jpg": "dance festival",
     "events/Dance Festival Ecofit Club-14.jpg": "dance festival",
@@ -522,7 +571,22 @@
     "corporate/photo_1ec6c3398a58.jpg": "launch",
     "corporate/photo_4115350b3631.jpg": "launch"
   },
-  "aboutPhoto": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/about/1775158343923_perfil",
+  "quote": "",
+  "heroBg": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+  "mapLat": "",
+  "mapLng": "",
+  "heroSub": "",
+  "heroPill": "",
+  "seoTitle": "",
+  "stat1Lbl": "",
+  "stat1Val": "",
+  "stat2Lbl": "",
+  "stat2Val": "",
+  "stat3Lbl": "",
+  "stat3Val": "",
+  "stat4Lbl": "",
+  "stat4Val": "",
+  "aboutPhoto": "/photos/hero/347B6E19-1332-45C9-89DE-0A5FFBA4FD36 2.JPG",
   "aboutText1": "",
   "aboutText2": "",
   "aboutText3": "",
@@ -542,70 +606,6 @@
   ],
   "seoOgImage": "",
   "facebookUrl": "",
-  "gallerySubs": {
-    "events": [
-      "All",
-      "Birthday",
-      "Gala",
-      "Launch",
-      "Festival",
-      "Theater",
-      "Dance Festival"
-    ],
-    "portrait": [
-      "All",
-      "Fashion",
-      "Professional",
-      "DJ",
-      "Studio",
-      "Essay"
-    ],
-    "hotels": [
-      "All",
-      "Interior",
-      "Exterior",
-      "Details"
-    ],
-    "architecture": [
-      "All",
-      "Exterior",
-      "Interior",
-      "Details"
-    ],
-    "product": [
-      "All",
-      "Cosmetics",
-      "Fashion",
-      "Tech"
-    ],
-    "family": [
-      "All",
-      "Studio",
-      "Outdoor",
-      "Newborn"
-    ],
-    "wedding": [
-      "All",
-      "Pre-Wedding",
-      "Ceremony",
-      "Reception",
-      "Getting Ready",
-      "Details"
-    ],
-    "food": [
-      "All",
-      "Restaurant",
-      "Products",
-      "Lifestyle"
-    ],
-    "corporate": [
-      "All",
-      "Conference",
-      "Team Day",
-      "Launch",
-      "Press"
-    ]
-  },
   "mapEmbedUrl": "",
   "contactEmail": "",
   "contactPhone": "",
@@ -987,79 +987,6 @@
           "rating": 5
         }
       ],
-      "showBeforeAfter": false
-    },
-    {
-      "id": "lp_1775074742050",
-      "faq": [],
-      "seo": {
-        "title": "New Landing Page",
-        "ogImage": "",
-        "description": ""
-      },
-      "hero": {
-        "cta": {
-          "text": "Get a Free Quote",
-          "action": "form"
-        },
-        "mode": "photo",
-        "image": "",
-        "slides": [],
-        "headline": "Your Headline <em>Here</em>",
-        "pillText": "Available for bookings in Dublin",
-        "trustLine": "",
-        "subheadline": "Your sub-headline goes here.",
-        "ctaSecondary": {
-          "link": "#lp-portfolio",
-          "text": "See My Work"
-        }
-      },
-      "slug": "new-landing-page",
-      "stats": [
-        {
-          "label": "More Bookings",
-          "value": "40%"
-        }
-      ],
-      "active": false,
-      "contact": {
-        "whatsapp": "",
-        "finalCtaSub": "",
-        "web3formsKey": "",
-        "finalCtaTitle": "",
-        "whatsappMessage": ""
-      },
-      "problem": {
-        "text": "",
-        "image": "",
-        "headline": ""
-      },
-      "process": [
-        {
-          "step": "1",
-          "text": "Choose your package.",
-          "title": "Book"
-        },
-        {
-          "step": "2",
-          "text": "We capture your property.",
-          "title": "Shoot"
-        },
-        {
-          "step": "3",
-          "text": "Get your files in 48h.",
-          "title": "Receive"
-        }
-      ],
-      "packages": [],
-      "services": [],
-      "showreel": {
-        "url": "",
-        "thumbnail": ""
-      },
-      "portfolio": [],
-      "beforeAfter": [],
-      "testimonials": [],
       "showBeforeAfter": false
     },
     {
@@ -2833,6 +2760,1095 @@
         "faqTitle": "Common <em>Questions</em>",
         "baTitle": "Moments That <em>Made the Day</em>"
       }
+    },
+    {
+      "id": "lp_wedding_photography",
+      "faq": [
+        {
+          "q": "Do you travel outside Dublin for weddings?",
+          "a": "Yes — I cover weddings across Ireland and destination weddings in Europe. Travel within Ireland is included for bookings over 8 hours."
+        },
+        {
+          "q": "How many photos do I receive?",
+          "a": "A typical full-day wedding delivers 500-800 fully edited images via a private online gallery within 4-6 weeks."
+        },
+        {
+          "q": "Do you offer albums and prints?",
+          "a": "Yes. Fine-art albums, canvas prints and matted prints are available. Every package includes a sample design."
+        },
+        {
+          "q": "Can I book engagement photos too?",
+          "a": "Absolutely. Most couples add an engagement session — it is the best way to get comfortable in front of the camera before the wedding."
+        },
+        {
+          "q": "Do you have backup equipment?",
+          "a": "Always. Two professional bodies, multiple lenses, backup cards, dual card slots and offline redundancy for every shoot."
+        }
+      ],
+      "seo": {
+        "title": "Wedding Photographer Dublin | Documentary & Editorial | Vinicius Murari",
+        "description": "Dublin wedding photographer specialising in documentary, editorial and fine-art storytelling. Full-day coverage, destination weddings across Ireland. Book a consultation today.",
+        "ogImage": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg"
+      },
+      "hero": {
+        "cta": {
+          "text": "Get a Free Quote",
+          "action": "form"
+        },
+        "mode": "photo",
+        "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg",
+        "slides": [
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/smcxpwhicyr92upqo5gu.jpg"
+        ],
+        "headline": "Weddings, told<br><em>your way.</em>",
+        "pillText": "Booking weddings in Ireland",
+        "trustLine": "Trusted by couples in Dublin, Cork, Galway and beyond",
+        "subheadline": "Documentary storytelling, editorial portraits and fine-art prints. Your day — honestly and beautifully captured.",
+        "ctaSecondary": {
+          "link": "#lp-services",
+          "text": "See My Work"
+        }
+      },
+      "slug": "wedding-photography",
+      "stats": [
+        {
+          "label": "More Bookings",
+          "value": "40%"
+        },
+        {
+          "label": "Higher Occupancy",
+          "value": "2.5x"
+        },
+        {
+          "label": "Extra Revenue/Year",
+          "value": "€2,455"
+        }
+      ],
+      "active": true,
+      "contact": {
+        "whatsapp": "",
+        "finalCtaSub": "Book your shoot today and start getting more bookings.",
+        "web3formsKey": "",
+        "finalCtaTitle": "Ready to Transform <em>Your Property?</em>",
+        "whatsappMessage": "Hi! I'm interested in property photography services."
+      },
+      "problem": {
+        "text": "Guests scroll through hundreds of listings in seconds. Low-quality photos make your property invisible — no matter how beautiful it actually is. You're losing revenue every single day to competitors with better visuals.",
+        "image": "",
+        "headline": "Your Photos Are <em>Costing You Bookings</em>"
+      },
+      "process": [
+        {
+          "step": "1",
+          "text": "Choose your package and pick a date that works for you. We'll handle the rest.",
+          "title": "Book"
+        },
+        {
+          "step": "2",
+          "text": "Our team arrives, sets up, and captures your property at its absolute best.",
+          "title": "Shoot"
+        },
+        {
+          "step": "3",
+          "text": "Get your professionally edited photos, videos and tours within 48 hours.",
+          "title": "Receive"
+        }
+      ],
+      "packages": [
+        {
+          "name": "Essential",
+          "price": "",
+          "features": [
+            "Up to 20 professional photos",
+            "HDR editing",
+            "Delivered in 48h",
+            "Optimised for platforms"
+          ],
+          "showPrice": false,
+          "highlighted": false
+        },
+        {
+          "name": "Professional",
+          "price": "",
+          "features": [
+            "Up to 40 professional photos",
+            "HDR editing",
+            "60s video walkthrough",
+            "Drone aerial shots",
+            "Delivered in 48h"
+          ],
+          "showPrice": false,
+          "highlighted": true
+        },
+        {
+          "name": "Premium",
+          "price": "",
+          "features": [
+            "Unlimited professional photos",
+            "HDR editing",
+            "2-3 min cinematic video",
+            "Drone aerial shots",
+            "Matterport 3D tour",
+            "Social media reels",
+            "Floor plan"
+          ],
+          "showPrice": false,
+          "highlighted": false
+        }
+      ],
+      "services": [
+        {
+          "icon": "📸",
+          "title": "Photography",
+          "features": [
+            "HDR professional editing",
+            "Twilight & golden hour shots",
+            "Optimised for Airbnb/Booking.com"
+          ],
+          "description": "High-end interior and exterior shots that make guests fall in love before they arrive.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🎬",
+          "title": "Video Tour",
+          "features": [
+            "4K cinematic quality",
+            "Professional colour grading",
+            "Background music licensed"
+          ],
+          "description": "Cinematic walkthrough videos that give guests the full experience of your property.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🚁",
+          "title": "Drone & Aerial",
+          "features": [
+            "Licensed drone operator",
+            "Location & neighbourhood views",
+            "4K aerial video included"
+          ],
+          "description": "Stunning aerial perspectives that showcase your property's location and surroundings.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "📱",
+          "title": "Reels & Social",
+          "features": [
+            "Vertical 9:16 format",
+            "Trending transitions & effects",
+            "Ready to post"
+          ],
+          "description": "Short-form vertical content optimised for Instagram, TikTok and social media marketing.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🏠",
+          "title": "3D Virtual Tour",
+          "features": [
+            "Matterport technology",
+            "Embed on any platform",
+            "Floor plans included"
+          ],
+          "description": "Interactive Matterport 3D tours that let guests explore every room from their phone.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "https://my.matterport.com/show/?m=DuzceLp1kpg",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "✨",
+          "title": "Full Package",
+          "features": [
+            "All services combined",
+            "Best value",
+            "Priority turnaround"
+          ],
+          "description": "The complete visual solution — everything your property needs in one shoot day.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "https://my.matterport.com/show/?m=DuzceLp1kpg",
+          "whatsappMsg": ""
+        }
+      ],
+      "showreel": {
+        "url": "",
+        "thumbnail": ""
+      },
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637303944_photo_2dceb6e38e5b",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637322868_photo_145f5126da38",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637346368_photo_9ebce7fa8113",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637366124_photo_7613176472bb",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637391079_photo_b4d95bfe3649",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637420137_photo_fe8786c283b3",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637446041_photo_dda64b7d8576",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637470431_photo_715dfb39f298",
+          "caption": ""
+        }
+      ],
+      "beforeAfter": [],
+      "testimonials": [
+        {
+          "name": "Sarah M.",
+          "role": "Airbnb Superhost, Dublin 4",
+          "text": "Since getting professional photos, my bookings increased by 35% in the first month. Best investment I've made for my property.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "James K.",
+          "role": "Hotel Manager, Dublin 2",
+          "text": "Vinicius captured our hotel beautifully. The drone shots of our rooftop terrace have been incredible for marketing.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Ana L.",
+          "role": "Property Manager, Dublin 6",
+          "text": "Managing 12 Airbnbs, I needed a photographer who understands the platform. The 3D tours have been a game-changer for our listings.",
+          "photo": "",
+          "rating": 5
+        }
+      ],
+      "showBeforeAfter": false
+    },
+    {
+      "id": "lp_corporate_photography",
+      "faq": [
+        {
+          "q": "Can you cover multi-day conferences?",
+          "a": "Yes — full-day, multi-day and multi-location conference coverage including stage, audience, breakouts and sponsor activations."
+        },
+        {
+          "q": "Do you offer same-day turnaround?",
+          "a": "Selected edited images can be delivered within 3-6 hours for same-day press use. Full gallery follows in 48-72 hours."
+        },
+        {
+          "q": "What is your headshot studio setup?",
+          "a": "I bring a full mobile studio on location. 20 people per hour is typical; each person gets 3-5 retouched finals."
+        },
+        {
+          "q": "Do you shoot video as well?",
+          "a": "Yes — dual-operator video and photo coverage is available. Edited highlight reels typically delivered in 5-7 days."
+        },
+        {
+          "q": "What commercial rights do I get?",
+          "a": "Unlimited internal and external commercial usage — website, social, press, reports. The licence covers the whole organisation."
+        }
+      ],
+      "seo": {
+        "title": "Corporate Photographer Dublin | Conferences, Headshots, Events | Vinicius Murari",
+        "description": "Corporate photography and video in Dublin — conferences, headshots, team portraits, product launches and company events. Same-week delivery available.",
+        "ogImage": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg"
+      },
+      "hero": {
+        "cta": {
+          "text": "Get a Free Quote",
+          "action": "form"
+        },
+        "mode": "photo",
+        "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg",
+        "slides": [
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/gee7yhquzzvovwxl37zb.jpg"
+        ],
+        "headline": "Corporate imagery<br><em>that performs.</em>",
+        "pillText": "Booking corporate shoots in Dublin",
+        "trustLine": "Trusted by Dublin agencies, startups and Fortune 500 teams",
+        "subheadline": "Conferences, leadership portraits, team culture and brand launches. Fast turnaround, commercial licence included.",
+        "ctaSecondary": {
+          "link": "#lp-services",
+          "text": "See My Work"
+        }
+      },
+      "slug": "corporate-photography",
+      "stats": [
+        {
+          "label": "More Bookings",
+          "value": "40%"
+        },
+        {
+          "label": "Higher Occupancy",
+          "value": "2.5x"
+        },
+        {
+          "label": "Extra Revenue/Year",
+          "value": "€2,455"
+        }
+      ],
+      "active": true,
+      "contact": {
+        "whatsapp": "",
+        "finalCtaSub": "Book your shoot today and start getting more bookings.",
+        "web3formsKey": "",
+        "finalCtaTitle": "Ready to Transform <em>Your Property?</em>",
+        "whatsappMessage": "Hi! I'm interested in property photography services."
+      },
+      "problem": {
+        "text": "Guests scroll through hundreds of listings in seconds. Low-quality photos make your property invisible — no matter how beautiful it actually is. You're losing revenue every single day to competitors with better visuals.",
+        "image": "",
+        "headline": "Your Photos Are <em>Costing You Bookings</em>"
+      },
+      "process": [
+        {
+          "step": "1",
+          "text": "Choose your package and pick a date that works for you. We'll handle the rest.",
+          "title": "Book"
+        },
+        {
+          "step": "2",
+          "text": "Our team arrives, sets up, and captures your property at its absolute best.",
+          "title": "Shoot"
+        },
+        {
+          "step": "3",
+          "text": "Get your professionally edited photos, videos and tours within 48 hours.",
+          "title": "Receive"
+        }
+      ],
+      "packages": [
+        {
+          "name": "Essential",
+          "price": "",
+          "features": [
+            "Up to 20 professional photos",
+            "HDR editing",
+            "Delivered in 48h",
+            "Optimised for platforms"
+          ],
+          "showPrice": false,
+          "highlighted": false
+        },
+        {
+          "name": "Professional",
+          "price": "",
+          "features": [
+            "Up to 40 professional photos",
+            "HDR editing",
+            "60s video walkthrough",
+            "Drone aerial shots",
+            "Delivered in 48h"
+          ],
+          "showPrice": false,
+          "highlighted": true
+        },
+        {
+          "name": "Premium",
+          "price": "",
+          "features": [
+            "Unlimited professional photos",
+            "HDR editing",
+            "2-3 min cinematic video",
+            "Drone aerial shots",
+            "Matterport 3D tour",
+            "Social media reels",
+            "Floor plan"
+          ],
+          "showPrice": false,
+          "highlighted": false
+        }
+      ],
+      "services": [
+        {
+          "icon": "📸",
+          "title": "Photography",
+          "features": [
+            "HDR professional editing",
+            "Twilight & golden hour shots",
+            "Optimised for Airbnb/Booking.com"
+          ],
+          "description": "High-end interior and exterior shots that make guests fall in love before they arrive.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🎬",
+          "title": "Video Tour",
+          "features": [
+            "4K cinematic quality",
+            "Professional colour grading",
+            "Background music licensed"
+          ],
+          "description": "Cinematic walkthrough videos that give guests the full experience of your property.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🚁",
+          "title": "Drone & Aerial",
+          "features": [
+            "Licensed drone operator",
+            "Location & neighbourhood views",
+            "4K aerial video included"
+          ],
+          "description": "Stunning aerial perspectives that showcase your property's location and surroundings.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "📱",
+          "title": "Reels & Social",
+          "features": [
+            "Vertical 9:16 format",
+            "Trending transitions & effects",
+            "Ready to post"
+          ],
+          "description": "Short-form vertical content optimised for Instagram, TikTok and social media marketing.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🏠",
+          "title": "3D Virtual Tour",
+          "features": [
+            "Matterport technology",
+            "Embed on any platform",
+            "Floor plans included"
+          ],
+          "description": "Interactive Matterport 3D tours that let guests explore every room from their phone.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "https://my.matterport.com/show/?m=DuzceLp1kpg",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "✨",
+          "title": "Full Package",
+          "features": [
+            "All services combined",
+            "Best value",
+            "Priority turnaround"
+          ],
+          "description": "The complete visual solution — everything your property needs in one shoot day.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "https://my.matterport.com/show/?m=DuzceLp1kpg",
+          "whatsappMsg": ""
+        }
+      ],
+      "showreel": {
+        "url": "",
+        "thumbnail": ""
+      },
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637303944_photo_2dceb6e38e5b",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637322868_photo_145f5126da38",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637346368_photo_9ebce7fa8113",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637366124_photo_7613176472bb",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637391079_photo_b4d95bfe3649",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637420137_photo_fe8786c283b3",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637446041_photo_dda64b7d8576",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637470431_photo_715dfb39f298",
+          "caption": ""
+        }
+      ],
+      "beforeAfter": [],
+      "testimonials": [
+        {
+          "name": "Sarah M.",
+          "role": "Airbnb Superhost, Dublin 4",
+          "text": "Since getting professional photos, my bookings increased by 35% in the first month. Best investment I've made for my property.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "James K.",
+          "role": "Hotel Manager, Dublin 2",
+          "text": "Vinicius captured our hotel beautifully. The drone shots of our rooftop terrace have been incredible for marketing.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Ana L.",
+          "role": "Property Manager, Dublin 6",
+          "text": "Managing 12 Airbnbs, I needed a photographer who understands the platform. The 3D tours have been a game-changer for our listings.",
+          "photo": "",
+          "rating": 5
+        }
+      ],
+      "showBeforeAfter": false
+    },
+    {
+      "id": "lp_drone_photography",
+      "faq": [
+        {
+          "q": "Are you licensed to fly in Ireland?",
+          "a": "Yes. I hold the IAA drone operator authorisation and €2 million public liability insurance, with flight permissions arranged for restricted zones."
+        },
+        {
+          "q": "Can you fly in Dublin city centre?",
+          "a": "Most Dublin zones require prior authorisation. I handle all permissions, NOTAMs and airspace clearances — typically 5-10 working days lead time."
+        },
+        {
+          "q": "What footage quality do you deliver?",
+          "a": "4K 60fps video, 20MP stills, RAW/ProRes available on request. Fully graded and edited highlights delivered in 5-7 days."
+        },
+        {
+          "q": "Do you fly in rain?",
+          "a": "No — safety first. If conditions are unsuitable we reschedule at no cost. I monitor weather 48 hours ahead and confirm the morning of the shoot."
+        },
+        {
+          "q": "Can you combine drone with ground photography?",
+          "a": "Yes. Most property and event bookings include drone alongside traditional photo and video — one team, one day, one deliverable."
+        }
+      ],
+      "seo": {
+        "title": "Drone Photographer Dublin | IAA-Licensed Aerial Video & Photography | Vinicius Murari",
+        "description": "IAA-licensed drone operator in Dublin. Aerial photography and 4K video for property, construction, events and tourism across Ireland. Fully insured.",
+        "ogImage": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002"
+      },
+      "hero": {
+        "cta": {
+          "text": "Get a Free Quote",
+          "action": "form"
+        },
+        "mode": "photo",
+        "image": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+        "slides": [
+          "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002"
+        ],
+        "headline": "The aerial view,<br><em>done properly.</em>",
+        "pillText": "IAA-licensed · Fully insured",
+        "trustLine": "IAA-certified · €2m public liability · Fly zones cleared in advance",
+        "subheadline": "4K aerial video and high-resolution stills for property, construction, tourism and events. IAA-certified and insured across Ireland.",
+        "ctaSecondary": {
+          "link": "#lp-services",
+          "text": "See My Work"
+        }
+      },
+      "slug": "drone-photography",
+      "stats": [
+        {
+          "label": "More Bookings",
+          "value": "40%"
+        },
+        {
+          "label": "Higher Occupancy",
+          "value": "2.5x"
+        },
+        {
+          "label": "Extra Revenue/Year",
+          "value": "€2,455"
+        }
+      ],
+      "active": true,
+      "contact": {
+        "whatsapp": "",
+        "finalCtaSub": "Book your shoot today and start getting more bookings.",
+        "web3formsKey": "",
+        "finalCtaTitle": "Ready to Transform <em>Your Property?</em>",
+        "whatsappMessage": "Hi! I'm interested in property photography services."
+      },
+      "problem": {
+        "text": "Guests scroll through hundreds of listings in seconds. Low-quality photos make your property invisible — no matter how beautiful it actually is. You're losing revenue every single day to competitors with better visuals.",
+        "image": "",
+        "headline": "Your Photos Are <em>Costing You Bookings</em>"
+      },
+      "process": [
+        {
+          "step": "1",
+          "text": "Choose your package and pick a date that works for you. We'll handle the rest.",
+          "title": "Book"
+        },
+        {
+          "step": "2",
+          "text": "Our team arrives, sets up, and captures your property at its absolute best.",
+          "title": "Shoot"
+        },
+        {
+          "step": "3",
+          "text": "Get your professionally edited photos, videos and tours within 48 hours.",
+          "title": "Receive"
+        }
+      ],
+      "packages": [
+        {
+          "name": "Essential",
+          "price": "",
+          "features": [
+            "Up to 20 professional photos",
+            "HDR editing",
+            "Delivered in 48h",
+            "Optimised for platforms"
+          ],
+          "showPrice": false,
+          "highlighted": false
+        },
+        {
+          "name": "Professional",
+          "price": "",
+          "features": [
+            "Up to 40 professional photos",
+            "HDR editing",
+            "60s video walkthrough",
+            "Drone aerial shots",
+            "Delivered in 48h"
+          ],
+          "showPrice": false,
+          "highlighted": true
+        },
+        {
+          "name": "Premium",
+          "price": "",
+          "features": [
+            "Unlimited professional photos",
+            "HDR editing",
+            "2-3 min cinematic video",
+            "Drone aerial shots",
+            "Matterport 3D tour",
+            "Social media reels",
+            "Floor plan"
+          ],
+          "showPrice": false,
+          "highlighted": false
+        }
+      ],
+      "services": [
+        {
+          "icon": "📸",
+          "title": "Photography",
+          "features": [
+            "HDR professional editing",
+            "Twilight & golden hour shots",
+            "Optimised for Airbnb/Booking.com"
+          ],
+          "description": "High-end interior and exterior shots that make guests fall in love before they arrive.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🎬",
+          "title": "Video Tour",
+          "features": [
+            "4K cinematic quality",
+            "Professional colour grading",
+            "Background music licensed"
+          ],
+          "description": "Cinematic walkthrough videos that give guests the full experience of your property.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🚁",
+          "title": "Drone & Aerial",
+          "features": [
+            "Licensed drone operator",
+            "Location & neighbourhood views",
+            "4K aerial video included"
+          ],
+          "description": "Stunning aerial perspectives that showcase your property's location and surroundings.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "📱",
+          "title": "Reels & Social",
+          "features": [
+            "Vertical 9:16 format",
+            "Trending transitions & effects",
+            "Ready to post"
+          ],
+          "description": "Short-form vertical content optimised for Instagram, TikTok and social media marketing.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "🏠",
+          "title": "3D Virtual Tour",
+          "features": [
+            "Matterport technology",
+            "Embed on any platform",
+            "Floor plans included"
+          ],
+          "description": "Interactive Matterport 3D tours that let guests explore every room from their phone.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "",
+          "tourUrl": "https://my.matterport.com/show/?m=DuzceLp1kpg",
+          "whatsappMsg": ""
+        },
+        {
+          "icon": "✨",
+          "title": "Full Package",
+          "features": [
+            "All services combined",
+            "Best value",
+            "Priority turnaround"
+          ],
+          "description": "The complete visual solution — everything your property needs in one shoot day.",
+          "portfolio": [
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774805269339_31_Ranelagh_002",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
+              "caption": ""
+            },
+            {
+              "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804785917_food_photography-05",
+              "caption": ""
+            }
+          ],
+          "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "tourUrl": "https://my.matterport.com/show/?m=DuzceLp1kpg",
+          "whatsappMsg": ""
+        }
+      ],
+      "showreel": {
+        "url": "",
+        "thumbnail": ""
+      },
+      "portfolio": [
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637303944_photo_2dceb6e38e5b",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637322868_photo_145f5126da38",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637346368_photo_9ebce7fa8113",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637366124_photo_7613176472bb",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637391079_photo_b4d95bfe3649",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637420137_photo_fe8786c283b3",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637446041_photo_dda64b7d8576",
+          "caption": ""
+        },
+        {
+          "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hotels/1776637470431_photo_715dfb39f298",
+          "caption": ""
+        }
+      ],
+      "beforeAfter": [],
+      "testimonials": [
+        {
+          "name": "Sarah M.",
+          "role": "Airbnb Superhost, Dublin 4",
+          "text": "Since getting professional photos, my bookings increased by 35% in the first month. Best investment I've made for my property.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "James K.",
+          "role": "Hotel Manager, Dublin 2",
+          "text": "Vinicius captured our hotel beautifully. The drone shots of our rooftop terrace have been incredible for marketing.",
+          "photo": "",
+          "rating": 5
+        },
+        {
+          "name": "Ana L.",
+          "role": "Property Manager, Dublin 6",
+          "text": "Managing 12 Airbnbs, I needed a photographer who understands the platform. The 3D tours have been a game-changer for our listings.",
+          "photo": "",
+          "rating": 5
+        }
+      ],
+      "showBeforeAfter": false
     }
   ],
   "heroStrip": [

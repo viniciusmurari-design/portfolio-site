@@ -1,7 +1,13 @@
+# Static page clean URLs
+/privacy                 /privacy.html  200
+
 # Landing page clean URLs → serve landing.html (200 = rewrite, URL stays the same)
-/airbnb-photography    /landing.html  200
-/portrait-photography  /landing.html  200
-/product-photography   /landing.html  200
-/food-photography      /landing.html  200
-/family-photography    /landing.html  200
-/event-photography     /landing.html  200
+/airbnb-photography      /landing.html  200
+/wedding-photography     /landing.html  200
+/portrait-photography    /landing.html  200
+/product-photography     /landing.html  200
+/food-photography        /landing.html  200
+/family-photography      /landing.html  200
+/event-photography       /landing.html  200
+/corporate-photography   /landing.html  200
+/drone-photography       /landing.html  200

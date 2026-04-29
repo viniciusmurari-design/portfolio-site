@@ -4,28 +4,39 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://api.cloudinary.com https://maps.googleapis.com https://*.supabase.co https://lh3.googleusercontent.com https://i.imgur.com https://player.vimeo.com; connect-src 'self' https://buhuwnkljilyysyrdkxr.supabase.co wss://buhuwnkljilyysyrdkxr.supabase.co https://api.cloudinary.com https://api.web3forms.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://my.matterport.com https://player.vimeo.com https://www.google.com https://maps.google.com https://maps.googleapis.com; media-src 'self' https://res.cloudinary.com blob:; worker-src blob:;
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://api.cloudinary.com https://maps.googleapis.com https://*.supabase.co https://lh3.googleusercontent.com https://i.imgur.com https://player.vimeo.com https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://buhuwnkljilyysyrdkxr.supabase.co wss://buhuwnkljilyysyrdkxr.supabase.co https://api.cloudinary.com https://api.web3forms.com https://www.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com https://my.matterport.com https://player.vimeo.com https://www.google.com https://maps.google.com https://maps.googleapis.com; media-src 'self' https://res.cloudinary.com blob:; worker-src blob:; form-action 'self' https://api.web3forms.com; base-uri 'self'; frame-ancestors 'self';
 
 /admin.html
   X-Robots-Tag: noindex, nofollow
   X-Frame-Options: DENY
 
+# All /api/* endpoints — restrict CORS to the production origin (and admin's
+# preview domain). The local dev server runs from server.py and ignores
+# these (they're enforced by Cloudflare in production).
 /api/delete-photo
   Access-Control-Allow-Origin: https://viniciusmurari.com
   Access-Control-Allow-Headers: Content-Type, X-Admin-Token
   Access-Control-Allow-Methods: POST, OPTIONS
+  Vary: Origin
 
 /api/settings
-  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Origin: https://viniciusmurari.com
   Access-Control-Allow-Headers: Content-Type
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+  Vary: Origin
 
 /api/photos
-  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Origin: https://viniciusmurari.com
   Access-Control-Allow-Headers: Content-Type
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Vary: Origin
 
 /api/content
-  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Origin: https://viniciusmurari.com
   Access-Control-Allow-Headers: Content-Type
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+  Vary: Origin
 
 /*.js
   Cache-Control: public, max-age=31536000, immutable
@@ -35,6 +46,24 @@
 
 /settings.json
   Cache-Control: public, max-age=300, stale-while-revalidate=86400
+
+/landing-pages.json
+  Cache-Control: public, max-age=300, stale-while-revalidate=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+  Content-Type: application/xml; charset=utf-8
+
+/image-sitemap.xml
+  Cache-Control: public, max-age=3600
+  Content-Type: application/xml; charset=utf-8
+
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=604800
+  Content-Type: application/manifest+json; charset=utf-8
 
 /404.html
   Cache-Control: no-cache
