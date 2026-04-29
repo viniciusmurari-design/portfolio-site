@@ -1310,14 +1310,23 @@ function saveEdits() {
 // Updates both the portfolio cat-cards AND the hero strip thumbnails.
 window.__settingsReady.then(() => {
   const covers = (Settings.get().categoryCover) || {};
+  // Ensure cover URL uses proper Cloudinary crop for cat-card thumbnails
+  function coverUrl(raw) {
+    if (!raw) return raw;
+    // Extract public ID from any Cloudinary URL and rebuild with correct transforms
+    const m = raw.match(/\/upload\/(?:[^/]+\/)*?(portfolio\/.+)$/);
+    if (m) return CL_BASE + '/w_800,h_1066,c_fill,q_auto,f_auto/' + m[1];
+    return raw; // non-Cloudinary URL, use as-is
+  }
   Object.entries(covers).forEach(([cat, url]) => {
     if (!url) return;
+    const croppedUrl = coverUrl(url);
     // Portfolio grid thumbnail
     const catImg = document.querySelector(`.cat-card[data-gallery="${CSS.escape(cat)}"] img`);
-    if (catImg) catImg.src = url;
+    if (catImg) catImg.src = croppedUrl;
     // Hero strip thumbnail
     const stripImg = document.querySelector(`.strip-card[data-gallery="${CSS.escape(cat)}"] img`);
-    if (stripImg) stripImg.src = url;
+    if (stripImg) stripImg.src = croppedUrl;
   });
 });
 
