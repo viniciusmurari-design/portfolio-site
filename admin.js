@@ -2821,6 +2821,7 @@ window.setTab = function(tab) {
     val('lp-heroCta2', p.hero?.ctaSecondary?.text);
     val('lp-heroPill', p.hero?.pillText);
     val('lp-heroTrust', p.hero?.trustLine);
+    val('lp-heroVideo', p.hero?.videoUrl);
     val('lp-heroImage', p.hero?.image);
     val('lp-heroSlides', (p.hero?.slides || []).map(s => s.url || s).join('\n'));
 
@@ -2898,6 +2899,7 @@ window.setTab = function(tab) {
       subheadline: gval('lp-heroSub'),
       cta: { text: gval('lp-heroCta'), action: 'form' },
       ctaSecondary: { text: gval('lp-heroCta2'), link: '#lp-portfolio' },
+      videoUrl: gval('lp-heroVideo'),
       image: gval('lp-heroImage'),
       slides: gval('lp-heroSlides').split('\n').filter(u => u.trim()).map(u => ({ url: u.trim() })),
       pillText: gval('lp-heroPill'),

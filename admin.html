@@ -702,9 +702,13 @@
               <div class="field"><label>Pill Text</label><input id="lp-heroPill" placeholder="Available for bookings in Dublin"></div>
               <div class="field"><label>Trust Line</label><input id="lp-heroTrust" placeholder="Trusted by 50+ Airbnb hosts in Dublin"></div>
             </div>
-            <div class="field"><label>Hero Image URL</label><input id="lp-heroImage" placeholder="https://res.cloudinary.com/..."></div>
             <div class="field">
-              <label>Hero Slides (one URL per line, for slider mode)</label>
+              <label>Hero Video URL <span style="font-weight:400;color:var(--muted);font-size:0.72rem">(Cloudinary/MP4 — tem prioridade sobre fotos)</span></label>
+              <input id="lp-heroVideo" placeholder="https://res.cloudinary.com/.../video.mp4">
+            </div>
+            <div class="field"><label>Hero Image URL <span style="font-weight:400;color:var(--muted);font-size:0.72rem">(usada se não tiver vídeo nem slides)</span></label><input id="lp-heroImage" placeholder="https://res.cloudinary.com/..."></div>
+            <div class="field">
+              <label>Hero Slides <span style="font-weight:400;color:var(--muted);font-size:0.72rem">(um URL por linha — cria slideshow automático)</span></label>
               <textarea id="lp-heroSlides" rows="3" placeholder="https://res.cloudinary.com/...&#10;https://res.cloudinary.com/..."></textarea>
             </div>
           </div>

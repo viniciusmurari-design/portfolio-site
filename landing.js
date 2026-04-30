@@ -76,6 +76,7 @@
         cta: { text: 'Get a Free Quote', action: 'form' },
         ctaSecondary: { text: 'See My Work', link: '#lp-services' },
         image: '',
+        videoUrl: '',
         slides: [],
         pillText: 'Available for bookings in Dublin',
         trustLine: 'Trusted by 50+ Airbnb hosts in Dublin'
@@ -100,6 +101,7 @@
       ],
       portfolio: [],
       showreel: { url: '', youtubeUrl: '', thumbnail: '' },
+
       beforeAfter: [],
       process: [
         { step: '1', title: 'Book', text: 'Choose your package and pick a date that works for you. We\'ll handle the rest.' },
@@ -344,31 +346,41 @@
       }
     }
 
-    // Hero background
+    // Hero background — priority: video > slides/image > dark default
     const slidesContainer = document.getElementById('lpHeroSlides');
     const dotsContainer = document.getElementById('lpHeroDots');
-    const slides = h.slides && h.slides.length > 0 ? h.slides : (h.image ? [{ url: h.image }] : []);
 
-    if (slides.length > 0) {
-      slides.forEach((s, i) => {
-        const div = document.createElement('div');
-        div.className = 'hero-slide' + (i === 0 ? ' active' : '');
-        div.style.backgroundImage = `url(${s.url})`;
-        slidesContainer.appendChild(div);
-
-        if (slides.length > 1) {
-          const dot = document.createElement('button');
-          dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
-          dot.setAttribute('aria-label', `Slide ${i+1}`);
-          dot.addEventListener('click', () => goToSlide(i));
-          dotsContainer.appendChild(dot);
-        }
-      });
-
-      if (slides.length > 1) startSlideshow(slides.length);
+    if (h.videoUrl) {
+      // Video background (muted autoplay loop — same as home hero)
+      const video = document.createElement('video');
+      video.src = h.videoUrl;
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.className = 'lp-hero-video';
+      video.setAttribute('aria-hidden', 'true');
+      slidesContainer.parentElement.insertBefore(video, slidesContainer);
     } else {
-      // Default dark background
-      document.querySelector('.lp-hero').style.background = '#111';
+      const slides = h.slides && h.slides.length > 0 ? h.slides : (h.image ? [{ url: h.image }] : []);
+      if (slides.length > 0) {
+        slides.forEach((s, i) => {
+          const div = document.createElement('div');
+          div.className = 'hero-slide' + (i === 0 ? ' active' : '');
+          div.style.backgroundImage = `url(${s.url})`;
+          slidesContainer.appendChild(div);
+
+          if (slides.length > 1) {
+            const dot = document.createElement('button');
+            dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Slide ${i+1}`);
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+          }
+        });
+        if (slides.length > 1) startSlideshow(slides.length);
+      }
+      // else: default dark background from CSS
     }
   }
 
@@ -417,7 +429,9 @@
     if (services.length === 0) { document.getElementById('lp-services').style.display = 'none'; return; }
     const grid = document.getElementById('lpServicesGrid');
     grid.innerHTML = services.map((s, i) => {
-      const hasMedia = (s.portfolio && s.portfolio.length > 0) || s.videoUrl;
+      // If service has a tourUrl, it opens directly — no portfolio modal shown
+      const hasPortfolioMedia = (s.portfolio && s.portfolio.length > 0) || s.videoUrl;
+      const showPortfolioBtn = hasPortfolioMedia && !s.tourUrl;
       return `
         <div class="lp-service-card lp-reveal">
           <div class="lp-service-icon">${s.icon || '📸'}</div>
@@ -425,7 +439,7 @@
           <p>${esc(s.description)}</p>
           ${s.features && s.features.length ? `<ul class="lp-service-features">${s.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:12px">
-            ${hasMedia ? `<button class="lp-service-media-btn" onclick="openServiceModal(${i})">View Portfolio →</button>` : ''}
+            ${showPortfolioBtn ? `<button class="lp-service-media-btn" onclick="openServiceModal(${i})">View Portfolio →</button>` : ''}
             ${s.tourUrl ? `<a href="${esc(s.tourUrl)}" target="_blank" rel="noopener" class="lp-service-media-btn" style="text-decoration:none">Open 3D Tour ↗</a>` : ''}
           </div>
         </div>`;

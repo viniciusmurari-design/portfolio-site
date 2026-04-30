@@ -31,6 +31,11 @@
 .lp-hero-slides {
   position: absolute; inset: 0; z-index: 0;
 }
+.lp-hero-video {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  pointer-events: none;
+}
 .lp-hero-slides .hero-slide {
   position: absolute; inset: 0;
   background: center/cover no-repeat;
