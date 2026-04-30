@@ -417,7 +417,7 @@
     if (services.length === 0) { document.getElementById('lp-services').style.display = 'none'; return; }
     const grid = document.getElementById('lpServicesGrid');
     grid.innerHTML = services.map((s, i) => {
-      const hasMedia = (s.portfolio && s.portfolio.length > 0) || s.videoUrl || s.tourUrl;
+      const hasMedia = (s.portfolio && s.portfolio.length > 0) || s.videoUrl;
       return `
         <div class="lp-service-card lp-reveal">
           <div class="lp-service-icon">${s.icon || '📸'}</div>
