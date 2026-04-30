@@ -286,6 +286,7 @@ if (form) {
     const btn = form.querySelector('.fsub');
     btn.disabled = true;
     btn.textContent = 'Sending…';
+    form.setAttribute('aria-busy', 'true');
 
     const _s = Settings.get();
     const _w3f = _s.web3formsKey;
@@ -325,6 +326,7 @@ if (form) {
       setTimeout(() => { btn.textContent = 'Send Message'; }, 3000);
     }).finally(() => {
       btn.disabled = false;
+      form.removeAttribute('aria-busy');
       if (btn.textContent === 'Sending…') btn.textContent = 'Send Message';
     });
   });
@@ -440,6 +442,7 @@ async function openGallery(id) {
   }
 
   galGrid.innerHTML = Array(8).fill('<div class="gal-skeleton"></div>').join('');
+  galModal._opener = document.activeElement; // save for focus return on close
   galModal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
@@ -577,10 +580,13 @@ function addGalItem(src, alt, index, sub) {
 }
 
 function closeGallery() {
+  const opener = galModal._opener;
   galModal.classList.remove('open');
   document.body.style.overflow = '';
   allGalleryItems = [];
   currentGalleryImages = [];
+  // Return focus to the card that opened the gallery
+  if (opener && typeof opener.focus === 'function') opener.focus();
 }
 
 galClose.addEventListener('click', closeGallery);
@@ -715,8 +721,10 @@ const lbPrev    = document.getElementById('lbPrev');
 const lbNext    = document.getElementById('lbNext');
 
 let lbIndex = 0;
+let lbOpener = null; // element that opened the lightbox — focus returned on close
 
 function openLightbox(index) {
+  lbOpener = document.activeElement;
   lbIndex = index;
   buildThumbs();
   showLbPhoto(false);
@@ -729,6 +737,8 @@ function closeLightbox() {
   lightbox.classList.remove('open');
   if (lbVideo) { lbVideo.pause(); lbVideo.src = ''; lbVideo.style.display = 'none'; }
   lbImg.style.display = '';
+  // Return focus to the element that opened the lightbox
+  if (lbOpener && typeof lbOpener.focus === 'function') { lbOpener.focus(); lbOpener = null; }
 }
 
 function buildThumbs() {
@@ -793,6 +803,7 @@ function showLbPhoto(animate = true) {
   }
 
   lbCounter.textContent = `${targetIndex + 1} / ${currentGalleryImages.length}`;
+  lightbox.setAttribute('aria-label', `Photo ${targetIndex + 1} of ${currentGalleryImages.length}`);
   lbPrev.style.visibility = targetIndex === 0 ? 'hidden' : 'visible';
   lbNext.style.visibility = targetIndex === currentGalleryImages.length - 1 ? 'hidden' : 'visible';
 

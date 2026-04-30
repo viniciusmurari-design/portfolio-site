@@ -446,16 +446,25 @@
     }).join('');
   }
 
+  function cloudSrcset(url) {
+    if (!url || !url.includes('/upload/')) return '';
+    return [400, 800, 1200].map(w =>
+      url.replace('/upload/', `/upload/w_${w},c_limit,q_auto,f_auto/`) + ` ${w}w`
+    ).join(', ');
+  }
+
   function renderPortfolio() {
     const items = PAGE.portfolio || [];
     if (items.length === 0) { document.getElementById('lp-portfolio').style.display = 'none'; return; }
     const grid = document.getElementById('lpPortfolioGrid');
-    grid.innerHTML = items.map(p => `
+    grid.innerHTML = items.map(p => {
+      const ss = cloudSrcset(p.url);
+      return `
       <div class="lp-portfolio-item lp-reveal">
-        <img src="${esc(p.url)}" alt="${esc(p.caption || 'Property photography')}" loading="lazy">
+        <img src="${esc(p.url)}"${ss ? ` srcset="${ss}" sizes="(max-width:600px) 100vw,(max-width:1024px) 50vw,400px"` : ''} alt="${esc(p.caption || 'Property photography')}" loading="lazy" width="800" height="600">
         ${p.caption ? `<div class="lp-portfolio-caption">${esc(p.caption)}</div>` : ''}
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
 
   function renderShowreel() {
