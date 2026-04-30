@@ -2845,6 +2845,7 @@ window.setTab = function(tab) {
 
     // Showreel
     val('lp-showreelUrl', p.showreel?.url);
+    val('lp-showreelYoutubeUrl', p.showreel?.youtubeUrl);
     val('lp-showreelThumb', p.showreel?.thumbnail);
 
     // Process
@@ -2909,7 +2910,7 @@ window.setTab = function(tab) {
     p.portfolio = collectRepeater('lpPortfolioEditor', ['url', 'caption']);
     p.showBeforeAfter = document.getElementById('lp-showBeforeAfter')?.checked || false;
     p.beforeAfter = collectRepeater('lpBAEditor', ['before', 'after']);
-    p.showreel = { url: gval('lp-showreelUrl'), thumbnail: gval('lp-showreelThumb') };
+    p.showreel = { url: gval('lp-showreelUrl'), youtubeUrl: gval('lp-showreelYoutubeUrl'), thumbnail: gval('lp-showreelThumb') };
     p.process = collectRepeater('lpProcessEditor', ['step', 'title', 'text']);
     p.packages = collectPackages();
     p.testimonials = collectRepeater('lpTestimonialsEditor', ['name', 'role', 'text', 'photo', 'rating']);

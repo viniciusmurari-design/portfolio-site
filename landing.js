@@ -99,7 +99,7 @@
         { icon: '✨', title: 'Full Package', description: 'The complete visual solution — everything your property needs in one shoot day.', features: ['All services combined', 'Best value', 'Priority turnaround'] }
       ],
       portfolio: [],
-      showreel: { url: '', thumbnail: '' },
+      showreel: { url: '', youtubeUrl: '', thumbnail: '' },
       beforeAfter: [],
       process: [
         { step: '1', title: 'Book', text: 'Choose your package and pick a date that works for you. We\'ll handle the rest.' },
@@ -424,7 +424,10 @@
           <h3>${esc(s.title)}</h3>
           <p>${esc(s.description)}</p>
           ${s.features && s.features.length ? `<ul class="lp-service-features">${s.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
-          ${hasMedia ? `<button class="lp-service-media-btn" onclick="openServiceModal(${i})">View Portfolio →</button>` : ''}
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:12px">
+            ${hasMedia ? `<button class="lp-service-media-btn" onclick="openServiceModal(${i})">View Portfolio →</button>` : ''}
+            ${s.tourUrl ? `<a href="${esc(s.tourUrl)}" target="_blank" rel="noopener" class="lp-service-media-btn" style="text-decoration:none">Open 3D Tour ↗</a>` : ''}
+          </div>
         </div>`;
     }).join('');
   }
@@ -443,14 +446,35 @@
 
   function renderShowreel() {
     const sr = PAGE.showreel || {};
-    if (!sr.url) return;
+    const hasVideo = !!sr.url;
+    const hasYT = !!sr.youtubeUrl;
+    if (!hasVideo && !hasYT) return;
     document.getElementById('lp-showreel').style.display = '';
     const wrap = document.getElementById('lpShowreelWrap');
-    const ytId = getYouTubeId(sr.url);
-    if (ytId) {
-      wrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen loading="lazy"></iframe>`;
+    const parts = [];
+    if (hasVideo) {
+      const ytId = getYouTubeId(sr.url);
+      if (ytId) {
+        parts.push(`<iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen loading="lazy"></iframe>`);
+      } else {
+        parts.push(`<video src="${esc(sr.url)}" controls preload="metadata" poster="${esc(sr.thumbnail || '')}"></video>`);
+      }
+    }
+    if (hasYT) {
+      const ytId = getYouTubeId(sr.youtubeUrl);
+      if (ytId) {
+        parts.push(`<iframe src="https://www.youtube.com/embed/${ytId}?rel=0" allowfullscreen loading="lazy"></iframe>`);
+      }
+    }
+    if (parts.length === 1) {
+      wrap.innerHTML = parts[0];
+      wrap.style.display = '';
     } else {
-      wrap.innerHTML = `<video src="${esc(sr.url)}" controls preload="metadata" poster="${esc(sr.thumbnail || '')}"></video>`;
+      // Two items: side-by-side grid
+      wrap.style.display = 'grid';
+      wrap.style.gridTemplateColumns = '1fr 1fr';
+      wrap.style.gap = '24px';
+      wrap.innerHTML = parts.join('');
     }
   }
 
