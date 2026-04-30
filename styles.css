@@ -511,6 +511,24 @@ footer { background: var(--bg); border-top: 1px solid var(--light); padding: 36p
   .hero-strip { display: none; }
   .hero-dots { bottom: 8px; }
   .hero-dot { width: 8px; height: 8px; }
+
+  /* Category pill — move from top-right to bottom-center on mobile */
+  #hero #heroCta {
+    top: auto;
+    bottom: 36px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .hero-slide-cta-pill {
+    font-size: 0.72rem;
+    padding: 7px 16px;
+    gap: 7px;
+    white-space: nowrap;
+    max-width: calc(100vw - 40px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* ─── WhatsApp Float ─── */
