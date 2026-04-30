@@ -921,6 +921,15 @@
     .acc-chevron { flex-shrink: 0; transition: transform .25s ease; font-size: 0.9rem; line-height: 1; }
     details.info-accordion[open] .acc-chevron { transform: rotate(180deg); }
 
+    /* ─── Image picker rows ───────────────────────────────────────── */
+    .img-pick-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+    .img-pick-row .btn { font-size: 0.72rem; padding: 4px 10px; }
+    .img-pick-thumb {
+      width: 52px; height: 38px; object-fit: cover;
+      border-radius: 5px; border: 1px solid var(--border);
+      flex-shrink: 0; margin-left: auto; background: var(--bg-2);
+    }
+
     /* ─── Misc utils ───────────────────────────────────────────────── */
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
     .text-muted { color: var(--text-3); }

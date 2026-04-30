@@ -1645,21 +1645,7 @@ function setupCharCount(inputId, countId, max) {
   update();
 }
 
-// About photo upload
-document.getElementById('aboutPhotoUploadBtn').addEventListener('click', () => {
-  document.getElementById('aboutPhotoFile').click();
-});
-document.getElementById('aboutPhotoFile').addEventListener('change', async function() {
-  if (!this.files?.length) return;
-  try {
-    const url = await uploadImageOnly(this.files[0], 'about');
-    document.getElementById('c-aboutPhoto').value = url;
-    const preview = document.getElementById('aboutPhotoPreview');
-    preview.src = url; preview.style.display = 'block';
-    toast('Profile photo uploaded — click Save Content to apply', 'success');
-  } catch(e) { toast('Upload failed: ' + e.message, 'error'); }
-  this.value = '';
-});
+// About photo — picker initialized in initStaticPickers()
 
 // Save content
 document.getElementById('saveContentBtn').addEventListener('click', async function() {
@@ -1843,6 +1829,90 @@ function uploadImageOnly(file, folder, onProgress) {
     xhr.onerror = () => reject(new Error('Network error'));
     xhr.send(form);
   });
+}
+
+// ─── Reusable image picker ─────────────────────────────────────────────────
+// Adds [📂 Library] [⬆ Upload] buttons + thumbnail preview after any image input/textarea.
+// folder = Cloudinary folder string. opts.multi = true for textarea (appends URLs).
+function makeImagePicker(input, folder, opts = {}) {
+  if (!input || input.dataset.pickerDone) return;
+  input.dataset.pickerDone = '1';
+
+  const isTextarea = input.tagName === 'TEXTAREA';
+  const multi = opts.multi || isTextarea;
+
+  // Thumbnail preview (single-image inputs only)
+  let thumb = null;
+  if (!multi) {
+    thumb = document.createElement('img');
+    thumb.className = 'img-pick-thumb';
+    thumb.style.display = input.value ? '' : 'none';
+    if (input.value) thumb.src = _pickThumb(input.value);
+    input.addEventListener('input', () => {
+      if (input.value) { thumb.src = _pickThumb(input.value); thumb.style.display = ''; }
+      else thumb.style.display = 'none';
+    });
+  }
+
+  function _pickThumb(url) {
+    return (url || '').replace(/\/upload\//, '/upload/w_104,h_78,c_fill,q_auto,f_auto/');
+  }
+
+  // Library button
+  const libBtn = document.createElement('button');
+  libBtn.type = 'button';
+  libBtn.className = 'btn btn-secondary btn-sm';
+  libBtn.textContent = '📂 Library';
+  libBtn.addEventListener('click', e => {
+    e.preventDefault();
+    openMediaLibrary(items => {
+      if (!items.length) return;
+      if (multi) {
+        const cur = input.value.trim();
+        input.value = cur ? cur + '\n' + items.map(i => i.url).join('\n') : items.map(i => i.url).join('\n');
+      } else {
+        input.value = items[0].url;
+        if (thumb) { thumb.src = _pickThumb(items[0].url); thumb.style.display = ''; }
+      }
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, { subtitle: 'Pick from your uploaded photos', confirmLabel: multi ? 'Add Selected' : 'Use Photo' });
+  });
+
+  // Upload button + hidden file input
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file'; fileInput.accept = 'image/*'; fileInput.style.display = 'none';
+
+  const uploadBtn = document.createElement('button');
+  uploadBtn.type = 'button';
+  uploadBtn.className = 'btn btn-secondary btn-sm';
+  uploadBtn.textContent = '⬆ Upload';
+  uploadBtn.addEventListener('click', () => fileInput.click());
+
+  fileInput.addEventListener('change', async () => {
+    if (!fileInput.files[0]) return;
+    uploadBtn.textContent = '…'; uploadBtn.disabled = true;
+    try {
+      const url = await uploadImageOnly(fileInput.files[0], folder || 'misc');
+      if (multi) {
+        const cur = input.value.trim();
+        input.value = cur ? cur + '\n' + url : url;
+      } else {
+        input.value = url;
+        if (thumb) { thumb.src = _pickThumb(url); thumb.style.display = ''; }
+      }
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    } catch(err) { toast('Upload failed: ' + (err.message || err), 'error'); }
+    uploadBtn.textContent = '⬆ Upload'; uploadBtn.disabled = false; fileInput.value = '';
+  });
+
+  // Insert button row after input
+  const row = document.createElement('div');
+  row.className = 'img-pick-row';
+  row.appendChild(libBtn);
+  row.appendChild(uploadBtn);
+  row.appendChild(fileInput);
+  if (thumb) row.appendChild(thumb);
+  input.after(row);
 }
 
 // ─── Show video thumbnail in admin (first frame via Cloudinary) ───
@@ -3186,20 +3256,25 @@ window.setTab = function(tab) {
         <div>
           <div style="font-size:0.68rem;color:var(--text-3);margin-bottom:4px">BEFORE — original/raw image URL</div>
           <input data-field="before" value="${escA(item.before||'')}" placeholder="https://..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem">
-          ${item.before ? `<img src="${escA(item.before)}" style="margin-top:6px;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;border:1px solid var(--border)">` : ''}
         </div>
         <div>
           <div style="font-size:0.68rem;color:var(--text-3);margin-bottom:4px">AFTER — retouched/final image URL</div>
           <input data-field="after" value="${escA(item.after||'')}" placeholder="https://..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem">
-          ${item.after ? `<img src="${escA(item.after)}" style="margin-top:6px;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;border:1px solid var(--border)">` : ''}
         </div>
       </div>`;
+    row.querySelector('[data-field="before"]') && makeImagePicker(row.querySelector('[data-field="before"]'), 'landing');
+    row.querySelector('[data-field="after"]')  && makeImagePicker(row.querySelector('[data-field="after"]'),  'landing');
     return row;
   }
 
   function renderPortfolioRow(item) {
     const row = makeRow();
-    row.innerHTML += `<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;padding-right:28px"><input data-field="url" value="${escA(item.url)}" placeholder="Image URL" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="caption" value="${escA(item.caption || '')}" placeholder="Caption" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div>`;
+    row.innerHTML += `<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;padding-right:28px">
+      <div><input data-field="url" value="${escA(item.url)}" placeholder="Image URL" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div>
+      <input data-field="caption" value="${escA(item.caption || '')}" placeholder="Caption" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem">
+    </div>`;
+    const urlInput = row.querySelector('[data-field="url"]');
+    if (urlInput) makeImagePicker(urlInput, 'landing');
     return row;
   }
 
@@ -3229,7 +3304,8 @@ window.setTab = function(tab) {
 
   function renderTestimonialRow(item) {
     const row = makeRow();
-    row.innerHTML += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;padding-right:28px"><input data-field="name" value="${escA(item.name)}" placeholder="Client name" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="role" value="${escA(item.role || '')}" placeholder="Airbnb Superhost, Dublin" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div><textarea data-field="text" rows="2" placeholder="Review text..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;margin-bottom:6px;resize:vertical">${escH(item.text || '')}</textarea><div style="display:grid;grid-template-columns:1fr 80px;gap:8px"><input data-field="photo" value="${escA(item.photo || '')}" placeholder="Photo URL (optional)" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem"><input data-field="rating" type="number" min="1" max="5" value="${item.rating || 5}" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;text-align:center"></div>`;
+    row.innerHTML += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;padding-right:28px"><input data-field="name" value="${escA(item.name)}" placeholder="Client name" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"><input data-field="role" value="${escA(item.role || '')}" placeholder="Airbnb Superhost, Dublin" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem"></div><textarea data-field="text" rows="2" placeholder="Review text..." style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;margin-bottom:6px;resize:vertical">${escH(item.text || '')}</textarea><div style="display:grid;grid-template-columns:1fr 80px;gap:8px;padding-right:0"><div><input data-field="photo" value="${escA(item.photo || '')}" placeholder="Photo URL (optional)" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.78rem"></div><input data-field="rating" type="number" min="1" max="5" value="${item.rating || 5}" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;text-align:center"></div>`;
+    row.querySelector('[data-field="photo"]') && makeImagePicker(row.querySelector('[data-field="photo"]'), 'testimonials');
     return row;
   }
 
@@ -3442,3 +3518,20 @@ document.querySelectorAll('[data-strip-mode]').forEach(btn => {
     if (typeof setStripMode === 'function') setStripMode(btn.dataset.stripMode);
   });
 });
+
+// ─── Init image pickers for all static image URL fields ───────────────────
+// Must run after DOM is ready and makeImagePicker is defined.
+(function initStaticPickers() {
+  [
+    { id: 'c-aboutPhoto',      folder: 'about' },
+    { id: 'c-seoOgImage',      folder: 'seo' },
+    { id: 'lp-heroImage',      folder: 'hero' },
+    { id: 'lp-heroSlides',     folder: 'hero' },      // textarea → multi mode auto-detected
+    { id: 'lp-problemImage',   folder: 'landing' },
+    { id: 'lp-showreelThumb',  folder: 'landing' },
+    { id: 'blogCover',         folder: 'blog' },
+  ].forEach(({ id, folder }) => {
+    const el = document.getElementById(id);
+    if (el) makeImagePicker(el, folder);
+  });
+})();
