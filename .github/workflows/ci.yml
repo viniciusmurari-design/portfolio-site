@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint and validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check HTML files exist
+        run: |
+          test -f index.html && echo ok_index
+          test -f admin.html && echo ok_admin
+          test -f landing.html && echo ok_landing
+
+      - name: Check JS files exist
+        run: |
+          test -f script.js && echo ok_script
+          test -f admin.js && echo ok_adminjs
+          test -f landing.js && echo ok_landingjs
+
+      - name: Check CSS files exist
+        run: |
+          test -f styles.css && echo ok_styles
+          test -f admin.css && echo ok_admincss
+          test -f landing.css && echo ok_landingcss
+
+      - name: Check settings.json is valid JSON
+        run: python3 -c "import json,sys; json.load(open('settings.json'))"
+
+      - name: Validate JS syntax
+        run: |
+          node --check script.js
+          node --check admin.js
+          node --check landing.js
