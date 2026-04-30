@@ -907,6 +907,20 @@
     .platform-table th { font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-3); }
     .platform-table td:first-child { font-weight: 500; white-space: nowrap; }
 
+    /* ─── Info accordion ───────────────────────────────────────────── */
+    details.info-accordion { }
+    details.info-accordion > .info-box { margin-top: 14px; margin-bottom: 0; }
+    .info-accordion-summary {
+      list-style: none; cursor: pointer; user-select: none;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; font-weight: 600; color: var(--text-3);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .info-accordion-summary::-webkit-details-marker { display: none; }
+    .acc-line { flex: 1; height: 1px; background: var(--border); }
+    .acc-chevron { flex-shrink: 0; transition: transform .25s ease; font-size: 0.9rem; line-height: 1; }
+    details.info-accordion[open] .acc-chevron { transform: rotate(180deg); }
+
     /* ─── Misc utils ───────────────────────────────────────────────── */
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
     .text-muted { color: var(--text-3); }

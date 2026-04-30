@@ -11,7 +11,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="admin.css?v=3">
 </head>
 <body>
 
@@ -202,66 +202,78 @@
 
         <!-- How the site works -->
         <div class="card" style="margin-bottom:20px">
-          <div class="card-title">🌐 Como o site funciona</div>
-          <div class="info-box">
-            <h4>Resumo simples</h4>
-            <p>O seu site é composto por <strong>ficheiros estáticos</strong> (HTML, CSS, JS) — não há servidor backend tradicional. Tudo funciona assim:</p>
-            <ul>
-              <li><strong>Os ficheiros do site</strong> estão num repositório no GitHub. Quando faz push, o Cloudflare Pages detecta automaticamente e publica a versão nova em segundos.</li>
-              <li><strong>As fotos</strong> são guardadas no Cloudinary (nuvem de imagens). Quando faz upload aqui no admin, a foto vai direto para o Cloudinary.</li>
-              <li><strong>Os metadados das fotos</strong> (nome, categoria, ordem) ficam no Supabase (base de dados online). O site lê do Supabase para montar as galerias.</li>
-              <li><strong>Os textos, cores, reviews e configurações</strong> ficam no ficheiro <code>settings.json</code> dentro do repositório. Quando altera algo aqui no admin, ele guarda localmente e no ficheiro.</li>
-              <li><strong>O formulário de contacto</strong> usa Web3Forms para enviar as mensagens direto para o seu email — sem servidor.</li>
-              <li><strong>Analytics</strong> (se ativado) usa Google Analytics 4. Só carrega depois do visitante aceitar os cookies.</li>
-            </ul>
-            <p style="margin-top:10px"><strong>Para publicar alterações:</strong> clique em "🚀 Publish" no topo → o admin guarda tudo no settings.json → faça push para o GitHub (ou use o botão Push to GitHub na aba Social) → o site atualiza automaticamente no Cloudflare.</p>
-          </div>
+          <details class="info-accordion">
+            <summary class="info-accordion-summary">
+              <span>🌐 How the Site Works</span>
+              <span class="acc-line"></span>
+              <span class="acc-chevron">▾</span>
+            </summary>
+            <div class="info-box">
+              <h4>Quick overview</h4>
+              <p>The site is made of <strong>static files</strong> (HTML, CSS, JS) — no traditional backend. Here's how everything fits together:</p>
+              <ul>
+                <li><strong>Site files</strong> live in a GitHub repository. When you push, Cloudflare Pages detects it and publishes the new version in seconds.</li>
+                <li><strong>Photos &amp; videos</strong> are stored on Cloudinary (image/video cloud). Uploads from this admin go directly to Cloudinary.</li>
+                <li><strong>Photo metadata</strong> (name, category, order) is stored in Supabase (cloud database). The site reads from Supabase to build the galleries.</li>
+                <li><strong>Text, colours, reviews &amp; settings</strong> are stored in <code>settings.json</code> inside the repository. Every change you save here updates that file automatically.</li>
+                <li><strong>Contact form</strong> uses Web3Forms to deliver messages to your email — no server needed.</li>
+                <li><strong>Analytics</strong> (if enabled) uses Google Analytics 4. It only loads after a visitor accepts cookies.</li>
+              </ul>
+              <p style="margin-top:10px"><strong>To publish changes:</strong> click "🚀 Publish" at the top → admin saves everything to settings.json → push to GitHub (or use the Push to GitHub button in the Social tab) → the site updates automatically on Cloudflare.</p>
+            </div>
+          </details>
         </div>
 
         <!-- Platform logins -->
         <div class="card" style="margin-bottom:20px">
-          <div class="card-title">🔑 Plataformas e Logins</div>
-          <div class="info-box">
-            <p>O site depende de <strong>5 plataformas externas</strong>. Aqui está o que cada uma faz e quando precisa aceder:</p>
-            <table class="platform-table">
-              <thead>
-                <tr><th>Plataforma</th><th>Para que serve</th><th>Quando aceder</th><th>URL</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>☁️ Cloudflare Pages</td>
-                  <td>Hospeda o site e publica automaticamente quando faz push no GitHub. Grátis e ilimitado.</td>
-                  <td>Raramente — só para ver deploys ou configurar domínio.</td>
-                  <td><a href="https://dash.cloudflare.com" target="_blank" rel="noopener">dash.cloudflare.com</a></td>
-                </tr>
-                <tr>
-                  <td>🐙 GitHub</td>
-                  <td>Guarda o código do site. O Cloudflare lê daqui para publicar.</td>
-                  <td>Para fazer push de alterações (pode usar o botão Push to GitHub deste admin).</td>
-                  <td><a href="https://github.com/viniciusmurari-design/portfolio-site" target="_blank" rel="noopener">github.com</a></td>
-                </tr>
-                <tr>
-                  <td>🖼️ Cloudinary</td>
-                  <td>Guarda e serve todas as fotos e vídeos do portfolio. Entrega rápida via CDN.</td>
-                  <td>Raramente — upload é feito por este admin. Aceder só para verificar uso de espaço.</td>
-                  <td><a href="https://console.cloudinary.com" target="_blank" rel="noopener">console.cloudinary.com</a></td>
-                </tr>
-                <tr>
-                  <td>🗄️ Supabase</td>
-                  <td>Base de dados que guarda os metadados das fotos (categoria, nome, ordem) e posts do blog.</td>
-                  <td>Raramente — só para verificar segurança (RLS) ou ver dados diretamente.</td>
-                  <td><a href="https://supabase.com/dashboard" target="_blank" rel="noopener">supabase.com/dashboard</a></td>
-                </tr>
-                <tr>
-                  <td>📊 Google Analytics</td>
-                  <td>Mostra quantas pessoas visitam o site, de onde vêm e que páginas veem. Opcional.</td>
-                  <td>Quando quiser ver estatísticas de visitas.</td>
-                  <td><a href="https://analytics.google.com" target="_blank" rel="noopener">analytics.google.com</a></td>
-                </tr>
-              </tbody>
-            </table>
-            <p style="margin-top:12px"><strong>Web3Forms</strong> (formulário de contacto) <strong>não requer login</strong> — só a access key que já está configurada na aba Social &amp; SEO.</p>
-          </div>
+          <details class="info-accordion">
+            <summary class="info-accordion-summary">
+              <span>🔑 Platforms &amp; Logins</span>
+              <span class="acc-line"></span>
+              <span class="acc-chevron">▾</span>
+            </summary>
+            <div class="info-box">
+              <p>The site relies on <strong>5 external platforms</strong>. Here's what each one does and when you'll need to log in:</p>
+              <table class="platform-table">
+                <thead>
+                  <tr><th>Platform</th><th>What it does</th><th>When to access</th><th>URL</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>☁️ Cloudflare Pages</td>
+                    <td>Hosts the site and auto-publishes on every GitHub push. Free &amp; unlimited.</td>
+                    <td>Rarely — only to check deploys or configure a custom domain.</td>
+                    <td><a href="https://dash.cloudflare.com" target="_blank" rel="noopener">dash.cloudflare.com</a></td>
+                  </tr>
+                  <tr>
+                    <td>🐙 GitHub</td>
+                    <td>Stores the site code. Cloudflare reads from here to publish.</td>
+                    <td>To push changes (you can use the Push to GitHub button in this admin).</td>
+                    <td><a href="https://github.com/viniciusmurari-design/portfolio-site" target="_blank" rel="noopener">github.com</a></td>
+                  </tr>
+                  <tr>
+                    <td>🖼️ Cloudinary</td>
+                    <td>Stores and serves all portfolio photos &amp; videos via CDN.</td>
+                    <td>Rarely — uploads are handled in this admin. Log in only to check storage usage.</td>
+                    <td><a href="https://console.cloudinary.com" target="_blank" rel="noopener">console.cloudinary.com</a></td>
+                  </tr>
+                  <tr>
+                    <td>🗄️ Supabase</td>
+                    <td>Database that stores photo metadata (category, name, order) and blog posts.</td>
+                    <td>Rarely — only to audit security (RLS) or inspect data directly.</td>
+                    <td><a href="https://supabase.com/dashboard" target="_blank" rel="noopener">supabase.com/dashboard</a></td>
+                  </tr>
+                  <tr>
+                    <td>📊 Google Analytics</td>
+                    <td>Shows how many people visit, where they come from, and which pages they view. Optional.</td>
+                    <td>Whenever you want to review traffic stats.</td>
+                    <td><a href="https://analytics.google.com" target="_blank" rel="noopener">analytics.google.com</a></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p style="margin-top:12px"><strong>Web3Forms</strong> (contact form) <strong>requires no login</strong> — just the access key already configured in the Social &amp; SEO tab.</p>
+            </div>
+          </details>
         </div>
       </div>
 
