@@ -7,11 +7,17 @@
 })();
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('darkToggle');
-  if (btn) btn.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-  });
+  if (btn) {
+    // refletir estado inicial no ARIA
+    const initDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    btn.setAttribute('aria-checked', String(initDark));
+    btn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      btn.setAttribute('aria-checked', String(!isDark));
+    });
+  }
 });
 
 // ─── Supabase Config ──────────────────────────────────────────────────────
@@ -187,10 +193,11 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('in');
+      e.target.style.willChange = 'auto'; // liberta GPU memory após animação
       obs.unobserve(e.target);
     }
   });
-}, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
 document.querySelectorAll('.rev').forEach(el => obs.observe(el));
 
 // ─── Stat counter animation ──────────────────────────────────────────────
