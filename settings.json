@@ -590,6 +590,7 @@
   "aboutText1": "",
   "aboutText2": "",
   "aboutText3": "",
+  "showHeroStrip": false,
   "heroSlides": [
     {
       "url": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/hero/1774804783769_food_photography-01",
@@ -3849,6 +3850,79 @@
         }
       ],
       "showBeforeAfter": false
+    },
+    {
+      "id": "lp_1775074742050",
+      "faq": [],
+      "seo": {
+        "title": "New Landing Page",
+        "ogImage": "",
+        "description": ""
+      },
+      "hero": {
+        "cta": {
+          "text": "Get a Free Quote",
+          "action": "form"
+        },
+        "mode": "photo",
+        "image": "",
+        "slides": [],
+        "headline": "Your Headline <em>Here</em>",
+        "pillText": "Available for bookings in Dublin",
+        "trustLine": "",
+        "subheadline": "Your sub-headline goes here.",
+        "ctaSecondary": {
+          "link": "#lp-portfolio",
+          "text": "See My Work"
+        }
+      },
+      "slug": "new-landing-page",
+      "stats": [
+        {
+          "label": "More Bookings",
+          "value": "40%"
+        }
+      ],
+      "active": false,
+      "contact": {
+        "whatsapp": "",
+        "finalCtaSub": "",
+        "web3formsKey": "",
+        "finalCtaTitle": "",
+        "whatsappMessage": ""
+      },
+      "problem": {
+        "text": "",
+        "image": "",
+        "headline": ""
+      },
+      "process": [
+        {
+          "step": "1",
+          "text": "Choose your package.",
+          "title": "Book"
+        },
+        {
+          "step": "2",
+          "text": "We capture your property.",
+          "title": "Shoot"
+        },
+        {
+          "step": "3",
+          "text": "Get your files in 48h.",
+          "title": "Receive"
+        }
+      ],
+      "packages": [],
+      "services": [],
+      "showreel": {
+        "url": "",
+        "thumbnail": ""
+      },
+      "portfolio": [],
+      "beforeAfter": [],
+      "testimonials": [],
+      "showBeforeAfter": false
     }
   ],
   "heroStrip": [
@@ -3886,5 +3960,8 @@
   "whatsappMessage": "",
   "heroSlideDuration": 5,
   "facebookReviewsUrl": "",
-  "showreelUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  "showreelUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "categoryCover": {
+    "wedding": "https://res.cloudinary.com/dnocmwoub/image/upload/q_auto,f_auto/portfolio/wedding/1774637764870_DSC_0840"
+  }
 }

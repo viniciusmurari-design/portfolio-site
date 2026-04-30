@@ -1247,8 +1247,14 @@ function saveEdits() {
 
 // ─── Hero Strip interactive cards ────────────────────────────────────────────
 (function initHeroStrip() {
+  const strip = document.querySelector('.hero-strip');
   const cards = document.querySelectorAll('.strip-card[data-gallery]');
   if (!cards.length) return;
+
+  // Mostrar strip apenas se setting ativado
+  if (Settings.get().showHeroStrip && strip) {
+    strip.classList.add('visible');
+  }
 
   // Apply heroStrip photos/labels from settings
   const stripConfig = Settings.get().heroStrip;

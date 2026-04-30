@@ -220,9 +220,10 @@ h1 em { font-style: italic; color: rgba(255,255,255,0.65); }
 .btn-ghost:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.7); }
 
 .hero-strip {
-  margin-top: 72px; display: flex; gap: 14px; justify-content: center;
+  margin-top: 72px; display: none; gap: 14px; justify-content: center;
   opacity: 0; animation: fadeUp .9s .7s ease forwards;
 }
+.hero-strip.visible { display: flex; }
 .strip-card {
   position: relative; border: none; background: none; padding: 0;
   cursor: pointer; border-radius: 14px; overflow: hidden; flex-shrink: 0;

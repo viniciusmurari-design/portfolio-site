@@ -1359,6 +1359,19 @@ function loadContentFields() {
   updateShowreelPreview();
   document.getElementById('c-showreelUrl').addEventListener('input', updateShowreelPreview);
 
+  // Hero strip toggle
+  const showStripCb = document.getElementById('c-showHeroStrip');
+  const stripSettingsDiv = document.getElementById('stripSettings');
+  if (showStripCb) {
+    showStripCb.checked = !!S.showHeroStrip;
+    if (stripSettingsDiv) stripSettingsDiv.style.display = S.showHeroStrip ? '' : 'none';
+    showStripCb.addEventListener('change', () => {
+      S.showHeroStrip = showStripCb.checked;
+      if (stripSettingsDiv) stripSettingsDiv.style.display = showStripCb.checked ? '' : 'none';
+      saveSettings();
+    });
+  }
+
   // Hero strip mode
   updateStripModeUI(S.heroStripMode || 'gallery');
   buildStripPhotoGrid();
