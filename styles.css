@@ -399,7 +399,7 @@ h2 em { font-style: italic; color: inherit; opacity: 0.45; }
 
 /* ─── Contact ─── */
 #contact { background: var(--white); }
-.contact-g { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.contact-g { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .cd { display: flex; gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--bg); }
 .cd:first-of-type { border-top: 1px solid var(--bg); }
 .cd-ico { width: 16px; height: 16px; color: var(--blue); margin-top: 2px; flex-shrink: 0; }
